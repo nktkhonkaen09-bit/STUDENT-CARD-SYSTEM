@@ -12,8 +12,6 @@
 
     <title>บัตรนักศึกษา</title>
 
-
-    <!-- CSS หลัก -->
     <link
         rel="stylesheet"
         href="css/student-card.css"
@@ -26,15 +24,15 @@
 
 
     <!-- =====================================================
-         ส่วนควบคุม
+         ปุ่มควบคุม
     ====================================================== -->
 
     <div class="card-controls">
 
         <button
             type="button"
-            onclick="goBack()"
             class="btn-back"
+            onclick="goBack()"
         >
             ← กลับ
         </button>
@@ -42,8 +40,8 @@
 
         <button
             type="button"
-            onclick="downloadCard()"
             class="btn-download"
+            onclick="downloadCard()"
         >
             ดาวน์โหลดบัตร
         </button>
@@ -63,7 +61,7 @@
 
 
         <!-- =================================================
-             Background
+             Background บัตรนักศึกษา
         ================================================== -->
 
         <img
@@ -73,12 +71,14 @@
         >
 
 
-
         <!-- =================================================
              รูปนักศึกษา
         ================================================== -->
 
-        <div class="student-photo-box">
+        <div
+            class="student-photo-box"
+            id="studentPhotoBox"
+        >
 
             <img
                 id="studentPhoto"
@@ -162,16 +162,16 @@
 
             </div>
 
-
         </div>
 
 
 
         <!-- =================================================
-             วันที่ออกบัตร
+             วันที่ออกบัตร / วันหมดอายุ
         ================================================== -->
 
         <div class="issue-information">
+
 
             <div class="date-box">
 
@@ -207,23 +207,27 @@
         </div>
 
 
-
-        <!-- =================================================
-             QR CODE
-        ================================================== -->
-
-        <div class="qr-area">
-
-            <canvas
-                id="studentQR"
-                class="student-qr"
-            ></canvas>
+    </div>
+    <!-- จบ student-card -->
 
 
-            <div class="qr-label">
-                QR ตรวจสอบข้อมูล
-            </div>
 
+    <!-- =====================================================
+         QR CODE
+         อยู่นอกบัตร
+    ====================================================== -->
+
+    <div class="qr-area">
+
+
+        <canvas
+            id="studentQR"
+            class="student-qr"
+        ></canvas>
+
+
+        <div class="qr-label">
+            QR Code รหัสนักศึกษา
         </div>
 
 
@@ -238,14 +242,14 @@
     <script src="js/config.js"></script>
 
 
-    <!-- QR Code -->
+    <!-- QR Code Library -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"
     ></script>
 
 
-    <!-- HTML2Canvas -->
+    <!-- html2canvas -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
