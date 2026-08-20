@@ -248,6 +248,36 @@
 
 
     <!-- =====================================================
+         BARCODE
+    ====================================================== -->
+
+    <div class="barcode-area">
+
+
+        <div class="barcode-title">
+            Barcode รหัสนักศึกษา
+        </div>
+
+
+        <svg
+            id="studentBarcode"
+            class="student-barcode"
+        ></svg>
+
+
+        <div
+            id="barcodeStudentId"
+            class="barcode-id"
+        >
+            -
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
          QR FULLSCREEN
     ====================================================== -->
 
@@ -285,9 +315,11 @@
 
 
             <div class="qr-fullscreen-id">
+
                 <span id="qrStudentId">
                     -
                 </span>
+
             </div>
 
 
@@ -305,10 +337,17 @@
     <script src="js/config.js"></script>
 
 
-    <!-- QR Code Library -->
+    <!-- QR Code -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"
+    ></script>
+
+
+    <!-- Barcode CODE128 -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"
     ></script>
 
 
@@ -324,13 +363,11 @@
     <script src="js/student-card.js"></script>
 
 
-    <!-- QR Fullscreen -->
+    <!-- =====================================================
+         QR Fullscreen
+    ====================================================== -->
 
     <script>
-
-        /*
-         * เปิด QR Code เต็มหน้าจอ
-         */
 
         function openQRFullscreen() {
 
@@ -360,9 +397,10 @@
             }
 
 
-            /*
-             * คัดลอก QR Code
-             */
+            fullscreenQR.width = 600;
+
+            fullscreenQR.height = 600;
+
 
             const context =
                 fullscreenQR.getContext("2d");
@@ -371,13 +409,9 @@
             context.clearRect(
                 0,
                 0,
-                fullscreenQR.width,
-                fullscreenQR.height
+                600,
+                600
             );
-
-
-            fullscreenQR.width = 600;
-            fullscreenQR.height = 600;
 
 
             context.imageSmoothingEnabled = false;
@@ -391,10 +425,6 @@
                 600
             );
 
-
-            /*
-             * แสดงรหัสนักศึกษา
-             */
 
             const studentId =
                 document.getElementById(
@@ -419,10 +449,6 @@
             }
 
 
-            /*
-             * แสดงหน้าจอเต็ม
-             */
-
             fullscreen.classList.add(
                 "show"
             );
@@ -432,10 +458,6 @@
                 "qr-open"
             );
 
-
-            /*
-             * พยายามใช้ Fullscreen API
-             */
 
             if (
                 fullscreen.requestFullscreen
@@ -450,10 +472,6 @@
         }
 
 
-
-        /*
-         * ปิด QR Code
-         */
 
         function closeQRFullscreen() {
 
@@ -473,10 +491,6 @@
             );
 
 
-            /*
-             * ออกจาก Fullscreen
-             */
-
             if (
                 document.fullscreenElement
             ) {
@@ -490,10 +504,6 @@
         }
 
 
-
-        /*
-         * กด ESC เพื่อปิด
-         */
 
         document.addEventListener(
             "keydown",
@@ -510,10 +520,6 @@
             }
         );
 
-
-        /*
-         * เมื่อออกจาก Fullscreen
-         */
 
         document.addEventListener(
             "fullscreenchange",
