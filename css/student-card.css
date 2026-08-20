@@ -1,0 +1,656 @@
+/* =========================================================
+   STUDENT CARD
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   หน้าเว็บ
+--------------------------------------------------------- */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+    width: 100%;
+
+    min-height: 100%;
+
+}
+
+
+body {
+
+    background: #eeeeee;
+
+    font-family:
+        "Arial",
+        "Tahoma",
+        sans-serif;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 25px;
+
+}
+
+
+/* ---------------------------------------------------------
+   ปุ่มด้านบน
+--------------------------------------------------------- */
+
+.card-controls {
+
+    width: min(
+        100%,
+        1000px
+    );
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.card-controls button {
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 11px 20px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.btn-back {
+
+    background: #555555;
+
+    color: white;
+
+}
+
+
+.btn-download {
+
+    background: #0b7a3b;
+
+    color: white;
+
+}
+
+
+.card-controls button:hover {
+
+    opacity: 0.85;
+
+}
+
+
+/* ---------------------------------------------------------
+   ตัวบัตร
+--------------------------------------------------------- */
+
+.student-card {
+
+    position: relative;
+
+    width: 1000px;
+
+    height: 632px;
+
+    max-width: 100%;
+
+    aspect-ratio: 1000 / 632;
+
+    overflow: hidden;
+
+    background: white;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 8px 30px
+        rgba(0, 0, 0, 0.25);
+
+}
+
+
+/* ---------------------------------------------------------
+   Background
+--------------------------------------------------------- */
+
+.card-background {
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+}
+
+
+/* ---------------------------------------------------------
+   รูปนักศึกษา
+--------------------------------------------------------- */
+
+.student-photo-box {
+
+    position: absolute;
+
+    z-index: 5;
+
+    /*
+     * ตำแหน่งช่องรูปจาก STD-BG.png
+     */
+
+    left: 5.5%;
+
+    top: 24.8%;
+
+    width: 28.8%;
+
+    height: 57.2%;
+
+    overflow: hidden;
+
+}
+
+
+/* รูปจริง */
+
+.student-photo {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center top;
+
+}
+
+
+/* ---------------------------------------------------------
+   ข้อมูลนักศึกษา
+--------------------------------------------------------- */
+
+.student-information {
+
+    position: absolute;
+
+    z-index: 6;
+
+    /*
+     * อยู่ด้านขวาของรูป
+     */
+
+    left: 36.5%;
+
+    top: 27%;
+
+    width: 57%;
+
+    height: 48%;
+
+    color: #111111;
+
+}
+
+
+/* ---------------------------------------------------------
+   รหัสนักศึกษา
+--------------------------------------------------------- */
+
+.student-id {
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    color: #111111;
+
+    line-height: 1.1;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ---------------------------------------------------------
+   ชื่อภาษาไทย
+--------------------------------------------------------- */
+
+.student-name {
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    color: #111111;
+
+    line-height: 1.25;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* ---------------------------------------------------------
+   ชื่อภาษาอังกฤษ
+--------------------------------------------------------- */
+
+.student-name-en {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #222222;
+
+    text-transform: uppercase;
+
+    line-height: 1.2;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* ---------------------------------------------------------
+   ข้อมูลแต่ละแถว
+--------------------------------------------------------- */
+
+.info-row {
+
+    display: flex;
+
+    align-items: baseline;
+
+    margin-bottom: 10px;
+
+    line-height: 1.25;
+
+}
+
+
+.info-label {
+
+    min-width: 105px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    color: #333333;
+
+}
+
+
+.info-value {
+
+    font-size: 18px;
+
+    font-weight: normal;
+
+    color: #222222;
+
+}
+
+
+/* ---------------------------------------------------------
+   วันที่
+--------------------------------------------------------- */
+
+.issue-information {
+
+    position: absolute;
+
+    z-index: 7;
+
+    left: 2.5%;
+
+    bottom: 4.5%;
+
+    display: flex;
+
+    gap: 70px;
+
+    color: #222222;
+
+}
+
+
+.date-box {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.date-label {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    margin-bottom: 3px;
+
+}
+
+
+.date-value {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+
+/* ---------------------------------------------------------
+   QR Code
+--------------------------------------------------------- */
+
+.qr-area {
+
+    position: absolute;
+
+    z-index: 8;
+
+    right: 4.5%;
+
+    bottom: 4%;
+
+    width: 145px;
+
+    text-align: center;
+
+}
+
+
+.student-qr {
+
+    width: 120px;
+
+    height: 120px;
+
+    background: white;
+
+    padding: 5px;
+
+    border-radius: 5px;
+
+}
+
+
+.qr-label {
+
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #111111;
+
+}
+
+
+/* ---------------------------------------------------------
+   เมื่อไม่มีรูป
+--------------------------------------------------------- */
+
+.student-photo-box.no-photo {
+
+    background: #eeeeee;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.student-photo-box.no-photo::after {
+
+    content: "ไม่มีรูปนักศึกษา";
+
+    color: #777777;
+
+    font-size: 16px;
+
+}
+
+
+/* ---------------------------------------------------------
+   Tablet
+--------------------------------------------------------- */
+
+@media (
+    max-width: 800px
+) {
+
+    body {
+
+        padding: 10px;
+
+    }
+
+
+    .student-card {
+
+        width: 100%;
+
+        height: auto;
+
+    }
+
+
+    .student-id {
+
+        font-size: 3.2vw;
+
+    }
+
+
+    .student-name {
+
+        font-size: 2.7vw;
+
+    }
+
+
+    .student-name-en {
+
+        font-size: 2.2vw;
+
+        margin-bottom: 2vw;
+
+    }
+
+
+    .info-label {
+
+        min-width: 10vw;
+
+        font-size: 1.7vw;
+
+    }
+
+
+    .info-value {
+
+        font-size: 1.8vw;
+
+    }
+
+
+    .date-label {
+
+        font-size: 1.4vw;
+
+    }
+
+
+    .date-value {
+
+        font-size: 1.8vw;
+
+    }
+
+
+    .student-qr {
+
+        width: 12vw;
+
+        height: 12vw;
+
+    }
+
+
+    .qr-area {
+
+        width: 15vw;
+
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   มือถือ
+--------------------------------------------------------- */
+
+@media (
+    max-width: 500px
+) {
+
+    body {
+
+        padding: 5px;
+
+        background: #dddddd;
+
+    }
+
+
+    .card-controls {
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .card-controls button {
+
+        padding: 8px 12px;
+
+        font-size: 13px;
+
+    }
+
+
+    .student-card {
+
+        border-radius: 4px;
+
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   Print
+--------------------------------------------------------- */
+
+@media print {
+
+    @page {
+
+        size: 1000px 632px;
+
+        margin: 0;
+
+    }
+
+
+    html,
+    body {
+
+        width: 100%;
+
+        height: 100%;
+
+        margin: 0;
+
+        padding: 0;
+
+        background: white;
+
+    }
+
+
+    .card-controls {
+
+        display: none;
+
+    }
+
+
+    .student-card {
+
+        width: 1000px;
+
+        height: 632px;
+
+        max-width: none;
+
+        border-radius: 0;
+
+        box-shadow: none;
+
+    }
+
+}
