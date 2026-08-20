@@ -22,37 +22,12 @@
 
 <style>
 
+/* =========================================
+   RESET
+   ========================================= */
+
 * {
     box-sizing: border-box;
-}
-
-
-:root {
-
-    --blue:
-        #0a1383;
-
-    --blue-dark:
-        #080f6d;
-
-    --blue-light:
-        #eef0ff;
-
-    --white:
-        #ffffff;
-
-    --gray:
-        #6b7280;
-
-    --border:
-        #e5e7eb;
-
-    --danger:
-        #dc2626;
-
-    --success:
-        #15803d;
-
 }
 
 
@@ -60,13 +35,20 @@ body {
 
     margin: 0;
 
+    min-height: 100vh;
+
     font-family:
         Arial,
         "Noto Sans Thai",
         sans-serif;
 
     background:
-        #f5f6fb;
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #ffffff 80%,
+            #eef0ff 100%
+        );
 
     color:
         #111827;
@@ -78,107 +60,36 @@ body {
    HEADER
    ========================================= */
 
-.admin-header {
-
-    position:
-        sticky;
-
-    top: 0;
-
-    z-index: 1000;
+.header {
 
     background:
+        #0a1383;
+
+    color:
         #ffffff;
 
-    border-bottom:
-        1px solid var(--border);
-
-    box-shadow:
-        0 3px 15px
-        rgba(10,19,131,.06);
-
-}
-
-
-.header-inner {
-
-    max-width:
-        1200px;
-
-    min-height:
-        72px;
-
-    margin:
-        auto;
-
     padding:
-        12px 20px;
+        18px 25px;
 
     display:
         flex;
-
-    align-items:
-        center;
 
     justify-content:
         space-between;
-
-}
-
-
-.brand {
-
-    display:
-        flex;
 
     align-items:
         center;
 
     gap:
-        12px;
+        15px;
 
 }
 
 
-.brand-icon {
-
-    width:
-        45px;
-
-    height:
-        45px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    border-radius:
-        12px;
-
-    background:
-        var(--blue-light);
-
-    color:
-        var(--blue);
+.header-title {
 
     font-size:
-        23px;
-
-}
-
-
-.brand-title {
-
-    color:
-        var(--blue);
-
-    font-size:
-        18px;
+        22px;
 
     font-weight:
         700;
@@ -186,16 +97,16 @@ body {
 }
 
 
-.brand-subtitle {
+.header-subtitle {
 
-    color:
-        var(--gray);
+    margin-top:
+        4px;
 
     font-size:
-        10px;
+        12px;
 
-    letter-spacing:
-        .7px;
+    opacity:
+        .8;
 
 }
 
@@ -209,7 +120,7 @@ body {
         center;
 
     gap:
-        10px;
+        12px;
 
 }
 
@@ -217,33 +128,28 @@ body {
 .admin-name {
 
     font-size:
-        13px;
-
-    font-weight:
-        600;
+        14px;
 
 }
 
 
 .logout-button {
 
-    height:
-        38px;
-
-    padding:
-        0 14px;
-
     border:
-        none;
+        1px solid
+        rgba(255,255,255,.5);
+
+    background:
+        transparent;
+
+    color:
+        #ffffff;
 
     border-radius:
         8px;
 
-    background:
-        #f3f4f6;
-
-    color:
-        #374151;
+    padding:
+        9px 14px;
 
     cursor:
         pointer;
@@ -251,187 +157,104 @@ body {
 }
 
 
+.logout-button:hover {
+
+    background:
+        rgba(255,255,255,.12);
+
+}
+
+
 /* =========================================
-   PAGE
+   MAIN
    ========================================= */
 
-.admin-page {
+.main {
 
     max-width:
-        1200px;
+        1400px;
 
     margin:
-        auto;
+        0 auto;
 
     padding:
-        25px 20px 40px;
-
-}
-
-
-.page-heading {
-
-    margin-bottom:
-        22px;
-
-}
-
-
-.page-heading h1 {
-
-    margin: 0;
-
-    color:
-        var(--blue);
-
-    font-size:
         25px;
 
 }
 
 
-.page-heading p {
-
-    margin:
-        6px 0 0;
-
-    color:
-        var(--gray);
-
-    font-size:
-        13px;
-
-}
-
-
 /* =========================================
-   STATS
+   TOP BAR
    ========================================= */
 
-.stats {
+.top-bar {
 
     display:
-        grid;
+        flex;
 
-    grid-template-columns:
-        repeat(3,1fr);
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
 
     gap:
         15px;
 
     margin-bottom:
-        20px;
-
-}
-
-
-.stat-card {
-
-    padding:
         18px;
 
-    background:
-        #ffffff;
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        13px;
-
 }
 
 
-.stat-label {
-
-    color:
-        var(--gray);
+.page-title {
 
     font-size:
-        12px;
-
-}
-
-
-.stat-value {
-
-    margin-top:
-        5px;
-
-    color:
-        var(--blue);
-
-    font-size:
-        27px;
+        20px;
 
     font-weight:
         700;
+
+    color:
+        #0a1383;
 
 }
 
 
 /* =========================================
-   CONTENT
+   SEARCH
    ========================================= */
 
-.content-card {
-
-    background:
-        #ffffff;
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        15px;
-
-    overflow:
-        hidden;
-
-}
-
-
-.toolbar {
-
-    padding:
-        18px;
-
-    border-bottom:
-        1px solid var(--border);
+.search-box {
 
     display:
         flex;
 
     gap:
-        12px;
+        8px;
 
-}
-
-
-.search-box {
-
-    flex:
-        1;
+    width:
+        min(100%, 420px);
 
 }
 
 
 .search-box input {
 
-    width:
-        100%;
+    flex:
+        1;
 
     height:
-        45px;
-
-    padding:
-        0 14px;
+        44px;
 
     border:
         1px solid #d9ddea;
 
     border-radius:
-        9px;
+        8px;
+
+    padding:
+        0 13px;
 
     outline:
         none;
@@ -445,47 +268,45 @@ body {
 .search-box input:focus {
 
     border-color:
-        var(--blue);
+        #0a1383;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(10,19,131,.08);
 
 }
 
 
-.toolbar-button {
-
-    height:
-        45px;
-
-    padding:
-        0 16px;
+.search-button {
 
     border:
         none;
 
-    border-radius:
-        9px;
-
     background:
-        var(--blue);
+        #0a1383;
 
     color:
         #ffffff;
 
-    font-weight:
-        600;
+    border-radius:
+        8px;
+
+    padding:
+        0 18px;
 
     cursor:
         pointer;
 
+    font-weight:
+        600;
+
 }
 
 
-.toolbar-button.secondary {
+.search-button:hover {
 
     background:
-        #f3f4f6;
-
-    color:
-        #374151;
+        #080f6d;
 
 }
 
@@ -494,16 +315,16 @@ body {
    MESSAGE
    ========================================= */
 
-.system-message {
+.message {
 
-    display:
-        none;
+    min-height:
+        24px;
 
-    margin:
-        15px 18px 0;
+    margin-bottom:
+        12px;
 
     padding:
-        11px 14px;
+        10px 14px;
 
     border-radius:
         8px;
@@ -511,10 +332,13 @@ body {
     font-size:
         13px;
 
+    display:
+        none;
+
 }
 
 
-.system-message.show {
+.message.show {
 
     display:
         block;
@@ -522,44 +346,65 @@ body {
 }
 
 
-.system-message.error {
+.message.success {
+
+    background:
+        #ecfdf3;
+
+    color:
+        #15803d;
+
+}
+
+
+.message.error {
 
     background:
         #fef2f2;
 
     color:
-        var(--danger);
+        #dc2626;
 
 }
 
 
-.system-message.success {
+.message.info {
 
     background:
-        #f0fdf4;
+        #eef0ff;
 
     color:
-        var(--success);
-
-}
-
-
-.system-message.info {
-
-    background:
-        var(--blue-light);
-
-    color:
-        var(--blue);
+        #0a1383;
 
 }
 
 
 /* =========================================
-   TABLE
+   TABLE CARD
    ========================================= */
 
-.table-container {
+.table-card {
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid #e1e4ef;
+
+    border-radius:
+        14px;
+
+    overflow:
+        hidden;
+
+    box-shadow:
+        0 8px 25px
+        rgba(10,19,131,.07);
+
+}
+
+
+.table-scroll {
 
     width:
         100%;
@@ -576,7 +421,7 @@ table {
         100%;
 
     min-width:
-        950px;
+        1050px;
 
     border-collapse:
         collapse;
@@ -587,7 +432,10 @@ table {
 thead {
 
     background:
-        #f8f9fd;
+        #0a1383;
+
+    color:
+        #ffffff;
 
 }
 
@@ -595,22 +443,19 @@ thead {
 th {
 
     padding:
-        14px;
+        13px 10px;
 
     text-align:
         left;
 
     font-size:
-        12px;
+        13px;
 
-    color:
-        #374151;
+    font-weight:
+        600;
 
     white-space:
         nowrap;
-
-    border-bottom:
-        1px solid var(--border);
 
 }
 
@@ -618,52 +463,101 @@ th {
 td {
 
     padding:
-        14px;
+        11px 10px;
+
+    border-bottom:
+        1px solid #edf0f5;
 
     font-size:
         13px;
 
-    border-bottom:
-        1px solid #f0f1f5;
+    vertical-align:
+        middle;
 
 }
 
 
-.student-id {
-
-    color:
-        var(--blue);
-
-    font-weight:
-        700;
-
-}
-
-
-.student-name {
-
-    font-weight:
-        600;
-
-}
-
-
-.status-badge {
-
-    display:
-        inline-flex;
-
-    padding:
-        4px 10px;
-
-    border-radius:
-        999px;
+tbody tr:hover {
 
     background:
-        var(--blue-light);
+        #f8f9ff;
+
+}
+
+
+/* =========================================
+   PHOTO
+   ========================================= */
+
+.student-photo {
+
+    width:
+        45px;
+
+    height:
+        55px;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        6px;
+
+    border:
+        1px solid #d9ddea;
+
+    background:
+        #f3f4f6;
+
+}
+
+
+.no-photo {
+
+    width:
+        45px;
+
+    height:
+        55px;
+
+    border-radius:
+        6px;
+
+    background:
+        #eef0ff;
 
     color:
-        var(--blue);
+        #0a1383;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    font-size:
+        20px;
+
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+.status {
+
+    display:
+        inline-block;
+
+    padding:
+        5px 9px;
+
+    border-radius:
+        20px;
 
     font-size:
         11px;
@@ -674,7 +568,7 @@ td {
 }
 
 
-.status-badge.active {
+.status.normal {
 
     background:
         #ecfdf3;
@@ -685,28 +579,36 @@ td {
 }
 
 
-.status-badge.inactive {
+.status.other {
 
     background:
-        #fef2f2;
+        #f3f4f6;
 
     color:
-        #dc2626;
+        #4b5563;
 
 }
 
 
 /* =========================================
-   EDIT BUTTON
+   ACTIONS
    ========================================= */
 
-.edit-button {
+.actions {
 
-    height:
-        34px;
+    display:
+        flex;
 
-    padding:
-        0 12px;
+    gap:
+        6px;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.action-button {
 
     border:
         none;
@@ -714,20 +616,28 @@ td {
     border-radius:
         7px;
 
-    background:
-        var(--blue-light);
-
-    color:
-        var(--blue);
+    padding:
+        7px 10px;
 
     font-size:
-        12px;
-
-    font-weight:
-        600;
+        11px;
 
     cursor:
         pointer;
+
+    white-space:
+        nowrap;
+
+}
+
+
+.edit-button {
+
+    background:
+        #eef0ff;
+
+    color:
+        #0a1383;
 
 }
 
@@ -740,56 +650,21 @@ td {
 }
 
 
-/* =========================================
-   LOADING
-   ========================================= */
+.reset-button {
 
-.loading {
-
-    padding:
-        60px 20px;
-
-    text-align:
-        center;
+    background:
+        #fff7ed;
 
     color:
-        var(--blue);
+        #c2410c;
 
 }
 
 
-.spinner {
+.reset-button:hover {
 
-    width:
-        34px;
-
-    height:
-        34px;
-
-    margin:
-        0 auto 12px;
-
-    border:
-        4px solid #e5e7eb;
-
-    border-top-color:
-        var(--blue);
-
-    border-radius:
-        50%;
-
-    animation:
-        spin .8s linear infinite;
-
-}
-
-
-@keyframes spin {
-
-    to {
-        transform:
-            rotate(360deg);
-    }
+    background:
+        #ffedd5;
 
 }
 
@@ -798,16 +673,16 @@ td {
    EMPTY
    ========================================= */
 
-.empty-state {
-
-    padding:
-        60px 20px;
+.empty {
 
     text-align:
         center;
 
+    padding:
+        50px 20px;
+
     color:
-        var(--gray);
+        #9ca3af;
 
 }
 
@@ -816,7 +691,7 @@ td {
    MODAL
    ========================================= */
 
-.modal-overlay {
+.modal {
 
     position:
         fixed;
@@ -824,8 +699,8 @@ td {
     inset:
         0;
 
-    z-index:
-        2000;
+    background:
+        rgba(17,24,39,.45);
 
     display:
         none;
@@ -837,20 +712,15 @@ td {
         center;
 
     padding:
-        15px;
+        20px;
 
-    background:
-        rgba(
-            0,
-            0,
-            0,
-            .45
-        );
+    z-index:
+        1000;
 
 }
 
 
-.modal-overlay.show {
+.modal.show {
 
     display:
         flex;
@@ -858,13 +728,13 @@ td {
 }
 
 
-.modal {
+.modal-card {
 
     width:
         100%;
 
     max-width:
-        650px;
+        520px;
 
     max-height:
         90vh;
@@ -876,7 +746,7 @@ td {
         #ffffff;
 
     border-radius:
-        16px;
+        15px;
 
     box-shadow:
         0 20px 60px
@@ -888,59 +758,50 @@ td {
 .modal-header {
 
     padding:
-        20px;
+        18px 20px;
 
-    border-bottom:
-        1px solid var(--border);
+    background:
+        #0a1383;
+
+    color:
+        #ffffff;
 
     display:
         flex;
 
-    align-items:
-        center;
-
     justify-content:
         space-between;
+
+    align-items:
+        center;
 
 }
 
 
 .modal-title {
 
-    margin:
-        0;
-
-    color:
-        var(--blue);
-
     font-size:
-        19px;
+        17px;
+
+    font-weight:
+        700;
 
 }
 
 
-.modal-close {
-
-    width:
-        36px;
-
-    height:
-        36px;
+.close-button {
 
     border:
         none;
 
-    border-radius:
-        8px;
-
     background:
-        #f3f4f6;
+        transparent;
 
     color:
-        #374151;
+        #ffffff;
 
     font-size:
-        20px;
+        25px;
 
     cursor:
         pointer;
@@ -956,16 +817,20 @@ td {
 }
 
 
+/* =========================================
+   FORM
+   ========================================= */
+
 .form-grid {
 
     display:
         grid;
 
     grid-template-columns:
-        repeat(2,1fr);
+        1fr 1fr;
 
     gap:
-        15px;
+        14px;
 
 }
 
@@ -1006,49 +871,30 @@ td {
 }
 
 
-.form-group input,
-.form-group select {
-
-    width:
-        100%;
+.form-group input {
 
     height:
-        43px;
-
-    padding:
-        0 11px;
+        42px;
 
     border:
         1px solid #d9ddea;
 
     border-radius:
-        8px;
+        7px;
+
+    padding:
+        0 11px;
 
     outline:
         none;
 
-    font-size:
-        13px;
-
 }
 
 
-.form-group input:focus,
-.form-group select:focus {
+.form-group input:focus {
 
     border-color:
-        var(--blue);
-
-}
-
-
-.readonly-input {
-
-    background:
-        #f3f4f6;
-
-    color:
-        #6b7280;
+        #0a1383;
 
 }
 
@@ -1056,7 +902,10 @@ td {
 .modal-footer {
 
     padding:
-        15px 20px 20px;
+        15px 20px;
+
+    border-top:
+        1px solid #edf0f5;
 
     display:
         flex;
@@ -1065,30 +914,53 @@ td {
         flex-end;
 
     gap:
-        10px;
+        8px;
 
 }
 
 
-.modal-button {
-
-    height:
-        43px;
-
-    padding:
-        0 18px;
+.cancel-button {
 
     border:
-        none;
+        1px solid #d1d5db;
+
+    background:
+        #ffffff;
+
+    color:
+        #374151;
 
     border-radius:
         8px;
 
+    padding:
+        9px 16px;
+
     cursor:
         pointer;
 
-    font-size:
-        13px;
+}
+
+
+.save-button {
+
+    border:
+        none;
+
+    background:
+        #0a1383;
+
+    color:
+        #ffffff;
+
+    border-radius:
+        8px;
+
+    padding:
+        9px 18px;
+
+    cursor:
+        pointer;
 
     font-weight:
         600;
@@ -1096,37 +968,7 @@ td {
 }
 
 
-.modal-button.cancel {
-
-    background:
-        #f3f4f6;
-
-    color:
-        #374151;
-
-}
-
-
-.modal-button.save {
-
-    background:
-        var(--blue);
-
-    color:
-        #ffffff;
-
-}
-
-
-.modal-button.save:hover {
-
-    background:
-        var(--blue-dark);
-
-}
-
-
-.modal-button:disabled {
+.save-button:disabled {
 
     opacity:
         .6;
@@ -1138,22 +980,59 @@ td {
 
 
 /* =========================================
-   FOOTER
+   RESET PASSWORD
    ========================================= */
 
-.admin-footer {
+.reset-info {
 
-    margin-top:
-        25px;
-
-    text-align:
-        center;
+    background:
+        #fff7ed;
 
     color:
-        #9ca3af;
+        #9a3412;
+
+    padding:
+        12px;
+
+    border-radius:
+        8px;
 
     font-size:
-        10px;
+        13px;
+
+    line-height:
+        1.6;
+
+    margin-bottom:
+        16px;
+
+}
+
+
+.student-name-box {
+
+    background:
+        #f8f9ff;
+
+    border:
+        1px solid #e1e4ef;
+
+    padding:
+        12px;
+
+    border-radius:
+        8px;
+
+    margin-bottom:
+        16px;
+
+}
+
+
+.student-name-box strong {
+
+    color:
+        #0a1383;
 
 }
 
@@ -1163,61 +1042,57 @@ td {
    ========================================= */
 
 @media (
-    max-width:768px
+    max-width: 700px
 ) {
 
-    .header-inner {
+    .header {
 
         padding:
-            10px 14px;
+            15px;
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
 
     }
 
 
-    .admin-name {
+    .admin-info {
 
-        display:
-            none;
+        width:
+            100%;
+
+        justify-content:
+            space-between;
 
     }
 
 
-    .admin-page {
+    .main {
 
         padding:
-            18px 12px 30px;
+            15px;
 
     }
 
 
-    .stats {
+    .top-bar {
 
-        grid-template-columns:
-            1fr;
+        align-items:
+            stretch;
 
-    }
-
-
-    .toolbar {
-
-        flex-wrap:
-            wrap;
+        flex-direction:
+            column;
 
     }
 
 
     .search-box {
 
-        flex-basis:
+        width:
             100%;
-
-    }
-
-
-    .toolbar-button {
-
-        flex:
-            1;
 
     }
 
@@ -1251,27 +1126,16 @@ td {
      HEADER
      ========================================= -->
 
-<header class="admin-header">
+<header class="header">
 
-<div class="header-inner">
+    <div>
 
-
-    <div class="brand">
-
-        <div class="brand-icon">
-            🛡️
+        <div class="header-title">
+            🛡️ ผู้ดูแลระบบ
         </div>
 
-        <div>
-
-            <div class="brand-title">
-                ระบบผู้ดูแล
-            </div>
-
-            <div class="brand-subtitle">
-                STUDENT CARD SYSTEM
-            </div>
-
+        <div class="header-subtitle">
+            STUDENT CARD SYSTEM
         </div>
 
     </div>
@@ -1289,15 +1153,11 @@ td {
         <button
             id="logoutButton"
             class="logout-button"
-            type="button"
         >
             ออกจากระบบ
         </button>
 
     </div>
-
-
-</div>
 
 </header>
 
@@ -1307,160 +1167,104 @@ td {
      MAIN
      ========================================= -->
 
-<main class="admin-page">
+<main class="main">
 
 
-<div class="page-heading">
+    <div class="top-bar">
 
-    <h1>
-        จัดการข้อมูลนักศึกษา
-    </h1>
-
-    <p>
-        ตรวจสอบและแก้ไขข้อมูลนักศึกษา
-    </p>
-
-</div>
+        <div class="page-title">
+            ข้อมูลนักศึกษา
+        </div>
 
 
+        <div class="search-box">
 
-<!-- =========================================
-     STATS
-     ========================================= -->
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="ค้นหารหัส ชื่อ สาขา หรือเบอร์โทร"
+            >
 
-<div class="stats">
+            <button
+                id="searchButton"
+                class="search-button"
+            >
+                ค้นหา
+            </button>
 
+        </div>
 
-<div class="stat-card">
-
-    <div class="stat-label">
-        นักศึกษาที่พบ
     </div>
+
+
+    <!-- MESSAGE -->
 
     <div
-        id="totalStudents"
-        class="stat-value"
-    >
-        0
+        id="pageMessage"
+        class="message"
+    ></div>
+
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <div class="table-scroll">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            รูป
+                        </th>
+
+                        <th>
+                            รหัสนักศึกษา
+                        </th>
+
+                        <th>
+                            ชื่อ-นามสกุล
+                        </th>
+
+                        <th>
+                            ภาษาอังกฤษ
+                        </th>
+
+                        <th>
+                            สาขาวิชา
+                        </th>
+
+                        <th>
+                            สถานะ
+                        </th>
+
+                        <th>
+                            เบอร์โทร
+                        </th>
+
+                        <th>
+                            จัดการ
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="studentTableBody"
+                >
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
-
-</div>
-
-
-<div class="stat-card">
-
-    <div class="stat-label">
-        สถานะปกติ
-    </div>
-
-    <div
-        id="activeStudents"
-        class="stat-value"
-    >
-        0
-    </div>
-
-</div>
-
-
-<div class="stat-card">
-
-    <div class="stat-label">
-        ข้อมูลที่แสดง
-    </div>
-
-    <div
-        id="displayStudents"
-        class="stat-value"
-    >
-        0
-    </div>
-
-</div>
-
-
-</div>
-
-
-
-<!-- =========================================
-     CONTENT
-     ========================================= -->
-
-<section class="content-card">
-
-
-<div class="toolbar">
-
-
-<div class="search-box">
-
-<input
-    id="searchInput"
-    type="search"
-    placeholder="ค้นหารหัสนักศึกษา ชื่อ หรือ นามสกุล"
-    autocomplete="off"
->
-
-
-</div>
-
-
-<button
-    id="searchButton"
-    class="toolbar-button"
-    type="button"
->
-    🔎 ค้นหา
-</button>
-
-
-<button
-    id="refreshButton"
-    class="toolbar-button secondary"
-    type="button"
->
-    ↻ รีเฟรช
-</button>
-
-
-</div>
-
-
-
-<div
-    id="systemMessage"
-    class="system-message"
-></div>
-
-
-
-<div
-    id="tableArea"
-    class="table-container"
->
-
-<div class="loading">
-
-<div class="spinner"></div>
-
-กำลังโหลดข้อมูล...
-
-</div>
-
-</div>
-
-
-</section>
-
-
-
-<div class="admin-footer">
-
-Student Card System · Administrator
-
-</div>
-
 
 </main>
 
@@ -1472,285 +1276,331 @@ Student Card System · Administrator
 
 <div
     id="editModal"
-    class="modal-overlay"
+    class="modal"
 >
 
+    <div class="modal-card">
 
-<div class="modal">
+        <div class="modal-header">
+
+            <div class="modal-title">
+                แก้ไขข้อมูลนักศึกษา
+            </div>
+
+            <button
+                class="close-button"
+                onclick="closeEditModal()"
+            >
+                ×
+            </button>
+
+        </div>
 
 
-<div class="modal-header">
+        <div class="modal-body">
 
-<h2 class="modal-title">
-    แก้ไขข้อมูลนักศึกษา
-</h2>
+            <form id="editForm">
+
+                <input
+                    id="editStudentId"
+                    type="hidden"
+                >
 
 
-<button
-    id="closeModalButton"
-    class="modal-close"
-    type="button"
->
-    ×
-</button>
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            คำนำหน้า
+                        </label>
+
+                        <input
+                            id="editPrefix"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            สาขาวิชา
+                        </label>
+
+                        <input
+                            id="editDepartment"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            ชื่อ
+                        </label>
+
+                        <input
+                            id="editFirstname"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            นามสกุล
+                        </label>
+
+                        <input
+                            id="editLastname"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            ชื่อภาษาอังกฤษ
+                        </label>
+
+                        <input
+                            id="editFirstnameEn"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            นามสกุลภาษาอังกฤษ
+                        </label>
+
+                        <input
+                            id="editLastnameEn"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            สถานะ
+                        </label>
+
+                        <input
+                            id="editStatus"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            เบอร์โทร
+                        </label>
+
+                        <input
+                            id="editPhone"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            URL รูปภาพ
+                        </label>
+
+                        <input
+                            id="editPhotoUrl"
+                            type="text"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            วันที่ออกบัตร
+                        </label>
+
+                        <input
+                            id="editIssueDate"
+                            type="text"
+                            placeholder="dd/MM/yyyy"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            วันหมดอายุ
+                        </label>
+
+                        <input
+                            id="editExpireDate"
+                            type="text"
+                            placeholder="dd/MM/yyyy"
+                        >
+
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="cancel-button"
+                onclick="closeEditModal()"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                id="saveEditButton"
+                class="save-button"
+                onclick="saveStudent()"
+            >
+                บันทึกข้อมูล
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
 
 
-<div class="modal-body">
+<!-- =========================================
+     RESET PASSWORD MODAL
+     ========================================= -->
 
-
-<form
-    id="editStudentForm"
+<div
+    id="resetModal"
+    class="modal"
 >
 
+    <div class="modal-card">
 
-<div class="form-grid">
 
+        <div class="modal-header">
 
-<!-- STUDENT ID -->
+            <div class="modal-title">
+                🔑 รีเซ็ตรหัสผ่าน
+            </div>
 
-<div class="form-group full">
+            <button
+                class="close-button"
+                onclick="closeResetModal()"
+            >
+                ×
+            </button>
 
-<label>
-    รหัสนักศึกษา
-</label>
+        </div>
 
-<input
-    id="editStudentId"
-    class="readonly-input"
-    type="text"
-    readonly
->
 
-</div>
+        <div class="modal-body">
 
 
+            <div class="student-name-box">
 
-<!-- PREFIX -->
+                รหัสนักศึกษา:
+                <strong id="resetStudentId">
+                    -
+                </strong>
 
-<div class="form-group">
+                <br>
 
-<label>
-    คำนำหน้า
-</label>
+                ชื่อ:
+                <strong id="resetStudentName">
+                    -
+                </strong>
 
-<input
-    id="editPrefix"
-    type="text"
->
+            </div>
 
-</div>
 
+            <div class="reset-info">
 
+                Admin สามารถตั้งรหัสผ่านใหม่ให้
+                นักศึกษาได้โดยไม่จำเป็นต้องรู้
+                รหัสผ่านเดิม
 
-<!-- FIRSTNAME -->
+            </div>
 
-<div class="form-group">
 
-<label>
-    ชื่อ
-</label>
+            <div class="form-group">
 
-<input
-    id="editFirstname"
-    type="text"
->
+                <label>
+                    รหัสผ่านใหม่
+                </label>
 
-</div>
+                <input
+                    id="newPassword"
+                    type="password"
+                    minlength="6"
+                    placeholder="อย่างน้อย 6 ตัวอักษร"
+                >
 
+            </div>
 
 
-<!-- LASTNAME -->
+            <div
+                id="resetMessage"
+                class="message"
+            ></div>
 
-<div class="form-group">
 
-<label>
-    นามสกุล
-</label>
+        </div>
 
-<input
-    id="editLastname"
-    type="text"
->
 
-</div>
+        <div class="modal-footer">
 
+            <button
+                class="cancel-button"
+                onclick="closeResetModal()"
+            >
+                ยกเลิก
+            </button>
 
+            <button
+                id="resetButton"
+                class="save-button"
+                onclick="resetPassword()"
+            >
+                รีเซ็ตรหัสผ่าน
+            </button>
 
-<!-- DEPARTMENT -->
+        </div>
 
-<div class="form-group">
 
-<label>
-    สาขาวิชา
-</label>
-
-<input
-    id="editDepartment"
-    type="text"
->
-
-</div>
-
-
-
-<!-- STATUS -->
-
-<div class="form-group">
-
-<label>
-    สถานะ
-</label>
-
-<input
-    id="editStatus"
-    type="text"
->
-
-</div>
-
-
-
-<!-- PHONE -->
-
-<div class="form-group">
-
-<label>
-    เบอร์โทรศัพท์
-</label>
-
-<input
-    id="editPhone"
-    type="text"
->
-
-</div>
-
-
-
-<!-- PHOTO -->
-
-<div class="form-group full">
-
-<label>
-    URL รูปภาพ
-</label>
-
-<input
-    id="editPhotoUrl"
-    type="text"
->
-
-</div>
-
-
-
-<!-- ENGLISH FIRSTNAME -->
-
-<div class="form-group">
-
-<label>
-    ชื่อภาษาอังกฤษ
-</label>
-
-<input
-    id="editFirstnameEn"
-    type="text"
->
-
-</div>
-
-
-
-<!-- ENGLISH LASTNAME -->
-
-<div class="form-group">
-
-<label>
-    นามสกุลภาษาอังกฤษ
-</label>
-
-<input
-    id="editLastnameEn"
-    type="text"
->
-
-</div>
-
-
-
-<!-- ISSUE DATE -->
-
-<div class="form-group">
-
-<label>
-    วันออกบัตร
-</label>
-
-<input
-    id="editIssueDate"
-    type="text"
-    placeholder="dd/MM/yyyy"
->
-
-</div>
-
-
-
-<!-- EXPIRE DATE -->
-
-<div class="form-group">
-
-<label>
-    วันหมดอายุ
-</label>
-
-<input
-    id="editExpireDate"
-    type="text"
-    placeholder="dd/MM/yyyy"
->
-
-</div>
-
-
-</div>
-
-
-</form>
-
-
-</div>
-
-
-
-<div class="modal-footer">
-
-
-<button
-    id="cancelEditButton"
-    class="modal-button cancel"
-    type="button"
->
-    ยกเลิก
-</button>
-
-
-<button
-    id="saveEditButton"
-    class="modal-button save"
-    type="button"
->
-    💾 บันทึกข้อมูล
-</button>
-
-
-</div>
-
-
-</div>
+    </div>
 
 </div>
 
@@ -1758,10 +1608,9 @@ Student Card System · Administrator
 
 <script>
 
-
-/* ==============================================
+/* =========================================
    CONFIG
-   ============================================== */
+   ========================================= */
 
 const CONFIG = {
 
@@ -1777,167 +1626,81 @@ const CONFIG = {
 };
 
 
-
-/* ==============================================
+/* =========================================
    GLOBAL
-   ============================================== */
+   ========================================= */
 
 let students = [];
 
-let editingStudentId = "";
+let selectedStudent = null;
 
 
-
-/* ==============================================
-   DOM READY
-   ============================================== */
+/* =========================================
+   PAGE READY
+   ========================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-
         checkAdminSession();
 
         loadAdminInfo();
 
-        bindEvents();
-
         loadStudents();
+
+
+        document
+            .getElementById(
+                "searchButton"
+            )
+            .addEventListener(
+                "click",
+                loadStudents
+            );
+
+
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        loadStudents();
+
+                    }
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "logoutButton"
+            )
+            .addEventListener(
+                "click",
+                adminLogout
+            );
 
     }
 );
 
 
-
-/* ==============================================
-   EVENTS
-   ============================================== */
-
-function bindEvents() {
-
-
-    document
-        .getElementById(
-            "searchButton"
-        )
-        .addEventListener(
-            "click",
-            loadStudents
-        );
-
-
-    document
-        .getElementById(
-            "refreshButton"
-        )
-        .addEventListener(
-            "click",
-            function () {
-
-                document
-                    .getElementById(
-                        "searchInput"
-                    )
-                    .value = "";
-
-                loadStudents();
-
-            }
-        );
-
-
-    document
-        .getElementById(
-            "searchInput"
-        )
-        .addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key ===
-                    "Enter"
-                ) {
-
-                    loadStudents();
-
-                }
-
-            }
-        );
-
-
-    document
-        .getElementById(
-            "logoutButton"
-        )
-        .addEventListener(
-            "click",
-            adminLogout
-        );
-
-
-    document
-        .getElementById(
-            "closeModalButton"
-        )
-        .addEventListener(
-            "click",
-            closeEditModal
-        );
-
-
-    document
-        .getElementById(
-            "cancelEditButton"
-        )
-        .addEventListener(
-            "click",
-            closeEditModal
-        );
-
-
-    document
-        .getElementById(
-            "saveEditButton"
-        )
-        .addEventListener(
-            "click",
-            saveStudent
-        );
-
-
-    document
-        .getElementById(
-            "editModal"
-        )
-        .addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target.id ===
-                    "editModal"
-                ) {
-
-                    closeEditModal();
-
-                }
-
-            }
-        );
-
-}
-
-
-
-/* ==============================================
-   SESSION
-   ============================================== */
+/* =========================================
+   CHECK ADMIN SESSION
+   ========================================= */
 
 function checkAdminSession() {
-
 
     const token =
         sessionStorage.getItem(
@@ -1950,23 +1713,16 @@ function checkAdminSession() {
         window.location.href =
             "admin-login.html";
 
-        return false;
-
     }
-
-
-    return true;
 
 }
 
 
-
-/* ==============================================
-   ADMIN INFO
-   ============================================== */
+/* =========================================
+   LOAD ADMIN INFO
+   ========================================= */
 
 function loadAdminInfo() {
-
 
     const raw =
         sessionStorage.getItem(
@@ -1975,7 +1731,9 @@ function loadAdminInfo() {
 
 
     if (!raw) {
+
         return;
+
     }
 
 
@@ -1996,7 +1754,7 @@ function loadAdminInfo() {
             "Admin";
 
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
 
@@ -2005,22 +1763,59 @@ function loadAdminInfo() {
 }
 
 
+/* =========================================
+   API REQUEST
+   ========================================= */
 
-/* ==============================================
-   LOAD STUDENTS
-   ============================================== */
+async function apiRequest(data) {
 
-async function loadStudents() {
+    const response =
+        await fetch(
+
+            CONFIG.API_URL,
+
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+
+                },
+
+                body:
+                    JSON.stringify(
+                        data
+                    )
+
+            }
+
+        );
 
 
-    if (
-        !checkAdminSession()
-    ) {
+    if (!response.ok) {
 
-        return;
+        throw new Error(
+            "HTTP " +
+            response.status
+        );
 
     }
 
+
+    return await response.json();
+
+}
+
+
+/* =========================================
+   LOAD STUDENTS
+   ========================================= */
+
+async function loadStudents() {
 
     const token =
         sessionStorage.getItem(
@@ -2037,90 +1832,50 @@ async function loadStudents() {
             .trim();
 
 
-    showLoading();
-
-    hideMessage();
+    showPageMessage(
+        "กำลังโหลดข้อมูล...",
+        "info"
+    );
 
 
     try {
 
-
-        const response =
-            await fetch(
-
-                CONFIG.API_URL,
-
-                {
-
-                    method:
-                        "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            action:
-                                "adminGetStudents",
-
-                            token:
-                                token,
-
-                            search:
-                                search
-
-                        })
-
-                }
-
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-
-        }
-
-
         const result =
-            await response.json();
+            await apiRequest({
 
+                action:
+                    "adminGetStudents",
 
-        if (
-            result.code ===
-            "ADMIN_SESSION_EXPIRED"
-        ) {
+                token:
+                    token,
 
-            clearAdminSession();
+                search:
+                    search
 
-            window.location.href =
-                "admin-login.html";
-
-            return;
-
-        }
+            });
 
 
         if (
             !result.success
         ) {
 
-            showMessage(
+            if (
+                result.code ===
+                "ADMIN_SESSION_EXPIRED"
+            ) {
+
+                forceAdminLogout();
+
+                return;
+
+            }
+
+
+            showPageMessage(
                 result.message ||
                 "ไม่สามารถโหลดข้อมูลได้",
                 "error"
             );
-
-            renderEmpty();
 
             return;
 
@@ -2128,11 +1883,7 @@ async function loadStudents() {
 
 
         students =
-            Array.isArray(
-                result.students
-            )
-                ? result.students
-                : [];
+            result.students || [];
 
 
         renderStudents(
@@ -2140,46 +1891,38 @@ async function loadStudents() {
         );
 
 
-        updateStatistics(
-            students
-        );
+        hidePageMessage();
 
 
-    } catch(error) {
+    } catch (error) {
+
+        console.error(error);
 
 
-        console.error(
-            error
-        );
-
-
-        showMessage(
+        showPageMessage(
             "ไม่สามารถเชื่อมต่อระบบได้",
             "error"
         );
-
-
-        renderEmpty();
 
     }
 
 }
 
 
+/* =========================================
+   RENDER STUDENTS
+   ========================================= */
 
-/* ==============================================
-   RENDER TABLE
-   ============================================== */
+function renderStudents(list) {
 
-function renderStudents(
-    list
-) {
-
-
-    const tableArea =
+    const tbody =
         document.getElementById(
-            "tableArea"
+            "studentTableBody"
         );
+
+
+    tbody.innerHTML =
+        "";
 
 
     if (
@@ -2187,238 +1930,202 @@ function renderStudents(
         list.length === 0
     ) {
 
-        renderEmpty();
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="8"
+                    class="empty"
+                >
+
+                    ไม่พบข้อมูลนักศึกษา
+
+                </td>
+
+            </tr>
+
+        `;
 
         return;
 
     }
 
 
-    let html = `
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>
-รหัสนักศึกษา
-</th>
-
-<th>
-ชื่อ-สกุล
-</th>
-
-<th>
-สาขาวิชา
-</th>
-
-<th>
-สถานะ
-</th>
-
-<th>
-เบอร์โทรศัพท์
-</th>
-
-<th>
-วันออกบัตร
-</th>
-
-<th>
-วันหมดอายุ
-</th>
-
-<th>
-จัดการ
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-`;
-
-
     list.forEach(
         function(student) {
 
-
-            const name =
-                buildThaiName(
-                    student
+            const tr =
+                document.createElement(
+                    "tr"
                 );
 
 
-            const status =
-                student.status ||
-                "-";
+            const fullName =
+                [
+
+                    student.prefix_th || "",
+
+                    student.firstname_th || "",
+
+                    student.lastname_th || ""
+
+                ]
+
+                .join(" ")
+
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+
+                .trim();
+
+
+            const englishName =
+                [
+
+                    student.firstname_en || "",
+
+                    student.lastname_en || ""
+
+                ]
+
+                .join(" ")
+
+                .trim();
 
 
             const statusClass =
-                getStatusClass(
-                    status
-                );
+                String(
+                    student.status || ""
+                )
+                .includes(
+                    "ปกติ"
+                )
+                    ? "normal"
+                    : "other";
 
 
-            html += `
-
-<tr>
-
-<td>
-
-<span class="student-id">
-
-${escapeHtml(
-    student.student_id || "-"
-)}
-
-</span>
-
-</td>
+            let photoHtml =
+                "";
 
 
-<td>
+            if (
+                student.photo_url
+            ) {
 
-<span class="student-name">
+                photoHtml = `
 
-${escapeHtml(
-    name
-)}
+                    <img
+                        class="student-photo"
+                        src="${escapeHtml(student.photo_url)}"
+                        alt="รูปนักศึกษา"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
 
-</span>
+                    <div
+                        class="no-photo"
+                        style="display:none"
+                    >
+                        👤
+                    </div>
 
-</td>
+                `;
 
+            } else {
 
-<td>
+                photoHtml = `
 
-${escapeHtml(
-    student.department || "-"
-)}
+                    <div
+                        class="no-photo"
+                    >
+                        👤
+                    </div>
 
-</td>
+                `;
 
-
-<td>
-
-<span
-    class="status-badge ${statusClass}"
->
-
-${escapeHtml(
-    status
-)}
-
-</span>
-
-</td>
-
-
-<td>
-
-${escapeHtml(
-    student.phone || "-"
-)}
-
-</td>
+            }
 
 
-<td>
+            tr.innerHTML = `
 
-${escapeHtml(
-    student.issue_date || "-"
-)}
+                <td>
+                    ${photoHtml}
+                </td>
 
-</td>
+                <td>
+                    <strong>
+                        ${escapeHtml(student.student_id || "-")}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(fullName || "-")}
+                </td>
+
+                <td>
+                    ${escapeHtml(englishName || "-")}
+                </td>
+
+                <td>
+                    ${escapeHtml(student.department || "-")}
+                </td>
+
+                <td>
+
+                    <span
+                        class="status ${statusClass}"
+                    >
+                        ${escapeHtml(student.status || "-")}
+                    </span>
+
+                </td>
+
+                <td>
+                    ${escapeHtml(student.phone || "-")}
+                </td>
+
+                <td>
+
+                    <div class="actions">
+
+                        <button
+                            class="action-button edit-button"
+                            onclick="openEditModal('${escapeJs(student.student_id)}')"
+                        >
+                            ✏️ แก้ไข
+                        </button>
+
+                        <button
+                            class="action-button reset-button"
+                            onclick="openResetModal('${escapeJs(student.student_id)}')"
+                        >
+                            🔑 รีเซ็ต
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
 
 
-<td>
-
-${escapeHtml(
-    student.expire_date || "-"
-)}
-
-</td>
-
-
-<td>
-
-<button
-    class="edit-button"
-    type="button"
-    data-student-id="${escapeHtml(
-        student.student_id || ""
-    )}"
->
-
-✏️ แก้ไข
-
-</button>
-
-</td>
-
-</tr>
-
-`;
+            tbody.appendChild(
+                tr
+            );
 
         }
     );
 
-
-    html += `
-
-</tbody>
-
-</table>
-
-`;
-
-
-    tableArea.innerHTML =
-        html;
-
-
-    /*
-     * Bind Edit Buttons
-     */
-
-    document
-        .querySelectorAll(
-            ".edit-button"
-        )
-        .forEach(
-            function(button) {
-
-                button.addEventListener(
-                    "click",
-                    function() {
-
-                        openEditModal(
-                            button.dataset.studentId
-                        );
-
-                    }
-                );
-
-            }
-        );
-
 }
 
 
+/* =========================================
+   EDIT MODAL
+   ========================================= */
 
-/* ==============================================
-   OPEN EDIT
-   ============================================== */
-
-function openEditModal(
-    studentId
-) {
-
+function openEditModal(studentId) {
 
     const student =
         students.find(
@@ -2427,9 +2134,7 @@ function openEditModal(
                 return String(
                     item.student_id
                 ) ===
-                String(
-                    studentId
-                );
+                String(studentId);
 
             }
         );
@@ -2437,7 +2142,7 @@ function openEditModal(
 
     if (!student) {
 
-        showMessage(
+        showPageMessage(
             "ไม่พบข้อมูลนักศึกษา",
             "error"
         );
@@ -2447,8 +2152,8 @@ function openEditModal(
     }
 
 
-    editingStudentId =
-        student.student_id;
+    selectedStudent =
+        student;
 
 
     document
@@ -2485,6 +2190,22 @@ function openEditModal(
 
     document
         .getElementById(
+            "editFirstnameEn"
+        )
+        .value =
+        student.firstname_en || "";
+
+
+    document
+        .getElementById(
+            "editLastnameEn"
+        )
+        .value =
+        student.lastname_en || "";
+
+
+    document
+        .getElementById(
             "editDepartment"
         )
         .value =
@@ -2517,22 +2238,6 @@ function openEditModal(
 
     document
         .getElementById(
-            "editFirstnameEn"
-        )
-        .value =
-        student.firstname_en || "";
-
-
-    document
-        .getElementById(
-            "editLastnameEn"
-        )
-        .value =
-        student.lastname_en || "";
-
-
-    document
-        .getElementById(
             "editIssueDate"
         )
         .value =
@@ -2551,47 +2256,37 @@ function openEditModal(
         .getElementById(
             "editModal"
         )
-        .classList
-        .add(
+        .classList.add(
             "show"
         );
 
 }
 
 
-
-/* ==============================================
-   CLOSE MODAL
-   ============================================== */
+/* =========================================
+   CLOSE EDIT MODAL
+   ========================================= */
 
 function closeEditModal() {
-
-
-    editingStudentId =
-        "";
-
 
     document
         .getElementById(
             "editModal"
         )
-        .classList
-        .remove(
+        .classList.remove(
             "show"
         );
 
 }
 
 
-
-/* ==============================================
+/* =========================================
    SAVE STUDENT
-   ============================================== */
+   ========================================= */
 
 async function saveStudent() {
 
-
-    if (!editingStudentId) {
+    if (!selectedStudent) {
 
         return;
 
@@ -2610,7 +2305,7 @@ async function saveStudent() {
         );
 
 
-    const payload = {
+    const data = {
 
         action:
             "adminUpdateStudent",
@@ -2619,87 +2314,81 @@ async function saveStudent() {
             token,
 
         student_id:
-            editingStudentId,
+            document
+                .getElementById(
+                    "editStudentId"
+                )
+                .value,
 
         prefix_th:
             document
                 .getElementById(
                     "editPrefix"
                 )
-                .value
-                .trim(),
+                .value,
 
         firstname_th:
             document
                 .getElementById(
                     "editFirstname"
                 )
-                .value
-                .trim(),
+                .value,
 
         lastname_th:
             document
                 .getElementById(
                     "editLastname"
                 )
-                .value
-                .trim(),
+                .value,
 
         firstname_en:
             document
                 .getElementById(
                     "editFirstnameEn"
                 )
-                .value
-                .trim(),
+                .value,
 
         lastname_en:
             document
                 .getElementById(
                     "editLastnameEn"
                 )
-                .value
-                .trim(),
+                .value,
 
         department:
             document
                 .getElementById(
                     "editDepartment"
                 )
-                .value
-                .trim(),
+                .value,
 
         status:
             document
                 .getElementById(
                     "editStatus"
                 )
-                .value
-                .trim(),
+                .value,
 
         phone:
             document
                 .getElementById(
                     "editPhone"
                 )
-                .value
-                .trim(),
+                .value,
 
         photo_url:
             document
                 .getElementById(
                     "editPhotoUrl"
                 )
-                .value
-                .trim(),
+                .value,
 
         issue_date:
             document
                 .getElementById(
                     "editIssueDate"
                 )
-                .value
-                .trim(),
+                .value,
 
         expire_date:
             document
@@ -2707,28 +2396,8 @@ async function saveStudent() {
                     "editExpireDate"
                 )
                 .value
-                .trim()
 
     };
-
-
-    /*
-     * ตรวจสอบข้อมูลพื้นฐาน
-     */
-
-    if (
-        !payload.firstname_th ||
-        !payload.lastname_th
-    ) {
-
-        showMessage(
-            "กรุณากรอกชื่อและนามสกุล",
-            "error"
-        );
-
-        return;
-
-    }
 
 
     button.disabled =
@@ -2741,68 +2410,27 @@ async function saveStudent() {
 
     try {
 
-
-        const response =
-            await fetch(
-
-                CONFIG.API_URL,
-
-                {
-
-                    method:
-                        "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-
-                    },
-
-                    body:
-                        JSON.stringify(
-                            payload
-                        )
-
-                }
-
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-
-        }
-
-
         const result =
-            await response.json();
+            await apiRequest(
+                data
+            );
 
 
-        if (
-            result.code ===
-            "ADMIN_SESSION_EXPIRED"
-        ) {
+        if (!result.success) {
 
-            clearAdminSession();
+            if (
+                result.code ===
+                "ADMIN_SESSION_EXPIRED"
+            ) {
 
-            window.location.href =
-                "admin-login.html";
+                forceAdminLogout();
 
-            return;
+                return;
 
-        }
+            }
 
 
-        if (
-            !result.success
-        ) {
-
-            showMessage(
+            showPageMessage(
                 result.message ||
                 "บันทึกข้อมูลไม่สำเร็จ",
                 "error"
@@ -2813,35 +2441,24 @@ async function saveStudent() {
         }
 
 
-        /*
-         * สำเร็จ
-         */
-
         closeEditModal();
 
 
-        showMessage(
+        showPageMessage(
             "บันทึกข้อมูลนักศึกษาสำเร็จ",
             "success"
         );
 
 
-        /*
-         * โหลดข้อมูลใหม่
-         */
-
         await loadStudents();
 
 
-    } catch(error) {
+    } catch (error) {
+
+        console.error(error);
 
 
-        console.error(
-            error
-        );
-
-
-        showMessage(
+        showPageMessage(
             "ไม่สามารถเชื่อมต่อระบบได้",
             "error"
         );
@@ -2849,256 +2466,328 @@ async function saveStudent() {
 
     } finally {
 
+        button.disabled =
+            false;
+
+        button.textContent =
+            "บันทึกข้อมูล";
+
+    }
+
+}
+
+
+/* =========================================
+   RESET PASSWORD MODAL
+   ========================================= */
+
+function openResetModal(studentId) {
+
+    const student =
+        students.find(
+            function(item) {
+
+                return String(
+                    item.student_id
+                ) ===
+                String(studentId);
+
+            }
+        );
+
+
+    if (!student) {
+
+        showPageMessage(
+            "ไม่พบข้อมูลนักศึกษา",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    selectedStudent =
+        student;
+
+
+    const fullName =
+        [
+
+            student.prefix_th || "",
+
+            student.firstname_th || "",
+
+            student.lastname_th || ""
+
+        ]
+
+        .join(" ")
+
+        .replace(
+            /\s+/g,
+            " "
+        )
+
+        .trim();
+
+
+    document
+        .getElementById(
+            "resetStudentId"
+        )
+        .textContent =
+        student.student_id || "-";
+
+
+    document
+        .getElementById(
+            "resetStudentName"
+        )
+        .textContent =
+        fullName || "-";
+
+
+    document
+        .getElementById(
+            "newPassword"
+        )
+        .value =
+        "";
+
+
+    clearResetMessage();
+
+
+    document
+        .getElementById(
+            "resetModal"
+        )
+        .classList.add(
+            "show"
+        );
+
+
+    setTimeout(
+        function () {
+
+            document
+                .getElementById(
+                    "newPassword"
+                )
+                .focus();
+
+        },
+        100
+    );
+
+}
+
+
+/* =========================================
+   CLOSE RESET MODAL
+   ========================================= */
+
+function closeResetModal() {
+
+    document
+        .getElementById(
+            "resetModal"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+/* =========================================
+   RESET PASSWORD
+   ========================================= */
+
+async function resetPassword() {
+
+    if (!selectedStudent) {
+
+        return;
+
+    }
+
+
+    const password =
+        document
+            .getElementById(
+                "newPassword"
+            )
+            .value;
+
+
+    const message =
+        document.getElementById(
+            "resetMessage"
+        );
+
+
+    if (!password) {
+
+        showResetMessage(
+            "กรุณากรอกรหัสผ่านใหม่",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (
+        password.length < 6
+    ) {
+
+        showResetMessage(
+            "รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "resetButton"
+        );
+
+
+    const token =
+        sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "กำลังรีเซ็ต...";
+
+
+    try {
+
+        const result =
+            await apiRequest({
+
+                action:
+                    "adminResetPassword",
+
+                token:
+                    token,
+
+                student_id:
+                    selectedStudent.student_id,
+
+                newPassword:
+                    password
+
+            });
+
+
+        if (!result.success) {
+
+            if (
+                result.code ===
+                "ADMIN_SESSION_EXPIRED"
+            ) {
+
+                forceAdminLogout();
+
+                return;
+
+            }
+
+
+            showResetMessage(
+                result.message ||
+                "รีเซ็ตรหัสผ่านไม่สำเร็จ",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        showResetMessage(
+            "รีเซ็ตรหัสผ่านสำเร็จ",
+            "success"
+        );
+
+
+        showPageMessage(
+            "รีเซ็ตรหัสผ่าน " +
+            selectedStudent.student_id +
+            " สำเร็จ",
+            "success"
+        );
+
+
+        document
+            .getElementById(
+                "newPassword"
+            )
+            .value =
+            "";
+
+
+        setTimeout(
+            function () {
+
+                closeResetModal();
+
+            },
+            1000
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        showResetMessage(
+            "ไม่สามารถเชื่อมต่อระบบได้",
+            "error"
+        );
+
+
+    } finally {
 
         button.disabled =
             false;
 
-
         button.textContent =
-            "💾 บันทึกข้อมูล";
+            "รีเซ็ตรหัสผ่าน";
 
     }
 
 }
 
 
-
-/* ==============================================
-   STATISTICS
-   ============================================== */
-
-function updateStatistics(
-    list
-) {
-
-
-    const total =
-        list.length;
-
-
-    let active =
-        0;
-
-
-    list.forEach(
-        function(student) {
-
-
-            const status =
-                String(
-                    student.status || ""
-                )
-                .toLowerCase();
-
-
-            if (
-
-                status.includes(
-                    "ปกติ"
-                ) ||
-
-                status.includes(
-                    "active"
-                )
-
-            ) {
-
-                active++;
-
-            }
-
-        }
-    );
-
-
-    document
-        .getElementById(
-            "totalStudents"
-        )
-        .textContent =
-        total;
-
-
-    document
-        .getElementById(
-            "activeStudents"
-        )
-        .textContent =
-        active;
-
-
-    document
-        .getElementById(
-            "displayStudents"
-        )
-        .textContent =
-        total;
-
-}
-
-
-
-/* ==============================================
-   NAME
-   ============================================== */
-
-function buildThaiName(
-    student
-) {
-
-
-    return (
-
-        (student.prefix_th || "") +
-
-        (student.firstname_th || "") +
-
-        " " +
-
-        (student.lastname_th || "")
-
-    ).trim();
-
-}
-
-
-
-/* ==============================================
-   STATUS
-   ============================================== */
-
-function getStatusClass(
-    status
-) {
-
-
-    const value =
-        String(
-            status || ""
-        )
-        .toLowerCase();
-
-
-    if (
-
-        value.includes(
-            "ปกติ"
-        ) ||
-
-        value.includes(
-            "active"
-        )
-
-    ) {
-
-        return "active";
-
-    }
-
-
-    if (
-
-        value.includes(
-            "ลาออก"
-        ) ||
-
-        value.includes(
-            "inactive"
-        ) ||
-
-        value.includes(
-            "พ้น"
-        )
-
-    ) {
-
-        return "inactive";
-
-    }
-
-
-    return "";
-
-}
-
-
-
-/* ==============================================
-   LOADING
-   ============================================== */
-
-function showLoading() {
-
-
-    document
-        .getElementById(
-            "tableArea"
-        )
-        .innerHTML = `
-
-<div class="loading">
-
-<div class="spinner"></div>
-
-กำลังโหลดข้อมูล...
-
-</div>
-
-`;
-
-}
-
-
-
-/* ==============================================
-   EMPTY
-   ============================================== */
-
-function renderEmpty() {
-
-
-    document
-        .getElementById(
-            "tableArea"
-        )
-        .innerHTML = `
-
-<div class="empty-state">
-
-<div style="font-size:40px;">
-    📋
-</div>
-
-<div>
-    ไม่พบข้อมูลนักศึกษา
-</div>
-
-</div>
-
-`;
-
-
-    updateStatistics(
-        []
-    );
-
-}
-
-
-
-/* ==============================================
-   MESSAGE
-   ============================================== */
-
-function showMessage(
+/* =========================================
+   RESET MESSAGE
+   ========================================= */
+
+function showResetMessage(
     text,
     type
 ) {
 
-
     const element =
         document.getElementById(
-            "systemMessage"
+            "resetMessage"
         );
 
 
@@ -3107,21 +2796,21 @@ function showMessage(
 
 
     element.className =
-        "system-message show " +
-        (
-            type ||
-            ""
-        );
+        "message show " +
+        type;
 
 }
 
 
-function hideMessage() {
+/* =========================================
+   CLEAR RESET MESSAGE
+   ========================================= */
 
+function clearResetMessage() {
 
     const element =
         document.getElementById(
-            "systemMessage"
+            "resetMessage"
         );
 
 
@@ -3130,60 +2819,104 @@ function hideMessage() {
 
 
     element.className =
-        "system-message";
+        "message";
 
 }
 
 
+/* =========================================
+   PAGE MESSAGE
+   ========================================= */
 
-/* ==============================================
-   ESCAPE HTML
-   ============================================== */
-
-function escapeHtml(
-    value
+function showPageMessage(
+    text,
+    type
 ) {
 
-
-    return String(
-        value ?? ""
-    )
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
+    const element =
+        document.getElementById(
+            "pageMessage"
         );
+
+
+    element.textContent =
+        text;
+
+
+    element.className =
+        "message show " +
+        type;
 
 }
 
 
+/* =========================================
+   HIDE PAGE MESSAGE
+   ========================================= */
 
-/* ==============================================
-   CLEAR SESSION
-   ============================================== */
+function hidePageMessage() {
 
-function clearAdminSession() {
+    const element =
+        document.getElementById(
+            "pageMessage"
+        );
 
+
+    element.textContent =
+        "";
+
+
+    element.className =
+        "message";
+
+}
+
+
+/* =========================================
+   ADMIN LOGOUT
+   ========================================= */
+
+async function adminLogout() {
+
+    const token =
+        sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
+        );
+
+
+    try {
+
+        if (token) {
+
+            await apiRequest({
+
+                action:
+                    "adminLogout",
+
+                token:
+                    token
+
+            });
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+
+    forceAdminLogout();
+
+}
+
+
+/* =========================================
+   FORCE LOGOUT
+   ========================================= */
+
+function forceAdminLogout() {
 
     sessionStorage.removeItem(
         CONFIG.ADMIN_SESSION_KEY
@@ -3194,79 +2927,153 @@ function clearAdminSession() {
         CONFIG.ADMIN_KEY
     );
 
-}
-
-
-
-/* ==============================================
-   LOGOUT
-   ============================================== */
-
-async function adminLogout() {
-
-
-    const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-        );
-
-
-    try {
-
-
-        if (token) {
-
-
-            await fetch(
-
-                CONFIG.API_URL,
-
-                {
-
-                    method:
-                        "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            action:
-                                "adminLogout",
-
-                            token:
-                                token
-
-                        })
-
-                }
-
-            );
-
-        }
-
-
-    } catch(error) {
-
-        console.error(
-            error
-        );
-
-    }
-
-
-    clearAdminSession();
-
 
     window.location.href =
         "admin-login.html";
 
 }
+
+
+/* =========================================
+   ESCAPE HTML
+   ========================================= */
+
+function escapeHtml(value) {
+
+    return String(
+        value || ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================
+   ESCAPE JS
+   ========================================= */
+
+function escapeJs(value) {
+
+    return String(
+        value || ""
+    )
+
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+
+    .replace(
+        /'/g,
+        "\\'"
+    )
+
+    .replace(
+        /"/g,
+        '\\"'
+    )
+
+    .replace(
+        /\n/g,
+        "\\n"
+    )
+
+    .replace(
+        /\r/g,
+        "\\r"
+    );
+
+}
+
+
+/* =========================================
+   CLOSE MODALS WHEN CLICK OUTSIDE
+   ========================================= */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const editModal =
+            document.getElementById(
+                "editModal"
+            );
+
+
+        const resetModal =
+            document.getElementById(
+                "resetModal"
+            );
+
+
+        if (
+            event.target ===
+            editModal
+        ) {
+
+            closeEditModal();
+
+        }
+
+
+        if (
+            event.target ===
+            resetModal
+        ) {
+
+            closeResetModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   ESC KEY
+   ========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeEditModal();
+
+            closeResetModal();
+
+        }
+
+    }
+);
 
 </script>
 
