@@ -26,14 +26,24 @@
 }
 
 body {
+
   margin: 0;
+
   font-family:
     Arial,
     "Noto Sans Thai",
     sans-serif;
+
   background: #f5f7fb;
+
   color: #111827;
+
 }
+
+
+/* ==================================================
+   HEADER
+   ================================================== */
 
 .header {
 
@@ -41,7 +51,7 @@ body {
 
   background: #0a1383;
 
-  color: white;
+  color: #fff;
 
   display: flex;
 
@@ -52,28 +62,39 @@ body {
   padding: 0 25px;
 
   box-shadow:
-    0 3px 12px rgba(0,0,0,.12);
+    0 3px 12px
+    rgba(0,0,0,.12);
 
 }
 
 .header-title {
+
   font-size: 20px;
+
   font-weight: bold;
+
 }
 
 .header-user {
+
   display: flex;
+
   align-items: center;
+
   gap: 12px;
+
   font-size: 13px;
+
 }
 
 .logout-button {
 
   border:
-    1px solid rgba(255,255,255,.4);
+    1px solid
+    rgba(255,255,255,.4);
 
-  background: transparent;
+  background:
+    transparent;
 
   color: white;
 
@@ -85,10 +106,31 @@ body {
 
 }
 
-.layout {
-  display: flex;
-  min-height: calc(100vh - 68px);
+.logout-button:hover {
+
+  background:
+    rgba(255,255,255,.12);
+
 }
+
+
+/* ==================================================
+   LAYOUT
+   ================================================== */
+
+.layout {
+
+  display: flex;
+
+  min-height:
+    calc(100vh - 68px);
+
+}
+
+
+/* ==================================================
+   SIDEBAR
+   ================================================== */
 
 .sidebar {
 
@@ -128,14 +170,25 @@ body {
 }
 
 .menu-button:hover {
+
   background: #eef0ff;
+
   color: #0a1383;
+
 }
 
 .menu-button.active {
+
   background: #0a1383;
+
   color: white;
+
 }
+
+
+/* ==================================================
+   CONTENT
+   ================================================== */
 
 .content {
 
@@ -148,146 +201,242 @@ body {
 }
 
 .page {
+
   display: none;
+
 }
 
 .page.active {
+
   display: block;
+
 }
 
 .page-title {
 
-  margin: 0 0 5px;
+  margin:
+    0 0 5px;
 
-  color: #0a1383;
+  color:
+    #0a1383;
 
-  font-size: 24px;
+  font-size:
+    24px;
 
 }
 
 .page-subtitle {
 
-  margin: 0 0 22px;
+  margin:
+    0 0 22px;
 
-  color: #6b7280;
+  color:
+    #6b7280;
 
-  font-size: 13px;
+  font-size:
+    13px;
 
 }
 
+
+/* ==================================================
+   CARD
+   ================================================== */
+
 .card {
 
-  background: white;
+  background:
+    white;
 
   border:
     1px solid #e5e7eb;
 
-  border-radius: 12px;
+  border-radius:
+    12px;
 
-  padding: 20px;
+  padding:
+    20px;
 
-  margin-bottom: 20px;
+  margin-bottom:
+    20px;
 
   box-shadow:
-    0 4px 14px rgba(0,0,0,.04);
+    0 4px 14px
+    rgba(0,0,0,.04);
 
 }
 
+
+/* ==================================================
+   TOOLBAR
+   ================================================== */
+
 .toolbar {
 
-  display: flex;
+  display:
+    flex;
 
-  gap: 10px;
+  gap:
+    10px;
 
-  margin-bottom: 15px;
+  margin-bottom:
+    15px;
 
-  flex-wrap: wrap;
+  flex-wrap:
+    wrap;
 
 }
 
 .search-input {
 
-  flex: 1;
+  flex:
+    1;
 
-  min-width: 220px;
+  min-width:
+    220px;
 
-  height: 43px;
+  height:
+    43px;
 
   border:
     1px solid #d1d5db;
 
-  border-radius: 8px;
+  border-radius:
+    8px;
 
-  padding: 0 12px;
+  padding:
+    0 12px;
 
-  font-size: 14px;
+  font-size:
+    14px;
+
+  outline:
+    none;
+
+}
+
+.search-input:focus {
+
+  border-color:
+    #0a1383;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(10,19,131,.08);
 
 }
 
 .primary-button {
 
-  min-height: 43px;
+  min-height:
+    43px;
 
-  border: none;
+  border:
+    none;
 
-  border-radius: 8px;
+  border-radius:
+    8px;
 
-  background: #0a1383;
+  background:
+    #0a1383;
 
-  color: white;
+  color:
+    white;
 
-  padding: 0 17px;
+  padding:
+    0 17px;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
-  font-weight: 600;
+  font-weight:
+    600;
+
+}
+
+.primary-button:hover {
+
+  background:
+    #080f6d;
+
+}
+
+.primary-button:disabled {
+
+  opacity:
+    .6;
+
+  cursor:
+    not-allowed;
 
 }
 
 .secondary-button {
 
-  min-height: 40px;
+  min-height:
+    40px;
 
   border:
     1px solid #d1d5db;
 
-  border-radius: 7px;
+  border-radius:
+    7px;
 
-  background: white;
+  background:
+    white;
 
-  color: #374151;
+  color:
+    #374151;
 
-  padding: 0 13px;
+  padding:
+    0 13px;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
 }
 
+
+/* ==================================================
+   TABLE
+   ================================================== */
+
 .table-wrap {
-  overflow-x: auto;
+
+  overflow-x:
+    auto;
+
 }
 
 table {
 
-  width: 100%;
+  width:
+    100%;
 
-  border-collapse: collapse;
+  border-collapse:
+    collapse;
 
-  min-width: 850px;
+  min-width:
+    850px;
 
 }
 
 th {
 
-  background: #f3f4f6;
+  background:
+    #f3f4f6;
 
-  color: #374151;
+  color:
+    #374151;
 
-  font-size: 13px;
+  font-size:
+    13px;
 
-  text-align: left;
+  text-align:
+    left;
 
-  padding: 12px;
+  padding:
+    12px;
 
   border-bottom:
     1px solid #e5e7eb;
@@ -296,294 +445,453 @@ th {
 
 td {
 
-  padding: 11px 12px;
+  padding:
+    11px 12px;
 
   border-bottom:
     1px solid #edf0f4;
 
-  font-size: 13px;
+  font-size:
+    13px;
 
-  vertical-align: middle;
+  vertical-align:
+    middle;
 
 }
 
+tr:hover td {
+
+  background:
+    #fafbff;
+
+}
+
+
+/* ==================================================
+   STATUS
+   ================================================== */
+
 .badge {
 
-  display: inline-block;
+  display:
+    inline-block;
 
-  padding: 5px 9px;
+  padding:
+    5px 9px;
 
-  border-radius: 20px;
+  border-radius:
+    20px;
 
-  font-size: 11px;
+  font-size:
+    11px;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
 }
 
 .badge-pending {
 
-  background: #fff7ed;
-  color: #c2410c;
+  background:
+    #fff7ed;
+
+  color:
+    #c2410c;
 
 }
 
 .badge-approved {
 
-  background: #eff6ff;
-  color: #1d4ed8;
+  background:
+    #eff6ff;
+
+  color:
+    #1d4ed8;
 
 }
 
 .badge-rejected {
 
-  background: #fef2f2;
-  color: #dc2626;
+  background:
+    #fef2f2;
+
+  color:
+    #dc2626;
 
 }
 
 .badge-reset {
 
-  background: #f0fdf4;
-  color: #15803d;
+  background:
+    #f0fdf4;
+
+  color:
+    #15803d;
 
 }
 
+
+/* ==================================================
+   ACTION
+   ================================================== */
+
 .action-button {
 
-  border: none;
+  border:
+    none;
 
-  border-radius: 6px;
+  border-radius:
+    6px;
 
-  padding: 7px 10px;
+  padding:
+    7px 10px;
 
-  margin: 2px;
+  margin:
+    2px;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
-  font-size: 12px;
+  font-size:
+    12px;
 
-  font-weight: 600;
+  font-weight:
+    600;
 
 }
 
 .approve-button {
 
-  background: #dcfce7;
-  color: #166534;
+  background:
+    #dcfce7;
+
+  color:
+    #166534;
 
 }
 
 .reject-button {
 
-  background: #fee2e2;
-  color: #991b1b;
+  background:
+    #fee2e2;
+
+  color:
+    #991b1b;
 
 }
 
 .reset-button {
 
-  background: #dbeafe;
-  color: #1e40af;
+  background:
+    #dbeafe;
+
+  color:
+    #1e40af;
 
 }
 
 .edit-button {
 
-  background: #eef0ff;
-  color: #0a1383;
+  background:
+    #eef0ff;
+
+  color:
+    #0a1383;
 
 }
 
+
+/* ==================================================
+   FORM
+   ================================================== */
+
 .form-grid {
 
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
-    repeat(2,minmax(0,1fr));
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
 
-  gap: 15px;
+  gap:
+    15px;
 
 }
 
 .form-group {
 
-  display: flex;
+  display:
+    flex;
 
-  flex-direction: column;
+  flex-direction:
+    column;
 
-  gap: 6px;
+  gap:
+    6px;
 
 }
 
 .form-group label {
 
-  font-size: 13px;
+  font-size:
+    13px;
 
-  font-weight: 600;
+  font-weight:
+    600;
 
 }
 
 .form-group input {
 
-  height: 42px;
+  height:
+    42px;
 
   border:
     1px solid #d1d5db;
 
-  border-radius: 7px;
+  border-radius:
+    7px;
 
-  padding: 0 10px;
+  padding:
+    0 10px;
+
+  outline:
+    none;
+
+}
+
+.form-group input:focus {
+
+  border-color:
+    #0a1383;
 
 }
 
 .form-actions {
 
-  margin-top: 18px;
+  margin-top:
+    18px;
 
-  display: flex;
+  display:
+    flex;
 
-  gap: 10px;
+  gap:
+    10px;
 
 }
 
+
+/* ==================================================
+   MESSAGE
+   ================================================== */
+
 .message {
 
-  padding: 11px 14px;
+  padding:
+    11px 14px;
 
-  border-radius: 8px;
+  border-radius:
+    8px;
 
-  margin-bottom: 15px;
+  margin-bottom:
+    15px;
 
-  font-size: 13px;
+  font-size:
+    13px;
 
-  display: none;
+  display:
+    none;
 
 }
 
 .message.show {
-  display: block;
+
+  display:
+    block;
+
 }
 
 .message.success {
 
-  background: #ecfdf5;
-  color: #166534;
+  background:
+    #ecfdf5;
+
+  color:
+    #166534;
 
 }
 
 .message.error {
 
-  background: #fef2f2;
-  color: #991b1b;
+  background:
+    #fef2f2;
+
+  color:
+    #991b1b;
 
 }
 
 .message.info {
 
-  background: #eff6ff;
-  color: #1e40af;
+  background:
+    #eff6ff;
+
+  color:
+    #1e40af;
 
 }
 
+
+/* ==================================================
+   MODAL
+   ================================================== */
+
 .modal {
 
-  display: none;
+  display:
+    none;
 
-  position: fixed;
+  position:
+    fixed;
 
-  inset: 0;
+  inset:
+    0;
 
   background:
     rgba(0,0,0,.45);
 
-  align-items: center;
+  align-items:
+    center;
 
-  justify-content: center;
+  justify-content:
+    center;
 
-  padding: 20px;
+  padding:
+    20px;
 
-  z-index: 1000;
+  z-index:
+    1000;
 
 }
 
 .modal.show {
-  display: flex;
+
+  display:
+    flex;
+
 }
 
 .modal-box {
 
-  width: 100%;
+  width:
+    100%;
 
-  max-width: 500px;
+  max-width:
+    500px;
 
-  background: white;
+  background:
+    white;
 
-  border-radius: 12px;
+  border-radius:
+    12px;
 
-  padding: 24px;
+  padding:
+    24px;
 
 }
 
 .modal-title {
 
-  margin: 0 0 15px;
+  margin:
+    0 0 15px;
 
-  color: #0a1383;
+  color:
+    #0a1383;
 
 }
 
 .modal-text {
 
-  font-size: 14px;
+  font-size:
+    14px;
 
-  line-height: 1.7;
+  line-height:
+    1.7;
 
-  margin-bottom: 15px;
+  margin-bottom:
+    15px;
 
 }
 
 .modal-actions {
 
-  display: flex;
+  display:
+    flex;
 
-  justify-content: flex-end;
+  justify-content:
+    flex-end;
 
-  gap: 8px;
+  gap:
+    8px;
 
 }
+
+
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
 
 @media(max-width:800px) {
 
   .sidebar {
-    width: 190px;
+
+    width:
+      190px;
+
   }
 
   .content {
-    padding: 15px;
+
+    padding:
+      15px;
+
   }
 
   .form-grid {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
+
   }
 
 }
 
+
 @media(max-width:600px) {
 
   .layout {
-    flex-direction: column;
+
+    flex-direction:
+      column;
+
   }
 
   .sidebar {
 
-    width: 100%;
+    width:
+      100%;
 
-    display: flex;
+    display:
+      flex;
 
-    overflow-x: auto;
+    overflow-x:
+      auto;
 
-    border-right: none;
+    border-right:
+      none;
 
     border-bottom:
       1px solid #e5e7eb;
@@ -591,7 +899,24 @@ td {
   }
 
   .menu-button {
-    min-width: 150px;
+
+    min-width:
+      150px;
+
+  }
+
+  .header {
+
+    padding:
+      0 12px;
+
+  }
+
+  .header-title {
+
+    font-size:
+      16px;
+
   }
 
 }
@@ -600,14 +925,18 @@ td {
 
 </head>
 
+
 <body>
 
 
 <header class="header">
 
 <div class="header-title">
+
   🛡️ Student Card System
+
 </div>
+
 
 <div class="header-user">
 
@@ -615,11 +944,14 @@ td {
   Admin
 </span>
 
+
 <button
   class="logout-button"
   onclick="adminLogout()"
 >
+
   ออกจากระบบ
+
 </button>
 
 </div>
@@ -627,28 +959,37 @@ td {
 </header>
 
 
+
 <div class="layout">
 
 
 <aside class="sidebar">
 
+
 <button
   class="menu-button active"
   data-page="studentsPage"
-  onclick="showPage('studentsPage',this)"
+  onclick="showPage('studentsPage', this)"
 >
+
   👨‍🎓 ข้อมูลนักศึกษา
+
 </button>
+
 
 <button
   class="menu-button"
   data-page="resetPage"
-  onclick="showPage('resetPage',this)"
+  onclick="showPage('resetPage', this)"
 >
+
   🔑 คำร้องลืมรหัสผ่าน
+
 </button>
 
+
 </aside>
+
 
 
 <main class="content">
@@ -660,78 +1001,128 @@ td {
 ></div>
 
 
-<!-- STUDENTS -->
+
+<!-- ==================================================
+     STUDENTS
+     ================================================== -->
 
 <section
   id="studentsPage"
   class="page active"
 >
 
+
 <h1 class="page-title">
+
   ข้อมูลนักศึกษา
+
 </h1>
 
+
 <p class="page-subtitle">
+
   ค้นหาและแก้ไขข้อมูลนักศึกษา
+
 </p>
 
 
 <div class="card">
 
+
 <div class="toolbar">
+
 
 <input
   id="studentSearch"
   class="search-input"
+  type="text"
   placeholder="ค้นหารหัส ชื่อ นามสกุล ภาควิชา..."
 >
 
+
 <button
+  id="searchButton"
   class="primary-button"
   onclick="loadStudents()"
 >
+
   🔎 ค้นหา
+
 </button>
+
 
 <button
   class="secondary-button"
   onclick="loadStudents()"
 >
+
   🔄 โหลดใหม่
+
 </button>
+
 
 </div>
 
 
 <div class="table-wrap">
 
+
 <table>
+
 
 <thead>
 
 <tr>
 
-<th>รหัสนักศึกษา</th>
-<th>ชื่อ</th>
-<th>นามสกุล</th>
-<th>ภาควิชา</th>
-<th>สถานะ</th>
-<th>โทรศัพท์</th>
-<th>จัดการ</th>
+<th>
+  รหัสนักศึกษา
+</th>
+
+<th>
+  ชื่อ
+</th>
+
+<th>
+  นามสกุล
+</th>
+
+<th>
+  ภาควิชา
+</th>
+
+<th>
+  สถานะ
+</th>
+
+<th>
+  โทรศัพท์
+</th>
+
+<th>
+  จัดการ
+</th>
 
 </tr>
 
 </thead>
 
-<tbody id="studentsTableBody">
+
+<tbody
+  id="studentsTableBody"
+>
 
 <tr>
+
 <td colspan="7">
-กำลังโหลดข้อมูล...
+
+  กำลังโหลดข้อมูล...
+
 </td>
+
 </tr>
 
 </tbody>
+
 
 </table>
 
@@ -742,68 +1133,109 @@ td {
 </section>
 
 
-<!-- RESET -->
+
+<!-- ==================================================
+     RESET REQUESTS
+     ================================================== -->
 
 <section
   id="resetPage"
   class="page"
 >
 
+
 <h1 class="page-title">
+
   คำร้องลืมรหัสผ่าน
+
 </h1>
 
+
 <p class="page-subtitle">
-  ตรวจสอบ อนุมัติ ปฏิเสธ และรีเซ็ตรหัสผ่าน
+
+  ตรวจสอบ อนุมัติ ปฏิเสธ และรีเซ็ตรหัสผ่านนักศึกษา
+
 </p>
 
 
 <div class="card">
 
+
 <div class="toolbar">
+
 
 <button
   class="primary-button"
   onclick="loadResetRequests()"
 >
-  🔄 โหลดคำร้องใหม่
+
+  🔄 โหลดคำร้อง
+
 </button>
+
 
 </div>
 
 
 <div class="table-wrap">
 
+
 <table>
+
 
 <thead>
 
 <tr>
 
-<th>เลขที่คำร้อง</th>
-<th>รหัสนักศึกษา</th>
-<th>รายละเอียด</th>
-<th>สถานะ</th>
-<th>วันที่ร้องขอ</th>
-<th>ผู้ดำเนินการ</th>
-<th>หมายเหตุ</th>
-<th>การดำเนินการ</th>
+<th>
+  เลขที่คำร้อง
+</th>
+
+<th>
+  รหัสนักศึกษา
+</th>
+
+<th>
+  รายละเอียด
+</th>
+
+<th>
+  สถานะ
+</th>
+
+<th>
+  วันที่ร้องขอ
+</th>
+
+<th>
+  ผู้ดำเนินการ
+</th>
+
+<th>
+  การดำเนินการ
+</th>
 
 </tr>
 
 </thead>
 
-<tbody id="resetRequestsBody">
+
+<tbody
+  id="resetRequestsBody"
+>
 
 <tr>
 
-<td colspan="8">
-กำลังโหลดคำร้อง...
+<td colspan="7">
+
+  กำลังโหลดคำร้อง...
+
 </td>
 
 </tr>
 
 </tbody>
+
 
 </table>
 
@@ -814,23 +1246,33 @@ td {
 </section>
 
 
-<!-- EDIT -->
+
+<!-- ==================================================
+     EDIT STUDENT
+     ================================================== -->
 
 <section
   id="editStudentPage"
   class="page"
 >
 
+
 <h1 class="page-title">
+
   แก้ไขข้อมูลนักศึกษา
+
 </h1>
 
+
 <p class="page-subtitle">
+
   แก้ไขข้อมูลแล้วกดบันทึก
+
 </p>
 
 
 <div class="card">
+
 
 <input
   type="hidden"
@@ -843,7 +1285,9 @@ td {
 
 <div class="form-group">
 
-<label>รหัสนักศึกษา</label>
+<label>
+  รหัสนักศึกษา
+</label>
 
 <input
   id="editStudentIdDisplay"
@@ -855,99 +1299,145 @@ td {
 
 <div class="form-group">
 
-<label>คำนำหน้า</label>
+<label>
+  คำนำหน้า
+</label>
 
-<input id="editPrefix">
-
-</div>
-
-
-<div class="form-group">
-
-<label>ชื่อ</label>
-
-<input id="editFirstname">
+<input
+  id="editPrefix"
+>
 
 </div>
 
 
 <div class="form-group">
 
-<label>นามสกุล</label>
+<label>
+  ชื่อ
+</label>
 
-<input id="editLastname">
-
-</div>
-
-
-<div class="form-group">
-
-<label>ชื่อภาษาอังกฤษ</label>
-
-<input id="editFirstnameEn">
+<input
+  id="editFirstname"
+>
 
 </div>
 
 
 <div class="form-group">
 
-<label>นามสกุลภาษาอังกฤษ</label>
+<label>
+  นามสกุล
+</label>
 
-<input id="editLastnameEn">
-
-</div>
-
-
-<div class="form-group">
-
-<label>สถานะ</label>
-
-<input id="editStatus">
+<input
+  id="editLastname"
+>
 
 </div>
 
 
 <div class="form-group">
 
-<label>ภาควิชา</label>
+<label>
+  ชื่อภาษาอังกฤษ
+</label>
 
-<input id="editDepartment">
-
-</div>
-
-
-<div class="form-group">
-
-<label>โทรศัพท์</label>
-
-<input id="editPhone">
+<input
+  id="editFirstnameEn"
+>
 
 </div>
 
 
 <div class="form-group">
 
-<label>URL รูปภาพ</label>
+<label>
+  นามสกุลภาษาอังกฤษ
+</label>
 
-<input id="editPhotoUrl">
-
-</div>
-
-
-<div class="form-group">
-
-<label>วันที่ออกบัตร</label>
-
-<input id="editIssueDate">
+<input
+  id="editLastnameEn"
+>
 
 </div>
 
 
 <div class="form-group">
 
-<label>วันหมดอายุ</label>
+<label>
+  สถานะ
+</label>
 
-<input id="editExpireDate">
+<input
+  id="editStatus"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  ภาควิชา
+</label>
+
+<input
+  id="editDepartment"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  โทรศัพท์
+</label>
+
+<input
+  id="editPhone"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  URL รูปภาพ
+</label>
+
+<input
+  id="editPhotoUrl"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  วันที่ออกบัตร
+</label>
+
+<input
+  id="editIssueDate"
+  placeholder="dd/MM/yyyy"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  วันหมดอายุ
+</label>
+
+<input
+  id="editExpireDate"
+  placeholder="dd/MM/yyyy"
+>
 
 </div>
 
@@ -957,19 +1447,26 @@ td {
 
 <div class="form-actions">
 
+
 <button
   class="primary-button"
   onclick="saveStudent()"
 >
-💾 บันทึก
+
+  💾 บันทึกข้อมูล
+
 </button>
+
 
 <button
   class="secondary-button"
   onclick="showPage('studentsPage')"
 >
-ยกเลิก
+
+  ยกเลิก
+
 </button>
+
 
 </div>
 
@@ -983,21 +1480,29 @@ td {
 </div>
 
 
-<!-- MODAL -->
+
+<!-- ==================================================
+     RESET MODAL
+     ================================================== -->
 
 <div
   id="resetModal"
   class="modal"
 >
 
+
 <div class="modal-box">
+
 
 <h2
   id="resetModalTitle"
   class="modal-title"
 >
-ดำเนินการ
+
+  ดำเนินการ
+
 </h2>
+
 
 <div
   id="resetModalText"
@@ -1007,12 +1512,17 @@ td {
 
 <div class="form-group">
 
-<label>หมายเหตุ</label>
+
+<label>
+  หมายเหตุ
+</label>
+
 
 <input
   id="resetNote"
-  placeholder="หมายเหตุ"
+  placeholder="หมายเหตุ (ถ้ามี)"
 >
+
 
 </div>
 
@@ -1023,41 +1533,52 @@ td {
   style="margin-top:12px;"
 >
 
+
 <label>
-รหัสผ่านใหม่
+  รหัสผ่านใหม่
 </label>
+
 
 <input
   id="newPassword"
   type="password"
-  placeholder="ว่าง = 123456"
+  placeholder="เว้นว่างเพื่อใช้ 123456"
 >
+
 
 </div>
 
 
 <div class="modal-actions">
 
+
 <button
   class="secondary-button"
   onclick="closeResetModal()"
 >
-ยกเลิก
+
+  ยกเลิก
+
 </button>
+
 
 <button
   id="confirmResetButton"
   class="primary-button"
   onclick="confirmResetAction()"
 >
-ยืนยัน
+
+  ยืนยัน
+
 </button>
 
-</div>
 
 </div>
 
 </div>
+
+</div>
+
 
 
 <script>
@@ -1094,14 +1615,22 @@ let currentResetAction = null;
 
 
 /* ==================================================
-   INIT
+   READY
    ================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
-  initializeDashboard
+  function() {
+
+    initializeDashboard();
+
+  }
 );
 
+
+/* ==================================================
+   INITIALIZE
+   ================================================== */
 
 async function initializeDashboard() {
 
@@ -1124,7 +1653,7 @@ async function initializeDashboard() {
 
   try {
 
-    const admin =
+    const adminData =
       JSON.parse(
         sessionStorage.getItem(
           CONFIG.ADMIN_KEY
@@ -1135,15 +1664,17 @@ async function initializeDashboard() {
     document.getElementById(
       "adminUsername"
     ).textContent =
-      admin.username ||
+      adminData.username ||
       "Admin";
 
-  } catch(e) {}
+  }
 
+  catch(error) {
 
-  /*
-   * โหลดนักศึกษาทันที
-   */
+    console.error(error);
+
+  }
+
 
   await loadStudents();
 
@@ -1151,7 +1682,7 @@ async function initializeDashboard() {
 
 
 /* ==================================================
-   API
+   API REQUEST
    ================================================== */
 
 async function apiRequest(
@@ -1196,7 +1727,14 @@ async function apiRequest(
     await response.json();
 
 
+  console.log(
+    "API RESULT:",
+    result
+  );
+
+
   if (
+    result &&
     result.code ===
     "ADMIN_SESSION_EXPIRED"
   ) {
@@ -1209,9 +1747,11 @@ async function apiRequest(
       CONFIG.ADMIN_KEY
     );
 
+
     window.location.replace(
       "admin-login.html"
     );
+
 
     throw new Error(
       "ADMIN_SESSION_EXPIRED"
@@ -1226,7 +1766,7 @@ async function apiRequest(
 
 
 /* ==================================================
-   PAGE
+   SHOW PAGE
    ================================================== */
 
 function showPage(
@@ -1237,10 +1777,13 @@ function showPage(
   document
     .querySelectorAll(".page")
     .forEach(
-      p =>
-        p.classList.remove(
+      function(page) {
+
+        page.classList.remove(
           "active"
-        )
+        );
+
+      }
     );
 
 
@@ -1264,10 +1807,13 @@ function showPage(
       ".menu-button"
     )
     .forEach(
-      b =>
-        b.classList.remove(
+      function(item) {
+
+        item.classList.remove(
           "active"
-        )
+        );
+
+      }
     );
 
 
@@ -1277,7 +1823,9 @@ function showPage(
       "active"
     );
 
-  } else {
+  }
+
+  else {
 
     const menu =
       document.querySelector(
@@ -1311,7 +1859,7 @@ function showPage(
 
 
 /* ==================================================
-   STUDENTS
+   LOAD STUDENTS
    ================================================== */
 
 async function loadStudents() {
@@ -1322,13 +1870,13 @@ async function loadStudents() {
     );
 
 
-  tbody.innerHTML = `
-    <tr>
+  tbody.innerHTML =
+
+    `<tr>
       <td colspan="7">
         กำลังโหลดข้อมูล...
       </td>
-    </tr>
-  `;
+    </tr>`;
 
 
   try {
@@ -1370,32 +1918,58 @@ async function loadStudents() {
 
 
     students =
-      result.students || [];
+      Array.isArray(
+        result.students
+      )
+        ? result.students
+        : [];
 
 
     renderStudents();
 
+  }
 
-  } catch(error) {
+  catch(error) {
 
-    console.error(error);
+    console.error(
+      "LOAD STUDENTS ERROR:",
+      error
+    );
 
 
-    tbody.innerHTML = `
-      <tr>
+    tbody.innerHTML =
+
+      `<tr>
         <td colspan="7">
           ${escapeHtml(
             error.message ||
-            "ไม่สามารถโหลดข้อมูลได้"
+            "ไม่สามารถโหลดข้อมูลนักศึกษาได้"
           )}
         </td>
-      </tr>
-    `;
+      </tr>`;
+
+
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
+
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
 
   }
 
 }
 
+
+/* ==================================================
+   RENDER STUDENTS
+   ================================================== */
 
 function renderStudents() {
 
@@ -1407,13 +1981,13 @@ function renderStudents() {
 
   if (!students.length) {
 
-    tbody.innerHTML = `
-      <tr>
+    tbody.innerHTML =
+
+      `<tr>
         <td colspan="7">
           ไม่พบข้อมูลนักศึกษา
         </td>
-      </tr>
-    `;
+      </tr>`;
 
     return;
 
@@ -1423,7 +1997,7 @@ function renderStudents() {
   tbody.innerHTML =
     students
       .map(
-        student => {
+        function(student) {
 
           const fullName =
             (
@@ -1438,44 +2012,66 @@ function renderStudents() {
 
 
           return `
+
 <tr>
 
 <td>
-${escapeHtml(student.student_id)}
+  ${escapeHtml(
+    student.student_id
+  )}
 </td>
 
 <td>
-${escapeHtml(fullName.trim())}
+  ${escapeHtml(
+    fullName.trim()
+  )}
 </td>
 
 <td>
-${escapeHtml(student.lastname_th)}
+  ${escapeHtml(
+    student.lastname_th ||
+    ""
+  )}
 </td>
 
 <td>
-${escapeHtml(student.department)}
+  ${escapeHtml(
+    student.department ||
+    ""
+  )}
 </td>
 
 <td>
-${escapeHtml(student.status)}
+  ${escapeHtml(
+    student.status ||
+    ""
+  )}
 </td>
 
 <td>
-${escapeHtml(student.phone)}
+  ${escapeHtml(
+    student.phone ||
+    ""
+  )}
 </td>
 
 <td>
 
 <button
   class="action-button edit-button"
-  onclick="editStudent('${escapeJs(student.student_id)}')"
+  onclick="editStudent('${escapeJs(
+    student.student_id
+  )}')"
 >
-✏️ แก้ไข
+
+  ✏️ แก้ไข
+
 </button>
 
 </td>
 
 </tr>
+
 `;
 
         }
@@ -1486,7 +2082,7 @@ ${escapeHtml(student.phone)}
 
 
 /* ==================================================
-   EDIT
+   EDIT STUDENT
    ================================================== */
 
 function editStudent(
@@ -1495,9 +2091,16 @@ function editStudent(
 
   const student =
     students.find(
-      s =>
-        String(s.student_id) ===
-        String(studentId)
+      function(item) {
+
+        return String(
+          item.student_id
+        ) ===
+        String(
+          studentId
+        );
+
+      }
     );
 
 
@@ -1518,60 +2121,72 @@ function editStudent(
     student.student_id
   );
 
+
   setValue(
     "editStudentIdDisplay",
     student.student_id
   );
+
 
   setValue(
     "editPrefix",
     student.prefix_th
   );
 
+
   setValue(
     "editFirstname",
     student.firstname_th
   );
+
 
   setValue(
     "editLastname",
     student.lastname_th
   );
 
+
   setValue(
     "editFirstnameEn",
     student.firstname_en
   );
+
 
   setValue(
     "editLastnameEn",
     student.lastname_en
   );
 
+
   setValue(
     "editStatus",
     student.status
   );
+
 
   setValue(
     "editDepartment",
     student.department
   );
 
+
   setValue(
     "editPhone",
     student.phone
   );
+
 
   setValue(
     "editPhotoUrl",
     student.photo_url
   );
 
+
   setValue(
     "editIssueDate",
     student.issue_date
   );
+
 
   setValue(
     "editExpireDate",
@@ -1593,9 +2208,21 @@ function editStudent(
 async function saveStudent() {
 
   const studentId =
-    document.getElementById(
+    getValue(
       "editStudentId"
-    ).value;
+    );
+
+
+  if (!studentId) {
+
+    showGlobalMessage(
+      "ไม่พบรหัสนักศึกษา",
+      "error"
+    );
+
+    return;
+
+  }
 
 
   try {
@@ -1653,14 +2280,15 @@ async function saveStudent() {
     if (!result.success) {
 
       throw new Error(
-        result.message
+        result.message ||
+        "บันทึกข้อมูลไม่สำเร็จ"
       );
 
     }
 
 
     showGlobalMessage(
-      "บันทึกข้อมูลสำเร็จ",
+      "บันทึกข้อมูลนักศึกษาสำเร็จ",
       "success"
     );
 
@@ -1672,14 +2300,25 @@ async function saveStudent() {
       "studentsPage"
     );
 
+  }
 
-  } catch(error) {
+  catch(error) {
 
-    showGlobalMessage(
-      error.message ||
-      "บันทึกไม่สำเร็จ",
-      "error"
-    );
+    console.error(error);
+
+
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
+
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
 
   }
 
@@ -1687,7 +2326,7 @@ async function saveStudent() {
 
 
 /* ==================================================
-   RESET REQUESTS
+   LOAD RESET REQUESTS
    ================================================== */
 
 async function loadResetRequests() {
@@ -1698,13 +2337,13 @@ async function loadResetRequests() {
     );
 
 
-  tbody.innerHTML = `
-    <tr>
-      <td colspan="8">
+  tbody.innerHTML =
+
+    `<tr>
+      <td colspan="7">
         กำลังโหลดคำร้อง...
       </td>
-    </tr>
-  `;
+    </tr>`;
 
 
   try {
@@ -1724,7 +2363,7 @@ async function loadResetRequests() {
 
 
     console.log(
-      "RESET REQUESTS",
+      "RESET REQUEST RESULT:",
       result
     );
 
@@ -1740,27 +2379,49 @@ async function loadResetRequests() {
 
 
     resetRequests =
-      result.requests || [];
+      Array.isArray(
+        result.requests
+      )
+        ? result.requests
+        : [];
 
 
     renderResetRequests();
 
+  }
 
-  } catch(error) {
+  catch(error) {
 
-    console.error(error);
+    console.error(
+      "RESET REQUEST ERROR:",
+      error
+    );
 
 
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="8">
+    tbody.innerHTML =
+
+      `<tr>
+        <td colspan="7">
           ${escapeHtml(
             error.message ||
             "ไม่สามารถโหลดคำร้องได้"
           )}
         </td>
-      </tr>
-    `;
+      </tr>`;
+
+
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
+
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
 
   }
 
@@ -1768,7 +2429,7 @@ async function loadResetRequests() {
 
 
 /* ==================================================
-   RENDER RESET
+   RENDER RESET REQUESTS
    ================================================== */
 
 function renderResetRequests() {
@@ -1781,13 +2442,13 @@ function renderResetRequests() {
 
   if (!resetRequests.length) {
 
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="8">
+    tbody.innerHTML =
+
+      `<tr>
+        <td colspan="7">
           ยังไม่มีคำร้องลืมรหัสผ่าน
         </td>
-      </tr>
-    `;
+      </tr>`;
 
     return;
 
@@ -1797,41 +2458,50 @@ function renderResetRequests() {
   tbody.innerHTML =
     resetRequests
       .map(
-        item => {
+        function(item) {
 
           const status =
             String(
-              item.status || ""
+              item.status ||
+              ""
             )
+            .trim()
             .toUpperCase();
 
 
-          let badge =
+          let badgeClass =
             "badge-pending";
 
 
           if (
             status ===
             "APPROVED"
-          )
-            badge =
+          ) {
+
+            badgeClass =
               "badge-approved";
 
+          }
 
-          if (
+          else if (
             status ===
             "REJECTED"
-          )
-            badge =
+          ) {
+
+            badgeClass =
               "badge-rejected";
 
+          }
 
-          if (
+          else if (
             status ===
             "RESET"
-          )
-            badge =
+          ) {
+
+            badgeClass =
               "badge-reset";
+
+          }
 
 
           let actions =
@@ -1846,17 +2516,26 @@ function renderResetRequests() {
             actions = `
 
 <button
- class="action-button approve-button"
- onclick="openResetAction('${escapeJs(item.request_id)}','approve')"
+  class="action-button approve-button"
+  onclick="openResetAction('${escapeJs(
+    item.request_id
+  )}', 'approve')"
 >
-✓ อนุมัติ
+
+  ✓ อนุมัติ
+
 </button>
 
+
 <button
- class="action-button reject-button"
- onclick="openResetAction('${escapeJs(item.request_id)}','reject')"
+  class="action-button reject-button"
+  onclick="openResetAction('${escapeJs(
+    item.request_id
+  )}', 'reject')"
 >
-✕ ปฏิเสธ
+
+  ✕ ปฏิเสธ
+
 </button>
 
 `;
@@ -1864,7 +2543,7 @@ function renderResetRequests() {
           }
 
 
-          if (
+          else if (
             status ===
             "APPROVED"
           ) {
@@ -1872,10 +2551,14 @@ function renderResetRequests() {
             actions = `
 
 <button
- class="action-button reset-button"
- onclick="openResetAction('${escapeJs(item.request_id)}','reset')"
+  class="action-button reset-button"
+  onclick="openResetAction('${escapeJs(
+    item.request_id
+  )}', 'reset')"
 >
-🔐 รีเซ็ตรหัสผ่าน
+
+  🔐 รีเซ็ตรหัสผ่าน
+
 </button>
 
 `;
@@ -1883,14 +2566,18 @@ function renderResetRequests() {
           }
 
 
-          if (!actions) {
+          else {
 
             actions =
-              `<span style="color:#9ca3af">
-                ดำเนินการแล้ว
-              </span>`;
+              '<span style="color:#9ca3af">ดำเนินการแล้ว</span>';
 
           }
+
+
+          const reason =
+            item.reason ||
+            item.note ||
+            "-";
 
 
           return `
@@ -1898,39 +2585,56 @@ function renderResetRequests() {
 <tr>
 
 <td>
-${escapeHtml(item.request_id)}
+  ${escapeHtml(
+    item.request_id ||
+    ""
+  )}
 </td>
 
 <td>
-${escapeHtml(item.student_id)}
+  ${escapeHtml(
+    item.student_id ||
+    ""
+  )}
 </td>
 
 <td>
-${escapeHtml(item.reason || "-")}
+  ${escapeHtml(
+    reason
+  )}
 </td>
 
 <td>
 
-<span class="badge ${badge}">
-${escapeHtml(status)}
+<span
+  class="badge ${badgeClass}"
+>
+
+  ${escapeHtml(
+    status ||
+    "-"
+  )}
+
 </span>
 
 </td>
 
 <td>
-${escapeHtml(item.requested_at)}
+  ${escapeHtml(
+    item.requested_at ||
+    ""
+  )}
 </td>
 
 <td>
-${escapeHtml(item.processed_by || "-")}
+  ${escapeHtml(
+    item.processed_by ||
+    "-"
+  )}
 </td>
 
 <td>
-${escapeHtml(item.note || "-")}
-</td>
-
-<td>
-${actions}
+  ${actions}
 </td>
 
 </tr>
@@ -1945,7 +2649,7 @@ ${actions}
 
 
 /* ==================================================
-   RESET MODAL
+   OPEN RESET ACTION
    ================================================== */
 
 function openResetAction(
@@ -1955,9 +2659,16 @@ function openResetAction(
 
   const request =
     resetRequests.find(
-      r =>
-        String(r.request_id) ===
-        String(requestId)
+      function(item) {
+
+        return String(
+          item.request_id
+        ) ===
+        String(
+          requestId
+        );
+
+      }
     );
 
 
@@ -1980,14 +2691,10 @@ function openResetAction(
     action;
 
 
-  document.getElementById(
-    "resetNote"
-  ).value = "";
-
-
-  document.getElementById(
-    "newPassword"
-  ).value = "";
+  const modal =
+    document.getElementById(
+      "resetModal"
+    );
 
 
   const title =
@@ -2008,6 +2715,18 @@ function openResetAction(
     );
 
 
+  setValue(
+    "resetNote",
+    ""
+  );
+
+
+  setValue(
+    "newPassword",
+    ""
+  );
+
+
   if (
     action ===
     "approve"
@@ -2018,13 +2737,19 @@ function openResetAction(
 
 
     text.innerHTML =
+
       "ต้องการอนุมัติคำร้อง<br>" +
+
       "<strong>" +
+
       escapeHtml(
         request.request_id
       ) +
+
       "</strong><br>" +
+
       "รหัสนักศึกษา: " +
+
       escapeHtml(
         request.student_id
       );
@@ -2036,7 +2761,7 @@ function openResetAction(
   }
 
 
-  if (
+  else if (
     action ===
     "reject"
   ) {
@@ -2046,13 +2771,19 @@ function openResetAction(
 
 
     text.innerHTML =
+
       "ต้องการปฏิเสธคำร้อง<br>" +
+
       "<strong>" +
+
       escapeHtml(
         request.request_id
       ) +
+
       "</strong><br>" +
+
       "รหัสนักศึกษา: " +
+
       escapeHtml(
         request.student_id
       );
@@ -2064,7 +2795,7 @@ function openResetAction(
   }
 
 
-  if (
+  else if (
     action ===
     "reset"
   ) {
@@ -2074,13 +2805,19 @@ function openResetAction(
 
 
     text.innerHTML =
-      "รีเซ็ตรหัสผ่านนักศึกษา<br>" +
+
+      "รีเซ็ตรหัสผ่านของนักศึกษา<br>" +
+
       "<strong>" +
+
       escapeHtml(
         request.student_id
       ) +
+
       "</strong><br><br>" +
-      "หากไม่กรอกรหัสผ่าน ระบบจะใช้ " +
+
+      "หากไม่กรอกรหัสผ่าน ระบบจะใช้รหัสเริ่มต้น " +
+
       "<strong>123456</strong>";
 
 
@@ -2090,16 +2827,16 @@ function openResetAction(
   }
 
 
-  document
-    .getElementById(
-      "resetModal"
-    )
-    .classList.add(
-      "show"
-    );
+  modal.classList.add(
+    "show"
+  );
 
 }
 
+
+/* ==================================================
+   CLOSE MODAL
+   ================================================== */
 
 function closeResetModal() {
 
@@ -2122,7 +2859,7 @@ function closeResetModal() {
 
 
 /* ==================================================
-   CONFIRM
+   CONFIRM RESET ACTION
    ================================================== */
 
 async function confirmResetAction() {
@@ -2135,6 +2872,22 @@ async function confirmResetAction() {
     return;
 
   }
+
+
+  const requestId =
+    currentResetRequest.request_id;
+
+
+  const note =
+    getValue(
+      "resetNote"
+    ).trim();
+
+
+  const newPassword =
+    document.getElementById(
+      "newPassword"
+    ).value;
 
 
   const button =
@@ -2161,10 +2914,10 @@ async function confirmResetAction() {
         ),
 
       request_id:
-        currentResetRequest.request_id,
+        requestId,
 
       note:
-        getValue("resetNote")
+        note
 
     };
 
@@ -2180,7 +2933,7 @@ async function confirmResetAction() {
     }
 
 
-    if (
+    else if (
       currentResetAction ===
       "reject"
     ) {
@@ -2191,7 +2944,7 @@ async function confirmResetAction() {
     }
 
 
-    if (
+    else if (
       currentResetAction ===
       "reset"
     ) {
@@ -2200,16 +2953,10 @@ async function confirmResetAction() {
         "adminResetPassword";
 
 
-      const password =
-        getValue(
-          "newPassword"
-        );
-
-
-      if (password) {
+      if (newPassword) {
 
         payload.newPassword =
-          password;
+          newPassword;
 
       }
 
@@ -2244,19 +2991,29 @@ async function confirmResetAction() {
 
     await loadResetRequests();
 
+  }
 
-  } catch(error) {
+  catch(error) {
 
     console.error(error);
 
 
-    showGlobalMessage(
-      error.message ||
-      "เกิดข้อผิดพลาด",
-      "error"
-    );
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
 
-  } finally {
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
+
+  }
+
+  finally {
 
     button.disabled =
       false;
@@ -2297,9 +3054,13 @@ async function adminLogout() {
 
     }
 
-  } catch(error) {
+  }
 
-    console.error(error);
+  catch(error) {
+
+    console.error(
+      error
+    );
 
   }
 
@@ -2307,6 +3068,7 @@ async function adminLogout() {
   sessionStorage.removeItem(
     CONFIG.ADMIN_SESSION_KEY
   );
+
 
   sessionStorage.removeItem(
     CONFIG.ADMIN_KEY
@@ -2321,7 +3083,7 @@ async function adminLogout() {
 
 
 /* ==================================================
-   MESSAGE
+   GLOBAL MESSAGE
    ================================================== */
 
 function showGlobalMessage(
@@ -2329,25 +3091,28 @@ function showGlobalMessage(
   type
 ) {
 
-  const element =
+  const message =
     document.getElementById(
       "globalMessage"
     );
 
 
-  element.textContent =
+  message.textContent =
     text;
 
 
-  element.className =
+  message.className =
     "message show " +
-    (type || "info");
+    (
+      type ||
+      "info"
+    );
 
 
   setTimeout(
-    () => {
+    function() {
 
-      element.classList.remove(
+      message.classList.remove(
         "show"
       );
 
@@ -2359,15 +3124,20 @@ function showGlobalMessage(
 
 
 /* ==================================================
-   HELPERS
+   VALUE HELPERS
    ================================================== */
 
 function getValue(id) {
 
-  return document
-    .getElementById(id)
-    .value
-    .trim();
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  return element
+    ? element.value
+    : "";
 
 }
 
@@ -2377,13 +3147,27 @@ function setValue(
   value
 ) {
 
-  document.getElementById(
-    id
-  ).value =
-    value || "";
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  if (element) {
+
+    element.value =
+      value == null
+        ? ""
+        : value;
+
+  }
 
 }
 
+
+/* ==================================================
+   ESCAPE HTML
+   ================================================== */
 
 function escapeHtml(
   value
@@ -2394,22 +3178,27 @@ function escapeHtml(
       ? ""
       : value
   )
+
   .replace(
     /&/g,
     "&amp;"
   )
+
   .replace(
     /</g,
     "&lt;"
   )
+
   .replace(
     />/g,
     "&gt;"
   )
+
   .replace(
     /"/g,
     "&quot;"
   )
+
   .replace(
     /'/g,
     "&#039;"
@@ -2417,6 +3206,10 @@ function escapeHtml(
 
 }
 
+
+/* ==================================================
+   ESCAPE JS
+   ================================================== */
 
 function escapeJs(
   value
@@ -2427,22 +3220,27 @@ function escapeJs(
       ? ""
       : value
   )
+
   .replace(
     /\\/g,
     "\\\\"
   )
+
   .replace(
     /'/g,
     "\\'"
   )
+
   .replace(
     /"/g,
     '\\"'
   )
+
   .replace(
     /\r/g,
     "\\r"
   )
+
   .replace(
     /\n/g,
     "\\n"
@@ -2456,20 +3254,34 @@ function escapeJs(
    ================================================== */
 
 document.addEventListener(
-  "keydown",
-  function(event) {
+  "DOMContentLoaded",
+  function() {
 
-    if (
-      event.target &&
-      event.target.id ===
-      "studentSearch" &&
-      event.key ===
-      "Enter"
-    ) {
+    const search =
+      document.getElementById(
+        "studentSearch"
+      );
 
-      event.preventDefault();
 
-      loadStudents();
+    if (search) {
+
+      search.addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key ===
+            "Enter"
+          ) {
+
+            event.preventDefault();
+
+            loadStudents();
+
+          }
+
+        }
+      );
 
     }
 
