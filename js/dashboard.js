@@ -2,6 +2,8 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
+        checkSession();
+
         loadStudent();
 
         document
@@ -15,6 +17,30 @@ document.addEventListener(
 );
 
 
+function checkSession() {
+
+    const token =
+        sessionStorage.getItem(
+            CONFIG.SESSION_KEY
+        );
+
+
+    const student =
+        sessionStorage.getItem(
+            CONFIG.STUDENT_KEY
+        );
+
+
+    if (!token || !student) {
+
+        window.location.href =
+            "index.html";
+
+    }
+
+}
+
+
 function loadStudent() {
 
     const raw =
@@ -24,9 +50,6 @@ function loadStudent() {
 
 
     if (!raw) {
-
-        window.location.href =
-            "index.html";
 
         return;
 
@@ -47,25 +70,23 @@ function loadStudent() {
             student.student_id || "-";
 
 
+        const fullName =
+
+            (student.prefix_th || "") +
+
+            (student.firstname_th || "") +
+
+            " " +
+
+            (student.lastname_th || "");
+
+
         document
             .getElementById(
                 "headerStudentName"
             )
             .textContent =
-
-            (
-                student.prefix_th || ""
-            ) +
-
-            (
-                student.firstname_th || ""
-            ) +
-
-            " " +
-
-            (
-                student.lastname_th || ""
-            );
+            fullName.trim();
 
 
     } catch (error) {
@@ -81,27 +102,24 @@ function loadStudent() {
 
 function openProfile() {
 
-    alert(
-        "หน้าประวัตินักศึกษาจะเปิดในขั้นตอนถัดไป"
-    );
+    window.location.href =
+        "profile.html";
 
 }
 
 
 function openStudentCard() {
 
-    alert(
-        "หน้าบัตรนักศึกษาจะเปิดในขั้นตอนถัดไป"
-    );
+    window.location.href =
+        "student-card.html";
 
 }
 
 
 function openChangePassword() {
 
-    alert(
-        "หน้าเปลี่ยนรหัสผ่านจะเปิดในขั้นตอนถัดไป"
-    );
+    window.location.href =
+        "change-password.html";
 
 }
 
