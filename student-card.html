@@ -17,8 +17,419 @@
 
     <link
         rel="stylesheet"
-        href="css/student-card.css"
+        href="css/style.css"
     >
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
+
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #f1f5f9;
+            font-family: Arial, "Noto Sans Thai", sans-serif;
+        }
+
+
+        .card-page {
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+
+        .card-header {
+            max-width: 500px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .card-header h2 {
+            margin: 0;
+        }
+
+
+        .back-button {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+
+        /*
+         * =========================================
+         * บัตรนักศึกษา
+         * =========================================
+         */
+
+        #studentCard {
+
+            position: relative;
+
+            width: 100%;
+
+            max-width: 430px;
+
+            aspect-ratio: 1.586 / 1;
+
+            margin: 20px auto;
+
+            overflow: hidden;
+
+            border-radius: 16px;
+
+            background-image:
+                url(
+                    "https://raw.githubusercontent.com/nktkhonkaen09-bit/STUDENT-CARD-SYSTEM/main/assets/students/STD-BG.png"
+                );
+
+            background-size: cover;
+
+            background-position: center;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0,0,0,0.20);
+
+        }
+
+
+        /*
+         * =========================================
+         * รูปนักศึกษา
+         * =========================================
+         */
+
+        #studentPhoto {
+
+            position: absolute;
+
+            left: 7%;
+
+            top: 27%;
+
+            width: 25%;
+
+            aspect-ratio: 0.78;
+
+            object-fit: cover;
+
+            border-radius: 6px;
+
+            background: #eeeeee;
+
+        }
+
+
+        /*
+         * =========================================
+         * รหัสนักศึกษา
+         * =========================================
+         */
+
+        .student-id {
+
+            position: absolute;
+
+            top: 43%;
+
+            left: 0;
+
+            width: 100%;
+
+            text-align: center;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            color: #000;
+
+        }
+
+
+        /*
+         * =========================================
+         * ชื่อภาษาไทย
+         * =========================================
+         */
+
+        .student-name {
+
+            position: absolute;
+
+            left: 35%;
+
+            top: 29%;
+
+            width: 60%;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            color: #000;
+
+        }
+
+
+        /*
+         * =========================================
+         * ชื่อภาษาอังกฤษ
+         * =========================================
+         */
+
+        .student-name-en {
+
+            position: absolute;
+
+            left: 35%;
+
+            top: 38%;
+
+            width: 60%;
+
+            font-size: 13px;
+
+            color: #000;
+
+        }
+
+
+        /*
+         * =========================================
+         * สาขา
+         * =========================================
+         */
+
+        .student-department {
+
+            position: absolute;
+
+            left: 35%;
+
+            top: 47%;
+
+            width: 60%;
+
+            font-size: 13px;
+
+            color: #000;
+
+        }
+
+
+        /*
+         * =========================================
+         * สถานะ
+         * =========================================
+         */
+
+        .student-status {
+
+            position: absolute;
+
+            left: 35%;
+
+            top: 55%;
+
+            width: 60%;
+
+            font-size: 13px;
+
+            color: #000;
+
+        }
+
+
+        /*
+         * =========================================
+         * วันที่
+         * =========================================
+         */
+
+        .issue-date {
+
+            position: absolute;
+
+            left: 8%;
+
+            bottom: 9%;
+
+            font-size: 11px;
+
+        }
+
+
+        .expire-date {
+
+            position: absolute;
+
+            right: 8%;
+
+            bottom: 9%;
+
+            font-size: 11px;
+
+        }
+
+
+        /*
+         * =========================================
+         * BARCODE
+         * =========================================
+         */
+
+        .barcode-area {
+
+            position: absolute;
+
+            left: 52%;
+
+            bottom: 7%;
+
+            width: 40%;
+
+            background: white;
+
+            padding: 3px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        #studentBarcode {
+
+            width: 100%;
+
+            height: 42px;
+
+        }
+
+
+        #barcodeStudentId {
+
+            display: block;
+
+            text-align: center;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+        }
+
+
+        /*
+         * =========================================
+         * QR
+         * =========================================
+         */
+
+        .qr-area {
+
+            margin: 25px auto;
+
+            text-align: center;
+
+        }
+
+
+        #studentQR {
+
+            width: 180px;
+
+            height: 180px;
+
+            background: white;
+
+            padding: 8px;
+
+            border-radius: 8px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        .qr-title {
+
+            margin-top: 8px;
+
+            font-weight: bold;
+
+        }
+
+
+        /*
+         * =========================================
+         * ปุ่ม
+         * =========================================
+         */
+
+        .card-actions {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-top: 15px;
+
+        }
+
+
+        .card-actions button {
+
+            border: none;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            color: white;
+
+            background: #2563eb;
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .card-page {
+                padding: 10px;
+            }
+
+            .student-name {
+                font-size: 15px;
+            }
+
+            .student-name-en {
+                font-size: 11px;
+            }
+
+            .student-department,
+            .student-status {
+                font-size: 11px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -26,24 +437,160 @@
 <body>
 
 
-    <!-- =====================================================
-         ปุ่มควบคุม
-    ====================================================== -->
+<div class="card-page">
 
-    <div class="card-controls">
+
+    <div class="card-header">
+
+        <h2>
+            บัตรนักศึกษา
+        </h2>
+
 
         <button
-            type="button"
-            class="btn-back"
+            class="back-button"
             onclick="goBack()"
         >
-            ← กลับ
+            กลับ
         </button>
 
+    </div>
+
+
+
+    <!-- =================================================
+         STUDENT CARD
+         ================================================= -->
+
+    <div id="studentCard">
+
+
+        <!-- รูปนักศึกษา -->
+
+        <img
+            id="studentPhoto"
+            src=""
+            alt="รูปนักศึกษา"
+        >
+
+
+        <!-- รหัสนักศึกษา -->
+
+        <div
+            id="studentId"
+            class="student-id"
+        >
+            -
+        </div>
+
+
+        <!-- ชื่อไทย -->
+
+        <div
+            id="studentName"
+            class="student-name"
+        >
+            -
+        </div>
+
+
+        <!-- ชื่ออังกฤษ -->
+
+        <div
+            id="studentNameEn"
+            class="student-name-en"
+        >
+            -
+        </div>
+
+
+        <!-- สาขา -->
+
+        <div
+            id="studentDepartment"
+            class="student-department"
+        >
+            -
+        </div>
+
+
+        <!-- สถานะ -->
+
+        <div
+            id="studentStatus"
+            class="student-status"
+        >
+            -
+        </div>
+
+
+        <!-- วันที่ออกบัตร -->
+
+        <div
+            id="issueDate"
+            class="issue-date"
+        >
+            -
+        </div>
+
+
+        <!-- วันหมดอายุ -->
+
+        <div
+            id="expireDate"
+            class="expire-date"
+        >
+            -
+        </div>
+
+
+        <!-- Barcode -->
+
+        <div class="barcode-area">
+
+            <svg
+                id="studentBarcode"
+            ></svg>
+
+            <span
+                id="barcodeStudentId"
+            ></span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         QR CODE
+         ================================================= -->
+
+    <div class="qr-area">
+
+        <canvas
+            id="studentQR"
+        ></canvas>
+
+
+        <div class="qr-title">
+
+            QR Code รหัสนักศึกษา
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         BUTTON
+         ================================================= -->
+
+    <div class="card-actions">
 
         <button
-            type="button"
-            class="btn-download"
             onclick="downloadCard()"
         >
             ดาวน์โหลดบัตร
@@ -52,556 +599,33 @@
     </div>
 
 
+</div>
 
-    <!-- =====================================================
-         บัตรนักศึกษา
-    ====================================================== -->
 
-    <div
-        id="studentCard"
-        class="student-card"
-    >
 
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
 
-        <!-- =================================================
-             Background บัตร
-        ================================================== -->
+<script src="js/config.js"></script>
 
-        <img
-            class="card-background"
-            src="https://raw.githubusercontent.com/nktkhonkaen09-bit/STUDENT-CARD-SYSTEM/main/assets/students/STD-BG.png"
-            alt="Student Card Background"
-        >
 
+<script
+    src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js">
+</script>
 
 
-        <!-- =================================================
-             รูปนักศึกษา
-        ================================================== -->
+<script
+    src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js">
+</script>
 
-        <div
-            id="studentPhotoBox"
-            class="student-photo-box"
-        >
 
-            <img
-                id="studentPhoto"
-                class="student-photo"
-                alt="รูปนักศึกษา"
-            >
+<script
+    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
+</script>
 
-        </div>
 
-
-
-        <!-- =================================================
-             ข้อมูลนักศึกษา
-        ================================================== -->
-
-        <div class="student-information">
-
-
-            <!-- รหัสนักศึกษา -->
-
-            <div
-                id="studentId"
-                class="student-id"
-            >
-                -
-            </div>
-
-
-            <!-- ชื่อภาษาไทย -->
-
-            <div
-                id="studentName"
-                class="student-name"
-            >
-                -
-            </div>
-
-
-            <!-- ชื่อภาษาอังกฤษ -->
-
-            <div
-                id="studentNameEn"
-                class="student-name-en"
-            >
-                -
-            </div>
-
-
-            <!-- สาขาวิชา -->
-
-            <div class="info-row">
-
-                <span class="info-label">
-                    สาขาวิชา
-                </span>
-
-                <span
-                    id="studentDepartment"
-                    class="info-value"
-                >
-                    -
-                </span>
-
-            </div>
-
-
-            <!-- สถานะ -->
-
-            <div class="info-row">
-
-                <span class="info-label">
-                    สถานะ
-                </span>
-
-                <span
-                    id="studentStatus"
-                    class="info-value"
-                >
-                    -
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             BARCODE
-             อยู่ในบัตร
-        ================================================== -->
-
-        <div class="barcode-on-card">
-
-
-            <div class="barcode-title">
-                Barcode
-            </div>
-
-
-            <svg
-                id="studentBarcode"
-                class="student-barcode"
-            ></svg>
-
-
-            <div
-                id="barcodeStudentId"
-                class="barcode-id"
-            >
-                -
-            </div>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             วันที่ออกบัตร / วันหมดอายุ
-        ================================================== -->
-
-        <div class="issue-information">
-
-
-            <div class="date-box">
-
-                <span class="date-label">
-                    วันออกบัตร
-                </span>
-
-                <span
-                    id="issueDate"
-                    class="date-value"
-                >
-                    -
-                </span>
-
-            </div>
-
-
-            <div class="date-box">
-
-                <span class="date-label">
-                    วันหมดอายุ
-                </span>
-
-                <span
-                    id="expireDate"
-                    class="date-value"
-                >
-                    -
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-    <!-- จบ student-card -->
-
-
-
-    <!-- =====================================================
-         QR CODE
-         อยู่นอกบัตร
-    ====================================================== -->
-
-    <div class="qr-area">
-
-
-        <div
-            class="qr-click-area"
-            onclick="openQRFullscreen()"
-            title="แตะเพื่อขยาย QR Code"
-        >
-
-            <canvas
-                id="studentQR"
-                class="student-qr"
-            ></canvas>
-
-        </div>
-
-
-        <div class="qr-label">
-            QR Code รหัสนักศึกษา
-        </div>
-
-
-        <div class="qr-hint">
-            แตะ QR Code เพื่อขยาย
-        </div>
-
-
-    </div>
-
-
-
-    <!-- =====================================================
-         QR FULLSCREEN
-    ====================================================== -->
-
-    <div
-        id="qrFullscreen"
-        class="qr-fullscreen"
-        onclick="closeQRFullscreen()"
-    >
-
-
-        <div
-            class="qr-fullscreen-content"
-            onclick="event.stopPropagation()"
-        >
-
-
-            <button
-                type="button"
-                class="qr-close"
-                onclick="closeQRFullscreen()"
-            >
-                ×
-            </button>
-
-
-            <canvas
-                id="studentQRFullscreen"
-                class="student-qr-fullscreen"
-            ></canvas>
-
-
-            <div class="qr-fullscreen-label">
-                QR Code รหัสนักศึกษา
-            </div>
-
-
-            <div class="qr-fullscreen-id">
-
-                <span id="qrStudentId">
-                    -
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- =====================================================
-         JavaScript Libraries
-    ====================================================== -->
-
-    <script src="js/config.js"></script>
-
-
-    <!-- QR Code -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"
-    ></script>
-
-
-    <!-- Barcode -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"
-    ></script>
-
-
-    <!-- html2canvas -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
-    ></script>
-
-
-    <!-- Student Card -->
-
-    <script src="js/student-card.js"></script>
-
-
-
-    <!-- =====================================================
-         QR FULLSCREEN
-    ====================================================== -->
-
-    <script>
-
-        /*
-         * เปิด QR Code เต็มหน้าจอ
-         */
-
-        function openQRFullscreen() {
-
-            const fullscreen =
-                document.getElementById(
-                    "qrFullscreen"
-                );
-
-
-            const originalQR =
-                document.getElementById(
-                    "studentQR"
-                );
-
-
-            const fullscreenQR =
-                document.getElementById(
-                    "studentQRFullscreen"
-                );
-
-
-            if (
-                !originalQR ||
-                !fullscreenQR
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-             * กำหนดขนาด QR
-             */
-
-            fullscreenQR.width = 600;
-
-            fullscreenQR.height = 600;
-
-
-            /*
-             * วาด QR ใหม่
-             */
-
-            const context =
-                fullscreenQR.getContext("2d");
-
-
-            context.clearRect(
-                0,
-                0,
-                600,
-                600
-            );
-
-
-            context.imageSmoothingEnabled =
-                false;
-
-
-            context.drawImage(
-                originalQR,
-                0,
-                0,
-                600,
-                600
-            );
-
-
-            /*
-             * แสดงรหัสนักศึกษา
-             */
-
-            const studentId =
-                document.getElementById(
-                    "studentId"
-                );
-
-
-            const qrStudentId =
-                document.getElementById(
-                    "qrStudentId"
-                );
-
-
-            if (
-                studentId &&
-                qrStudentId
-            ) {
-
-                qrStudentId.textContent =
-                    studentId.textContent.trim();
-
-            }
-
-
-            /*
-             * เปิดหน้าจอ
-             */
-
-            fullscreen.classList.add(
-                "show"
-            );
-
-
-            document.body.classList.add(
-                "qr-open"
-            );
-
-
-            /*
-             * Fullscreen API
-             */
-
-            if (
-                fullscreen.requestFullscreen
-            ) {
-
-                fullscreen
-                    .requestFullscreen()
-                    .catch(() => {});
-
-            }
-
-        }
-
-
-
-        /*
-         * ปิด QR
-         */
-
-        function closeQRFullscreen() {
-
-            const fullscreen =
-                document.getElementById(
-                    "qrFullscreen"
-                );
-
-
-            fullscreen.classList.remove(
-                "show"
-            );
-
-
-            document.body.classList.remove(
-                "qr-open"
-            );
-
-
-            /*
-             * ออกจาก Fullscreen
-             */
-
-            if (
-                document.fullscreenElement
-            ) {
-
-                document
-                    .exitFullscreen()
-                    .catch(() => {});
-
-            }
-
-        }
-
-
-
-        /*
-         * กด ESC เพื่อปิด
-         */
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key === "Escape"
-                ) {
-
-                    closeQRFullscreen();
-
-                }
-
-            }
-        );
-
-
-        /*
-         * ตรวจสอบ Fullscreen
-         */
-
-        document.addEventListener(
-            "fullscreenchange",
-            function() {
-
-                const fullscreen =
-                    document.getElementById(
-                        "qrFullscreen"
-                    );
-
-
-                if (
-                    !document.fullscreenElement &&
-                    fullscreen.classList.contains("show")
-                ) {
-
-                    fullscreen.classList.remove(
-                        "show"
-                    );
-
-                    document.body.classList.remove(
-                        "qr-open"
-                    );
-
-                }
-
-            }
-        );
-
-    </script>
+<script src="js/student-card.js"></script>
 
 
 </body>
