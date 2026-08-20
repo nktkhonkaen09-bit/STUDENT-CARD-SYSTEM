@@ -1,0 +1,572 @@
+/* =========================================
+   STUDENT PROFILE
+   White 80% / Blue #0a1383 20%
+   ========================================= */
+
+:root {
+
+    --primary: #0a1383;
+
+    --primary-dark: #070d62;
+
+    --primary-light: #eef0ff;
+
+    --white: #ffffff;
+
+    --text: #111827;
+
+    --gray: #6b7280;
+
+    --border: #dfe2f0;
+
+}
+
+
+/* =========================================
+   RESET
+   ========================================= */
+
+* {
+
+    box-sizing:
+        border-box;
+
+}
+
+
+/* =========================================
+   BODY
+   ========================================= */
+
+html,
+body {
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    min-height:
+        100%;
+
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        "Noto Sans Thai",
+        "Tahoma",
+        sans-serif;
+
+    color:
+        var(--text);
+
+    background:
+        #ffffff;
+
+}
+
+
+/* =========================================
+   PAGE
+   ========================================= */
+
+.profile-page {
+
+    width:
+        100%;
+
+    min-height:
+        100vh;
+
+    padding:
+        20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #ffffff 80%,
+            var(--primary-light) 100%
+        );
+
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.profile-header {
+
+    width:
+        100%;
+
+    max-width:
+        600px;
+
+    margin:
+        0 auto 18px;
+
+    min-height:
+        45px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    position:
+        relative;
+
+}
+
+
+.profile-header h1 {
+
+    margin:
+        0;
+
+    color:
+        var(--primary);
+
+    font-size:
+        23px;
+
+    font-weight:
+        700;
+
+}
+
+
+/* =========================================
+   BACK BUTTON
+   ========================================= */
+
+.back-button {
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        50%;
+
+    transform:
+        translateY(-50%);
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    border:
+        none;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--primary);
+
+    color:
+        #ffffff;
+
+    font-size:
+        23px;
+
+    font-weight:
+        400;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 5px 12px
+        rgba(10, 19, 131, 0.20);
+
+    transition:
+        background 0.2s,
+        transform 0.1s;
+
+}
+
+
+.back-button:hover {
+
+    background:
+        var(--primary-dark);
+
+}
+
+
+.back-button:active {
+
+    transform:
+        translateY(-50%)
+        scale(0.95);
+
+}
+
+
+/* =========================================
+   PROFILE CARD
+   ========================================= */
+
+.profile-card {
+
+    width:
+        100%;
+
+    max-width:
+        600px;
+
+    margin:
+        0 auto;
+
+    padding:
+        28px 25px 30px;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-top:
+        6px solid var(--primary);
+
+    border-radius:
+        18px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(10, 19, 131, 0.10);
+
+}
+
+
+/* =========================================
+   PHOTO
+   ========================================= */
+
+.photo-container {
+
+    width:
+        145px;
+
+    height:
+        175px;
+
+    margin:
+        0 auto 18px;
+
+    overflow:
+        hidden;
+
+    border:
+        3px solid var(--primary);
+
+    border-radius:
+        10px;
+
+    background:
+        #f3f4f6;
+
+}
+
+
+#studentPhoto {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    object-position:
+        center top;
+
+}
+
+
+/* =========================================
+   NAME
+   ========================================= */
+
+.student-name-section {
+
+    margin-bottom:
+        22px;
+
+    text-align:
+        center;
+
+}
+
+
+.student-full-name {
+
+    color:
+        var(--text);
+
+    font-size:
+        23px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.4;
+
+}
+
+
+.student-name-en {
+
+    margin-top:
+        5px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        14px;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.5px;
+
+}
+
+
+/* =========================================
+   INFORMATION
+   ========================================= */
+
+.information {
+
+    width:
+        100%;
+
+}
+
+
+.info-item {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    min-height:
+        53px;
+
+    padding:
+        8px 4px;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.info-item:last-child {
+
+    border-bottom:
+        none;
+
+}
+
+
+/* =========================================
+   LABEL
+   ========================================= */
+
+.info-label {
+
+    width:
+        40%;
+
+    color:
+        var(--primary);
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+
+}
+
+
+/* =========================================
+   VALUE
+   ========================================= */
+
+.info-value {
+
+    width:
+        60%;
+
+    color:
+        var(--text);
+
+    font-size:
+        16px;
+
+    font-weight:
+        600;
+
+    line-height:
+        1.5;
+
+    word-break:
+        break-word;
+
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+.info-value.status {
+
+    color:
+        var(--primary);
+
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .profile-page {
+
+        padding:
+            12px;
+
+    }
+
+
+    .profile-header {
+
+        margin-bottom:
+            14px;
+
+    }
+
+
+    .profile-header h1 {
+
+        font-size:
+            20px;
+
+    }
+
+
+    .profile-card {
+
+        padding:
+            23px 16px 25px;
+
+        border-radius:
+            15px;
+
+    }
+
+
+    .photo-container {
+
+        width:
+            125px;
+
+        height:
+            155px;
+
+    }
+
+
+    .student-full-name {
+
+        font-size:
+            20px;
+
+    }
+
+
+    .student-name-en {
+
+        font-size:
+            12px;
+
+    }
+
+
+    .info-item {
+
+        min-height:
+            50px;
+
+    }
+
+
+    .info-label {
+
+        width:
+            38%;
+
+        font-size:
+            13px;
+
+    }
+
+
+    .info-value {
+
+        width:
+            62%;
+
+        font-size:
+            14px;
+
+    }
+
+
+    .back-button {
+
+        width:
+            39px;
+
+        height:
+            39px;
+
+        font-size:
+            21px;
+
+    }
+
+}
