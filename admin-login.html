@@ -52,10 +52,6 @@
         }
 
 
-        /* =========================================
-           PAGE
-           ========================================= */
-
         .admin-page {
 
             min-height: 100vh;
@@ -70,10 +66,6 @@
 
         }
 
-
-        /* =========================================
-           LOGIN CARD
-           ========================================= */
 
         .admin-card {
 
@@ -108,10 +100,6 @@
         }
 
 
-        /* =========================================
-           ICON
-           ========================================= */
-
         .admin-icon {
 
             width: 80px;
@@ -141,10 +129,6 @@
 
         }
 
-
-        /* =========================================
-           TITLE
-           ========================================= */
 
         h1 {
 
@@ -184,10 +168,6 @@
 
         }
 
-
-        /* =========================================
-           INPUT
-           ========================================= */
 
         .input-group {
 
@@ -266,10 +246,6 @@
         }
 
 
-        /* =========================================
-           LOGIN BUTTON
-           ========================================= */
-
         .login-button {
 
             width:
@@ -335,10 +311,6 @@
         }
 
 
-        /* =========================================
-           MESSAGE
-           ========================================= */
-
         .message {
 
             min-height:
@@ -383,10 +355,6 @@
         }
 
 
-        /* =========================================
-           BACK BUTTON
-           ========================================= */
-
         .back-link {
 
             display:
@@ -418,10 +386,6 @@
         }
 
 
-        /* =========================================
-           FOOTER
-           ========================================= */
-
         .footer {
 
             margin-top:
@@ -438,10 +402,6 @@
 
         }
 
-
-        /* =========================================
-           MOBILE
-           ========================================= */
 
         @media (
             max-width: 480px
@@ -489,20 +449,12 @@
     <div class="admin-card">
 
 
-        <!-- =====================================
-             ADMIN ICON
-             ====================================== -->
-
         <div class="admin-icon">
 
             🛡️
 
         </div>
 
-
-        <!-- =====================================
-             TITLE
-             ====================================== -->
 
         <h1>
 
@@ -518,17 +470,11 @@
         </div>
 
 
-        <!-- =====================================
-             LOGIN FORM
-             ====================================== -->
-
         <form
             id="adminLoginForm"
             autocomplete="on"
         >
 
-
-            <!-- USERNAME -->
 
             <div class="input-group">
 
@@ -553,8 +499,6 @@
             </div>
 
 
-            <!-- PASSWORD -->
-
             <div class="input-group">
 
                 <label
@@ -578,8 +522,6 @@
             </div>
 
 
-            <!-- LOGIN -->
-
             <button
                 id="adminLoginButton"
                 class="login-button"
@@ -591,8 +533,6 @@
             </button>
 
 
-            <!-- MESSAGE -->
-
             <div
                 id="adminMessage"
                 class="message"
@@ -601,10 +541,6 @@
 
         </form>
 
-
-        <!-- =====================================
-             BACK
-             ====================================== -->
 
         <a
             href="index.html"
@@ -615,10 +551,6 @@
 
         </a>
 
-
-        <!-- =====================================
-             FOOTER
-             ====================================== -->
 
         <div class="footer">
 
@@ -634,11 +566,12 @@
 
 
 
-<!-- =============================================
-     CONFIG
-     ============================================= -->
-
 <script>
+
+
+/* ==============================================
+   CONFIG
+   ============================================== */
 
 const CONFIG = {
 
@@ -663,35 +596,10 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-
         const form =
             document.getElementById(
                 "adminLoginForm"
             );
-
-
-        const message =
-            document.getElementById(
-                "adminMessage"
-            );
-
-
-        const button =
-            document.getElementById(
-                "adminLoginButton"
-            );
-
-
-        /*
-         * ตรวจสอบว่า JavaScript ทำงาน
-         *
-         * ไม่มี alert
-         * แสดงในหน้าเว็บแทน
-         */
-
-        console.log(
-            "ADMIN LOGIN JS READY"
-        );
 
 
         if (!form) {
@@ -710,6 +618,10 @@ document.addEventListener(
             handleAdminLogin
         );
 
+
+        console.log(
+            "ADMIN LOGIN READY"
+        );
 
     }
 );
@@ -750,27 +662,14 @@ async function handleAdminLogin(
         );
 
 
-    const message =
-        document.getElementById(
-            "adminMessage"
-        );
-
-
-    /* =========================================
-       VALIDATE
-       ========================================= */
-
     if (
         !username ||
         !password
     ) {
 
         showMessage(
-
             "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน",
-
             "error"
-
         );
 
         return;
@@ -778,27 +677,17 @@ async function handleAdminLogin(
     }
 
 
-    /* =========================================
-       LOADING
-       ========================================= */
-
-    button.disabled =
-        true;
-
+    button.disabled = true;
 
     button.textContent =
         "กำลังตรวจสอบ...";
 
 
     showMessage(
-        "กำลังเชื่อมต่อระบบ...",
+        "กำลังตรวจสอบข้อมูล...",
         "info"
     );
 
-
-    /* =========================================
-       API
-       ========================================= */
 
     try {
 
@@ -839,25 +728,15 @@ async function handleAdminLogin(
             );
 
 
-        /* =====================================
-           HTTP ERROR
-           ===================================== */
-
         if (!response.ok) {
 
             throw new Error(
-
                 "HTTP " +
                 response.status
-
             );
 
         }
 
-
-        /* =====================================
-           JSON
-           ===================================== */
 
         const result =
             await response.json();
@@ -869,16 +748,23 @@ async function handleAdminLogin(
         );
 
 
-        /* =====================================
+        /* ======================================
            LOGIN FAILED
-           ===================================== */
+           ====================================== */
 
-        if (!result.success) {
+        if (
+            !result ||
+            result.success !== true
+        ) {
 
             showMessage(
 
-                result.message ||
-                "เข้าสู่ระบบไม่สำเร็จ",
+                result &&
+                result.message
+
+                    ? result.message
+
+                    : "เข้าสู่ระบบไม่สำเร็จ",
 
                 "error"
 
@@ -889,65 +775,117 @@ async function handleAdminLogin(
         }
 
 
-        /* =====================================
-           LOGIN SUCCESS
-           ===================================== */
+        /* ======================================
+           ตรวจสอบ TOKEN
+           ====================================== */
+
+        if (
+            !result.token
+        ) {
+
+            console.error(
+                "ไม่พบ Admin Token:",
+                result
+            );
+
+
+            showMessage(
+
+                "เข้าสู่ระบบสำเร็จ แต่ระบบไม่พบ Admin Session",
+
+                "error"
+
+            );
+
+            return;
+
+        }
+
+
+        /* ======================================
+           SAVE ADMIN SESSION
+           ====================================== */
 
         sessionStorage.setItem(
 
             CONFIG.ADMIN_SESSION_KEY,
 
-            result.token
-
-        );
-
-
-        sessionStorage.setItem(
-
-            CONFIG.ADMIN_KEY,
-
-            JSON.stringify(
-                result.admin
+            String(
+                result.token
             )
 
         );
 
 
+        if (
+            result.admin
+        ) {
+
+            sessionStorage.setItem(
+
+                CONFIG.ADMIN_KEY,
+
+                JSON.stringify(
+                    result.admin
+                )
+
+            );
+
+        }
+
+
+        /*
+         * ตรวจสอบอีกครั้งว่าเก็บ Token สำเร็จ
+         */
+
+        const savedToken =
+            sessionStorage.getItem(
+                CONFIG.ADMIN_SESSION_KEY
+            );
+
+
+        if (
+            !savedToken
+        ) {
+
+            showMessage(
+
+                "ไม่สามารถสร้าง Admin Session ได้",
+
+                "error"
+
+            );
+
+            return;
+
+        }
+
+
+        /* ======================================
+           SUCCESS
+           ====================================== */
+
         showMessage(
 
-            "เข้าสู่ระบบสำเร็จ",
+            "เข้าสู่ระบบสำเร็จ กำลังเข้าสู่ระบบ Admin...",
 
             "success"
 
         );
 
 
-        /* =====================================
-           GO ADMIN DASHBOARD
-           ===================================== */
+        /*
+         * เปลี่ยนหน้าโดยตรง
+         *
+         * ไม่ใช้ setTimeout
+         */
 
-        setTimeout(
-
-            function () {
-
-                window.location.href =
-                    "admin-dashboard.html";
-
-            },
-
-            700
-
+        window.location.replace(
+            "admin-dashboard.html"
         );
 
 
-    }
-
-
-    /* =========================================
-       ERROR
-       ========================================= */
-
-    catch (error) {
+    } catch (error) {
 
 
         console.error(
@@ -964,24 +902,25 @@ async function handleAdminLogin(
 
         );
 
-
     }
 
 
-    /* =========================================
-       FINALLY
-       ========================================= */
+    /*
+     * ไม่เปิดปุ่มกลับทันทีหลัง Login สำเร็จ
+     * เพราะกำลังเปลี่ยนหน้า
+     */
 
-    finally {
-
+    if (
+        !sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
+        )
+    ) {
 
         button.disabled =
             false;
 
-
         button.textContent =
             "เข้าสู่ระบบ Admin";
-
 
     }
 
@@ -997,7 +936,6 @@ function showMessage(
     text,
     type
 ) {
-
 
     const message =
         document.getElementById(
