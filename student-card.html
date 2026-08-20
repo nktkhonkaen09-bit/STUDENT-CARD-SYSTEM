@@ -12,6 +12,9 @@
 
     <title>บัตรนักศึกษา</title>
 
+
+    <!-- CSS -->
+
     <link
         rel="stylesheet"
         href="css/student-card.css"
@@ -60,7 +63,9 @@
     >
 
 
-        <!-- Background -->
+        <!-- =================================================
+             Background บัตร
+        ================================================== -->
 
         <img
             class="card-background"
@@ -69,13 +74,14 @@
         >
 
 
+
         <!-- =================================================
              รูปนักศึกษา
         ================================================== -->
 
         <div
-            class="student-photo-box"
             id="studentPhotoBox"
+            class="student-photo-box"
         >
 
             <img
@@ -166,7 +172,38 @@
 
 
         <!-- =================================================
-             วันที่
+             BARCODE
+             อยู่ในบัตร
+        ================================================== -->
+
+        <div class="barcode-on-card">
+
+
+            <div class="barcode-title">
+                Barcode
+            </div>
+
+
+            <svg
+                id="studentBarcode"
+                class="student-barcode"
+            ></svg>
+
+
+            <div
+                id="barcodeStudentId"
+                class="barcode-id"
+            >
+                -
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             วันที่ออกบัตร / วันหมดอายุ
         ================================================== -->
 
         <div class="issue-information">
@@ -214,6 +251,7 @@
 
     <!-- =====================================================
          QR CODE
+         อยู่นอกบัตร
     ====================================================== -->
 
     <div class="qr-area">
@@ -240,36 +278,6 @@
 
         <div class="qr-hint">
             แตะ QR Code เพื่อขยาย
-        </div>
-
-
-    </div>
-
-
-
-    <!-- =====================================================
-         BARCODE
-    ====================================================== -->
-
-    <div class="barcode-area">
-
-
-        <div class="barcode-title">
-            Barcode รหัสนักศึกษา
-        </div>
-
-
-        <svg
-            id="studentBarcode"
-            class="student-barcode"
-        ></svg>
-
-
-        <div
-            id="barcodeStudentId"
-            class="barcode-id"
-        >
-            -
         </div>
 
 
@@ -331,7 +339,7 @@
 
 
     <!-- =====================================================
-         JavaScript
+         JavaScript Libraries
     ====================================================== -->
 
     <script src="js/config.js"></script>
@@ -340,11 +348,11 @@
     <!-- QR Code -->
 
     <script
-        src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"
+        src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"
     ></script>
 
 
-    <!-- Barcode CODE128 -->
+    <!-- Barcode -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"
@@ -363,11 +371,16 @@
     <script src="js/student-card.js"></script>
 
 
+
     <!-- =====================================================
-         QR Fullscreen
+         QR FULLSCREEN
     ====================================================== -->
 
     <script>
+
+        /*
+         * เปิด QR Code เต็มหน้าจอ
+         */
 
         function openQRFullscreen() {
 
@@ -376,10 +389,12 @@
                     "qrFullscreen"
                 );
 
+
             const originalQR =
                 document.getElementById(
                     "studentQR"
                 );
+
 
             const fullscreenQR =
                 document.getElementById(
@@ -397,10 +412,18 @@
             }
 
 
+            /*
+             * กำหนดขนาด QR
+             */
+
             fullscreenQR.width = 600;
 
             fullscreenQR.height = 600;
 
+
+            /*
+             * วาด QR ใหม่
+             */
 
             const context =
                 fullscreenQR.getContext("2d");
@@ -414,7 +437,8 @@
             );
 
 
-            context.imageSmoothingEnabled = false;
+            context.imageSmoothingEnabled =
+                false;
 
 
             context.drawImage(
@@ -425,6 +449,10 @@
                 600
             );
 
+
+            /*
+             * แสดงรหัสนักศึกษา
+             */
 
             const studentId =
                 document.getElementById(
@@ -449,6 +477,10 @@
             }
 
 
+            /*
+             * เปิดหน้าจอ
+             */
+
             fullscreen.classList.add(
                 "show"
             );
@@ -458,6 +490,10 @@
                 "qr-open"
             );
 
+
+            /*
+             * Fullscreen API
+             */
 
             if (
                 fullscreen.requestFullscreen
@@ -472,6 +508,10 @@
         }
 
 
+
+        /*
+         * ปิด QR
+         */
 
         function closeQRFullscreen() {
 
@@ -491,6 +531,10 @@
             );
 
 
+            /*
+             * ออกจาก Fullscreen
+             */
+
             if (
                 document.fullscreenElement
             ) {
@@ -504,6 +548,10 @@
         }
 
 
+
+        /*
+         * กด ESC เพื่อปิด
+         */
 
         document.addEventListener(
             "keydown",
@@ -520,6 +568,10 @@
             }
         );
 
+
+        /*
+         * ตรวจสอบ Fullscreen
+         */
 
         document.addEventListener(
             "fullscreenchange",
