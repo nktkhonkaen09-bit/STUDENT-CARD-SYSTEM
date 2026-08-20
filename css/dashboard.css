@@ -1,0 +1,214 @@
+body {
+
+    background: #fff9dc;
+
+}
+
+
+.app-shell {
+
+    width: 100%;
+
+    max-width: 480px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    background: #fff9dc;
+}
+
+
+.app-header {
+
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        10px 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffbd17,
+            #f0a000
+        );
+
+    color: white;
+}
+
+
+.student-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.avatar {
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: white;
+
+    color: #f0a000;
+
+    font-size: 25px;
+}
+
+
+.student-id {
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+.student-name {
+
+    margin-top: 2px;
+
+    font-size: 13px;
+}
+
+
+.logout-button {
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+
+.menu-title {
+
+    margin:
+        5px 8px 20px;
+
+    padding: 7px;
+
+    text-align: center;
+
+    border-radius: 5px;
+
+    background: #ffc62b;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+}
+
+
+.menu-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap:
+        8px 10px;
+
+    padding:
+        5px 20px 30px;
+}
+
+
+.menu-item {
+
+    min-height: 145px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #e9a500;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    border-radius: 12px;
+
+    transition:
+        background 0.2s,
+        transform 0.15s;
+}
+
+
+.menu-item:hover {
+
+    background:
+        rgba(255, 190, 30, 0.12);
+
+}
+
+
+.menu-item:active {
+
+    transform:
+        scale(0.96);
+}
+
+
+.menu-icon {
+
+    width: 70px;
+    height: 70px;
+
+    margin:
+        0 auto 10px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 50px;
+
+}
+
+
+@media (max-width: 380px) {
+
+    .menu-grid {
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .menu-item {
+
+        min-height: 130px;
+    }
+
+}
