@@ -22,16 +22,25 @@
 
     <style>
 
+        /* =========================================
+           RESET
+           ========================================= */
+
         * {
             box-sizing: border-box;
         }
 
 
+        html,
         body {
-
             margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
 
-            min-height: 100vh;
+
+        body {
 
             font-family:
                 Arial,
@@ -39,10 +48,43 @@
                 sans-serif;
 
             background:
-                #f5f7fb;
+                #f5f6fb;
 
             color:
                 #111827;
+
+        }
+
+
+        /* =========================================
+           COLOR
+           ========================================= */
+
+        :root {
+
+            --blue:
+                #0a1383;
+
+            --blue-dark:
+                #080f6d;
+
+            --blue-light:
+                #eef0ff;
+
+            --white:
+                #ffffff;
+
+            --gray:
+                #6b7280;
+
+            --border:
+                #e5e7eb;
+
+            --danger:
+                #dc2626;
+
+            --success:
+                #15803d;
 
         }
 
@@ -53,234 +95,183 @@
 
         .admin-header {
 
-            position: sticky;
+            position:
+                sticky;
 
-            top: 0;
+            top:
+                0;
 
-            z-index: 1000;
+            z-index:
+                1000;
 
-            width: 100%;
+            width:
+                100%;
 
             background:
-                #0a1383;
+                var(--white);
 
-            color:
-                white;
+            border-bottom:
+                1px solid var(--border);
 
             box-shadow:
                 0 3px 15px
-                rgba(0,0,0,0.12);
+                rgba(10, 19, 131, 0.06);
 
         }
 
 
         .header-inner {
 
-            width: 100%;
+            width:
+                100%;
 
-            max-width: 1200px;
+            max-width:
+                1200px;
 
-            margin: 0 auto;
+            margin:
+                0 auto;
 
-            min-height: 72px;
+            min-height:
+                72px;
 
             padding:
                 12px 20px;
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
-            gap: 15px;
+            gap:
+                15px;
 
         }
 
 
+        /* =========================================
+           BRAND
+           ========================================= */
+
         .brand {
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            gap: 12px;
+            gap:
+                12px;
 
-            min-width: 0;
+            min-width:
+                0;
 
         }
 
 
         .brand-icon {
 
-            width: 45px;
+            width:
+                45px;
 
-            height: 45px;
+            height:
+                45px;
 
-            flex-shrink: 0;
+            flex:
+                0 0 45px;
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            justify-content: center;
+            justify-content:
+                center;
 
-            border-radius: 12px;
+            border-radius:
+                12px;
 
             background:
-                rgba(255,255,255,0.15);
+                var(--blue-light);
 
-            font-size: 24px;
+            color:
+                var(--blue);
+
+            font-size:
+                23px;
 
         }
 
 
         .brand-text {
 
-            min-width: 0;
+            min-width:
+                0;
 
         }
 
 
         .brand-title {
 
-            margin: 0;
+            margin:
+                0;
 
-            font-size: 19px;
+            color:
+                var(--blue);
 
-            font-weight: 700;
+            font-size:
+                18px;
+
+            font-weight:
+                700;
 
         }
 
 
         .brand-subtitle {
 
-            margin-top: 3px;
+            margin:
+                2px 0 0;
 
-            font-size: 10px;
+            color:
+                var(--gray);
 
-            opacity: 0.75;
+            font-size:
+                10px;
 
-            letter-spacing: 0.7px;
+            letter-spacing:
+                0.7px;
 
         }
 
 
+        /* =========================================
+           ADMIN INFO
+           ========================================= */
+
         .admin-info {
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            gap: 10px;
+            gap:
+                10px;
 
         }
 
 
         .admin-name {
 
-            font-size: 13px;
-
-            white-space: nowrap;
-
-        }
-
-
-        .logout-button {
-
-            border: 1px solid
-                rgba(255,255,255,0.45);
-
-            background:
-                transparent;
-
             color:
-                white;
-
-            padding:
-                8px 14px;
-
-            border-radius:
-                8px;
-
-            cursor:
-                pointer;
-
-            font-size:
-                12px;
-
-        }
-
-
-        .logout-button:hover {
-
-            background:
-                rgba(255,255,255,0.12);
-
-        }
-
-
-        /* =========================================
-           PAGE
-           ========================================= */
-
-        .page {
-
-            width: 100%;
-
-            max-width: 1200px;
-
-            margin: 0 auto;
-
-            padding:
-                25px 20px 40px;
-
-        }
-
-
-        .page-title {
-
-            margin: 0;
-
-            color:
-                #0a1383;
-
-            font-size:
-                25px;
-
-        }
-
-
-        .page-description {
-
-            margin:
-                6px 0 22px;
-
-            color:
-                #6b7280;
-
-            font-size:
-                13px;
-
-        }
-
-
-        /* =========================================
-           MESSAGE
-           ========================================= */
-
-        #dashboardMessage {
-
-            display: none;
-
-            margin-bottom:
-                18px;
-
-            padding:
-                12px 15px;
-
-            border-radius:
-                9px;
+                #374151;
 
             font-size:
                 13px;
@@ -291,60 +282,73 @@
         }
 
 
-        #dashboardMessage.show {
+        .logout-button {
 
-            display:
-                block;
+            height:
+                38px;
+
+            padding:
+                0 14px;
+
+            border:
+                none;
+
+            border-radius:
+                8px;
+
+            background:
+                #f3f4f6;
+
+            color:
+                #374151;
+
+            font-size:
+                12px;
+
+            font-weight:
+                600;
+
+            cursor:
+                pointer;
 
         }
 
 
-        #dashboardMessage.info {
+        .logout-button:hover {
 
             background:
-                #eef0ff;
-
-            color:
-                #0a1383;
+                #e5e7eb;
 
         }
 
 
-        #dashboardMessage.success {
 
-            background:
-                #ecfdf3;
+        /* =========================================
+           PAGE
+           ========================================= */
 
-            color:
-                #15803d;
+        .admin-page {
 
-        }
+            width:
+                100%;
 
+            max-width:
+                1200px;
 
-        #dashboardMessage.error {
+            margin:
+                0 auto;
 
-            background:
-                #fef2f2;
-
-            color:
-                #dc2626;
+            padding:
+                25px 20px 40px;
 
         }
 
 
         /* =========================================
-           SUMMARY
+           PAGE TITLE
            ========================================= */
 
-        .summary-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap:
-                15px;
+        .page-heading {
 
             margin-bottom:
                 22px;
@@ -352,13 +356,62 @@
         }
 
 
-        .summary-card {
+        .page-heading h1 {
+
+            margin:
+                0;
+
+            color:
+                var(--blue);
+
+            font-size:
+                25px;
+
+        }
+
+
+        .page-heading p {
+
+            margin:
+                6px 0 0;
+
+            color:
+                var(--gray);
+
+            font-size:
+                13px;
+
+        }
+
+
+        /* =========================================
+           STAT CARDS
+           ========================================= */
+
+        .stats {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                15px;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .stat-card {
 
             background:
-                #ffffff;
+                var(--white);
 
             border:
-                1px solid #e5e7eb;
+                1px solid var(--border);
 
             border-radius:
                 13px;
@@ -367,16 +420,16 @@
                 18px;
 
             box-shadow:
-                0 3px 12px
+                0 5px 20px
                 rgba(0,0,0,0.04);
 
         }
 
 
-        .summary-label {
+        .stat-label {
 
             color:
-                #6b7280;
+                var(--gray);
 
             font-size:
                 12px;
@@ -384,13 +437,13 @@
         }
 
 
-        .summary-value {
+        .stat-value {
 
             margin-top:
-                8px;
+                5px;
 
             color:
-                #0a1383;
+                var(--blue);
 
             font-size:
                 27px;
@@ -401,23 +454,24 @@
         }
 
 
+
         /* =========================================
-           SEARCH
+           CONTENT CARD
            ========================================= */
 
         .content-card {
 
             background:
-                #ffffff;
+                var(--white);
 
             border:
-                1px solid #e5e7eb;
+                1px solid var(--border);
 
             border-radius:
                 15px;
 
             box-shadow:
-                0 3px 12px
+                0 5px 20px
                 rgba(0,0,0,0.04);
 
             overflow:
@@ -426,72 +480,66 @@
         }
 
 
-        .content-header {
+        /* =========================================
+           TOOLBAR
+           ========================================= */
+
+        .toolbar {
 
             padding:
-                18px 20px;
+                18px;
 
             border-bottom:
-                1px solid #edf0f5;
+                1px solid var(--border);
 
-        }
+            display:
+                flex;
 
+            align-items:
+                center;
 
-        .content-title {
-
-            margin: 0;
-
-            color:
-                #111827;
-
-            font-size:
-                17px;
-
-        }
-
-
-        .content-subtitle {
-
-            margin:
-                5px 0 0;
-
-            color:
-                #9ca3af;
-
-            font-size:
-                11px;
-
-        }
-
-
-        .search-area {
-
-            padding:
-                18px 20px;
-
-            display: flex;
+            justify-content:
+                space-between;
 
             gap:
-                10px;
+                12px;
+
+            flex-wrap:
+                wrap;
 
         }
 
 
-        .search-input {
+        .search-box {
 
-            flex: 1;
+            flex:
+                1;
+
+            min-width:
+                240px;
+
+            position:
+                relative;
+
+        }
+
+
+        .search-box input {
+
+            width:
+                100%;
 
             height:
                 45px;
 
             padding:
-                0 14px;
+                0 15px;
 
             border:
                 1px solid #d9ddea;
 
             border-radius:
-                8px;
+                9px;
 
             outline:
                 none;
@@ -499,51 +547,44 @@
             font-size:
                 14px;
 
+            color:
+                #111827;
+
+            background:
+                #ffffff;
+
         }
 
 
-        .search-input:focus {
+        .search-box input:focus {
 
             border-color:
-                #0a1383;
+                var(--blue);
 
             box-shadow:
                 0 0 0 3px
-                rgba(10,19,131,0.08);
+                rgba(
+                    10,
+                    19,
+                    131,
+                    0.08
+                );
 
         }
 
 
-        .search-button {
+        .toolbar-buttons {
 
-            height:
-                45px;
+            display:
+                flex;
 
-            padding:
-                0 20px;
-
-            border:
-                none;
-
-            border-radius:
+            gap:
                 8px;
 
-            background:
-                #0a1383;
-
-            color:
-                white;
-
-            cursor:
-                pointer;
-
-            font-size:
-                13px;
-
         }
 
 
-        .clear-button {
+        .toolbar-button {
 
             height:
                 45px;
@@ -552,31 +593,131 @@
                 0 16px;
 
             border:
-                1px solid #d9ddea;
+                none;
 
             border-radius:
-                8px;
+                9px;
 
             background:
-                white;
+                var(--blue);
 
             color:
-                #374151;
-
-            cursor:
-                pointer;
+                #ffffff;
 
             font-size:
                 13px;
 
+            font-weight:
+                600;
+
+            cursor:
+                pointer;
+
         }
+
+
+        .toolbar-button:hover {
+
+            background:
+                var(--blue-dark);
+
+        }
+
+
+        .toolbar-button.secondary {
+
+            background:
+                #f3f4f6;
+
+            color:
+                #374151;
+
+        }
+
+
+        .toolbar-button.secondary:hover {
+
+            background:
+                #e5e7eb;
+
+        }
+
+
+
+        /* =========================================
+           MESSAGE
+           ========================================= */
+
+        .system-message {
+
+            display:
+                none;
+
+            margin:
+                15px 18px 0;
+
+            padding:
+                11px 14px;
+
+            border-radius:
+                8px;
+
+            font-size:
+                13px;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .system-message.show {
+
+            display:
+                block;
+
+        }
+
+
+        .system-message.error {
+
+            background:
+                #fef2f2;
+
+            color:
+                var(--danger);
+
+        }
+
+
+        .system-message.success {
+
+            background:
+                #f0fdf4;
+
+            color:
+                var(--success);
+
+        }
+
+
+        .system-message.info {
+
+            background:
+                var(--blue-light);
+
+            color:
+                var(--blue);
+
+        }
+
 
 
         /* =========================================
            TABLE
            ========================================= */
 
-        .table-wrapper {
+        .table-container {
 
             width:
                 100%;
@@ -604,7 +745,7 @@
         thead {
 
             background:
-                #f7f8fc;
+                #f8f9fd;
 
         }
 
@@ -612,7 +753,7 @@
         th {
 
             padding:
-                13px 15px;
+                14px 15px;
 
             text-align:
                 left;
@@ -630,7 +771,7 @@
                 nowrap;
 
             border-bottom:
-                1px solid #e5e7eb;
+                1px solid var(--border);
 
         }
 
@@ -638,10 +779,10 @@
         td {
 
             padding:
-                13px 15px;
+                14px 15px;
 
             border-bottom:
-                1px solid #eef0f4;
+                1px solid #f0f1f5;
 
             font-size:
                 13px;
@@ -663,10 +804,10 @@
         }
 
 
-        .student-id-cell {
+        .student-id {
 
             color:
-                #0a1383;
+                var(--blue);
 
             font-weight:
                 700;
@@ -677,22 +818,60 @@
         }
 
 
-        .status {
+        .student-name {
+
+            color:
+                #111827;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .department {
+
+            color:
+                #4b5563;
+
+        }
+
+
+        /* =========================================
+           STATUS
+           ========================================= */
+
+        .status-badge {
 
             display:
-                inline-block;
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            min-height:
+                27px;
 
             padding:
-                5px 9px;
+                4px 10px;
 
             border-radius:
-                20px;
+                999px;
+
+            background:
+                #eef0ff;
+
+            color:
+                var(--blue);
 
             font-size:
-                10px;
+                11px;
 
             font-weight:
-                700;
+                600;
 
             white-space:
                 nowrap;
@@ -700,7 +879,7 @@
         }
 
 
-        .status-active {
+        .status-badge.active {
 
             background:
                 #ecfdf3;
@@ -711,82 +890,16 @@
         }
 
 
-        .status-other {
+        .status-badge.inactive {
 
             background:
-                #f3f4f6;
+                #fef2f2;
 
             color:
-                #6b7280;
+                #dc2626;
 
         }
 
-
-        .action-group {
-
-            display:
-                flex;
-
-            gap:
-                6px;
-
-        }
-
-
-        .action-button {
-
-            border:
-                none;
-
-            padding:
-                7px 10px;
-
-            border-radius:
-                6px;
-
-            cursor:
-                pointer;
-
-            font-size:
-                11px;
-
-            white-space:
-                nowrap;
-
-        }
-
-
-        .edit-button {
-
-            background:
-                #eef0ff;
-
-            color:
-                #0a1383;
-
-        }
-
-
-        .password-button {
-
-            background:
-                #f3f4f6;
-
-            color:
-                #374151;
-
-        }
-
-
-        .request-button {
-
-            background:
-                #fff7ed;
-
-            color:
-                #c2410c;
-
-        }
 
 
         /* =========================================
@@ -796,16 +909,13 @@
         .empty-state {
 
             padding:
-                45px 20px;
+                60px 20px;
 
             text-align:
                 center;
 
             color:
-                #9ca3af;
-
-            font-size:
-                13px;
+                var(--gray);
 
         }
 
@@ -813,12 +923,41 @@
         .empty-icon {
 
             font-size:
-                35px;
+                42px;
 
             margin-bottom:
                 10px;
 
+            opacity:
+                0.7;
+
         }
+
+
+        .empty-title {
+
+            color:
+                #374151;
+
+            font-size:
+                15px;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .empty-text {
+
+            margin-top:
+                5px;
+
+            font-size:
+                12px;
+
+        }
+
 
 
         /* =========================================
@@ -828,16 +967,19 @@
         .loading {
 
             padding:
-                35px 20px;
+                60px 20px;
 
             text-align:
                 center;
 
             color:
-                #6b7280;
+                var(--blue);
 
             font-size:
-                13px;
+                14px;
+
+            font-weight:
+                600;
 
         }
 
@@ -845,19 +987,19 @@
         .spinner {
 
             width:
-                30px;
+                34px;
 
             height:
-                30px;
+                34px;
 
             margin:
-                0 auto 10px;
+                0 auto 12px;
 
             border:
-                3px solid #e5e7eb;
+                4px solid #e5e7eb;
 
             border-top-color:
-                #0a1383;
+                var(--blue);
 
             border-radius:
                 50%;
@@ -878,32 +1020,42 @@
         }
 
 
+
         /* =========================================
-           RESPONSIVE
+           FOOTER
            ========================================= */
 
-        @media (
-            max-width: 900px
-        ) {
+        .admin-footer {
 
-            .summary-grid {
+            margin-top:
+                25px;
 
-                grid-template-columns:
-                    repeat(2, 1fr);
+            text-align:
+                center;
 
-            }
+            color:
+                #9ca3af;
+
+            font-size:
+                10px;
 
         }
 
 
+
+        /* =========================================
+           MOBILE
+           ========================================= */
+
         @media (
-            max-width: 600px
+            max-width: 768px
         ) {
+
 
             .header-inner {
 
                 padding:
-                    10px 12px;
+                    10px 14px;
 
             }
 
@@ -911,15 +1063,15 @@
             .brand-title {
 
                 font-size:
-                    16px;
+                    15px;
 
             }
 
 
             .brand-subtitle {
 
-                display:
-                    none;
+                font-size:
+                    8px;
 
             }
 
@@ -932,7 +1084,7 @@
             }
 
 
-            .page {
+            .admin-page {
 
                 padding:
                     18px 12px 30px;
@@ -940,7 +1092,7 @@
             }
 
 
-            .page-title {
+            .page-heading h1 {
 
                 font-size:
                     21px;
@@ -948,10 +1100,10 @@
             }
 
 
-            .summary-grid {
+            .stats {
 
                 grid-template-columns:
-                    repeat(2, 1fr);
+                    1fr;
 
                 gap:
                     10px;
@@ -959,7 +1111,7 @@
             }
 
 
-            .summary-card {
+            .stat-card {
 
                 padding:
                     14px;
@@ -967,7 +1119,7 @@
             }
 
 
-            .summary-value {
+            .stat-value {
 
                 font-size:
                     23px;
@@ -975,22 +1127,82 @@
             }
 
 
-            .search-area {
+            .toolbar {
 
-                flex-direction:
-                    column;
-
-                padding:
-                    14px;
+                align-items:
+                    stretch;
 
             }
 
 
-            .search-button,
-            .clear-button {
+            .search-box {
+
+                min-width:
+                    100%;
+
+            }
+
+
+            .toolbar-buttons {
 
                 width:
                     100%;
+
+            }
+
+
+            .toolbar-button {
+
+                flex:
+                    1;
+
+            }
+
+        }
+
+
+        @media (
+            max-width: 480px
+        ) {
+
+
+            .brand-icon {
+
+                width:
+                    40px;
+
+                height:
+                    40px;
+
+                flex-basis:
+                    40px;
+
+                font-size:
+                    20px;
+
+            }
+
+
+            .logout-button {
+
+                padding:
+                    0 11px;
+
+            }
+
+
+            .page-heading {
+
+                margin-bottom:
+                    15px;
+
+            }
+
+
+            .content-card {
+
+                border-radius:
+                    11px;
 
             }
 
@@ -1015,6 +1227,7 @@
 
         <div class="brand">
 
+
             <div class="brand-icon">
 
                 🛡️
@@ -1026,7 +1239,7 @@
 
                 <div class="brand-title">
 
-                    Admin Dashboard
+                    ระบบผู้ดูแล
 
                 </div>
 
@@ -1039,7 +1252,9 @@
 
             </div>
 
+
         </div>
+
 
 
         <div class="admin-info">
@@ -1050,7 +1265,7 @@
                 class="admin-name"
             >
 
-                ผู้ดูแลระบบ
+                Admin
 
             </div>
 
@@ -1076,270 +1291,217 @@
 
 
 <!-- =============================================
-     PAGE
+     MAIN
      ============================================= -->
 
-<main class="page">
+<main class="admin-page">
 
 
-    <h1 class="page-title">
+    <!-- PAGE TITLE -->
 
-        จัดการข้อมูลนักศึกษา
+    <div class="page-heading">
 
-    </h1>
+        <h1>
 
+            จัดการข้อมูลนักศึกษา
 
-    <p class="page-description">
-
-        ระบบจัดการข้อมูลนักศึกษาและคำร้องขอจากนักศึกษา
-
-    </p>
+        </h1>
 
 
+        <p>
 
-    <!-- MESSAGE -->
+            ตรวจสอบข้อมูลนักศึกษาจากระบบ
 
-    <div
-        id="dashboardMessage"
-    ></div>
+        </p>
+
+    </div>
 
 
 
     <!-- =========================================
-         SUMMARY
-         ========================================== -->
+         STATISTICS
+         ========================================= -->
 
-    <section class="summary-grid">
+    <div class="stats">
 
 
-        <div class="summary-card">
+        <div class="stat-card">
 
-            <div class="summary-label">
+            <div class="stat-label">
 
-                นักศึกษาทั้งหมด
+                นักศึกษาที่พบ
 
             </div>
+
 
             <div
                 id="totalStudents"
-                class="summary-value"
+                class="stat-value"
             >
 
-                -
+                0
 
             </div>
 
         </div>
 
 
-        <div class="summary-card">
+        <div class="stat-card">
 
-            <div class="summary-label">
+            <div class="stat-label">
 
-                นักศึกษาปกติ
+                สถานะปกติ
 
             </div>
+
 
             <div
                 id="activeStudents"
-                class="summary-value"
+                class="stat-value"
             >
 
-                -
+                0
 
             </div>
 
         </div>
 
 
-        <div class="summary-card">
+        <div class="stat-card">
 
-            <div class="summary-label">
+            <div class="stat-label">
 
-                คำร้องรอดำเนินการ
+                ข้อมูลที่แสดง
 
             </div>
+
 
             <div
-                id="pendingRequests"
-                class="summary-value"
+                id="displayStudents"
+                class="stat-value"
             >
 
-                -
+                0
 
             </div>
 
         </div>
 
 
-        <div class="summary-card">
-
-            <div class="summary-label">
-
-                สถานะระบบ
-
-            </div>
-
-            <div
-                id="systemStatus"
-                class="summary-value"
-                style="font-size:18px;"
-            >
-
-                พร้อมใช้งาน
-
-            </div>
-
-        </div>
-
-
-    </section>
+    </div>
 
 
 
     <!-- =========================================
-         STUDENT LIST
-         ========================================== -->
+         STUDENT TABLE
+         ========================================= -->
 
     <section class="content-card">
 
 
-        <div class="content-header">
+        <!-- TOOLBAR -->
 
-            <h2 class="content-title">
-
-                รายชื่อนักศึกษา
-
-            </h2>
+        <div class="toolbar">
 
 
-            <p class="content-subtitle">
+            <div class="search-box">
 
-                ค้นหาและจัดการข้อมูลนักศึกษา
-
-            </p>
-
-        </div>
-
-
-
-        <!-- SEARCH -->
-
-        <div class="search-area">
-
-
-            <input
-                id="searchInput"
-                class="search-input"
-                type="text"
-                placeholder="ค้นหารหัสนักศึกษา หรือชื่อ-นามสกุล..."
-                autocomplete="off"
-            >
-
-
-            <button
-                id="searchButton"
-                class="search-button"
-                type="button"
-            >
-
-                ค้นหา
-
-            </button>
-
-
-            <button
-                id="clearButton"
-                class="clear-button"
-                type="button"
-            >
-
-                ล้าง
-
-            </button>
-
-
-        </div>
-
-
-
-        <!-- TABLE -->
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            รหัสนักศึกษา
-                        </th>
-
-                        <th>
-                            ชื่อ-นามสกุล
-                        </th>
-
-                        <th>
-                            สาขาวิชา
-                        </th>
-
-                        <th>
-                            สถานะ
-                        </th>
-
-                        <th>
-                            โทรศัพท์
-                        </th>
-
-                        <th>
-                            จัดการ
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody
-                    id="studentTableBody"
+                <input
+                    id="searchInput"
+                    type="search"
+                    placeholder="ค้นหารหัสนักศึกษา ชื่อ หรือ นามสกุล"
+                    autocomplete="off"
                 >
 
-                    <tr>
+            </div>
 
-                        <td
-                            colspan="6"
-                            class="loading"
-                        >
 
-                            <div class="spinner"></div>
+            <div class="toolbar-buttons">
 
-                            กำลังโหลดข้อมูล...
 
-                        </td>
+                <button
+                    id="searchButton"
+                    class="toolbar-button"
+                    type="button"
+                >
 
-                    </tr>
+                    🔎 ค้นหา
 
-                </tbody>
+                </button>
 
-            </table>
+
+                <button
+                    id="refreshButton"
+                    class="toolbar-button secondary"
+                    type="button"
+                >
+
+                    ↻ รีเฟรช
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- SYSTEM MESSAGE -->
+
+        <div
+            id="systemMessage"
+            class="system-message"
+        ></div>
+
+
+
+        <!-- TABLE AREA -->
+
+        <div
+            id="tableArea"
+            class="table-container"
+        >
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                กำลังโหลดข้อมูล...
+
+            </div>
 
         </div>
 
 
     </section>
+
+
+
+    <!-- FOOTER -->
+
+    <div class="admin-footer">
+
+        Student Card System · Administrator
+
+    </div>
 
 
 </main>
 
 
 
+<!-- =============================================
+     JAVASCRIPT
+     ============================================= -->
+
 <script>
 
-/* =================================================
+
+/* ==============================================
    CONFIG
-   ================================================= */
+   ============================================== */
 
 const CONFIG = {
 
@@ -1356,19 +1518,106 @@ const CONFIG = {
 
 
 
-/* =================================================
+/* ==============================================
+   GLOBAL DATA
+   ============================================== */
+
+let students =
+    [];
+
+
+
+/* ==============================================
    PAGE READY
-   ================================================= */
+   ============================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
+
+        /*
+         * ตรวจสอบ Admin Session
+         */
+
         checkAdminSession();
+
+
+        /*
+         * แสดงชื่อ Admin
+         */
 
         loadAdminInfo();
 
-        setupEvents();
+
+        /*
+         * Event
+         */
+
+        document
+            .getElementById(
+                "searchButton"
+            )
+            .addEventListener(
+                "click",
+                loadStudents
+            );
+
+
+        document
+            .getElementById(
+                "refreshButton"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    document
+                        .getElementById(
+                            "searchInput"
+                        )
+                        .value = "";
+
+                    loadStudents();
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        loadStudents();
+
+                    }
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "logoutButton"
+            )
+            .addEventListener(
+                "click",
+                adminLogout
+            );
+
+
+        /*
+         * โหลดข้อมูลทันที
+         */
 
         loadStudents();
 
@@ -1377,11 +1626,12 @@ document.addEventListener(
 
 
 
-/* =================================================
+/* ==============================================
    CHECK ADMIN SESSION
-   ================================================= */
+   ============================================== */
 
 function checkAdminSession() {
+
 
     const token =
         sessionStorage.getItem(
@@ -1389,13 +1639,7 @@ function checkAdminSession() {
         );
 
 
-    const admin =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_KEY
-        );
-
-
-    if (!token || !admin) {
+    if (!token) {
 
         window.location.href =
             "admin-login.html";
@@ -1411,11 +1655,12 @@ function checkAdminSession() {
 
 
 
-/* =================================================
-   ADMIN INFO
-   ================================================= */
+/* ==============================================
+   LOAD ADMIN INFO
+   ============================================== */
 
 function loadAdminInfo() {
+
 
     const raw =
         sessionStorage.getItem(
@@ -1432,14 +1677,16 @@ function loadAdminInfo() {
 
     try {
 
+
         const admin =
-            JSON.parse(raw);
+            JSON.parse(
+                raw
+            );
 
 
         const name =
-            admin.name ||
             admin.username ||
-            "ผู้ดูแลระบบ";
+            "Admin";
 
 
         document
@@ -1453,7 +1700,6 @@ function loadAdminInfo() {
     } catch (error) {
 
         console.error(
-            "ADMIN DATA ERROR:",
             error
         );
 
@@ -1463,74 +1709,20 @@ function loadAdminInfo() {
 
 
 
-/* =================================================
-   EVENTS
-   ================================================= */
-
-function setupEvents() {
-
-
-    document
-        .getElementById(
-            "logoutButton"
-        )
-        .addEventListener(
-            "click",
-            logoutAdmin
-        );
-
-
-    document
-        .getElementById(
-            "searchButton"
-        )
-        .addEventListener(
-            "click",
-            searchStudents
-        );
-
-
-    document
-        .getElementById(
-            "clearButton"
-        )
-        .addEventListener(
-            "click",
-            clearSearch
-        );
-
-
-    document
-        .getElementById(
-            "searchInput"
-        )
-        .addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key ===
-                    "Enter"
-                ) {
-
-                    searchStudents();
-
-                }
-
-            }
-        );
-
-}
-
-
-
-/* =================================================
+/* ==============================================
    LOAD STUDENTS
-   ================================================= */
+   ============================================== */
 
-async function loadStudents(
-    search = ""
-) {
+async function loadStudents() {
+
+
+    if (
+        !checkAdminSession()
+    ) {
+
+        return;
+
+    }
 
 
     const token =
@@ -1539,30 +1731,23 @@ async function loadStudents(
         );
 
 
-    const tbody =
-        document.getElementById(
-            "studentTableBody"
-        );
+    const search =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .trim();
 
 
-    tbody.innerHTML = `
+    /*
+     * Loading
+     */
 
-        <tr>
+    showLoading();
 
-            <td
-                colspan="6"
-                class="loading"
-            >
 
-                <div class="spinner"></div>
-
-                กำลังโหลดข้อมูล...
-
-            </td>
-
-        </tr>
-
-    `;
+    hideMessage();
 
 
     try {
@@ -1604,6 +1789,10 @@ async function loadStudents(
             );
 
 
+        /*
+         * HTTP Error
+         */
+
         if (!response.ok) {
 
             throw new Error(
@@ -1614,48 +1803,95 @@ async function loadStudents(
         }
 
 
+        /*
+         * JSON
+         */
+
         const result =
             await response.json();
 
 
         console.log(
-            "ADMIN STUDENTS:",
+            "ADMIN STUDENTS RESULT:",
             result
         );
 
 
+        /*
+         * Session หมดอายุ
+         */
+
         if (
             result.code ===
-            "SESSION_EXPIRED"
+            "ADMIN_SESSION_EXPIRED"
         ) {
 
-            logoutAdmin();
+
+            sessionStorage.removeItem(
+                CONFIG.ADMIN_SESSION_KEY
+            );
+
+
+            sessionStorage.removeItem(
+                CONFIG.ADMIN_KEY
+            );
+
+
+            showMessage(
+                "Session หมดอายุ กำลังกลับหน้า Admin Login...",
+                "error"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        "admin-login.html";
+
+                },
+                1000
+            );
+
 
             return;
 
         }
 
 
-        if (!result.success) {
+        /*
+         * Error
+         */
+
+        if (
+            !result.success
+        ) {
 
             showMessage(
 
                 result.message ||
-                "ไม่สามารถโหลดข้อมูลนักศึกษาได้",
+                "ไม่สามารถโหลดข้อมูลได้",
 
                 "error"
 
             );
 
 
-            renderEmpty();
+            renderEmpty(
+                "ไม่สามารถโหลดข้อมูลได้"
+            );
+
 
             return;
 
         }
 
 
-        const students =
+        /*
+         * เก็บข้อมูล
+         */
+
+        students =
             Array.isArray(
                 result.students
             )
@@ -1663,17 +1899,28 @@ async function loadStudents(
                 : [];
 
 
+        /*
+         * Render
+         */
+
         renderStudents(
             students
         );
 
 
-        updateSummary(
+        /*
+         * Statistics
+         */
+
+        updateStatistics(
             students
         );
 
 
-    } catch (error) {
+    }
+
+
+    catch (error) {
 
 
         console.error(
@@ -1682,22 +1929,18 @@ async function loadStudents(
         );
 
 
-        /*
-         * ตอนนี้ Backend สำหรับ
-         * adminGetStudents ยังไม่ได้ต่อ
-         * จึงแสดงข้อความไว้ก่อน
-         */
-
         showMessage(
 
-            "หน้า Admin พร้อมแล้ว แต่ส่วนดึงรายชื่อนักศึกษายังไม่ได้เชื่อม Backend",
+            "ไม่สามารถเชื่อมต่อระบบได้",
 
-            "info"
+            "error"
 
         );
 
 
-        renderEmpty();
+        renderEmpty(
+            "ไม่สามารถเชื่อมต่อฐานข้อมูลได้"
+        );
 
     }
 
@@ -1705,269 +1948,410 @@ async function loadStudents(
 
 
 
-/* =================================================
+/* ==============================================
    RENDER STUDENTS
-   ================================================= */
+   ============================================== */
 
 function renderStudents(
-    students
+    list
 ) {
 
 
-    const tbody =
+    const tableArea =
         document.getElementById(
-            "studentTableBody"
+            "tableArea"
         );
 
 
+    /*
+     * ไม่มีข้อมูล
+     */
+
     if (
-        !students ||
-        students.length === 0
+        !list ||
+        list.length === 0
     ) {
 
-        renderEmpty();
+        renderEmpty(
+            "ไม่พบข้อมูลนักศึกษา"
+        );
 
         return;
 
     }
 
 
-    tbody.innerHTML =
-        "";
+    /*
+     * สร้าง Table
+     */
+
+    let html = "";
 
 
-    students.forEach(
-        function (student) {
+    html +=
+        '<table>';
 
 
-            const tr =
-                document.createElement(
-                    "tr"
-                );
+    html +=
+        '<thead>';
+
+
+    html +=
+        '<tr>';
+
+
+    html +=
+        '<th>รหัสนักศึกษา</th>';
+
+
+    html +=
+        '<th>ชื่อ-สกุล</th>';
+
+
+    html +=
+        '<th>สาขาวิชา</th>';
+
+
+    html +=
+        '<th>สถานะ</th>';
+
+
+    html +=
+        '<th>เบอร์โทรศัพท์</th>';
+
+
+    html +=
+        '<th>วันออกบัตร</th>';
+
+
+    html +=
+        '<th>วันหมดอายุ</th>';
+
+
+    html +=
+        '</tr>';
+
+
+    html +=
+        '</thead>';
+
+
+    html +=
+        '<tbody>';
+
+
+
+    list.forEach(
+        function(student) {
 
 
             const fullName =
-
-                (
-                    student.prefix_th ||
-                    ""
-                ) +
-
-                (
-                    student.firstname_th ||
-                    ""
-                ) +
-
-                " " +
-
-                (
-                    student.lastname_th ||
-                    ""
+                buildThaiName(
+                    student
                 );
 
 
             const status =
-                String(
-                    student.status ||
-                    "-"
+                student.status ||
+                "-";
+
+
+            const statusClass =
+                getStatusClass(
+                    status
                 );
 
 
-            const isActive =
-
-                status
-                    .toLowerCase()
-                    .includes(
-                        "ปกติ"
-                    ) ||
-
-                status
-                    .toLowerCase()
-                    .includes(
-                        "active"
-                    );
+            html +=
+                '<tr>';
 
 
-            tr.innerHTML = `
+            /*
+             * ID
+             */
 
-                <td
-                    class="student-id-cell"
-                >
+            html +=
+                '<td>' +
 
-                    ${escapeHtml(
-                        student.student_id || "-"
-                    )}
+                '<span class="student-id">' +
 
-                </td>
+                escapeHtml(
+                    student.student_id ||
+                    "-"
+                ) +
 
+                '</span>' +
 
-                <td>
-
-                    ${escapeHtml(
-                        fullName.trim() || "-"
-                    )}
-
-                </td>
+                '</td>';
 
 
-                <td>
+            /*
+             * NAME
+             */
 
-                    ${escapeHtml(
-                        student.department || "-"
-                    )}
+            html +=
+                '<td>' +
 
-                </td>
+                '<span class="student-name">' +
 
+                escapeHtml(
+                    fullName
+                ) +
 
-                <td>
+                '</span>' +
 
-                    <span
-                        class="status ${
-                            isActive
-                                ? "status-active"
-                                : "status-other"
-                        }"
-                    >
-
-                        ${escapeHtml(status)}
-
-                    </span>
-
-                </td>
+                '</td>';
 
 
-                <td>
+            /*
+             * DEPARTMENT
+             */
 
-                    ${escapeHtml(
-                        student.phone || "-"
-                    )}
+            html +=
+                '<td>' +
 
-                </td>
+                '<span class="department">' +
 
+                escapeHtml(
+                    student.department ||
+                    "-"
+                ) +
 
-                <td>
+                '</span>' +
 
-                    <div
-                        class="action-group"
-                    >
-
-                        <button
-                            class="action-button edit-button"
-                            onclick="editStudent('${escapeAttribute(
-                                student.student_id || ""
-                            )}')"
-                        >
-
-                            ✏️ แก้ไข
-
-                        </button>
+                '</td>';
 
 
-                        <button
-                            class="action-button password-button"
-                            onclick="resetStudentPassword('${escapeAttribute(
-                                student.student_id || ""
-                            )}')"
-                        >
+            /*
+             * STATUS
+             */
 
-                            🔑 รหัสผ่าน
+            html +=
+                '<td>' +
 
-                        </button>
+                '<span class="status-badge ' +
+                statusClass +
+                '">' +
 
-                    </div>
+                escapeHtml(
+                    status
+                ) +
 
-                </td>
+                '</span>' +
 
-            `;
+                '</td>';
 
 
-            tbody.appendChild(
-                tr
-            );
+            /*
+             * PHONE
+             */
+
+            html +=
+                '<td>' +
+
+                escapeHtml(
+                    student.phone ||
+                    "-"
+                ) +
+
+                '</td>';
+
+
+            /*
+             * ISSUE DATE
+             */
+
+            html +=
+                '<td>' +
+
+                escapeHtml(
+                    student.issue_date ||
+                    "-"
+                ) +
+
+                '</td>';
+
+
+            /*
+             * EXPIRE DATE
+             */
+
+            html +=
+                '<td>' +
+
+                escapeHtml(
+                    student.expire_date ||
+                    "-"
+                ) +
+
+                '</td>';
+
+
+            html +=
+                '</tr>';
 
         }
     );
 
-}
+
+    html +=
+        '</tbody>';
 
 
-
-/* =================================================
-   EMPTY
-   ================================================= */
-
-function renderEmpty() {
+    html +=
+        '</table>';
 
 
-    const tbody =
-        document.getElementById(
-            "studentTableBody"
-        );
-
-
-    tbody.innerHTML = `
-
-        <tr>
-
-            <td
-                colspan="6"
-                class="empty-state"
-            >
-
-                <div class="empty-icon">
-                    📋
-                </div>
-
-                ยังไม่มีข้อมูลแสดง
-
-            </td>
-
-        </tr>
-
-    `;
+    tableArea.innerHTML =
+        html;
 
 }
 
 
 
-/* =================================================
-   SUMMARY
-   ================================================= */
+/* ==============================================
+   BUILD THAI NAME
+   ============================================== */
 
-function updateSummary(
-    students
+function buildThaiName(
+    student
+) {
+
+
+    const prefix =
+        student.prefix_th ||
+        "";
+
+
+    const firstname =
+        student.firstname_th ||
+        "";
+
+
+    const lastname =
+        student.lastname_th ||
+        "";
+
+
+    return (
+
+        prefix +
+        firstname +
+        " " +
+        lastname
+
+    ).trim();
+
+}
+
+
+
+/* ==============================================
+   STATUS CLASS
+   ============================================== */
+
+function getStatusClass(
+    status
+) {
+
+
+    const value =
+        String(
+            status || ""
+        )
+        .toLowerCase();
+
+
+    if (
+
+        value.includes(
+            "ปกติ"
+        ) ||
+
+        value.includes(
+            "active"
+        )
+
+    ) {
+
+        return "active";
+
+    }
+
+
+    if (
+
+        value.includes(
+            "พ้น"
+        ) ||
+
+        value.includes(
+            "inactive"
+        ) ||
+
+        value.includes(
+            "ลาออก"
+        )
+
+    ) {
+
+        return "inactive";
+
+    }
+
+
+    return "";
+
+}
+
+
+
+/* ==============================================
+   UPDATE STATISTICS
+   ============================================== */
+
+function updateStatistics(
+    list
 ) {
 
 
     const total =
-        students.length;
+        list.length;
 
 
-    const active =
-        students.filter(
-            function (student) {
-
-                const status =
-                    String(
-                        student.status ||
-                        ""
-                    ).toLowerCase();
+    let active =
+        0;
 
 
-                return (
+    list.forEach(
+        function(student) {
 
-                    status.includes(
-                        "ปกติ"
-                    ) ||
 
-                    status.includes(
+            const status =
+                String(
+                    student.status || ""
+                );
+
+
+            if (
+
+                status.includes(
+                    "ปกติ"
+                ) ||
+
+                status.toLowerCase()
+                    .includes(
                         "active"
                     )
 
-                );
+            ) {
+
+                active++;
 
             }
-        ).length;
+
+        }
+    );
 
 
     document
@@ -1988,146 +2372,87 @@ function updateSummary(
 
     document
         .getElementById(
-            "pendingRequests"
+            "displayStudents"
         )
         .textContent =
-        "-";
+        total;
 
 }
 
 
 
-/* =================================================
-   SEARCH
-   ================================================= */
+/* ==============================================
+   LOADING
+   ============================================== */
 
-function searchStudents() {
-
-
-    const keyword =
-        document
-            .getElementById(
-                "searchInput"
-            )
-            .value
-            .trim();
-
-
-    loadStudents(
-        keyword
-    );
-
-}
-
-
-
-/* =================================================
-   CLEAR SEARCH
-   ================================================= */
-
-function clearSearch() {
+function showLoading() {
 
 
     document
         .getElementById(
-            "searchInput"
+            "tableArea"
         )
-        .value =
-        "";
+        .innerHTML = `
 
+            <div class="loading">
 
-    loadStudents();
+                <div class="spinner"></div>
+
+                กำลังโหลดข้อมูล...
+
+            </div>
+
+        `;
 
 }
 
 
 
-/* =================================================
-   EDIT STUDENT
-   ================================================= */
+/* ==============================================
+   EMPTY
+   ============================================== */
 
-function editStudent(
-    studentId
+function renderEmpty(
+    text
 ) {
 
 
-    showMessage(
+    document
+        .getElementById(
+            "tableArea"
+        )
+        .innerHTML = `
 
-        "เตรียมเปิดหน้าแก้ไขข้อมูล: " +
-        studentId,
+            <div class="empty-state">
 
-        "info"
+                <div class="empty-icon">
+                    📋
+                </div>
 
+                <div class="empty-title">
+                    ${escapeHtml(text)}
+                </div>
+
+                <div class="empty-text">
+                    ลองค้นหาใหม่หรือกดปุ่มรีเฟรช
+                </div>
+
+            </div>
+
+        `;
+
+
+    updateStatistics(
+        []
     );
-
-
-    /*
-     * ขั้นต่อไปเราจะสร้าง
-     *
-     * admin-edit-student.html
-     *
-     * สำหรับแก้ไขข้อมูลทั้งหมด
-     */
 
 }
 
 
 
-/* =================================================
-   RESET PASSWORD
-   ================================================= */
-
-function resetStudentPassword(
-    studentId
-) {
-
-
-    showMessage(
-
-        "เตรียมจัดการรหัสผ่านของ: " +
-        studentId,
-
-        "info"
-
-    );
-
-
-    /*
-     * ขั้นต่อไปเราจะสร้างระบบ
-     * Reset Password สำหรับ Admin
-     */
-
-}
-
-
-
-/* =================================================
-   LOGOUT
-   ================================================= */
-
-function logoutAdmin() {
-
-
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_SESSION_KEY
-    );
-
-
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_KEY
-    );
-
-
-    window.location.href =
-        "admin-login.html";
-
-}
-
-
-
-/* =================================================
-   MESSAGE
-   ================================================= */
+/* ==============================================
+   SHOW MESSAGE
+   ============================================== */
 
 function showMessage(
     text,
@@ -2137,8 +2462,15 @@ function showMessage(
 
     const element =
         document.getElementById(
-            "dashboardMessage"
+            "systemMessage"
         );
+
+
+    if (!element) {
+
+        return;
+
+    }
 
 
     element.textContent =
@@ -2146,12 +2478,7 @@ function showMessage(
 
 
     element.className =
-        "";
-
-
-    element.classList.add(
-        "show"
-    );
+        "system-message show";
 
 
     if (type) {
@@ -2166,16 +2493,49 @@ function showMessage(
 
 
 
-/* =================================================
+/* ==============================================
+   HIDE MESSAGE
+   ============================================== */
+
+function hideMessage() {
+
+
+    const element =
+        document.getElementById(
+            "systemMessage"
+        );
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    element.textContent =
+        "";
+
+
+    element.className =
+        "system-message";
+
+}
+
+
+
+/* ==============================================
    ESCAPE HTML
-   ================================================= */
+   ============================================== */
 
 function escapeHtml(
     value
 ) {
 
 
-    return String(value)
+    return String(
+        value ?? ""
+    )
 
         .replace(
             /&/g,
@@ -2206,33 +2566,98 @@ function escapeHtml(
 
 
 
-/* =================================================
-   ESCAPE ATTRIBUTE
-   ================================================= */
+/* ==============================================
+   ADMIN LOGOUT
+   ============================================== */
 
-function escapeAttribute(
-    value
-) {
+async function adminLogout() {
 
 
-    return String(value)
-
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-
-        .replace(
-            /'/g,
-            "\\'"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
+    const token =
+        sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
         );
 
+
+    /*
+     * ถ้ามี Token
+     * แจ้ง Backend ให้ลบ Session
+     */
+
+    if (token) {
+
+
+        try {
+
+
+            await fetch(
+
+                CONFIG.API_URL,
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "adminLogout",
+
+                            token:
+                                token
+
+                        })
+
+                }
+
+            );
+
+
+        } catch (error) {
+
+
+            console.error(
+                "ADMIN LOGOUT ERROR:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+     * ลบข้อมูลใน Browser
+     */
+
+    sessionStorage.removeItem(
+        CONFIG.ADMIN_SESSION_KEY
+    );
+
+
+    sessionStorage.removeItem(
+        CONFIG.ADMIN_KEY
+    );
+
+
+    /*
+     * กลับหน้า Login
+     */
+
+    window.location.href =
+        "admin-login.html";
+
 }
+
 
 </script>
 
