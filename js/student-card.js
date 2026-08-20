@@ -1064,3 +1064,179 @@ window.goBack =
 
 window.downloadCard =
     downloadCard;
+
+
+/* =========================================================
+   BARCODE รหัสนักศึกษา
+   ใช้ CODE128
+   ========================================================= */
+
+function createStudentBarcode() {
+
+    const studentIdElement =
+        document.getElementById(
+            "studentId"
+        );
+
+    const barcode =
+        document.getElementById(
+            "studentBarcode"
+        );
+
+    const barcodeStudentId =
+        document.getElementById(
+            "barcodeStudentId"
+        );
+
+
+    if (
+        !studentIdElement ||
+        !barcode
+    ) {
+
+        return;
+
+    }
+
+
+    const studentId =
+        studentIdElement.textContent
+            .trim();
+
+
+    if (
+        !studentId ||
+        studentId === "-"
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * สร้าง CODE128 Barcode
+     */
+
+    if (
+        typeof JsBarcode === "undefined"
+    ) {
+
+        console.error(
+            "ไม่พบ JsBarcode"
+        );
+
+        return;
+
+    }
+
+
+    JsBarcode(
+        barcode,
+        studentId,
+        {
+
+            format: "CODE128",
+
+            lineColor: "#000000",
+
+            background: "#ffffff",
+
+            width: 3,
+
+            height: 100,
+
+            displayValue: true,
+
+            fontSize: 18,
+
+            fontOptions: "bold",
+
+            margin: 10
+
+        }
+    );
+
+
+    /*
+     * แสดงรหัสใต้ Barcode
+     */
+
+    if (barcodeStudentId) {
+
+        barcodeStudentId.textContent =
+            studentId;
+
+    }
+
+}
+
+
+/* =========================================================
+   ตรวจสอบข้อมูลแล้วสร้าง Barcode
+   ========================================================= */
+
+function waitAndCreateBarcode() {
+
+    let count = 0;
+
+    const timer =
+        setInterval(
+            function() {
+
+                count++;
+
+                const studentIdElement =
+                    document.getElementById(
+                        "studentId"
+                    );
+
+
+                if (
+                    studentIdElement &&
+                    studentIdElement.textContent.trim() !== "-" &&
+                    studentIdElement.textContent.trim() !== ""
+                ) {
+
+                    clearInterval(timer);
+
+                    createStudentBarcode();
+
+                }
+
+
+                /*
+                 * ป้องกันการรอไม่สิ้นสุด
+                 */
+
+                if (count >= 50) {
+
+                    clearInterval(timer);
+
+                }
+
+            },
+            200
+        );
+
+}
+
+
+/*
+ * เริ่มสร้าง Barcode
+ */
+
+if (
+    document.readyState === "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        waitAndCreateBarcode
+    );
+
+} else {
+
+    waitAndCreateBarcode();
+
+}
