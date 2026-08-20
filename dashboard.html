@@ -15,15 +15,10 @@
         content="#0a1383"
     >
 
-    <title>
-        ระบบบริการนักศึกษา
-    </title>
+    <title>ระบบบริการนักศึกษา</title>
 
 
-    <!-- =========================================
-         DASHBOARD CSS
-         ========================================= -->
-
+    <!-- Dashboard CSS -->
     <link
         rel="stylesheet"
         href="css/dashboard.css"
@@ -45,10 +40,9 @@
     <header class="dashboard-header">
 
 
-        <!-- LEFT -->
+        <!-- LOGO + SYSTEM NAME -->
 
         <div class="header-left">
-
 
             <img
                 src="assets/logo.png"
@@ -70,14 +64,12 @@
 
             </div>
 
-
         </div>
 
 
-        <!-- STUDENT INFO -->
+        <!-- STUDENT INFORMATION -->
 
         <div class="header-student">
-
 
             <div
                 id="headerStudentId"
@@ -86,14 +78,12 @@
                 -
             </div>
 
-
             <div
                 id="headerStudentName"
                 class="header-student-name"
             >
                 -
             </div>
-
 
         </div>
 
@@ -128,25 +118,40 @@
 
 
 
-        <!-- =====================================
+        <!-- =========================================
              MENU
-             ===================================== -->
+             ========================================= -->
 
         <section class="dashboard-menu">
 
 
-            <!-- =================================
-                 1. PROFILE
-                 ================================= -->
+            <!-- =====================================
+                 PROFILE
+                 ===================================== -->
 
             <div
                 class="menu-card"
                 onclick="openProfile()"
             >
 
-
                 <div class="menu-icon">
-                    👤
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M12 12a4 4 0 1 0 0-8
+                               4 4 0 0 0 0 8Z"
+                        />
+
+                        <path
+                            d="M4 21a8 8 0 0 1 16 0"
+                        />
+
+                    </svg>
+
                 </div>
 
 
@@ -159,23 +164,55 @@
                     ดูข้อมูลประวัติและข้อมูลส่วนตัว
                 </div>
 
-
             </div>
 
 
 
-            <!-- =================================
-                 2. STUDENT CARD
-                 ================================= -->
+            <!-- =====================================
+                 STUDENT CARD
+                 ===================================== -->
 
             <div
-                class="menu-card"
+                class="menu-card student-card-menu"
                 onclick="openStudentCard()"
             >
 
-
                 <div class="menu-icon">
-                    🪪
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <rect
+                            x="3"
+                            y="5"
+                            width="18"
+                            height="14"
+                            rx="2"
+                        />
+
+                        <circle
+                            cx="8"
+                            cy="11"
+                            r="2"
+                        />
+
+                        <path
+                            d="M5.5 16
+                               a2.5 2.5 0 0 1 5 0"
+                        />
+
+                        <path
+                            d="M13 10h5"
+                        />
+
+                        <path
+                            d="M13 14h5"
+                        />
+
+                    </svg>
+
                 </div>
 
 
@@ -188,23 +225,47 @@
                     ดูบัตรนักศึกษาและ QR Code
                 </div>
 
-
             </div>
 
 
 
-            <!-- =================================
-                 3. CHANGE PASSWORD
-                 ================================= -->
+            <!-- =====================================
+                 CHANGE PASSWORD
+                 ===================================== -->
 
             <div
                 class="menu-card"
                 onclick="openChangePassword()"
             >
 
-
                 <div class="menu-icon">
-                    🔐
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <rect
+                            x="5"
+                            y="10"
+                            width="14"
+                            height="10"
+                            rx="2"
+                        />
+
+                        <path
+                            d="M8 10V7
+                               a4 4 0 0 1 8 0v3"
+                        />
+
+                        <circle
+                            cx="12"
+                            cy="15"
+                            r="1"
+                        />
+
+                    </svg>
+
                 </div>
 
 
@@ -217,23 +278,42 @@
                     เปลี่ยนรหัสผ่านเข้าสู่ระบบ
                 </div>
 
-
             </div>
 
 
 
-            <!-- =================================
-                 4. LOGOUT
-                 ================================= -->
+            <!-- =====================================
+                 LOGOUT
+                 ===================================== -->
 
             <div
-                class="menu-card"
+                class="menu-card logout-menu"
                 onclick="logout()"
             >
 
-
                 <div class="menu-icon">
-                    🚪
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M10 5H5
+                               a2 2 0 0 0-2 2v10
+                               a2 2 0 0 0 2 2h5"
+                        />
+
+                        <path
+                            d="M14 8l4 4-4 4"
+                        />
+
+                        <path
+                            d="M18 12H9"
+                        />
+
+                    </svg>
+
                 </div>
 
 
@@ -245,7 +325,6 @@
                 <div class="menu-description">
                     ออกจากระบบบริการนักศึกษา
                 </div>
-
 
             </div>
 
