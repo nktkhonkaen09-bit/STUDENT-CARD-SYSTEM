@@ -1,168 +1,130 @@
-/**
- * ============================================================
- * STUDENT CARD SYSTEM
- * student-card.js
- * ============================================================
- *
- * รองรับ:
- * - JPG
- * - JPEG
- * - PNG
- *
- * รูปจาก GitHub:
- * assets/students/รหัสนักศึกษา.jpg
- * assets/students/รหัสนักศึกษา.jpeg
- * assets/students/รหัสนักศึกษา.png
- *
- * GitHub Repository:
- * nktkhonkaen09-bit/STUDENT-CARD-SYSTEM
- * ============================================================
- */
+/* =========================================================
+   STUDENT CARD SYSTEM
+   ========================================================= */
 
 
-/* ============================================================
-   เริ่มทำงานเมื่อเปิดหน้า student-card.html
-============================================================ */
+/* =========================================================
+   โหลดข้อมูลนักศึกษา
+   ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        initializeStudentCard();
+        loadStudentCard();
 
     }
 );
 
 
-/* ============================================================
-   เริ่มระบบบัตรนักศึกษา
-============================================================ */
 
-function initializeStudentCard() {
+/* =========================================================
+   โหลดข้อมูลจาก Session Storage
+   ========================================================= */
 
-    /*
-     * ตรวจสอบ CONFIG
-     */
-
-    if (
-        typeof CONFIG === "undefined"
-    ) {
-
-        console.error(
-            "ไม่พบ CONFIG"
-        );
-
-        alert(
-            "ไม่พบการตั้งค่าระบบ"
-        );
-
-        return;
-    }
-
+function loadStudentCard() {
 
     /*
-     * อ่าน Token
+     * ระบบ Login ของเราเก็บข้อมูลนักศึกษาไว้ที่นี่
      */
 
-    const token =
-        sessionStorage.getItem(
-            CONFIG.SESSION_KEY
-        );
+    let student = null;
 
-
-    /*
-     * อ่านข้อมูลนักศึกษา
-     */
-
-    const studentData =
-        sessionStorage.getItem(
-            CONFIG.STUDENT_KEY
-        );
-
-
-    /*
-     * ถ้ายังไม่ได้ Login
-     */
-
-    if (
-        !token ||
-        !studentData
-    ) {
-
-        window.location.href =
-            "index.html";
-
-        return;
-    }
-
-
-    /*
-     * แปลงข้อมูล JSON
-     */
-
-    let student;
 
     try {
 
-        student =
-            JSON.parse(
-                studentData
+        const studentData =
+            sessionStorage.getItem(
+                "student"
             );
+
+
+        if (studentData) {
+
+            student =
+                JSON.parse(studentData);
+
+        }
 
     } catch (error) {
 
         console.error(
-            "ข้อมูลนักศึกษาไม่ถูกต้อง",
+            "อ่านข้อมูลนักศึกษาไม่สำเร็จ",
             error
         );
 
-        sessionStorage.removeItem(
-            CONFIG.STUDENT_KEY
-        );
-
-        window.location.href =
-            "index.html";
-
-        return;
     }
 
 
-    /*
-     * แสดงข้อมูลบนบัตร
-     */
-
-    displayStudentInformation(
-        student
-    );
-
 
     /*
-     * โหลดรูปนักศึกษา
+     * ถ้าไม่มีข้อมูลใน session
+     * ลองอ่าน localStorage
      */
 
-    loadStudentPhoto(
-        student
-    );
+    if (!student) {
+
+        try {
+
+            const studentData =
+                localStorage.getItem(
+                    "student"
+                );
+
+
+            if (studentData) {
+
+                student =
+                    JSON.parse(studentData);
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "อ่าน localStorage ไม่สำเร็จ",
+                error
+            );
+
+        }
+
+    }
+
 
 
     /*
-     * สร้าง QR Code
+     * ถ้ายังไม่มีข้อมูล
      */
 
-    generateStudentQRCode(
-        student
-    );
+    if (!student) {
+
+        console.warn(
+            "ไม่พบข้อมูลนักศึกษา"
+        );
+
+        return;
+
+    }
+
+
+
+    /*
+     * แสดงข้อมูล
+     */
+
+    displayStudent(student);
+
 
 }
 
 
-/* ============================================================
-   แสดงข้อมูลนักศึกษา
-============================================================ */
 
-function displayStudentInformation(
-    student
-) {
+/* =========================================================
+   แสดงข้อมูลนักศึกษา
+   ========================================================= */
+
+function displayStudent(student) {
+
 
     /*
      * รหัสนักศึกษา
@@ -174,40 +136,26 @@ function displayStudentInformation(
     );
 
 
-    setText(
-        "cardStudentId",
-        student.student_id
-    );
-
 
     /*
      * ชื่อภาษาไทย
      */
 
     const fullNameTh =
-
-        (
-            student.prefix_th ||
-            ""
-        ) +
-
-        (
-            student.firstname_th ||
-            ""
-        ) +
-
-        " " +
-
-        (
-            student.lastname_th ||
-            ""
-        );
+        [
+            student.prefix_th,
+            student.firstname_th,
+            student.lastname_th
+        ]
+        .filter(Boolean)
+        .join(" ");
 
 
     setText(
         "studentName",
-        fullNameTh.trim() || "-"
+        fullNameTh
     );
+
 
 
     /*
@@ -215,24 +163,19 @@ function displayStudentInformation(
      */
 
     const fullNameEn =
-
-        (
-            student.firstname_en ||
-            ""
-        ) +
-
-        " " +
-
-        (
-            student.lastname_en ||
-            ""
-        );
+        [
+            student.firstname_en,
+            student.lastname_en
+        ]
+        .filter(Boolean)
+        .join(" ");
 
 
     setText(
         "studentNameEn",
-        fullNameEn.trim() || "-"
+        fullNameEn
     );
+
 
 
     /*
@@ -245,15 +188,16 @@ function displayStudentInformation(
     );
 
 
+
     /*
      * สถานะ
      */
 
     setText(
         "studentStatus",
-        student.status ||
-        "นักศึกษาปกติ"
+        student.status
     );
+
 
 
     /*
@@ -266,6 +210,7 @@ function displayStudentInformation(
     );
 
 
+
     /*
      * วันหมดอายุ
      */
@@ -275,12 +220,43 @@ function displayStudentInformation(
         student.expire_date
     );
 
+
+
+    /*
+     * รูปนักศึกษา
+     */
+
+    loadStudentPhoto(
+        student
+    );
+
+
+
+    /*
+     * QR Code
+     */
+
+    createQRCode(
+        student.student_id
+    );
+
+
+
+    /*
+     * Barcode
+     */
+
+    createBarcode(
+        student.student_id
+    );
+
 }
 
 
-/* ============================================================
-   ใส่ข้อความลงใน HTML
-============================================================ */
+
+/* =========================================================
+   ฟังก์ชันกำหนดข้อความ
+   ========================================================= */
 
 function setText(
     elementId,
@@ -295,437 +271,234 @@ function setText(
 
     if (!element) {
 
-        console.warn(
-            "ไม่พบ Element:",
-            elementId
-        );
-
         return;
+
     }
 
 
     element.textContent =
-        value ||
-        "-";
+        value || "-";
 
 }
 
 
-/* ============================================================
-   โหลดรูปนักศึกษา
-============================================================ */
 
-function loadStudentPhoto(
-    student
-) {
+/* =========================================================
+   รูปนักศึกษา
+   ========================================================= */
 
-    const image =
+function loadStudentPhoto(student) {
+
+    const photo =
         document.getElementById(
             "studentPhoto"
         );
 
 
-    if (!image) {
-
-        console.warn(
-            "ไม่พบ studentPhoto"
+    const photoBox =
+        document.getElementById(
+            "studentPhotoBox"
         );
 
-        return;
-    }
-
-
-    /*
-     * ถ้า Google Sheets มี photo_url
-     * ให้ใช้รูปจาก photo_url ก่อน
-     */
 
     if (
-        student.photo_url &&
-        String(
-            student.photo_url
-        ).trim() !== ""
+        !photo ||
+        !photoBox
     ) {
 
-        const photoUrl =
-            String(
-                student.photo_url
-            ).trim();
-
-
-        image.onload =
-            function () {
-
-                console.log(
-                    "โหลดรูปจาก photo_url สำเร็จ"
-                );
-
-            };
-
-
-        image.onerror =
-            function () {
-
-                console.warn(
-                    "photo_url ใช้งานไม่ได้"
-                );
-
-
-                /*
-                 * ถ้า photo_url ใช้ไม่ได้
-                 * ให้ไปค้นหารูปใน GitHub
-                 */
-
-                findGitHubStudentPhoto(
-                    image,
-                    student.student_id
-                );
-
-            };
-
-
-        image.src =
-            photoUrl;
-
-
         return;
+
     }
 
 
     /*
-     * ถ้า photo_url ว่าง
-     * ให้ค้นหารูปจาก GitHub
+     * ถ้า API มี photo_url
+     * ให้ใช้ photo_url ก่อน
      */
 
-    findGitHubStudentPhoto(
-        image,
-        student.student_id
-    );
+    let photoUrl =
+        student.photo_url || "";
 
-}
-
-
-/* ============================================================
-   ค้นหารูปจาก GitHub
-============================================================ */
-
-function findGitHubStudentPhoto(
-    image,
-    studentId
-) {
-
-    /*
-     * ถ้าไม่มีรหัสนักศึกษา
-     */
-
-    if (
-        !studentId ||
-        String(
-            studentId
-        ).trim() === ""
-    ) {
-
-        setDefaultPhoto(
-            image
-        );
-
-        return;
-    }
 
 
     /*
-     * ========================================================
-     * GitHub ของคุณ
-     * ========================================================
-     */
-
-    const githubUsername =
-        "nktkhonkaen09-bit";
-
-
-    const githubRepository =
-        "STUDENT-CARD-SYSTEM";
-
-
-    const githubBranch =
-        "main";
-
-
-    const imageFolder =
-        "assets/students";
-
-
-    /*
-     * ชื่อไฟล์
+     * ถ้าไม่มี photo_url
+     * สร้าง URL จาก GitHub
      *
-     * เช่น
-     *
+     * ตัวอย่าง:
      * TEST001
+     *
+     * จะหา:
+     *
+     * TEST001.png
+     *
+     * และถ้าไม่มี จะลอง JPG
      */
 
-    const filename =
-        encodeURIComponent(
-            String(
+    if (!photoUrl) {
+
+        const studentId =
+            student.student_id;
+
+
+        if (!studentId) {
+
+            showNoPhoto();
+
+            return;
+
+        }
+
+
+        const baseUrl =
+            "https://raw.githubusercontent.com/" +
+            "nktkhonkaen09-bit/" +
+            "STUDENT-CARD-SYSTEM/" +
+            "main/assets/students/";
+
+
+        const pngUrl =
+            baseUrl +
+            encodeURIComponent(
                 studentId
-            ).trim()
-        );
+            ) +
+            ".png";
 
 
-    /*
-     * รองรับทั้ง 3 แบบ
-     */
-
-    const extensions = [
-
-        ".jpg",
-
-        ".jpeg",
-
-        ".png"
-
-    ];
-
-
-    /*
-     * เริ่มค้นหารูป
-     */
-
-    tryNextStudentPhoto(
-        image,
-        githubUsername,
-        githubRepository,
-        githubBranch,
-        imageFolder,
-        filename,
-        extensions,
-        0
-    );
-
-}
-
-
-/* ============================================================
-   ทดลองหารูปทีละนามสกุล
-============================================================ */
-
-function tryNextStudentPhoto(
-    image,
-    username,
-    repository,
-    branch,
-    folder,
-    filename,
-    extensions,
-    index
-) {
-
-    /*
-     * ถ้าลองครบทุกนามสกุลแล้ว
-     */
-
-    if (
-        index >=
-        extensions.length
-    ) {
-
-        console.warn(
-            "ไม่พบรูป:",
-            filename
-        );
+        const jpgUrl =
+            baseUrl +
+            encodeURIComponent(
+                studentId
+            ) +
+            ".jpg";
 
 
         /*
-         * ใช้รูป Default
+         * ลอง PNG ก่อน
          */
 
-        setDefaultPhoto(
-            image
+        photo.src = pngUrl;
+
+
+        photo.onload =
+            function () {
+
+                photoBox.classList.remove(
+                    "no-photo"
+                );
+
+            };
+
+
+        photo.onerror =
+            function () {
+
+                /*
+                 * ถ้า PNG ไม่มี
+                 * ลอง JPG
+                 */
+
+                photo.src = jpgUrl;
+
+            };
+
+
+        /*
+         * ถ้า JPG ก็ไม่มี
+         */
+
+        photo.addEventListener(
+            "error",
+            function () {
+
+                showNoPhoto();
+
+            },
+            {
+                once: true
+            }
         );
 
+
         return;
+
     }
 
 
-    /*
-     * นามสกุลปัจจุบัน
-     */
-
-    const extension =
-        extensions[index];
-
 
     /*
-     * สร้าง URL รูป
+     * ใช้ photo_url จาก API
      */
 
-    const imageUrl =
-
-        "https://raw.githubusercontent.com/" +
-
-        username +
-
-        "/" +
-
-        repository +
-
-        "/" +
-
-        branch +
-
-        "/" +
-
-        folder +
-
-        "/" +
-
-        filename +
-
-        extension;
+    photo.src =
+        photoUrl;
 
 
-    console.log(
-        "กำลังค้นหารูป:",
-        imageUrl
-    );
-
-
-    /*
-     * ทดลองโหลดรูป
-     */
-
-    image.onload =
+    photo.onload =
         function () {
 
-            console.log(
-                "พบรูปนักศึกษา:",
-                imageUrl
+            photoBox.classList.remove(
+                "no-photo"
             );
 
         };
 
 
-    /*
-     * ถ้าโหลดไม่ได้
-     * ให้ลองนามสกุลถัดไป
-     */
-
-    image.onerror =
+    photo.onerror =
         function () {
 
-            console.log(
-                "ไม่พบ:",
-                imageUrl
-            );
-
-
-            tryNextStudentPhoto(
-
-                image,
-
-                username,
-
-                repository,
-
-                branch,
-
-                folder,
-
-                filename,
-
-                extensions,
-
-                index + 1
-
-            );
+            showNoPhoto();
 
         };
-
-
-    /*
-     * เริ่มโหลด
-     */
-
-    image.src =
-        imageUrl;
 
 }
 
 
-/* ============================================================
-   รูป Default
-============================================================ */
 
-function setDefaultPhoto(
-    image
-) {
+/* =========================================================
+   แสดงกรณีไม่มีรูป
+   ========================================================= */
 
-    if (!image) {
+function showNoPhoto() {
 
-        return;
+    const photo =
+        document.getElementById(
+            "studentPhoto"
+        );
+
+
+    const photoBox =
+        document.getElementById(
+            "studentPhotoBox"
+        );
+
+
+    if (photo) {
+
+        photo.style.display =
+            "none";
+
     }
 
 
-    /*
-     * ใช้ default.png
-     */
+    if (photoBox) {
 
-    const defaultPhoto =
-        "assets/students/default.png";
+        photoBox.classList.add(
+            "no-photo"
+        );
 
-
-    image.onload =
-        function () {
-
-            console.log(
-                "ใช้รูป Default"
-            );
-
-        };
-
-
-    image.onerror =
-        function () {
-
-            console.warn(
-                "ไม่พบ default.png"
-            );
-
-
-            /*
-             * ถ้าไม่มี default.png
-             * ซ่อนรูป
-             */
-
-            image.style.display =
-                "none";
-
-
-            if (
-                image.parentElement
-            ) {
-
-                image.parentElement
-                    .classList.add(
-                        "no-photo"
-                    );
-
-            }
-
-        };
-
-
-    image.src =
-        defaultPhoto;
+    }
 
 }
 
 
-/* ============================================================
+
+/* =========================================================
    สร้าง QR Code
-============================================================ */
+   ========================================================= */
 
-function generateStudentQRCode(
-    student
+function createQRCode(
+    studentId
 ) {
 
     const canvas =
@@ -734,23 +507,22 @@ function generateStudentQRCode(
         );
 
 
-    if (!canvas) {
-
-        console.warn(
-            "ไม่พบ studentQR"
-        );
+    if (
+        !canvas ||
+        !studentId
+    ) {
 
         return;
+
     }
 
 
     /*
-     * ตรวจสอบ QRCode Library
+     * ตรวจสอบ Library
      */
 
     if (
-        typeof QRCode ===
-        "undefined"
+        typeof QRCode === "undefined"
     ) {
 
         console.error(
@@ -758,130 +530,164 @@ function generateStudentQRCode(
         );
 
         return;
+
     }
 
 
     /*
-     * ข้อมูลใน QR Code
-     *
-     * จะไม่ใส่:
-     *
-     * - password
-     * - password_hash
-     * - token
-     */
-
-    const qrData = {
-
-        system:
-            "STUDENT-CARD-SYSTEM",
-
-        student_id:
-            student.student_id || "",
-
-        name:
-
-            (
-                student.prefix_th ||
-                ""
-            ) +
-
-            (
-                student.firstname_th ||
-                ""
-            ) +
-
-            " " +
-
-            (
-                student.lastname_th ||
-                ""
-            ),
-
-        department:
-            student.department || "",
-
-        status:
-            student.status || "",
-
-        expire_date:
-            student.expire_date || ""
-
-    };
-
-
-    const qrText =
-        JSON.stringify(
-            qrData
-        );
-
-
-    /*
-     * สร้าง QR Code
+     * QR สีดำ พื้นขาว
      */
 
     QRCode.toCanvas(
-
         canvas,
-
-        qrText,
-
+        String(studentId),
         {
 
-            width:
-                120,
+            width: 300,
 
-            height:
-                120,
+            margin: 2,
 
-            margin:
-                0,
-
-            errorCorrectionLevel:
-                "M",
+            errorCorrectionLevel: "H",
 
             color: {
 
-                dark:
-                    "#000000",
+                dark: "#000000",
 
-                light:
-                    "#ffffff"
+                light: "#FFFFFF"
 
             }
 
         },
-
-
         function (error) {
 
             if (error) {
 
                 console.error(
-                    "สร้าง QR Code ไม่สำเร็จ:",
+                    "สร้าง QR Code ไม่สำเร็จ",
                     error
                 );
 
-                return;
             }
 
-
-            console.log(
-                "สร้าง QR Code สำเร็จ"
-            );
-
         }
-
     );
 
 }
 
 
-/* ============================================================
-   กลับ Dashboard
-============================================================ */
+
+/* =========================================================
+   สร้าง Barcode
+   CODE128
+   ========================================================= */
+
+function createBarcode(
+    studentId
+) {
+
+    const barcode =
+        document.getElementById(
+            "studentBarcode"
+        );
+
+
+    const barcodeStudentId =
+        document.getElementById(
+            "barcodeStudentId"
+        );
+
+
+    if (
+        !barcode ||
+        !studentId
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * ตรวจสอบ JsBarcode
+     */
+
+    if (
+        typeof JsBarcode === "undefined"
+    ) {
+
+        console.error(
+            "ไม่พบ JsBarcode Library"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * สร้าง Barcode
+     */
+
+    try {
+
+        JsBarcode(
+            barcode,
+            String(studentId),
+            {
+
+                format: "CODE128",
+
+                lineColor: "#000000",
+
+                background: "#FFFFFF",
+
+                width: 2,
+
+                height: 55,
+
+                displayValue: false,
+
+                margin: 2
+
+            }
+        );
+
+
+        /*
+         * แสดงรหัสใต้ Barcode
+         */
+
+        if (
+            barcodeStudentId
+        ) {
+
+            barcodeStudentId.textContent =
+                studentId;
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "สร้าง Barcode ไม่สำเร็จ",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   กลับหน้าหลัก
+   ========================================================= */
 
 function goBack() {
+
+    /*
+     * ถ้ามี dashboard.html
+     */
 
     window.location.href =
         "dashboard.html";
@@ -889,28 +695,12 @@ function goBack() {
 }
 
 
-/* ============================================================
-   ดาวน์โหลดบัตรเป็น PNG
-============================================================ */
+
+/* =========================================================
+   ดาวน์โหลดบัตร
+   ========================================================= */
 
 function downloadCard() {
-
-    /*
-     * ตรวจสอบ html2canvas
-     */
-
-    if (
-        typeof html2canvas ===
-        "undefined"
-    ) {
-
-        alert(
-            "ไม่พบระบบดาวน์โหลดบัตร"
-        );
-
-        return;
-    }
-
 
     const card =
         document.getElementById(
@@ -920,53 +710,43 @@ function downloadCard() {
 
     if (!card) {
 
-        alert(
-            "ไม่พบบัตรนักศึกษา"
-        );
-
         return;
+
     }
 
 
     /*
-     * แปลงบัตรเป็นรูป
+     * ตรวจสอบ html2canvas
      */
 
+    if (
+        typeof html2canvas === "undefined"
+    ) {
+
+        alert(
+            "ไม่พบระบบดาวน์โหลดบัตร"
+        );
+
+        return;
+
+    }
+
+
     html2canvas(
-
         card,
-
         {
 
-            scale:
-                3,
+            scale: 2,
 
-            useCORS:
-                true,
+            useCORS: true,
 
-            allowTaint:
-                false,
-
-            backgroundColor:
-                null
+            backgroundColor: null
 
         }
-
-    ).then(
-
+    )
+    .then(
         function (canvas) {
 
-            /*
-             * สร้างชื่อไฟล์
-             */
-
-            const studentId =
-                getCurrentStudentId();
-
-
-            /*
-             * สร้าง Link ดาวน์โหลด
-             */
 
             const link =
                 document.createElement(
@@ -974,9 +754,31 @@ function downloadCard() {
                 );
 
 
+            const studentId =
+                document.getElementById(
+                    "studentId"
+                );
+
+
+            let fileName =
+                "student-card";
+
+
+            if (
+                studentId &&
+                studentId.textContent
+            ) {
+
+                fileName =
+                    "student-card-" +
+                    studentId.textContent
+                        .trim();
+
+            }
+
+
             link.download =
-                "student-card-" +
-                studentId +
+                fileName +
                 ".png";
 
 
@@ -988,14 +790,14 @@ function downloadCard() {
 
             link.click();
 
+
         }
-
-    ).catch(
-
+    )
+    .catch(
         function (error) {
 
             console.error(
-                "Download Error:",
+                "ดาวน์โหลดบัตรไม่สำเร็จ",
                 error
             );
 
@@ -1005,238 +807,6 @@ function downloadCard() {
             );
 
         }
-
     );
-
-}
-
-
-/* ============================================================
-   อ่านรหัสนักศึกษาปัจจุบัน
-============================================================ */
-
-function getCurrentStudentId() {
-
-    try {
-
-        const raw =
-            sessionStorage.getItem(
-                CONFIG.STUDENT_KEY
-            );
-
-
-        if (!raw) {
-
-            return "student";
-        }
-
-
-        const student =
-            JSON.parse(
-                raw
-            );
-
-
-        return (
-
-            student.student_id ||
-
-            "student"
-
-        );
-
-    } catch (error) {
-
-        return "student";
-
-    }
-
-}
-
-
-/* ============================================================
-   ทำให้ฟังก์ชันใช้งานจาก HTML ได้
-============================================================ */
-
-window.goBack =
-    goBack;
-
-
-window.downloadCard =
-    downloadCard;
-
-
-/* =========================================================
-   BARCODE รหัสนักศึกษา
-   ใช้ CODE128
-   ========================================================= */
-
-function createStudentBarcode() {
-
-    const studentIdElement =
-        document.getElementById(
-            "studentId"
-        );
-
-    const barcode =
-        document.getElementById(
-            "studentBarcode"
-        );
-
-    const barcodeStudentId =
-        document.getElementById(
-            "barcodeStudentId"
-        );
-
-
-    if (
-        !studentIdElement ||
-        !barcode
-    ) {
-
-        return;
-
-    }
-
-
-    const studentId =
-        studentIdElement.textContent
-            .trim();
-
-
-    if (
-        !studentId ||
-        studentId === "-"
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-     * สร้าง CODE128 Barcode
-     */
-
-    if (
-        typeof JsBarcode === "undefined"
-    ) {
-
-        console.error(
-            "ไม่พบ JsBarcode"
-        );
-
-        return;
-
-    }
-
-
-    JsBarcode(
-        barcode,
-        studentId,
-        {
-
-            format: "CODE128",
-
-            lineColor: "#000000",
-
-            background: "#ffffff",
-
-            width: 3,
-
-            height: 100,
-
-            displayValue: true,
-
-            fontSize: 18,
-
-            fontOptions: "bold",
-
-            margin: 10
-
-        }
-    );
-
-
-    /*
-     * แสดงรหัสใต้ Barcode
-     */
-
-    if (barcodeStudentId) {
-
-        barcodeStudentId.textContent =
-            studentId;
-
-    }
-
-}
-
-
-/* =========================================================
-   ตรวจสอบข้อมูลแล้วสร้าง Barcode
-   ========================================================= */
-
-function waitAndCreateBarcode() {
-
-    let count = 0;
-
-    const timer =
-        setInterval(
-            function() {
-
-                count++;
-
-                const studentIdElement =
-                    document.getElementById(
-                        "studentId"
-                    );
-
-
-                if (
-                    studentIdElement &&
-                    studentIdElement.textContent.trim() !== "-" &&
-                    studentIdElement.textContent.trim() !== ""
-                ) {
-
-                    clearInterval(timer);
-
-                    createStudentBarcode();
-
-                }
-
-
-                /*
-                 * ป้องกันการรอไม่สิ้นสุด
-                 */
-
-                if (count >= 50) {
-
-                    clearInterval(timer);
-
-                }
-
-            },
-            200
-        );
-
-}
-
-
-/*
- * เริ่มสร้าง Barcode
- */
-
-if (
-    document.readyState === "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        waitAndCreateBarcode
-    );
-
-} else {
-
-    waitAndCreateBarcode();
 
 }
