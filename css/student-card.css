@@ -2,8 +2,15 @@
    STUDENT CARD SYSTEM
    ========================================================= */
 
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
 * {
+
     box-sizing: border-box;
+
 }
 
 
@@ -20,6 +27,10 @@ body {
 
 }
 
+
+/* =========================================================
+   BODY
+   ========================================================= */
 
 body {
 
@@ -42,7 +53,7 @@ body {
 
 
 /* =========================================================
-   ปุ่ม
+   ปุ่มด้านบน
    ========================================================= */
 
 .card-controls {
@@ -99,8 +110,15 @@ body {
 }
 
 
+.card-controls button:hover {
+
+    opacity: 0.85;
+
+}
+
+
 /* =========================================================
-   บัตร
+   บัตรนักศึกษา
    ========================================================= */
 
 .student-card {
@@ -148,6 +166,8 @@ body {
 
     z-index: 1;
 
+    pointer-events: none;
+
 }
 
 
@@ -191,9 +211,6 @@ body {
 
 /* =========================================================
    ข้อมูลนักศึกษา
-
-   เลื่อนลงมาอีก
-   และจัดให้อยู่กึ่งกลางพื้นที่ว่าง
    ========================================================= */
 
 .student-information {
@@ -201,6 +218,11 @@ body {
     position: absolute;
 
     z-index: 6;
+
+    /*
+     * ขยับลงมา
+     * และอยู่ตรงกลางพื้นที่ด้านขวา
+     */
 
     left: 36.5%;
 
@@ -275,7 +297,7 @@ body {
 
 
 /* =========================================================
-   ข้อมูล
+   ข้อมูลเพิ่มเติม
    ========================================================= */
 
 .info-row {
@@ -311,6 +333,95 @@ body {
     font-weight: normal;
 
     color: #222222;
+
+}
+
+
+/* =========================================================
+   BARCODE
+   อยู่ภายในบัตร
+   ========================================================= */
+
+.barcode-on-card {
+
+    position: absolute;
+
+    z-index: 10;
+
+    /*
+     * ด้านขวาล่างของบัตร
+     */
+
+    left: 57%;
+
+    bottom: 5%;
+
+    width: 37%;
+
+    height: 100px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+/* =========================================================
+   คำว่า Barcode
+   ========================================================= */
+
+.barcode-title {
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #000000;
+
+    margin-bottom: 2px;
+
+}
+
+
+/* =========================================================
+   ตัว Barcode
+   ========================================================= */
+
+.student-barcode {
+
+    display: block;
+
+    width: 100%;
+
+    height: 65px;
+
+    background: #ffffff;
+
+}
+
+
+/* =========================================================
+   รหัสใต้ Barcode
+   ========================================================= */
+
+.barcode-id {
+
+    margin-top: 0;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    color: #000000;
+
+    text-align: center;
 
 }
 
@@ -368,7 +479,8 @@ body {
 
 
 /* =========================================================
-   QR CODE
+   QR AREA
+   อยู่นอกบัตร
    ========================================================= */
 
 .qr-area {
@@ -395,8 +507,14 @@ body {
 
     align-items: center;
 
+    justify-content: center;
+
 }
 
+
+/* =========================================================
+   พื้นที่กด QR
+   ========================================================= */
 
 .qr-click-area {
 
@@ -411,6 +529,10 @@ body {
 }
 
 
+/* =========================================================
+   QR CODE
+   ========================================================= */
+
 .student-qr {
 
     display: block;
@@ -423,8 +545,14 @@ body {
 
     cursor: pointer;
 
+    image-rendering: pixelated;
+
 }
 
+
+/* =========================================================
+   ข้อความ QR
+   ========================================================= */
 
 .qr-label {
 
@@ -455,82 +583,6 @@ body {
 
 
 /* =========================================================
-   BARCODE
-   ========================================================= */
-
-.barcode-area {
-
-    width: 100%;
-
-    max-width: 1000px;
-
-    margin-top: 25px;
-
-    padding: 25px 20px 30px;
-
-    background: #ffffff;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 5px 20px
-        rgba(0, 0, 0, 0.15);
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-}
-
-
-.barcode-title {
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    color: #000000;
-
-    margin-bottom: 15px;
-
-}
-
-
-.student-barcode {
-
-    display: block;
-
-    width: 500px;
-
-    max-width: 90%;
-
-    height: 130px;
-
-    background: #ffffff;
-
-}
-
-
-.barcode-id {
-
-    margin-top: 8px;
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    letter-spacing: 3px;
-
-    color: #000000;
-
-}
-
-
-/* =========================================================
    QR FULLSCREEN
    ========================================================= */
 
@@ -544,12 +596,8 @@ body {
 
     height: 100vh;
 
-    background: rgba(
-        0,
-        0,
-        0,
-        0.96
-    );
+    background:
+        rgba(0, 0, 0, 0.96);
 
     z-index: 99999;
 
@@ -590,6 +638,10 @@ body {
 }
 
 
+/* =========================================================
+   QR FULLSCREEN
+   ========================================================= */
+
 .student-qr-fullscreen {
 
     display: block;
@@ -609,6 +661,10 @@ body {
 }
 
 
+/* =========================================================
+   ข้อความ QR เต็มจอ
+   ========================================================= */
+
 .qr-fullscreen-label {
 
     margin-top: 20px;
@@ -618,6 +674,8 @@ body {
     font-size: 24px;
 
     font-weight: bold;
+
+    text-align: center;
 
 }
 
@@ -632,8 +690,14 @@ body {
 
     font-weight: bold;
 
+    text-align: center;
+
 }
 
+
+/* =========================================================
+   ปุ่มปิด
+   ========================================================= */
 
 .qr-close {
 
@@ -651,18 +715,24 @@ body {
 
     border-radius: 50%;
 
-    background: rgba(
-        255,
-        255,
-        255,
-        0.15
-    );
+    background:
+        rgba(255, 255, 255, 0.15);
 
     color: white;
 
     font-size: 36px;
 
+    line-height: 45px;
+
     cursor: pointer;
+
+}
+
+
+.qr-close:hover {
+
+    background:
+        rgba(255, 255, 255, 0.3);
 
 }
 
@@ -677,6 +747,15 @@ body {
 
         padding: 5px;
 
+        background: #dddddd;
+
+    }
+
+
+    .card-controls {
+
+        margin-bottom: 10px;
+
     }
 
 
@@ -685,6 +764,66 @@ body {
         padding: 8px 12px;
 
         font-size: 13px;
+
+    }
+
+
+    .student-card {
+
+        border-radius: 4px;
+
+    }
+
+
+    /*
+     * Barcode ในบัตร
+     */
+
+    .barcode-on-card {
+
+        left: 57%;
+
+        bottom: 5.5%;
+
+        width: 37%;
+
+        height: 70px;
+
+    }
+
+
+    .barcode-title {
+
+        font-size: 8px;
+
+    }
+
+
+    .student-barcode {
+
+        height: 45px;
+
+    }
+
+
+    .barcode-id {
+
+        font-size: 9px;
+
+        letter-spacing: 1px;
+
+    }
+
+
+    /*
+     * QR
+     */
+
+    .qr-area {
+
+        margin-top: 20px;
+
+        padding: 20px 10px 25px;
 
     }
 
@@ -709,23 +848,38 @@ body {
     }
 
 
-    .student-barcode {
+    .qr-hint {
 
-        width: 90%;
-
-        height: 110px;
+        font-size: 13px;
 
     }
 
 
-    .barcode-title {
+    /*
+     * QR Fullscreen
+     */
 
-        font-size: 18px;
+    .student-qr-fullscreen {
+
+        width: 85vw;
+
+        height: 85vw;
+
+        max-width: 85vh;
+
+        max-height: 85vh;
 
     }
 
 
-    .barcode-id {
+    .qr-fullscreen-label {
+
+        font-size: 20px;
+
+    }
+
+
+    .qr-fullscreen-id {
 
         font-size: 18px;
 
@@ -740,6 +894,29 @@ body {
 
 @media print {
 
+    @page {
+
+        margin: 0;
+
+    }
+
+
+    html,
+    body {
+
+        width: 100%;
+
+        height: 100%;
+
+        margin: 0;
+
+        padding: 0;
+
+        background: white;
+
+    }
+
+
     .card-controls {
 
         display: none;
@@ -749,15 +926,20 @@ body {
 
     .student-card {
 
-        box-shadow: none;
+        width: 1000px;
+
+        height: 632px;
+
+        max-width: none;
 
         border-radius: 0;
+
+        box-shadow: none;
 
     }
 
 
-    .qr-area,
-    .barcode-area {
+    .qr-area {
 
         display: none;
 
