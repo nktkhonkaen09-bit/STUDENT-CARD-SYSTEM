@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="theme-color"
+        content="#f5a900">
+
+    <title>
+        Student Card System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css">
+
+</head>
+
+
+<body>
+
+
+<div class="app-shell">
+
+
+    <!-- HEADER -->
+
+    <header class="app-header">
+
+        <div class="student-info">
+
+            <div class="avatar">
+
+                <span>👤</span>
+
+            </div>
+
+
+            <div>
+
+                <div
+                    id="headerStudentId"
+                    class="student-id">
+
+                    -
+
+                </div>
+
+
+                <div
+                    id="headerStudentName"
+                    class="student-name">
+
+                    กำลังโหลด...
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="logoutButton"
+            class="logout-button"
+            title="ออกจากระบบ">
+
+            ↪
+
+        </button>
+
+    </header>
+
+
+
+    <!-- TITLE -->
+
+    <div class="menu-title">
+
+        เมนู
+
+    </div>
+
+
+
+    <!-- MENU -->
+
+    <main class="menu-grid">
+
+
+        <button
+            class="menu-item"
+            onclick="openProfile()">
+
+            <div class="menu-icon profile-icon">
+
+                👤
+
+            </div>
+
+            <div>
+
+                ประวัตินักศึกษา
+
+            </div>
+
+        </button>
+
+
+
+        <button
+            class="menu-item"
+            onclick="openStudentCard()">
+
+            <div class="menu-icon card-icon">
+
+                💳
+
+            </div>
+
+            <div>
+
+                บัตรนักศึกษา
+
+            </div>
+
+        </button>
+
+
+
+        <button
+            class="menu-item"
+            onclick="openChangePassword()">
+
+            <div class="menu-icon password-icon">
+
+                🔑
+
+            </div>
+
+            <div>
+
+                เปลี่ยนรหัสผ่าน
+
+            </div>
+
+        </button>
+
+
+
+        <button
+            class="menu-item"
+            onclick="logout()">
+
+            <div class="menu-icon logout-icon">
+
+                ↪
+
+            </div>
+
+            <div>
+
+                ออกจากระบบ
+
+            </div>
+
+        </button>
+
+
+    </main>
+
+
+</div>
+
+
+<script src="js/config.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+
+</html>
