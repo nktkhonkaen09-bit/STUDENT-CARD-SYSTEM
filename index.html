@@ -2,90 +2,124 @@
 <html lang="th">
 
 <head>
-  <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-  <title>ระบบบริการนักศึกษา</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-  <link
-    rel="stylesheet"
-    href="css/style.css">
+    <meta
+        name="theme-color"
+        content="#f5a900">
+
+    <title>
+        ระบบบริการนักศึกษา
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
 </head>
+
 
 <body>
 
-  <main class="app">
+<div class="login-page">
 
-    <section class="login-card">
+    <div class="login-container">
 
-      <img
-        src="assets/logo.png"
-        class="logo"
-        alt="Logo">
+        <div class="logo-container">
 
-      <h1>ระบบบริการนักศึกษา</h1>
-
-      <p class="subtitle">
-        Student Service System
-      </p>
-
-      <form id="loginForm">
-
-        <div class="form-group">
-
-          <label>
-            รหัสนักศึกษา
-          </label>
-
-          <input
-            type="text"
-            id="studentId"
-            placeholder="กรอกรหัสนักศึกษา"
-            autocomplete="username"
-            required>
+            <img
+                src="assets/logo.png"
+                alt="Logo"
+                class="school-logo"
+                onerror="this.style.display='none'">
 
         </div>
 
 
-        <div class="form-group">
+        <h1>
+            ระบบบริการนักศึกษา
+        </h1>
 
-          <label>
-            รหัสผ่าน
-          </label>
+        <p class="system-name">
+            STUDENT SERVICE SYSTEM
+        </p>
 
-          <input
-            type="password"
-            id="password"
-            placeholder="กรอกรหัสผ่าน"
-            autocomplete="current-password"
-            required>
+
+        <form
+            id="loginForm"
+            autocomplete="on">
+
+
+            <div class="input-group">
+
+                <label for="studentId">
+                    รหัสนักศึกษา
+                </label>
+
+                <input
+                    id="studentId"
+                    name="username"
+                    type="text"
+                    placeholder="กรอกรหัสนักศึกษา"
+                    autocomplete="username"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    รหัสผ่าน
+                </label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="กรอกรหัสผ่าน"
+                    autocomplete="current-password"
+                    required>
+
+            </div>
+
+
+            <button
+                id="loginButton"
+                type="submit">
+
+                เข้าสู่ระบบ
+
+            </button>
+
+
+            <div
+                id="loginMessage"
+                class="login-message">
+            </div>
+
+
+        </form>
+
+
+        <div class="login-footer">
+
+            Student Card System
 
         </div>
 
+    </div>
 
-        <button
-          type="submit"
-          class="login-button">
+</div>
 
-          เข้าสู่ระบบ
 
-        </button>
-
-      </form>
-
-      <div
-        id="loginMessage"
-        class="message">
-      </div>
-
-    </section>
-
-  </main>
-
-  <script src="js/login.js"></script>
+<script src="js/config.js"></script>
+<script src="js/login.js"></script>
 
 </body>
 
