@@ -18,9 +18,9 @@
     <title>บัตรนักศึกษา</title>
 
 
-    <!-- ==============================
+    <!-- =========================================
          FONT
-         ============================== -->
+         ========================================= -->
 
     <link
         rel="preconnect"
@@ -45,6 +45,10 @@
             box-sizing: border-box;
         }
 
+
+        /* =========================================
+           BODY
+           ========================================= */
 
         body {
 
@@ -80,7 +84,7 @@
 
 
         /* =========================================
-           CARD
+           STUDENT CARD
            ========================================= */
 
         #studentCard {
@@ -98,11 +102,10 @@
             overflow: hidden;
 
             /*
-             * ใช้ STD-BG.png เป็นพื้นหลัง
+             * พื้นหลังบัตร
              */
 
             background-image:
-
                 url(
                     "https://raw.githubusercontent.com/nktkhonkaen09-bit/STUDENT-CARD-SYSTEM/main/assets/students/STD-BG.png"
                 );
@@ -150,13 +153,12 @@
 
 
         /* =========================================
-           INFORMATION
+           STUDENT INFORMATION
            
-           เรียง:
-           1. รหัส
-           2. ชื่อ-สกุล
-           3. สาขาวิชา
-           4. สถานะ
+           รหัส
+           ชื่อ-สกุล
+           สาขาวิชา
+           สถานะ
            ========================================= */
 
         .student-info {
@@ -165,14 +167,16 @@
 
             left: 38.0%;
 
-            top: 36.5%;
+            top: 35.0%;
 
-            width: 56%;
+            width: 56.5%;
 
             color: #000000;
 
         }
 
+
+        /* แต่ละบรรทัด */
 
         .info-row {
 
@@ -182,25 +186,22 @@
 
             width: 100%;
 
-            margin-bottom: 2.2%;
+            margin-bottom: 3.2%;
 
             line-height: 1.25;
 
         }
 
 
+        /* หัวข้อ */
+
         .info-label {
 
-            flex: 0 0 auto;
+            flex: 0 0 24%;
 
-            margin-right: 12px;
+            margin-right: 10px;
 
-            font-size:
-                clamp(
-                    11px,
-                    1.65vw,
-                    22px
-                );
+            font-size: 17px;
 
             font-weight: 600;
 
@@ -209,18 +210,17 @@
         }
 
 
+        /* ข้อมูล */
+
         .info-value {
+
+            flex: 1;
 
             min-width: 0;
 
-            font-size:
-                clamp(
-                    11px,
-                    1.65vw,
-                    22px
-                );
+            font-size: 17px;
 
-            font-weight: 400;
+            font-weight: 500;
 
             white-space: nowrap;
 
@@ -235,7 +235,9 @@
 
         #studentId {
 
-            font-weight: 600;
+            font-size: 18px;
+
+            font-weight: 700;
 
         }
 
@@ -243,6 +245,30 @@
         /* ชื่อ-สกุล */
 
         #studentName {
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* สาขาวิชา */
+
+        #studentDepartment {
+
+            font-size: 16px;
+
+            font-weight: 500;
+
+        }
+
+
+        /* สถานะ */
+
+        #studentStatus {
+
+            font-size: 16px;
 
             font-weight: 500;
 
@@ -252,6 +278,7 @@
         /* =========================================
            DATE
            
+           วันออกบัตร / วันหมดอายุ
            อยู่ใต้รูป
            ========================================= */
 
@@ -291,12 +318,7 @@
 
             display: block;
 
-            font-size:
-                clamp(
-                    8px,
-                    1.15vw,
-                    14px
-                );
+            font-size: 13px;
 
             font-weight: 600;
 
@@ -307,12 +329,7 @@
 
             display: block;
 
-            font-size:
-                clamp(
-                    8px,
-                    1.15vw,
-                    14px
-                );
+            font-size: 13px;
 
             font-weight: 400;
 
@@ -592,7 +609,56 @@
 
             .info-row {
 
-                margin-bottom: 2%;
+                margin-bottom: 3%;
+
+            }
+
+
+            .info-value {
+
+                font-size: 14px;
+
+            }
+
+
+            #studentId {
+
+                font-size: 15px;
+
+            }
+
+
+            #studentName {
+
+                font-size: 14px;
+
+            }
+
+
+            #studentDepartment {
+
+                font-size: 13px;
+
+            }
+
+
+            #studentStatus {
+
+                font-size: 13px;
+
+            }
+
+
+            .date-title {
+
+                font-size: 9px;
+
+            }
+
+
+            .date-value {
+
+                font-size: 9px;
 
             }
 
@@ -621,14 +687,14 @@
     <!-- =========================================
          STUDENT CARD
          
-         ไม่มีหัวข้อ "บัตรนักศึกษา" ด้านบนซ้าย
+         ไม่มีหัวข้อบัตรนักศึกษาด้านบน
          ========================================= -->
 
     <div id="studentCard">
 
 
         <!-- =====================================
-             PHOTO
+             รูปนักศึกษา
              ===================================== -->
 
         <img
@@ -639,18 +705,13 @@
 
 
         <!-- =====================================
-             INFORMATION
-             
-             รหัส
-             ชื่อ-สกุล
-             สาขาวิชา
-             สถานะ
+             ข้อมูลนักศึกษา
              ===================================== -->
 
         <div class="student-info">
 
 
-            <!-- รหัส -->
+            <!-- รหัสนักศึกษา -->
 
             <div class="info-row">
 
@@ -726,9 +787,7 @@
 
 
         <!-- =====================================
-             DATE
-             
-             อยู่ใต้รูป
+             วันออกบัตร / วันหมดอายุ
              ===================================== -->
 
         <div class="date-area">
