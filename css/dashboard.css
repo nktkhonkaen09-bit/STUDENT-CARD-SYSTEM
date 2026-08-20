@@ -7,16 +7,21 @@
 :root {
 
     --primary: #0a1383;
+
     --primary-dark: #070d62;
+
     --primary-light: #eef0ff;
 
     --white: #ffffff;
 
     --text: #111827;
+
     --gray: #6b7280;
+
     --border: #e1e4f0;
 
     --logout: #dc2626;
+
     --logout-light: #fff1f2;
 
 }
@@ -27,18 +32,24 @@
    ========================================= */
 
 * {
-    box-sizing: border-box;
+
+    box-sizing:
+        border-box;
+
 }
 
 
 html,
 body {
 
-    margin: 0;
+    margin:
+        0;
 
-    padding: 0;
+    padding:
+        0;
 
-    min-height: 100%;
+    min-height:
+        100%;
 
 }
 
@@ -61,12 +72,13 @@ body {
 
 
 /* =========================================
-   PAGE
+   DASHBOARD PAGE
    ========================================= */
 
 .dashboard-page {
 
-    min-height: 100vh;
+    min-height:
+        100vh;
 
     background:
         linear-gradient(
@@ -85,15 +97,20 @@ body {
 
 .dashboard-header {
 
-    width: 100%;
+    width:
+        100%;
 
-    min-height: 82px;
+    min-height:
+        82px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
     padding:
         12px 28px;
@@ -117,22 +134,28 @@ body {
 
 .header-left {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 13px;
+    gap:
+        13px;
 
 }
 
 
 .header-logo {
 
-    width: 52px;
+    width:
+        52px;
 
-    height: 52px;
+    height:
+        52px;
 
-    object-fit: contain;
+    object-fit:
+        contain;
 
 }
 
@@ -232,7 +255,8 @@ body {
 
 .dashboard-main {
 
-    width: 100%;
+    width:
+        100%;
 
     max-width:
         950px;
@@ -389,10 +413,10 @@ body {
 
 
 /* =========================================
-   STUDENT CARD SPECIAL
+   STUDENT CARD
    ========================================= */
 
-.menu-card.student-card-menu {
+.student-card-menu {
 
     border-top-color:
         var(--primary);
@@ -433,8 +457,35 @@ body {
     color:
         var(--primary);
 
-    font-size:
-        29px;
+}
+
+
+/* =========================================
+   SVG ICON
+   ========================================= */
+
+.menu-icon svg {
+
+    width:
+        34px;
+
+    height:
+        34px;
+
+    fill:
+        none;
+
+    stroke:
+        currentColor;
+
+    stroke-width:
+        1.8;
+
+    stroke-linecap:
+        round;
+
+    stroke-linejoin:
+        round;
 
 }
 
@@ -458,7 +509,7 @@ body {
 
 
 /* =========================================
-   DESCRIPTION
+   MENU DESCRIPTION
    ========================================= */
 
 .menu-description {
@@ -479,10 +530,10 @@ body {
 
 
 /* =========================================
-   LOGOUT CARD
+   LOGOUT
    ========================================= */
 
-.menu-card.logout-menu {
+.logout-menu {
 
     border-top-color:
         var(--logout);
@@ -490,7 +541,7 @@ body {
 }
 
 
-.menu-card.logout-menu .menu-icon {
+.logout-menu .menu-icon {
 
     background:
         var(--logout-light);
@@ -501,7 +552,7 @@ body {
 }
 
 
-.menu-card.logout-menu .menu-title {
+.logout-menu .menu-title {
 
     color:
         var(--logout);
@@ -716,8 +767,16 @@ body {
         margin-bottom:
             9px;
 
-        font-size:
-            25px;
+    }
+
+
+    .menu-icon svg {
+
+        width:
+            30px;
+
+        height:
+            30px;
 
     }
 
