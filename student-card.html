@@ -13,64 +13,110 @@
     <title>บัตรนักศึกษา</title>
 
 
-    <!-- CSS -->
-
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="css/dashboard.css"
-    >
-
-
     <style>
 
-        body {
-            margin: 0;
-            background: #f1f5f9;
-            font-family: Arial, "Noto Sans Thai", sans-serif;
-        }
-
-
-        .card-page {
-            min-height: 100vh;
-            padding: 20px;
+        * {
             box-sizing: border-box;
         }
 
 
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            background:
+                #eef2f7;
+
+            font-family:
+                Arial,
+                "Noto Sans Thai",
+                sans-serif;
+
+            color: #111827;
+
+        }
+
+
+        /* =========================================
+           PAGE
+           ========================================= */
+
+        .card-page {
+
+            min-height: 100vh;
+
+            padding: 20px;
+
+        }
+
+
+        /* =========================================
+           HEADER
+           ========================================= */
+
         .card-header {
+
+            width: 100%;
+
             max-width: 500px;
-            margin: 0 auto 15px;
+
+            margin:
+                0 auto 20px;
+
             display: flex;
+
             align-items: center;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
         }
 
 
         .card-header h2 {
+
             margin: 0;
+
+            font-size: 22px;
+
         }
 
 
         .back-button {
+
             border: none;
-            background: #2563eb;
+
+            background:
+                #2563eb;
+
             color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
+
+            padding:
+                10px 18px;
+
+            border-radius:
+                8px;
+
             cursor: pointer;
+
+            font-size: 14px;
+
         }
 
 
-        /*
-         * =========================================
-         * บัตรนักศึกษา
-         * =========================================
-         */
+        .back-button:active {
+
+            transform:
+                scale(0.97);
+
+        }
+
+
+        /* =========================================
+           STUDENT CARD
+           ========================================= */
 
         #studentCard {
 
@@ -80,35 +126,43 @@
 
             max-width: 430px;
 
-            aspect-ratio: 1.586 / 1;
+            aspect-ratio:
+                1.586 / 1;
 
-            margin: 20px auto;
+            margin:
+                0 auto;
 
             overflow: hidden;
 
-            border-radius: 16px;
+            border-radius:
+                16px;
+
+            background-color:
+                white;
 
             background-image:
+
                 url(
                     "https://raw.githubusercontent.com/nktkhonkaen09-bit/STUDENT-CARD-SYSTEM/main/assets/students/STD-BG.png"
                 );
 
-            background-size: cover;
+            background-size:
+                cover;
 
-            background-position: center;
+            background-position:
+                center;
 
             box-shadow:
-                0 8px 25px
+
+                0 10px 30px
                 rgba(0,0,0,0.20);
 
         }
 
 
-        /*
-         * =========================================
-         * รูปนักศึกษา
-         * =========================================
-         */
+        /* =========================================
+           STUDENT PHOTO
+           ========================================= */
 
         #studentPhoto {
 
@@ -120,49 +174,53 @@
 
             width: 25%;
 
-            aspect-ratio: 0.78;
+            aspect-ratio:
+                0.78;
 
-            object-fit: cover;
+            object-fit:
+                cover;
 
-            border-radius: 6px;
+            border-radius:
+                6px;
 
-            background: #eeeeee;
+            background:
+                #eeeeee;
 
         }
 
 
-        /*
-         * =========================================
-         * รหัสนักศึกษา
-         * =========================================
-         */
+        /* =========================================
+           STUDENT ID
+           ========================================= */
 
         .student-id {
 
             position: absolute;
 
-            top: 43%;
-
             left: 0;
+
+            top: 44%;
 
             width: 100%;
 
-            text-align: center;
+            text-align:
+                center;
 
-            font-size: 18px;
+            font-size:
+                18px;
 
-            font-weight: bold;
+            font-weight:
+                bold;
 
-            color: #000;
+            color:
+                #000000;
 
         }
 
 
-        /*
-         * =========================================
-         * ชื่อภาษาไทย
-         * =========================================
-         */
+        /* =========================================
+           THAI NAME
+           ========================================= */
 
         .student-name {
 
@@ -174,20 +232,21 @@
 
             width: 60%;
 
-            font-size: 18px;
+            font-size:
+                17px;
 
-            font-weight: bold;
+            font-weight:
+                bold;
 
-            color: #000;
+            color:
+                #000000;
 
         }
 
 
-        /*
-         * =========================================
-         * ชื่อภาษาอังกฤษ
-         * =========================================
-         */
+        /* =========================================
+           ENGLISH NAME
+           ========================================= */
 
         .student-name-en {
 
@@ -199,18 +258,18 @@
 
             width: 60%;
 
-            font-size: 13px;
+            font-size:
+                12px;
 
-            color: #000;
+            color:
+                #000000;
 
         }
 
 
-        /*
-         * =========================================
-         * สาขา
-         * =========================================
-         */
+        /* =========================================
+           DEPARTMENT
+           ========================================= */
 
         .student-department {
 
@@ -222,18 +281,18 @@
 
             width: 60%;
 
-            font-size: 13px;
+            font-size:
+                12px;
 
-            color: #000;
+            color:
+                #000000;
 
         }
 
 
-        /*
-         * =========================================
-         * สถานะ
-         * =========================================
-         */
+        /* =========================================
+           STATUS
+           ========================================= */
 
         .student-status {
 
@@ -245,18 +304,18 @@
 
             width: 60%;
 
-            font-size: 13px;
+            font-size:
+                12px;
 
-            color: #000;
+            color:
+                #000000;
 
         }
 
 
-        /*
-         * =========================================
-         * วันที่
-         * =========================================
-         */
+        /* =========================================
+           ISSUE DATE
+           ========================================= */
 
         .issue-date {
 
@@ -264,12 +323,20 @@
 
             left: 8%;
 
-            bottom: 9%;
+            bottom: 8%;
 
-            font-size: 11px;
+            font-size:
+                10px;
+
+            color:
+                #000000;
 
         }
 
+
+        /* =========================================
+           EXPIRE DATE
+           ========================================= */
 
         .expire-date {
 
@@ -277,18 +344,20 @@
 
             right: 8%;
 
-            bottom: 9%;
+            bottom: 8%;
 
-            font-size: 11px;
+            font-size:
+                10px;
+
+            color:
+                #000000;
 
         }
 
 
-        /*
-         * =========================================
-         * BARCODE
-         * =========================================
-         */
+        /* =========================================
+           BARCODE
+           ========================================= */
 
         .barcode-area {
 
@@ -296,24 +365,28 @@
 
             left: 52%;
 
-            bottom: 7%;
+            bottom: 5%;
 
             width: 40%;
 
-            background: white;
-
             padding: 3px;
 
-            box-sizing: border-box;
+            background:
+                white;
+
+            border-radius:
+                3px;
 
         }
 
 
         #studentBarcode {
 
+            display: block;
+
             width: 100%;
 
-            height: 42px;
+            height: 40px;
 
         }
 
@@ -322,109 +395,320 @@
 
             display: block;
 
-            text-align: center;
+            text-align:
+                center;
 
-            font-size: 10px;
+            font-size:
+                9px;
 
-            font-weight: bold;
+            font-weight:
+                bold;
+
+            color:
+                #000000;
 
         }
 
 
-        /*
-         * =========================================
-         * QR
-         * =========================================
-         */
+        /* =========================================
+           QR AREA
+           ========================================= */
 
         .qr-area {
 
-            margin: 25px auto;
+            width: 100%;
 
-            text-align: center;
+            text-align:
+                center;
+
+            margin-top:
+                25px;
+
+            margin-bottom:
+                20px;
 
         }
 
 
         #studentQR {
 
-            width: 180px;
+            width:
+                220px;
 
-            height: 180px;
+            height:
+                220px;
 
-            background: white;
+            display:
+                block;
 
-            padding: 8px;
+            margin:
+                0 auto;
 
-            border-radius: 8px;
+            padding:
+                8px;
 
-            box-sizing: border-box;
+            background:
+                white;
+
+            border-radius:
+                10px;
+
+            object-fit:
+                contain;
+
+            cursor:
+                pointer;
+
+            box-shadow:
+
+                0 4px 15px
+                rgba(0,0,0,0.12);
 
         }
 
 
         .qr-title {
 
-            margin-top: 8px;
+            margin-top:
+                10px;
 
-            font-weight: bold;
+            font-size:
+                15px;
+
+            font-weight:
+                bold;
 
         }
 
 
-        /*
-         * =========================================
-         * ปุ่ม
-         * =========================================
-         */
+        .qr-hint {
+
+            margin-top:
+                5px;
+
+            font-size:
+                12px;
+
+            color:
+                #6b7280;
+
+        }
+
+
+        /* =========================================
+           BUTTONS
+           ========================================= */
 
         .card-actions {
 
-            display: flex;
+            display:
+                flex;
 
-            justify-content: center;
+            justify-content:
+                center;
 
-            gap: 10px;
+            gap:
+                10px;
 
-            margin-top: 15px;
+            margin-top:
+                20px;
 
         }
 
 
         .card-actions button {
 
-            border: none;
+            border:
+                none;
 
-            padding: 11px 18px;
+            padding:
+                11px 20px;
 
-            border-radius: 8px;
+            border-radius:
+                8px;
 
-            cursor: pointer;
+            background:
+                #2563eb;
 
-            color: white;
+            color:
+                white;
 
-            background: #2563eb;
+            font-size:
+                14px;
+
+            cursor:
+                pointer;
 
         }
 
 
-        @media (max-width: 480px) {
+        /* =========================================
+           FULL SCREEN QR
+           ========================================= */
+
+        #qrOverlay {
+
+            position:
+                fixed;
+
+            inset:
+                0;
+
+            z-index:
+                99999;
+
+            display:
+                none;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                rgba(0,0,0,0.94);
+
+            padding:
+                20px;
+
+        }
+
+
+        #qrOverlay.show {
+
+            display:
+                flex;
+
+        }
+
+
+        #qrFull {
+
+            width:
+                min(90vw, 500px);
+
+            height:
+                min(90vw, 500px);
+
+            background:
+                white;
+
+            padding:
+                15px;
+
+            border-radius:
+                15px;
+
+            object-fit:
+                contain;
+
+        }
+
+
+        .qr-close {
+
+            position:
+                absolute;
+
+            top:
+                20px;
+
+            right:
+                20px;
+
+            width:
+                45px;
+
+            height:
+                45px;
+
+            border:
+                none;
+
+            border-radius:
+                50%;
+
+            background:
+                white;
+
+            color:
+                #111827;
+
+            font-size:
+                25px;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        /* =========================================
+           MOBILE
+           ========================================= */
+
+        @media (
+            max-width: 480px
+        ) {
 
             .card-page {
-                padding: 10px;
+
+                padding:
+                    10px;
+
             }
+
+
+            .card-header h2 {
+
+                font-size:
+                    19px;
+
+            }
+
 
             .student-name {
-                font-size: 15px;
+
+                font-size:
+                    14px;
+
             }
 
+
             .student-name-en {
-                font-size: 11px;
+
+                font-size:
+                    10px;
+
             }
+
 
             .student-department,
             .student-status {
-                font-size: 11px;
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .student-id {
+
+                font-size:
+                    16px;
+
+            }
+
+
+            #studentQR {
+
+                width:
+                    200px;
+
+                height:
+                    200px;
+
             }
 
         }
@@ -439,6 +723,10 @@
 
 <div class="card-page">
 
+
+    <!-- =========================================
+         HEADER
+         ========================================= -->
 
     <div class="card-header">
 
@@ -458,9 +746,9 @@
 
 
 
-    <!-- =================================================
+    <!-- =========================================
          STUDENT CARD
-         ================================================= -->
+         ========================================= -->
 
     <div id="studentCard">
 
@@ -504,7 +792,7 @@
         </div>
 
 
-        <!-- สาขา -->
+        <!-- สาขาวิชา -->
 
         <div
             id="studentDepartment"
@@ -524,7 +812,7 @@
         </div>
 
 
-        <!-- วันที่ออกบัตร -->
+        <!-- วันออกบัตร -->
 
         <div
             id="issueDate"
@@ -544,13 +832,14 @@
         </div>
 
 
-        <!-- Barcode -->
+        <!-- BARCODE -->
 
         <div class="barcode-area">
 
             <svg
                 id="studentBarcode"
             ></svg>
+
 
             <span
                 id="barcodeStudentId"
@@ -563,18 +852,18 @@
 
 
 
-    <!-- =================================================
+    <!-- =========================================
          QR CODE
-         ================================================= -->
+         ========================================= -->
 
     <div class="qr-area">
 
+
         <img
-    id="studentQR"
-    class="student-qr-image"
-    src=""
-    alt="QR Code รหัสนักศึกษา"
->
+            id="studentQR"
+            src=""
+            alt="QR Code รหัสนักศึกษา"
+        >
 
 
         <div class="qr-title">
@@ -583,13 +872,21 @@
 
         </div>
 
+
+        <div class="qr-hint">
+
+            แตะ QR Code เพื่อขยายเต็มหน้าจอ
+
+        </div>
+
+
     </div>
 
 
 
-    <!-- =================================================
-         BUTTON
-         ================================================= -->
+    <!-- =========================================
+         ACTIONS
+         ========================================= -->
 
     <div class="card-actions">
 
@@ -606,29 +903,57 @@
 
 
 
-<!-- =====================================================
+<!-- =============================================
+     QR FULL SCREEN
+     ============================================= -->
+
+<div
+    id="qrOverlay"
+    onclick="closeQR()"
+>
+
+
+    <button
+        class="qr-close"
+        onclick="event.stopPropagation(); closeQR();"
+    >
+        ×
+    </button>
+
+
+    <img
+        id="qrFull"
+        src=""
+        alt="QR Code"
+        onclick="event.stopPropagation();"
+    >
+
+</div>
+
+
+
+<!-- =============================================
      JAVASCRIPT
-     ===================================================== -->
+     ============================================= -->
 
-<script src="js/config.js"></script>
+<script
+    src="js/config.js"
+></script>
 
 
 <script
-    src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js">
-</script>
+    src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"
+></script>
 
 
 <script
-    src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js">
-</script>
+    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+></script>
 
 
 <script
-    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
-</script>
-
-
-<script src="js/student-card.js"></script>
+    src="js/student-card.js"
+></script>
 
 
 </body>
