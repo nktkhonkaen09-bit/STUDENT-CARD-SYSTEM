@@ -2,20 +2,34 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
+        // ตรวจสอบ Session
         checkSession();
 
+        // โหลดข้อมูลนักศึกษา
         loadStudent();
 
-        document
-            .getElementById("logoutButton")
-            .addEventListener(
+        // ปุ่มออกจากระบบ
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+        if (logoutButton) {
+
+            logoutButton.addEventListener(
                 "click",
                 logout
             );
 
+        }
+
     }
 );
 
+
+/* =========================================
+   ตรวจสอบ Session
+   ========================================= */
 
 function checkSession() {
 
@@ -36,10 +50,19 @@ function checkSession() {
         window.location.href =
             "index.html";
 
+        return false;
+
     }
+
+
+    return true;
 
 }
 
+
+/* =========================================
+   โหลดข้อมูลนักศึกษา
+   ========================================= */
 
 function loadStudent() {
 
@@ -62,12 +85,28 @@ function loadStudent() {
             JSON.parse(raw);
 
 
-        document
-            .getElementById(
+        /* รหัสนักศึกษา */
+
+        const studentIdElement =
+            document.getElementById(
                 "headerStudentId"
-            )
-            .textContent =
-            student.student_id || "-";
+            );
+
+
+        if (studentIdElement) {
+
+            studentIdElement.textContent =
+                student.student_id || "-";
+
+        }
+
+
+        /* ชื่อ-สกุล */
+
+        const studentNameElement =
+            document.getElementById(
+                "headerStudentName"
+            );
 
 
         const fullName =
@@ -81,24 +120,27 @@ function loadStudent() {
             (student.lastname_th || "");
 
 
-        document
-            .getElementById(
-                "headerStudentName"
-            )
-            .textContent =
-            fullName.trim();
+        if (studentNameElement) {
+
+            studentNameElement.textContent =
+                fullName.trim() || "-";
+
+        }
 
 
     } catch (error) {
 
-        console.error(error);
-
+        // ไม่แสดงข้อความแจ้งเตือนผู้ใช้
         logout();
 
     }
 
 }
 
+
+/* =========================================
+   เปิดประวัตินักศึกษา
+   ========================================= */
 
 function openProfile() {
 
@@ -108,6 +150,10 @@ function openProfile() {
 }
 
 
+/* =========================================
+   เปิดบัตรนักศึกษา
+   ========================================= */
+
 function openStudentCard() {
 
     window.location.href =
@@ -115,6 +161,10 @@ function openStudentCard() {
 
 }
 
+
+/* =========================================
+   เปิดเปลี่ยนรหัสผ่าน
+   ========================================= */
 
 function openChangePassword() {
 
@@ -124,17 +174,25 @@ function openChangePassword() {
 }
 
 
+/* =========================================
+   ออกจากระบบ
+   ========================================= */
+
 function logout() {
 
+    // ลบ Session
     sessionStorage.removeItem(
         CONFIG.SESSION_KEY
     );
 
+
+    // ลบข้อมูลนักศึกษา
     sessionStorage.removeItem(
         CONFIG.STUDENT_KEY
     );
 
 
+    // กลับหน้ Login ทันที
     window.location.href =
         "index.html";
 
