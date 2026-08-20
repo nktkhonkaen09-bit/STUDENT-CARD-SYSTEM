@@ -1,652 +1,286 @@
-/* =========================================
-   STUDENT SERVICE SYSTEM
-   DASHBOARD THEME
-   White 80% / Blue #0a1383 20%
-   ========================================= */
+<!DOCTYPE html>
+<html lang="th">
 
-:root {
+<head>
 
-    --primary: #0a1383;
-    --primary-dark: #070d62;
-    --primary-light: #eef0ff;
+    <meta charset="UTF-8">
 
-    --white: #ffffff;
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    --text: #111827;
-    --gray: #6b7280;
-    --border: #dfe2f0;
+    <meta
+        name="theme-color"
+        content="#0a1383"
+    >
 
-}
+    <title>
+        ระบบบริการนักศึกษา
+    </title>
 
 
-/* =========================================
-   RESET
-   ========================================= */
+    <!-- =========================================
+         DASHBOARD CSS
+         ========================================= -->
 
-* {
-    box-sizing: border-box;
-}
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
 
+</head>
 
-html,
-body {
 
-    margin: 0;
+<body>
 
-    padding: 0;
 
-    min-height: 100%;
+<div class="dashboard-page">
 
-}
 
+    <!-- =========================================
+         HEADER
+         ========================================= -->
 
-body {
+    <header class="dashboard-header">
 
-    font-family:
-        Arial,
-        "Noto Sans Thai",
-        "Tahoma",
-        sans-serif;
 
-    color:
-        var(--text);
+        <!-- LEFT -->
 
-    background:
-        #ffffff;
+        <div class="header-left">
 
-}
 
+            <img
+                src="assets/logo.png"
+                alt="Logo"
+                class="header-logo"
+                onerror="this.style.display='none'"
+            >
 
-/* =========================================
-   DASHBOARD PAGE
-   ========================================= */
 
-.dashboard-page {
+            <div>
 
-    min-height: 100vh;
+                <div class="header-system-name">
+                    ระบบบริการนักศึกษา
+                </div>
 
-    background:
-        linear-gradient(
-            135deg,
-            #ffffff 0%,
-            #ffffff 80%,
-            var(--primary-light) 100%
-        );
+                <div class="header-system-subtitle">
+                    STUDENT SERVICE SYSTEM
+                </div>
 
-}
+            </div>
 
 
-/* =========================================
-   HEADER
-   ========================================= */
+        </div>
 
-.dashboard-header {
 
-    width: 100%;
+        <!-- STUDENT INFO -->
 
-    min-height: 75px;
+        <div class="header-student">
 
-    display: flex;
 
-    align-items: center;
+            <div
+                id="headerStudentId"
+                class="header-student-id"
+            >
+                -
+            </div>
 
-    justify-content: space-between;
 
-    padding:
-        12px 25px;
+            <div
+                id="headerStudentName"
+                class="header-student-name"
+            >
+                -
+            </div>
 
-    background:
-        var(--white);
 
-    border-bottom:
-        4px solid var(--primary);
+        </div>
 
-    box-shadow:
-        0 3px 12px
-        rgba(10, 19, 131, 0.08);
 
-}
+    </header>
 
 
-/* =========================================
-   HEADER LEFT
-   ========================================= */
 
-.header-left {
+    <!-- =========================================
+         MAIN
+         ========================================= -->
 
-    display:
-        flex;
+    <main class="dashboard-main">
 
-    align-items:
-        center;
 
-    gap:
-        12px;
+        <!-- WELCOME -->
 
-}
+        <section class="welcome-section">
 
 
-.header-logo {
+            <h1 class="welcome-title">
+                เมนูบริการนักศึกษา
+            </h1>
 
-    width:
-        48px;
 
-    height:
-        48px;
+            <p class="welcome-subtitle">
+                กรุณาเลือกเมนูที่ต้องการ
+            </p>
 
-    object-fit:
-        contain;
 
-}
+        </section>
 
 
-.header-system-name {
 
-    color:
-        var(--primary);
+        <!-- =====================================
+             MENU
+             ===================================== -->
 
-    font-size:
-        18px;
+        <section class="dashboard-menu">
 
-    font-weight:
-        700;
 
-}
+            <!-- =================================
+                 1. PROFILE
+                 ================================= -->
 
+            <div
+                class="menu-card"
+                onclick="openProfile()"
+            >
 
-.header-system-subtitle {
 
-    margin-top:
-        2px;
+                <div class="menu-icon">
+                    👤
+                </div>
 
-    color:
-        var(--gray);
 
-    font-size:
-        11px;
+                <div class="menu-title">
+                    ประวัตินักศึกษา
+                </div>
 
-}
 
+                <div class="menu-description">
+                    ดูข้อมูลประวัติและข้อมูลส่วนตัว
+                </div>
 
-/* =========================================
-   STUDENT INFO
-   ========================================= */
 
-.header-student {
+            </div>
 
-    text-align:
-        right;
 
-}
 
+            <!-- =================================
+                 2. STUDENT CARD
+                 ================================= -->
 
-.header-student-id {
+            <div
+                class="menu-card"
+                onclick="openStudentCard()"
+            >
 
-    color:
-        var(--primary);
 
-    font-size:
-        13px;
+                <div class="menu-icon">
+                    🪪
+                </div>
 
-    font-weight:
-        700;
 
-}
+                <div class="menu-title">
+                    บัตรนักศึกษา
+                </div>
 
 
-.header-student-name {
+                <div class="menu-description">
+                    ดูบัตรนักศึกษาและ QR Code
+                </div>
 
-    margin-top:
-        3px;
 
-    color:
-        var(--text);
+            </div>
 
-    font-size:
-        14px;
 
-    font-weight:
-        600;
 
-}
+            <!-- =================================
+                 3. CHANGE PASSWORD
+                 ================================= -->
 
+            <div
+                class="menu-card"
+                onclick="openChangePassword()"
+            >
 
-/* =========================================
-   MAIN
-   ========================================= */
 
-.dashboard-main {
+                <div class="menu-icon">
+                    🔐
+                </div>
 
-    width:
-        100%;
 
-    max-width:
-        1000px;
+                <div class="menu-title">
+                    เปลี่ยนรหัสผ่าน
+                </div>
 
-    margin:
-        0 auto;
 
-    padding:
-        30px 20px 40px;
+                <div class="menu-description">
+                    เปลี่ยนรหัสผ่านเข้าสู่ระบบ
+                </div>
 
-}
 
+            </div>
 
-/* =========================================
-   WELCOME
-   ========================================= */
 
-.welcome-section {
 
-    margin-bottom:
-        25px;
+            <!-- =================================
+                 4. LOGOUT
+                 ================================= -->
 
-}
+            <div
+                class="menu-card"
+                onclick="logout()"
+            >
 
 
-.welcome-title {
+                <div class="menu-icon">
+                    🚪
+                </div>
 
-    margin:
-        0;
 
-    color:
-        var(--primary);
+                <div class="menu-title">
+                    ออกจากระบบ
+                </div>
 
-    font-size:
-        26px;
 
-    font-weight:
-        700;
+                <div class="menu-description">
+                    ออกจากระบบบริการนักศึกษา
+                </div>
 
-}
 
+            </div>
 
-.welcome-subtitle {
 
-    margin:
-        7px 0 0;
+        </section>
 
-    color:
-        var(--gray);
 
-    font-size:
-        14px;
+    </main>
 
-}
 
 
-/* =========================================
-   MENU GRID
-   ========================================= */
+    <!-- =========================================
+         FOOTER
+         ========================================= -->
 
-.dashboard-menu {
+    <footer class="dashboard-footer">
 
-    display:
-        grid;
+        Student Card System
 
-    grid-template-columns:
-        repeat(2, 1fr);
+    </footer>
 
-    gap:
-        18px;
 
-}
+</div>
 
 
-/* =========================================
-   MENU CARD
-   ========================================= */
 
-.menu-card {
+<!-- =========================================
+     JAVASCRIPT
+     ========================================= -->
 
-    min-height:
-        150px;
+<script src="js/config.js"></script>
 
-    padding:
-        24px;
+<script src="js/dashboard.js"></script>
 
-    display:
-        flex;
 
-    flex-direction:
-        column;
+</body>
 
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    text-align:
-        center;
-
-    background:
-        var(--white);
-
-    border:
-        1px solid var(--border);
-
-    border-top:
-        5px solid var(--primary);
-
-    border-radius:
-        16px;
-
-    box-shadow:
-        0 7px 22px
-        rgba(10, 19, 131, 0.08);
-
-    cursor:
-        pointer;
-
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
-
-}
-
-
-.menu-card:hover {
-
-    background:
-        #fafbff;
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 12px 28px
-        rgba(10, 19, 131, 0.14);
-
-}
-
-
-.menu-card:active {
-
-    transform:
-        scale(0.98);
-
-}
-
-
-/* =========================================
-   MENU ICON
-   ========================================= */
-
-.menu-icon {
-
-    width:
-        58px;
-
-    height:
-        58px;
-
-    margin-bottom:
-        12px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    border-radius:
-        50%;
-
-    background:
-        var(--primary-light);
-
-    color:
-        var(--primary);
-
-    font-size:
-        28px;
-
-}
-
-
-/* =========================================
-   MENU TITLE
-   ========================================= */
-
-.menu-title {
-
-    color:
-        var(--primary);
-
-    font-size:
-        17px;
-
-    font-weight:
-        700;
-
-}
-
-
-.menu-description {
-
-    margin-top:
-        5px;
-
-    color:
-        var(--gray);
-
-    font-size:
-        12px;
-
-    line-height:
-        1.5;
-
-}
-
-
-/* =========================================
-   LOGOUT
-   ========================================= */
-
-.logout-area {
-
-    margin-top:
-        28px;
-
-    text-align:
-        center;
-
-}
-
-
-#logoutButton {
-
-    min-width:
-        150px;
-
-    height:
-        45px;
-
-    padding:
-        0 22px;
-
-    border:
-        1px solid var(--primary);
-
-    border-radius:
-        10px;
-
-    background:
-        #ffffff;
-
-    color:
-        var(--primary);
-
-    font-size:
-        14px;
-
-    font-weight:
-        700;
-
-    cursor:
-        pointer;
-
-    transition:
-        background 0.2s,
-        color 0.2s;
-
-}
-
-
-#logoutButton:hover {
-
-    background:
-        var(--primary);
-
-    color:
-        #ffffff;
-
-}
-
-
-/* =========================================
-   FOOTER
-   ========================================= */
-
-.dashboard-footer {
-
-    padding:
-        20px;
-
-    text-align:
-        center;
-
-    color:
-        var(--gray);
-
-    font-size:
-        11px;
-
-}
-
-
-/* =========================================
-   MOBILE
-   ========================================= */
-
-@media (max-width: 600px) {
-
-    .dashboard-header {
-
-        min-height:
-            68px;
-
-        padding:
-            10px 14px;
-
-    }
-
-
-    .header-logo {
-
-        width:
-            40px;
-
-        height:
-            40px;
-
-    }
-
-
-    .header-system-name {
-
-        font-size:
-            15px;
-
-    }
-
-
-    .header-system-subtitle {
-
-        font-size:
-            9px;
-
-    }
-
-
-    .header-student-id {
-
-        font-size:
-            11px;
-
-    }
-
-
-    .header-student-name {
-
-        font-size:
-            12px;
-
-    }
-
-
-    .dashboard-main {
-
-        padding:
-            22px 12px 30px;
-
-    }
-
-
-    .welcome-title {
-
-        font-size:
-            22px;
-
-    }
-
-
-    .dashboard-menu {
-
-        grid-template-columns:
-            1fr;
-
-        gap:
-            14px;
-
-    }
-
-
-    .menu-card {
-
-        min-height:
-            125px;
-
-        padding:
-            20px;
-
-    }
-
-
-    .menu-icon {
-
-        width:
-            52px;
-
-        height:
-            52px;
-
-        font-size:
-            24px;
-
-    }
-
-
-    .menu-title {
-
-        font-size:
-            16px;
-
-    }
-
-}
+</html>
