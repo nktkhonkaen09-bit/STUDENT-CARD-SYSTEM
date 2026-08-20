@@ -11,10 +11,10 @@
 
     <meta
         name="theme-color"
-        content="#f5a900">
+        content="#F5A900">
 
     <title>
-        Student Card System
+        Student Service System
     </title>
 
     <link
@@ -31,23 +31,25 @@
 <body>
 
 
-<div class="app-shell">
+<div class="app">
 
 
     <!-- HEADER -->
 
     <header class="app-header">
 
-        <div class="student-info">
+        <div class="student-header">
 
-            <div class="avatar">
+            <div class="student-avatar">
 
-                <span>👤</span>
+                <span id="avatarText">
+                    👤
+                </span>
 
             </div>
 
 
-            <div>
+            <div class="student-header-info">
 
                 <div
                     id="headerStudentId"
@@ -62,7 +64,7 @@
                     id="headerStudentName"
                     class="student-name">
 
-                    กำลังโหลด...
+                    -
 
                 </div>
 
@@ -73,10 +75,11 @@
 
         <button
             id="logoutButton"
-            class="logout-button"
-            title="ออกจากระบบ">
+            class="header-logout"
+            type="button"
+            aria-label="ออกจากระบบ">
 
-            ↪
+            <span>↪</span>
 
         </button>
 
@@ -84,7 +87,7 @@
 
 
 
-    <!-- TITLE -->
+    <!-- MENU TITLE -->
 
     <div class="menu-title">
 
@@ -99,17 +102,21 @@
     <main class="menu-grid">
 
 
+        <!-- PROFILE -->
+
         <button
-            class="menu-item"
+            class="menu-card"
+            type="button"
             onclick="openProfile()">
 
-            <div class="menu-icon profile-icon">
+            <div class="menu-icon profile">
 
-                👤
+                <span>👤</span>
 
             </div>
 
-            <div>
+
+            <div class="menu-label">
 
                 ประวัตินักศึกษา
 
@@ -119,17 +126,21 @@
 
 
 
+        <!-- STUDENT CARD -->
+
         <button
-            class="menu-item"
+            class="menu-card"
+            type="button"
             onclick="openStudentCard()">
 
-            <div class="menu-icon card-icon">
+            <div class="menu-icon card">
 
-                💳
+                <span>💳</span>
 
             </div>
 
-            <div>
+
+            <div class="menu-label">
 
                 บัตรนักศึกษา
 
@@ -139,17 +150,21 @@
 
 
 
+        <!-- PASSWORD -->
+
         <button
-            class="menu-item"
+            class="menu-card"
+            type="button"
             onclick="openChangePassword()">
 
-            <div class="menu-icon password-icon">
+            <div class="menu-icon password">
 
-                🔑
+                <span>🔑</span>
 
             </div>
 
-            <div>
+
+            <div class="menu-label">
 
                 เปลี่ยนรหัสผ่าน
 
@@ -159,17 +174,21 @@
 
 
 
+        <!-- LOGOUT -->
+
         <button
-            class="menu-item"
+            class="menu-card"
+            type="button"
             onclick="logout()">
 
-            <div class="menu-icon logout-icon">
+            <div class="menu-icon logout">
 
-                ↪
+                <span>↪</span>
 
             </div>
 
-            <div>
+
+            <div class="menu-label">
 
                 ออกจากระบบ
 
@@ -179,6 +198,16 @@
 
 
     </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="app-footer">
+
+        STUDENT SERVICE SYSTEM
+
+    </footer>
 
 
 </div>
