@@ -26,15 +26,14 @@
 
             min-height: 100vh;
 
-            background:
-                #eef2f7;
+            background: #eeeeee;
 
             font-family:
                 Arial,
                 "Noto Sans Thai",
                 sans-serif;
 
-            color: #111827;
+            color: #000000;
 
         }
 
@@ -45,9 +44,11 @@
 
         .card-page {
 
+            width: 100%;
+
             min-height: 100vh;
 
-            padding: 20px;
+            padding: 15px;
 
         }
 
@@ -60,17 +61,15 @@
 
             width: 100%;
 
-            max-width: 500px;
+            max-width: 1000px;
 
-            margin:
-                0 auto 20px;
+            margin: 0 auto 15px;
 
             display: flex;
 
             align-items: center;
 
-            justify-content:
-                space-between;
+            justify-content: space-between;
 
         }
 
@@ -88,16 +87,13 @@
 
             border: none;
 
-            background:
-                #2563eb;
+            background: #f5a900;
 
             color: white;
 
-            padding:
-                10px 18px;
+            padding: 9px 18px;
 
-            border-radius:
-                8px;
+            border-radius: 8px;
 
             cursor: pointer;
 
@@ -106,16 +102,10 @@
         }
 
 
-        .back-button:active {
-
-            transform:
-                scale(0.97);
-
-        }
-
-
         /* =========================================
-           STUDENT CARD
+           CARD
+           อัตราส่วนเดียวกับภาพด้านหน้าวาง.png
+           1000 : 632
            ========================================= */
 
         #studentCard {
@@ -124,67 +114,53 @@
 
             width: 100%;
 
-            max-width: 430px;
+            max-width: 1000px;
 
-            aspect-ratio:
-                1.586 / 1;
+            aspect-ratio: 1000 / 632;
 
-            margin:
-                0 auto;
+            margin: 0 auto;
 
             overflow: hidden;
-
-            border-radius:
-                16px;
-
-            background-color:
-                white;
 
             background-image:
 
                 url(
-                    "https://raw.githubusercontent.com/nktkhonkaen09-bit/STUDENT-CARD-SYSTEM/main/assets/students/STD-BG.png"
+                    "https://raw.githubusercontent.com/nktkhonkaen09-bit/STUDENT-CARD-SYSTEM/main/assets/students/%E0%B8%94%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%B2%E0%B8%87.png"
                 );
 
-            background-size:
-                cover;
+            background-size: 100% 100%;
 
-            background-position:
-                center;
+            background-repeat: no-repeat;
 
-            box-shadow:
-
-                0 10px 30px
-                rgba(0,0,0,0.20);
+            background-position: center;
 
         }
 
 
         /* =========================================
-           STUDENT PHOTO
+           PHOTO
+           ตำแหน่งตามภาพตัวอย่าง
            ========================================= */
 
         #studentPhoto {
 
             position: absolute;
 
-            left: 7%;
+            left: 5.4%;
 
-            top: 27%;
+            top: 24.7%;
 
-            width: 25%;
+            width: 29.1%;
 
-            aspect-ratio:
-                0.78;
+            height: 57.4%;
 
-            object-fit:
-                cover;
+            object-fit: cover;
 
-            border-radius:
-                6px;
+            object-position: center;
 
-            background:
-                #eeeeee;
+            background: #eeeeee;
+
+            border: 3px solid #10208c;
 
         }
 
@@ -197,160 +173,139 @@
 
             position: absolute;
 
-            left: 0;
+            left: 50%;
 
-            top: 44%;
+            top: 39.0%;
+
+            width: 45%;
+
+            text-align: center;
+
+            font-size: clamp(
+                18px,
+                3vw,
+                32px
+            );
+
+            font-weight: 500;
+
+            color: #000000;
+
+            line-height: 1.1;
+
+        }
+
+
+        /* =========================================
+           INFORMATION AREA
+           ========================================= */
+
+        .student-info {
+
+            position: absolute;
+
+            left: 35.8%;
+
+            top: 48.0%;
+
+            width: 60%;
+
+            font-size: clamp(
+                12px,
+                1.75vw,
+                24px
+            );
+
+            line-height: 1.55;
+
+            color: #000000;
+
+        }
+
+
+        .info-row {
+
+            display: flex;
 
             width: 100%;
 
-            text-align:
-                center;
+            white-space: nowrap;
 
-            font-size:
-                18px;
+        }
 
-            font-weight:
-                bold;
 
-            color:
-                #000000;
+        .info-label {
+
+            flex: 0 0 auto;
+
+            margin-right: 20px;
+
+        }
+
+
+        .info-value {
+
+            flex: 1;
+
+            font-weight: 400;
 
         }
 
 
         /* =========================================
-           THAI NAME
+           DATE UNDER PHOTO
            ========================================= */
 
-        .student-name {
+        .date-area {
 
             position: absolute;
 
-            left: 35%;
+            left: 5.4%;
 
-            top: 29%;
+            top: 84.0%;
 
-            width: 60%;
+            width: 29.1%;
 
-            font-size:
-                17px;
+            display: flex;
 
-            font-weight:
-                bold;
+            justify-content: space-between;
 
-            color:
-                #000000;
+            gap: 8px;
+
+            text-align: center;
 
         }
 
 
-        /* =========================================
-           ENGLISH NAME
-           ========================================= */
+        .date-box {
 
-        .student-name-en {
+            flex: 1;
 
-            position: absolute;
+            font-size: clamp(
+                8px,
+                1.15vw,
+                14px
+            );
 
-            left: 35%;
+            color: #000000;
 
-            top: 38%;
-
-            width: 60%;
-
-            font-size:
-                12px;
-
-            color:
-                #000000;
+            line-height: 1.35;
 
         }
 
 
-        /* =========================================
-           DEPARTMENT
-           ========================================= */
+        .date-title {
 
-        .student-department {
+            display: block;
 
-            position: absolute;
-
-            left: 35%;
-
-            top: 47%;
-
-            width: 60%;
-
-            font-size:
-                12px;
-
-            color:
-                #000000;
+            font-weight: bold;
 
         }
 
 
-        /* =========================================
-           STATUS
-           ========================================= */
+        .date-value {
 
-        .student-status {
-
-            position: absolute;
-
-            left: 35%;
-
-            top: 55%;
-
-            width: 60%;
-
-            font-size:
-                12px;
-
-            color:
-                #000000;
-
-        }
-
-
-        /* =========================================
-           ISSUE DATE
-           ========================================= */
-
-        .issue-date {
-
-            position: absolute;
-
-            left: 8%;
-
-            bottom: 8%;
-
-            font-size:
-                10px;
-
-            color:
-                #000000;
-
-        }
-
-
-        /* =========================================
-           EXPIRE DATE
-           ========================================= */
-
-        .expire-date {
-
-            position: absolute;
-
-            right: 8%;
-
-            bottom: 8%;
-
-            font-size:
-                10px;
-
-            color:
-                #000000;
+            display: block;
 
         }
 
@@ -363,49 +318,39 @@
 
             position: absolute;
 
-            left: 52%;
+            left: 51.5%;
 
-            bottom: 5%;
+            top: 80.0%;
 
-            width: 40%;
+            width: 33%;
 
-            padding: 3px;
+            height: 12%;
 
-            background:
-                white;
+            background: transparent;
 
-            border-radius:
-                3px;
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
 
         }
 
 
         #studentBarcode {
 
-            display: block;
-
             width: 100%;
 
-            height: 40px;
+            height: 100%;
+
+            display: block;
 
         }
 
 
         #barcodeStudentId {
 
-            display: block;
-
-            text-align:
-                center;
-
-            font-size:
-                9px;
-
-            font-weight:
-                bold;
-
-            color:
-                #000000;
+            display: none;
 
         }
 
@@ -418,228 +363,171 @@
 
             width: 100%;
 
-            text-align:
-                center;
+            max-width: 1000px;
 
-            margin-top:
-                25px;
+            margin: 25px auto 10px;
 
-            margin-bottom:
-                20px;
+            text-align: center;
 
         }
 
 
         #studentQR {
 
-            width:
-                220px;
+            width: 220px;
 
-            height:
-                220px;
+            height: 220px;
 
-            display:
-                block;
+            display: block;
 
-            margin:
-                0 auto;
+            margin: 0 auto;
 
-            padding:
-                8px;
+            padding: 8px;
 
-            background:
-                white;
+            background: #ffffff;
 
-            border-radius:
-                10px;
+            border-radius: 12px;
 
-            object-fit:
-                contain;
+            object-fit: contain;
 
-            cursor:
-                pointer;
+            cursor: pointer;
 
             box-shadow:
-
-                0 4px 15px
-                rgba(0,0,0,0.12);
+                0 4px 18px
+                rgba(0,0,0,0.18);
 
         }
 
 
         .qr-title {
 
-            margin-top:
-                10px;
+            margin-top: 10px;
 
-            font-size:
-                15px;
+            font-size: 16px;
 
-            font-weight:
-                bold;
+            font-weight: bold;
 
         }
 
 
         .qr-hint {
 
-            margin-top:
-                5px;
+            margin-top: 5px;
 
-            font-size:
-                12px;
+            color: #666666;
 
-            color:
-                #6b7280;
+            font-size: 12px;
 
         }
 
 
         /* =========================================
-           BUTTONS
+           BUTTON
            ========================================= */
 
         .card-actions {
 
-            display:
-                flex;
+            display: flex;
 
-            justify-content:
-                center;
+            justify-content: center;
 
-            gap:
-                10px;
-
-            margin-top:
-                20px;
+            margin: 20px auto;
 
         }
 
 
         .card-actions button {
 
-            border:
-                none;
+            border: none;
 
-            padding:
-                11px 20px;
+            background: #f5a900;
 
-            border-radius:
-                8px;
+            color: #ffffff;
 
-            background:
-                #2563eb;
+            padding: 11px 25px;
 
-            color:
-                white;
+            border-radius: 8px;
 
-            font-size:
-                14px;
+            font-size: 15px;
 
-            cursor:
-                pointer;
+            cursor: pointer;
 
         }
 
 
         /* =========================================
-           FULL SCREEN QR
+           QR FULL SCREEN
            ========================================= */
 
         #qrOverlay {
 
-            position:
-                fixed;
+            position: fixed;
 
-            inset:
-                0;
+            inset: 0;
 
-            z-index:
-                99999;
+            z-index: 99999;
 
-            display:
-                none;
+            display: none;
 
-            align-items:
-                center;
+            align-items: center;
 
-            justify-content:
-                center;
+            justify-content: center;
 
             background:
                 rgba(0,0,0,0.94);
 
-            padding:
-                20px;
+            padding: 20px;
 
         }
 
 
         #qrOverlay.show {
 
-            display:
-                flex;
+            display: flex;
 
         }
 
 
         #qrFull {
 
-            width:
-                min(90vw, 500px);
+            width: min(90vw, 500px);
 
-            height:
-                min(90vw, 500px);
+            height: min(90vw, 500px);
 
-            background:
-                white;
+            padding: 15px;
 
-            padding:
-                15px;
+            background: #ffffff;
 
-            border-radius:
-                15px;
+            border-radius: 15px;
 
-            object-fit:
-                contain;
+            object-fit: contain;
 
         }
 
 
         .qr-close {
 
-            position:
-                absolute;
+            position: absolute;
 
-            top:
-                20px;
+            right: 20px;
 
-            right:
-                20px;
+            top: 20px;
 
-            width:
-                45px;
+            width: 45px;
 
-            height:
-                45px;
+            height: 45px;
 
-            border:
-                none;
+            border: none;
 
-            border-radius:
-                50%;
+            border-radius: 50%;
 
-            background:
-                white;
+            background: #ffffff;
 
-            color:
-                #111827;
+            color: #000000;
 
-            font-size:
-                25px;
+            font-size: 28px;
 
-            cursor:
-                pointer;
+            cursor: pointer;
 
         }
 
@@ -648,66 +536,59 @@
            MOBILE
            ========================================= */
 
-        @media (
-            max-width: 480px
-        ) {
+        @media (max-width: 600px) {
 
             .card-page {
 
-                padding:
-                    10px;
+                padding: 8px;
 
             }
 
 
             .card-header h2 {
 
-                font-size:
-                    19px;
+                font-size: 18px;
 
             }
 
 
-            .student-name {
+            .back-button {
+
+                padding:
+                    7px 13px;
 
                 font-size:
-                    14px;
+                    12px;
 
             }
 
 
-            .student-name-en {
+            #studentPhoto {
 
-                font-size:
-                    10px;
-
-            }
-
-
-            .student-department,
-            .student-status {
-
-                font-size:
-                    10px;
+                border-width: 2px;
 
             }
 
 
-            .student-id {
+            .student-info {
 
-                font-size:
-                    16px;
+                line-height: 1.5;
+
+            }
+
+
+            .info-label {
+
+                margin-right: 8px;
 
             }
 
 
             #studentQR {
 
-                width:
-                    200px;
+                width: 200px;
 
-                height:
-                    200px;
+                height: 200px;
 
             }
 
@@ -745,7 +626,6 @@
     </div>
 
 
-
     <!-- =========================================
          STUDENT CARD
          ========================================= -->
@@ -772,67 +652,124 @@
         </div>
 
 
-        <!-- ชื่อไทย -->
+        <!-- ข้อมูลนักศึกษา -->
 
-        <div
-            id="studentName"
-            class="student-name"
-        >
-            -
+        <div class="student-info">
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    ชื่อ-นามสกุล
+                </span>
+
+                <span
+                    id="studentName"
+                    class="info-value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    ระดับชั้น
+                </span>
+
+                <span
+                    id="studentLevel"
+                    class="info-value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    ประเภทวิชา
+                </span>
+
+                <span
+                    id="studentType"
+                    class="info-value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    สาขาวิชา
+                </span>
+
+                <span
+                    id="studentDepartment"
+                    class="info-value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
         </div>
 
 
-        <!-- ชื่ออังกฤษ -->
+        <!-- =====================================
+             วันออกบัตร / วันหมดอายุ
+             อยู่ใต้รูป
+             ===================================== -->
 
-        <div
-            id="studentNameEn"
-            class="student-name-en"
-        >
-            -
+        <div class="date-area">
+
+
+            <div class="date-box">
+
+                <span class="date-title">
+                    วันออกบัตร
+                </span>
+
+                <span
+                    id="issueDate"
+                    class="date-value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="date-box">
+
+                <span class="date-title">
+                    วันหมดอายุ
+                </span>
+
+                <span
+                    id="expireDate"
+                    class="date-value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
         </div>
 
 
-        <!-- สาขาวิชา -->
-
-        <div
-            id="studentDepartment"
-            class="student-department"
-        >
-            -
-        </div>
-
-
-        <!-- สถานะ -->
-
-        <div
-            id="studentStatus"
-            class="student-status"
-        >
-            -
-        </div>
-
-
-        <!-- วันออกบัตร -->
-
-        <div
-            id="issueDate"
-            class="issue-date"
-        >
-            -
-        </div>
-
-
-        <!-- วันหมดอายุ -->
-
-        <div
-            id="expireDate"
-            class="expire-date"
-        >
-            -
-        </div>
-
-
-        <!-- BARCODE -->
+        <!-- =====================================
+             BARCODE
+             ===================================== -->
 
         <div class="barcode-area">
 
@@ -843,13 +780,13 @@
 
             <span
                 id="barcodeStudentId"
-            ></span>
+            >
+            </span>
 
         </div>
 
 
     </div>
-
 
 
     <!-- =========================================
@@ -883,9 +820,8 @@
     </div>
 
 
-
     <!-- =========================================
-         ACTIONS
+         DOWNLOAD
          ========================================= -->
 
     <div class="card-actions">
@@ -902,7 +838,6 @@
 </div>
 
 
-
 <!-- =============================================
      QR FULL SCREEN
      ============================================= -->
@@ -915,7 +850,10 @@
 
     <button
         class="qr-close"
-        onclick="event.stopPropagation(); closeQR();"
+        onclick="
+            event.stopPropagation();
+            closeQR();
+        "
     >
         ×
     </button>
@@ -925,20 +863,19 @@
         id="qrFull"
         src=""
         alt="QR Code"
-        onclick="event.stopPropagation();"
+        onclick="
+            event.stopPropagation();
+        "
     >
 
 </div>
-
 
 
 <!-- =============================================
      JAVASCRIPT
      ============================================= -->
 
-<script
-    src="js/config.js"
-></script>
+<script src="js/config.js"></script>
 
 
 <script
@@ -951,9 +888,7 @@
 ></script>
 
 
-<script
-    src="js/student-card.js"
-></script>
+<script src="js/student-card.js"></script>
 
 
 </body>
