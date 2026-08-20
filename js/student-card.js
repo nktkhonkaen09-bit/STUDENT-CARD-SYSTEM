@@ -516,7 +516,7 @@ function findGitHubStudentPhoto(
      */
 
     const githubUsername =
-        "ntkthonkaen09-bit";
+        "nktkhonkaen09-bit";
 
 
     /*
