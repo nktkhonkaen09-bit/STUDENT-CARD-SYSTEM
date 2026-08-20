@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="th">
 
 <head>
@@ -17,7 +16,7 @@
     >
 
     <title>
-        ผู้ดูแลระบบ
+        ผู้ดูแลระบบ | Student Card System
     </title>
 
 
@@ -53,6 +52,10 @@
         }
 
 
+        /* =========================================
+           PAGE
+           ========================================= */
+
         .admin-page {
 
             min-height: 100vh;
@@ -68,15 +71,21 @@
         }
 
 
+        /* =========================================
+           LOGIN CARD
+           ========================================= */
+
         .admin-card {
 
             width: 100%;
 
             max-width: 420px;
 
-            padding: 35px 30px;
+            padding:
+                35px 30px;
 
-            background: #ffffff;
+            background:
+                #ffffff;
 
             border:
                 1px solid #e1e4ef;
@@ -84,20 +93,30 @@
             border-top:
                 6px solid #0a1383;
 
-            border-radius: 18px;
+            border-radius:
+                18px;
 
             box-shadow:
                 0 15px 40px
-                rgba(10,19,131,0.12);
+                rgba(
+                    10,
+                    19,
+                    131,
+                    0.12
+                );
 
         }
 
 
+        /* =========================================
+           ICON
+           ========================================= */
+
         .admin-icon {
 
-            width: 78px;
+            width: 80px;
 
-            height: 78px;
+            height: 80px;
 
             margin:
                 0 auto 18px;
@@ -108,26 +127,40 @@
 
             justify-content: center;
 
-            border-radius: 50%;
+            border-radius:
+                50%;
 
-            background: #eef0ff;
+            background:
+                #eef0ff;
 
-            color: #0a1383;
+            color:
+                #0a1383;
 
-            font-size: 40px;
+            font-size:
+                40px;
 
         }
 
+
+        /* =========================================
+           TITLE
+           ========================================= */
 
         h1 {
 
             margin: 0;
 
-            text-align: center;
+            text-align:
+                center;
 
-            color: #0a1383;
+            color:
+                #0a1383;
 
-            font-size: 24px;
+            font-size:
+                25px;
+
+            font-weight:
+                700;
 
         }
 
@@ -137,89 +170,148 @@
             margin:
                 7px 0 28px;
 
-            text-align: center;
+            text-align:
+                center;
 
-            color: #6b7280;
+            color:
+                #6b7280;
 
-            font-size: 12px;
+            font-size:
+                12px;
 
-            letter-spacing: 1px;
+            letter-spacing:
+                1px;
 
         }
 
 
+        /* =========================================
+           INPUT
+           ========================================= */
+
         .input-group {
 
-            margin-bottom: 18px;
+            margin-bottom:
+                18px;
 
         }
 
 
         .input-group label {
 
-            display: block;
+            display:
+                block;
 
-            margin-bottom: 7px;
+            margin-bottom:
+                7px;
 
-            font-size: 13px;
+            font-size:
+                14px;
 
-            font-weight: bold;
+            font-weight:
+                600;
+
+            color:
+                #111827;
 
         }
 
 
         .input-group input {
 
-            width: 100%;
+            width:
+                100%;
 
-            height: 48px;
+            height:
+                50px;
 
-            padding: 0 14px;
+            padding:
+                0 14px;
 
             border:
                 1px solid #d9ddea;
 
-            border-radius: 9px;
+            border-radius:
+                9px;
 
-            outline: none;
+            outline:
+                none;
 
-            font-size: 14px;
+            font-size:
+                15px;
+
+            color:
+                #111827;
+
+            background:
+                #ffffff;
 
         }
 
 
         .input-group input:focus {
 
-            border-color: #0a1383;
+            border-color:
+                #0a1383;
 
             box-shadow:
                 0 0 0 3px
-                rgba(10,19,131,0.08);
+                rgba(
+                    10,
+                    19,
+                    131,
+                    0.08
+                );
 
         }
 
 
+        /* =========================================
+           LOGIN BUTTON
+           ========================================= */
+
         .login-button {
 
-            width: 100%;
+            width:
+                100%;
 
-            height: 50px;
+            height:
+                50px;
 
-            margin-top: 5px;
+            margin-top:
+                5px;
 
-            border: none;
+            border:
+                none;
 
-            border-radius: 10px;
+            border-radius:
+                10px;
 
-            background: #0a1383;
+            background:
+                #0a1383;
 
-            color: #ffffff;
+            color:
+                #ffffff;
 
-            font-size: 15px;
+            font-size:
+                15px;
 
-            font-weight: bold;
+            font-weight:
+                bold;
 
-            cursor: pointer;
+            cursor:
+                pointer;
+
+            transition:
+                0.2s;
+
+        }
+
+
+        .login-button:hover {
+
+            background:
+                #080f6d;
 
         }
 
@@ -234,79 +326,122 @@
 
         .login-button:disabled {
 
-            opacity: 0.6;
+            opacity:
+                0.6;
 
-            cursor: not-allowed;
+            cursor:
+                not-allowed;
 
         }
 
 
+        /* =========================================
+           MESSAGE
+           ========================================= */
+
         .message {
 
-            min-height: 22px;
+            min-height:
+                22px;
 
             margin:
                 15px 0 0;
 
-            text-align: center;
+            text-align:
+                center;
 
-            font-size: 13px;
+            font-size:
+                13px;
 
-            font-weight: 600;
+            font-weight:
+                600;
 
         }
 
 
         .message.error {
 
-            color: #dc2626;
+            color:
+                #dc2626;
 
         }
 
 
         .message.success {
 
-            color: #15803d;
+            color:
+                #15803d;
 
         }
 
 
+        .message.info {
+
+            color:
+                #0a1383;
+
+        }
+
+
+        /* =========================================
+           BACK BUTTON
+           ========================================= */
+
         .back-link {
 
-            display: block;
+            display:
+                block;
 
-            margin-top: 22px;
+            margin-top:
+                22px;
 
-            text-align: center;
+            text-align:
+                center;
 
-            color: #0a1383;
+            color:
+                #0a1383;
 
-            font-size: 13px;
+            font-size:
+                13px;
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
         }
 
 
         .back-link:hover {
 
-            text-decoration: underline;
+            text-decoration:
+                underline;
 
         }
 
+
+        /* =========================================
+           FOOTER
+           ========================================= */
 
         .footer {
 
-            margin-top: 25px;
+            margin-top:
+                25px;
 
-            text-align: center;
+            text-align:
+                center;
 
-            color: #9ca3af;
+            color:
+                #9ca3af;
 
-            font-size: 10px;
+            font-size:
+                10px;
 
         }
 
+
+        /* =========================================
+           MOBILE
+           ========================================= */
 
         @media (
             max-width: 480px
@@ -314,7 +449,8 @@
 
             .admin-page {
 
-                padding: 12px;
+                padding:
+                    12px;
 
             }
 
@@ -326,6 +462,14 @@
 
                 border-radius:
                     15px;
+
+            }
+
+
+            h1 {
+
+                font-size:
+                    22px;
 
             }
 
@@ -345,12 +489,20 @@
     <div class="admin-card">
 
 
+        <!-- =====================================
+             ADMIN ICON
+             ====================================== -->
+
         <div class="admin-icon">
 
             🛡️
 
         </div>
 
+
+        <!-- =====================================
+             TITLE
+             ====================================== -->
 
         <h1>
 
@@ -366,11 +518,17 @@
         </div>
 
 
+        <!-- =====================================
+             LOGIN FORM
+             ====================================== -->
+
         <form
             id="adminLoginForm"
             autocomplete="on"
         >
 
+
+            <!-- USERNAME -->
 
             <div class="input-group">
 
@@ -395,6 +553,8 @@
             </div>
 
 
+            <!-- PASSWORD -->
+
             <div class="input-group">
 
                 <label
@@ -418,6 +578,8 @@
             </div>
 
 
+            <!-- LOGIN -->
+
             <button
                 id="adminLoginButton"
                 class="login-button"
@@ -429,6 +591,8 @@
             </button>
 
 
+            <!-- MESSAGE -->
+
             <div
                 id="adminMessage"
                 class="message"
@@ -437,6 +601,10 @@
 
         </form>
 
+
+        <!-- =====================================
+             BACK
+             ====================================== -->
 
         <a
             href="index.html"
@@ -447,6 +615,10 @@
 
         </a>
 
+
+        <!-- =====================================
+             FOOTER
+             ====================================== -->
 
         <div class="footer">
 
@@ -461,14 +633,404 @@
 </div>
 
 
-<script
-    src="js/config.js"
-></script>
+
+<!-- =============================================
+     CONFIG
+     ============================================= -->
+
+<script>
+
+const CONFIG = {
+
+    API_URL:
+        "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
+
+    ADMIN_SESSION_KEY:
+        "admin_session",
+
+    ADMIN_KEY:
+        "admin_data"
+
+};
 
 
-<script
-    src="js/admin-login.js"
-></script>
+
+/* ==============================================
+   PAGE READY
+   ============================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const form =
+            document.getElementById(
+                "adminLoginForm"
+            );
+
+
+        const message =
+            document.getElementById(
+                "adminMessage"
+            );
+
+
+        const button =
+            document.getElementById(
+                "adminLoginButton"
+            );
+
+
+        /*
+         * ตรวจสอบว่า JavaScript ทำงาน
+         *
+         * ไม่มี alert
+         * แสดงในหน้าเว็บแทน
+         */
+
+        console.log(
+            "ADMIN LOGIN JS READY"
+        );
+
+
+        if (!form) {
+
+            console.error(
+                "ไม่พบ adminLoginForm"
+            );
+
+            return;
+
+        }
+
+
+        form.addEventListener(
+            "submit",
+            handleAdminLogin
+        );
+
+
+    }
+);
+
+
+
+/* ==============================================
+   ADMIN LOGIN
+   ============================================== */
+
+async function handleAdminLogin(
+    event
+) {
+
+    event.preventDefault();
+
+
+    const username =
+        document
+            .getElementById(
+                "adminUsername"
+            )
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById(
+                "adminPassword"
+            )
+            .value;
+
+
+    const button =
+        document.getElementById(
+            "adminLoginButton"
+        );
+
+
+    const message =
+        document.getElementById(
+            "adminMessage"
+        );
+
+
+    /* =========================================
+       VALIDATE
+       ========================================= */
+
+    if (
+        !username ||
+        !password
+    ) {
+
+        showMessage(
+
+            "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน",
+
+            "error"
+
+        );
+
+        return;
+
+    }
+
+
+    /* =========================================
+       LOADING
+       ========================================= */
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "กำลังตรวจสอบ...";
+
+
+    showMessage(
+        "กำลังเชื่อมต่อระบบ...",
+        "info"
+    );
+
+
+    /* =========================================
+       API
+       ========================================= */
+
+    try {
+
+
+        const response =
+            await fetch(
+
+                CONFIG.API_URL,
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "adminLogin",
+
+                            username:
+                                username,
+
+                            password:
+                                password
+
+                        })
+
+                }
+
+            );
+
+
+        /* =====================================
+           HTTP ERROR
+           ===================================== */
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                "HTTP " +
+                response.status
+
+            );
+
+        }
+
+
+        /* =====================================
+           JSON
+           ===================================== */
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "ADMIN LOGIN RESULT:",
+            result
+        );
+
+
+        /* =====================================
+           LOGIN FAILED
+           ===================================== */
+
+        if (!result.success) {
+
+            showMessage(
+
+                result.message ||
+                "เข้าสู่ระบบไม่สำเร็จ",
+
+                "error"
+
+            );
+
+            return;
+
+        }
+
+
+        /* =====================================
+           LOGIN SUCCESS
+           ===================================== */
+
+        sessionStorage.setItem(
+
+            CONFIG.ADMIN_SESSION_KEY,
+
+            result.token
+
+        );
+
+
+        sessionStorage.setItem(
+
+            CONFIG.ADMIN_KEY,
+
+            JSON.stringify(
+                result.admin
+            )
+
+        );
+
+
+        showMessage(
+
+            "เข้าสู่ระบบสำเร็จ",
+
+            "success"
+
+        );
+
+
+        /* =====================================
+           GO ADMIN DASHBOARD
+           ===================================== */
+
+        setTimeout(
+
+            function () {
+
+                window.location.href =
+                    "admin-dashboard.html";
+
+            },
+
+            700
+
+        );
+
+
+    }
+
+
+    /* =========================================
+       ERROR
+       ========================================= */
+
+    catch (error) {
+
+
+        console.error(
+            "ADMIN LOGIN ERROR:",
+            error
+        );
+
+
+        showMessage(
+
+            "ไม่สามารถเชื่อมต่อระบบได้",
+
+            "error"
+
+        );
+
+
+    }
+
+
+    /* =========================================
+       FINALLY
+       ========================================= */
+
+    finally {
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "เข้าสู่ระบบ Admin";
+
+
+    }
+
+}
+
+
+
+/* ==============================================
+   SHOW MESSAGE
+   ============================================== */
+
+function showMessage(
+    text,
+    type
+) {
+
+
+    const message =
+        document.getElementById(
+            "adminMessage"
+        );
+
+
+    if (!message) {
+
+        return;
+
+    }
+
+
+    message.textContent =
+        text;
+
+
+    message.className =
+        "message";
+
+
+    if (type) {
+
+        message.classList.add(
+            type
+        );
+
+    }
+
+}
+
+</script>
 
 
 </body>
