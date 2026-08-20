@@ -1,15 +1,340 @@
-STUDENT-CARD-SYSTEM/
-│
-├── index.html
-├── dashboard.html
-├── student-card.html        ← สร้างไฟล์นี้
-│
-├── css/
-│   ├── style.css
-│   ├── dashboard.css
-│   └── student-card.css     ← สร้างไฟล์นี้
-│
-└── js/
-    ├── config.js
-    ├── login.js
-    └── dashboard.js
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="theme-color"
+        content="#F5A900">
+
+    <title>
+        บัตรนักศึกษา
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="css/student-card.css">
+
+</head>
+
+
+<body>
+
+
+<div class="student-card-page">
+
+
+    <!-- HEADER -->
+
+    <header class="card-page-header">
+
+        <button
+            type="button"
+            class="back-button"
+            onclick="goBack()">
+
+            ←
+
+        </button>
+
+
+        <div class="page-title">
+
+            บัตรนักศึกษา
+
+        </div>
+
+
+        <div class="header-space"></div>
+
+    </header>
+
+
+
+    <!-- CONTENT -->
+
+    <main class="card-content">
+
+
+        <!-- STUDENT CARD -->
+
+        <section
+            id="studentCard"
+            class="student-card">
+
+
+            <!-- CARD HEADER -->
+
+            <div class="card-header">
+
+
+                <div class="institution-logo">
+
+                    <img
+                        id="institutionLogo"
+                        src="assets/logo.png"
+                        alt="Institution Logo"
+                        onerror="this.style.display='none'">
+
+                </div>
+
+
+                <div class="institution-name">
+
+                    <div class="institution-th">
+                        บัตรประจำตัวนักศึกษา
+                    </div>
+
+                    <div class="institution-en">
+                        STUDENT ID CARD
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CARD BODY -->
+
+            <div class="card-body">
+
+
+                <!-- PHOTO -->
+
+                <div class="photo-section">
+
+                    <div class="student-photo-frame">
+
+                        <img
+                            id="studentPhoto"
+                            src=""
+                            alt="Student Photo">
+
+                    </div>
+
+
+                    <div
+                        id="studentStatus"
+                        class="student-status">
+
+                        นักศึกษาปกติ
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- INFORMATION -->
+
+                <div class="student-details">
+
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            รหัสนักศึกษา
+                        </div>
+
+                        <div
+                            id="studentId"
+                            class="detail-value student-number">
+
+                            -
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            ชื่อ - นามสกุล
+                        </div>
+
+                        <div
+                            id="studentName"
+                            class="detail-value">
+
+                            -
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            Name
+                        </div>
+
+                        <div
+                            id="studentNameEn"
+                            class="detail-value english-name">
+
+                            -
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            สาขาวิชา
+                        </div>
+
+                        <div
+                            id="studentDepartment"
+                            class="detail-value">
+
+                            -
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CARD FOOTER -->
+
+            <div class="card-footer">
+
+
+                <div class="date-block">
+
+                    <div class="date-label">
+                        ออกบัตร
+                    </div>
+
+                    <div
+                        id="issueDate"
+                        class="date-value">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="date-block">
+
+                    <div class="date-label">
+                        หมดอายุ
+                    </div>
+
+                    <div
+                        id="expireDate"
+                        class="date-value expire">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="qr-container">
+
+                    <canvas
+                        id="studentQR">
+                    </canvas>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CARD NUMBER -->
+
+            <div class="card-number">
+
+                <span>
+                    STUDENT ID :
+                </span>
+
+                <strong
+                    id="cardStudentId">
+
+                    -
+
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="card-actions">
+
+
+            <button
+                type="button"
+                class="action-button primary"
+                onclick="downloadCard()">
+
+                ⬇️
+                ดาวน์โหลดบัตร
+
+            </button>
+
+
+            <button
+                type="button"
+                class="action-button secondary"
+                onclick="window.print()">
+
+                🖨️
+                พิมพ์บัตร
+
+            </button>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script src="js/config.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<script src="js/student-card.js"></script>
+
+
+</body>
+
+</html>
