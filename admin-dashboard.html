@@ -26,70 +26,41 @@
   box-sizing: border-box;
 }
 
-
 body {
 
   margin: 0;
-
-  min-height: 100vh;
 
   font-family:
     Arial,
     "Noto Sans Thai",
     sans-serif;
 
-  background:
-    #f4f6fb;
+  background: #f5f7fb;
 
-  color:
-    #111827;
+  color: #111827;
 
 }
 
 
-button,
-input,
-textarea,
-select {
-
-  font-family: inherit;
-
-}
-
-
-button {
-
-  cursor: pointer;
-
-}
-
-
-/* =========================================
+/* ================================================
    HEADER
-   ========================================= */
+   ================================================ */
 
 .header {
 
-  background:
-    #0a1383;
+  height: 68px;
 
-  color:
-    white;
+  background: #0a1383;
 
-  padding:
-    16px 22px;
+  color: white;
 
-  display:
-    flex;
+  display: flex;
 
-  align-items:
-    center;
+  align-items: center;
 
-  justify-content:
-    space-between;
+  justify-content: space-between;
 
-  gap:
-    15px;
+  padding: 0 25px;
 
   box-shadow:
     0 3px 12px
@@ -97,55 +68,42 @@ button {
 
 }
 
-
 .header-title {
 
-  font-size:
-    20px;
+  font-size: 20px;
 
-  font-weight:
-    bold;
+  font-weight: bold;
 
 }
 
+.header-user {
 
-.header-subtitle {
+  display: flex;
 
-  font-size:
-    11px;
+  align-items: center;
 
-  opacity:
-    .8;
+  gap: 12px;
 
-  margin-top:
-    3px;
+  font-size: 13px;
 
 }
-
 
 .logout-button {
 
-  border:
-    1px solid
+  border: 1px solid
     rgba(255,255,255,.4);
 
-  background:
-    transparent;
+  background: transparent;
 
-  color:
-    white;
+  color: white;
 
-  padding:
-    9px 14px;
+  border-radius: 7px;
 
-  border-radius:
-    8px;
+  padding: 8px 13px;
 
-  font-weight:
-    bold;
+  cursor: pointer;
 
 }
-
 
 .logout-button:hover {
 
@@ -155,1095 +113,636 @@ button {
 }
 
 
-/* =========================================
-   PAGE
-   ========================================= */
+/* ================================================
+   LAYOUT
+   ================================================ */
 
-.container {
+.layout {
 
-  width:
-    min(1200px, calc(100% - 30px));
+  display: flex;
 
-  margin:
-    25px auto 50px;
-
-}
-
-
-/* =========================================
-   ADMIN INFO
-   ========================================= */
-
-.admin-info {
-
-  background:
-    white;
-
-  border:
-    1px solid #e3e7f0;
-
-  border-radius:
-    12px;
-
-  padding:
-    15px 18px;
-
-  margin-bottom:
-    18px;
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-
-  gap:
-    10px;
+  min-height:
+    calc(100vh - 68px);
 
 }
 
 
-.admin-info strong {
+/* ================================================
+   SIDEBAR
+   ================================================ */
 
-  color:
-    #0a1383;
+.sidebar {
+
+  width: 240px;
+
+  background: white;
+
+  border-right:
+    1px solid #e5e7eb;
+
+  padding: 18px 12px;
+
+}
+
+.menu-button {
+
+  width: 100%;
+
+  border: none;
+
+  background: transparent;
+
+  text-align: left;
+
+  padding: 12px 14px;
+
+  margin-bottom: 5px;
+
+  border-radius: 8px;
+
+  color: #374151;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+}
+
+.menu-button:hover {
+
+  background: #eef0ff;
+
+  color: #0a1383;
+
+}
+
+.menu-button.active {
+
+  background: #0a1383;
+
+  color: white;
 
 }
 
 
-/* =========================================
-   MESSAGE
-   ========================================= */
+/* ================================================
+   CONTENT
+   ================================================ */
 
-.message {
+.content {
 
-  display:
-    none;
+  flex: 1;
 
-  padding:
-    12px 15px;
+  padding: 25px;
 
-  border-radius:
-    9px;
+  min-width: 0;
 
-  margin-bottom:
-    18px;
+}
 
-  font-size:
-    14px;
+.page {
 
-  font-weight:
-    600;
+  display: none;
+
+}
+
+.page.active {
+
+  display: block;
+
+}
+
+.page-title {
+
+  margin: 0 0 5px;
+
+  color: #0a1383;
+
+  font-size: 24px;
+
+}
+
+.page-subtitle {
+
+  margin: 0 0 22px;
+
+  color: #6b7280;
+
+  font-size: 13px;
 
 }
 
 
-.message.show {
+/* ================================================
+   CARDS
+   ================================================ */
 
-  display:
-    block;
+.card {
 
-}
+  background: white;
 
+  border: 1px solid #e5e7eb;
 
-.message.success {
+  border-radius: 12px;
 
-  background:
-    #dcfce7;
+  padding: 20px;
 
-  color:
-    #166534;
-
-}
-
-
-.message.error {
-
-  background:
-    #fee2e2;
-
-  color:
-    #991b1b;
-
-}
-
-
-.message.info {
-
-  background:
-    #eef0ff;
-
-  color:
-    #0a1383;
-
-}
-
-
-/* =========================================
-   SECTION
-   ========================================= */
-
-.section {
-
-  background:
-    white;
-
-  border:
-    1px solid #e3e7f0;
-
-  border-radius:
-    14px;
-
-  margin-bottom:
-    22px;
-
-  overflow:
-    hidden;
+  margin-bottom: 20px;
 
   box-shadow:
-    0 5px 18px
-    rgba(15,23,42,.04);
+    0 4px 14px
+    rgba(0,0,0,.04);
 
 }
 
 
-.section-header {
-
-  padding:
-    17px 20px;
-
-  background:
-    #fafbff;
-
-  border-bottom:
-    1px solid #e7eaf2;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  gap:
-    15px;
-
-  flex-wrap:
-    wrap;
-
-}
-
-
-.section-title {
-
-  font-size:
-    18px;
-
-  font-weight:
-    bold;
-
-  color:
-    #0a1383;
-
-}
-
-
-.section-description {
-
-  font-size:
-    12px;
-
-  color:
-    #6b7280;
-
-  margin-top:
-    3px;
-
-}
-
-
-.section-body {
-
-  padding:
-    20px;
-
-}
-
-
-/* =========================================
-   BUTTONS
-   ========================================= */
-
-.btn {
-
-  border:
-    none;
-
-  border-radius:
-    8px;
-
-  padding:
-    9px 14px;
-
-  font-size:
-    13px;
-
-  font-weight:
-    600;
-
-}
-
-
-.btn-primary {
-
-  background:
-    #0a1383;
-
-  color:
-    white;
-
-}
-
-
-.btn-primary:hover {
-
-  background:
-    #080f6d;
-
-}
-
-
-.btn-success {
-
-  background:
-    #15803d;
-
-  color:
-    white;
-
-}
-
-
-.btn-danger {
-
-  background:
-    #dc2626;
-
-  color:
-    white;
-
-}
-
-
-.btn-warning {
-
-  background:
-    #d97706;
-
-  color:
-    white;
-
-}
-
-
-.btn-gray {
-
-  background:
-    #e5e7eb;
-
-  color:
-    #374151;
-
-}
-
-
-.btn:disabled {
-
-  opacity:
-    .55;
-
-  cursor:
-    not-allowed;
-
-}
-
-
-/* =========================================
-   REQUEST TOOLBAR
-   ========================================= */
+/* ================================================
+   SEARCH
+   ================================================ */
 
 .toolbar {
 
-  display:
-    flex;
+  display: flex;
 
-  align-items:
-    center;
+  gap: 10px;
 
-  justify-content:
-    space-between;
+  margin-bottom: 15px;
 
-  gap:
-    10px;
+  flex-wrap: wrap;
 
-  flex-wrap:
-    wrap;
+}
 
-  margin-bottom:
-    15px;
+.search-input {
+
+  flex: 1;
+
+  min-width: 220px;
+
+  height: 43px;
+
+  border:
+    1px solid #d1d5db;
+
+  border-radius: 8px;
+
+  padding: 0 12px;
+
+  font-size: 14px;
+
+}
+
+.primary-button {
+
+  min-height: 43px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #0a1383;
+
+  color: white;
+
+  padding: 0 17px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+}
+
+.primary-button:hover {
+
+  background: #080f6d;
+
+}
+
+.secondary-button {
+
+  min-height: 40px;
+
+  border:
+    1px solid #d1d5db;
+
+  border-radius: 7px;
+
+  background: white;
+
+  color: #374151;
+
+  padding: 0 13px;
+
+  cursor: pointer;
 
 }
 
 
-.request-count {
-
-  font-size:
-    13px;
-
-  color:
-    #6b7280;
-
-}
-
-
-.request-count strong {
-
-  color:
-    #0a1383;
-
-}
-
-
-/* =========================================
+/* ================================================
    TABLE
-   ========================================= */
+   ================================================ */
 
-.table-wrapper {
+.table-wrap {
 
-  width:
-    100%;
-
-  overflow-x:
-    auto;
+  overflow-x: auto;
 
 }
-
 
 table {
 
-  width:
-    100%;
+  width: 100%;
 
-  border-collapse:
-    collapse;
+  border-collapse: collapse;
 
-  min-width:
-    950px;
+  min-width: 760px;
 
 }
-
 
 th {
 
-  background:
-    #f3f5fb;
+  background: #f3f4f6;
 
-  color:
-    #374151;
+  color: #374151;
 
-  font-size:
-    12px;
+  font-size: 13px;
 
-  padding:
-    11px 10px;
+  text-align: left;
 
-  text-align:
-    left;
+  padding: 12px;
 
   border-bottom:
-    1px solid #e1e5ef;
-
-  white-space:
-    nowrap;
+    1px solid #e5e7eb;
 
 }
-
 
 td {
 
-  padding:
-    12px 10px;
+  padding: 11px 12px;
 
   border-bottom:
-    1px solid #edf0f5;
+    1px solid #edf0f4;
 
-  font-size:
-    13px;
+  font-size: 13px;
 
-  vertical-align:
-    top;
+  vertical-align: middle;
 
 }
-
 
 tr:hover td {
 
-  background:
-    #fafbff;
+  background: #fafbff;
 
 }
 
 
-.reason {
-
-  max-width:
-    240px;
-
-  white-space:
-    normal;
-
-  line-height:
-    1.5;
-
-}
-
-
-.actions {
-
-  display:
-    flex;
-
-  gap:
-    6px;
-
-  flex-wrap:
-    wrap;
-
-}
-
-
-/* =========================================
+/* ================================================
    STATUS
-   ========================================= */
+   ================================================ */
 
-.status {
+.badge {
 
-  display:
-    inline-block;
+  display: inline-block;
 
-  padding:
-    5px 9px;
+  padding: 5px 9px;
 
-  border-radius:
-    20px;
+  border-radius: 20px;
 
-  font-size:
-    11px;
+  font-size: 11px;
 
-  font-weight:
-    bold;
+  font-weight: bold;
+
+}
+
+.badge-pending {
+
+  background: #fff7ed;
+
+  color: #c2410c;
+
+}
+
+.badge-approved {
+
+  background: #eff6ff;
+
+  color: #1d4ed8;
+
+}
+
+.badge-rejected {
+
+  background: #fef2f2;
+
+  color: #dc2626;
+
+}
+
+.badge-reset {
+
+  background: #f0fdf4;
+
+  color: #15803d;
 
 }
 
 
-.status-pending {
+/* ================================================
+   ACTION BUTTON
+   ================================================ */
 
-  background:
-    #fef3c7;
+.action-button {
 
-  color:
-    #92400e;
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 7px 10px;
+
+  margin: 2px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+}
+
+.approve-button {
+
+  background: #dcfce7;
+
+  color: #166534;
+
+}
+
+.reject-button {
+
+  background: #fee2e2;
+
+  color: #991b1b;
+
+}
+
+.reset-button {
+
+  background: #dbeafe;
+
+  color: #1e40af;
+
+}
+
+.edit-button {
+
+  background: #eef0ff;
+
+  color: #0a1383;
 
 }
 
 
-.status-approved {
-
-  background:
-    #dbeafe;
-
-  color:
-    #1e40af;
-
-}
-
-
-.status-rejected {
-
-  background:
-    #fee2e2;
-
-  color:
-    #991b1b;
-
-}
-
-
-.status-reset {
-
-  background:
-    #dcfce7;
-
-  color:
-    #166534;
-
-}
-
-
-/* =========================================
-   EMPTY
-   ========================================= */
-
-.empty {
-
-  padding:
-    35px 20px;
-
-  text-align:
-    center;
-
-  color:
-    #9ca3af;
-
-  font-size:
-    14px;
-
-}
-
-
-.loading {
-
-  padding:
-    30px;
-
-  text-align:
-    center;
-
-  color:
-    #6b7280;
-
-}
-
-
-/* =========================================
-   SEARCH
-   ========================================= */
-
-.search-box {
-
-  display:
-    flex;
-
-  gap:
-    8px;
-
-  width:
-    min(100%, 500px);
-
-}
-
-
-.search-box input {
-
-  flex:
-    1;
-
-  height:
-    42px;
-
-  border:
-    1px solid #d9ddea;
-
-  border-radius:
-    8px;
-
-  padding:
-    0 12px;
-
-  outline:
-    none;
-
-}
-
-
-.search-box input:focus {
-
-  border-color:
-    #0a1383;
-
-}
-
-
-/* =========================================
-   STUDENT GRID
-   ========================================= */
-
-.student-grid {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fill,
-      minmax(300px, 1fr)
-    );
-
-  gap:
-    15px;
-
-}
-
-
-.student-card {
-
-  border:
-    1px solid #e4e8f0;
-
-  border-radius:
-    12px;
-
-  padding:
-    15px;
-
-  background:
-    #fff;
-
-}
-
-
-.student-card h3 {
-
-  margin:
-    0 0 5px;
-
-  color:
-    #0a1383;
-
-  font-size:
-    16px;
-
-}
-
-
-.student-id {
-
-  color:
-    #6b7280;
-
-  font-size:
-    12px;
-
-  margin-bottom:
-    13px;
-
-}
-
-
-.student-field {
-
-  margin-bottom:
-    8px;
-
-  font-size:
-    13px;
-
-}
-
-
-.student-field span {
-
-  color:
-    #6b7280;
-
-  display:
-    inline-block;
-
-  min-width:
-    100px;
-
-}
-
-
-/* =========================================
-   MODAL
-   ========================================= */
-
-.modal {
-
-  position:
-    fixed;
-
-  inset:
-    0;
-
-  background:
-    rgba(15,23,42,.55);
-
-  display:
-    none;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  padding:
-    15px;
-
-  z-index:
-    1000;
-
-}
-
-
-.modal.show {
-
-  display:
-    flex;
-
-}
-
-
-.modal-box {
-
-  width:
-    min(600px, 100%);
-
-  max-height:
-    90vh;
-
-  overflow-y:
-    auto;
-
-  background:
-    white;
-
-  border-radius:
-    15px;
-
-  box-shadow:
-    0 20px 60px
-    rgba(0,0,0,.2);
-
-}
-
-
-.modal-header {
-
-  padding:
-    17px 20px;
-
-  border-bottom:
-    1px solid #e5e7eb;
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-
-}
-
-
-.modal-title {
-
-  color:
-    #0a1383;
-
-  font-weight:
-    bold;
-
-  font-size:
-    18px;
-
-}
-
-
-.close {
-
-  width:
-    34px;
-
-  height:
-    34px;
-
-  border:
-    none;
-
-  border-radius:
-    50%;
-
-  background:
-    #f3f4f6;
-
-  font-size:
-    20px;
-
-  color:
-    #4b5563;
-
-}
-
-
-.modal-body {
-
-  padding:
-    20px;
-
-}
-
-
-.modal-footer {
-
-  padding:
-    15px 20px;
-
-  border-top:
-    1px solid #e5e7eb;
-
-  display:
-    flex;
-
-  justify-content:
-    flex-end;
-
-  gap:
-    8px;
-
-}
-
-
-/* =========================================
+/* ================================================
    FORM
-   ========================================= */
+   ================================================ */
 
 .form-grid {
 
-  display:
-    grid;
+  display: grid;
 
   grid-template-columns:
-    repeat(2, 1fr);
+    repeat(2, minmax(0,1fr));
 
-  gap:
-    14px;
+  gap: 15px;
 
 }
-
 
 .form-group {
 
-  margin-bottom:
-    2px;
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
 
 }
-
-
-.form-group.full {
-
-  grid-column:
-    1 / -1;
-
-}
-
 
 .form-group label {
 
-  display:
-    block;
+  font-size: 13px;
 
-  font-size:
-    12px;
-
-  font-weight:
-    600;
-
-  margin-bottom:
-    5px;
+  font-weight: 600;
 
 }
 
+.form-group input {
 
-.form-group input,
-.form-group select {
-
-  width:
-    100%;
-
-  height:
-    42px;
+  height: 42px;
 
   border:
-    1px solid #d9ddea;
+    1px solid #d1d5db;
 
-  border-radius:
-    8px;
+  border-radius: 7px;
 
-  padding:
-    0 10px;
+  padding: 0 10px;
 
-  outline:
-    none;
+}
+
+.form-actions {
+
+  margin-top: 18px;
+
+  display: flex;
+
+  gap: 10px;
 
 }
 
 
-.form-group input:focus,
-.form-group select:focus {
+/* ================================================
+   MESSAGE
+   ================================================ */
 
-  border-color:
-    #0a1383;
+.message {
+
+  padding: 11px 14px;
+
+  border-radius: 8px;
+
+  margin-bottom: 15px;
+
+  font-size: 13px;
+
+  display: none;
+
+}
+
+.message.show {
+
+  display: block;
+
+}
+
+.message.success {
+
+  background: #ecfdf5;
+
+  color: #166534;
+
+}
+
+.message.error {
+
+  background: #fef2f2;
+
+  color: #991b1b;
+
+}
+
+.message.info {
+
+  background: #eff6ff;
+
+  color: #1e40af;
 
 }
 
 
-/* =========================================
-   REQUEST DETAIL
-   ========================================= */
+/* ================================================
+   MODAL
+   ================================================ */
 
-.detail-box {
+.modal {
+
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
 
   background:
-    #f8fafc;
+    rgba(0,0,0,.45);
 
-  border:
-    1px solid #e5e7eb;
+  align-items: center;
 
-  border-radius:
-    10px;
+  justify-content: center;
 
-  padding:
-    14px;
+  padding: 20px;
+
+  z-index: 1000;
+
+}
+
+.modal.show {
+
+  display: flex;
+
+}
+
+.modal-box {
+
+  width: 100%;
+
+  max-width: 500px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 24px;
+
+}
+
+.modal-title {
+
+  margin: 0 0 15px;
+
+  color: #0a1383;
+
+}
+
+.modal-text {
+
+  font-size: 14px;
+
+  line-height: 1.7;
+
+  margin-bottom: 15px;
+
+}
+
+.modal-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 8px;
 
 }
 
 
-.detail-row {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    130px 1fr;
-
-  gap:
-    10px;
-
-  margin-bottom:
-    9px;
-
-  font-size:
-    13px;
-
-}
-
-
-.detail-row:last-child {
-
-  margin-bottom:
-    0;
-
-}
-
-
-.detail-label {
-
-  color:
-    #6b7280;
-
-  font-weight:
-    600;
-
-}
-
-
-/* =========================================
+/* ================================================
    RESPONSIVE
-   ========================================= */
+   ================================================ */
 
-@media (
-  max-width: 700px
-) {
+@media(max-width:800px) {
 
-  .container {
+  .sidebar {
 
-    width:
-      calc(100% - 20px);
-
-    margin-top:
-      15px;
+    width: 190px;
 
   }
 
+  .content {
 
-  .header {
-
-    padding:
-      13px 15px;
+    padding: 15px;
 
   }
-
-
-  .header-title {
-
-    font-size:
-      17px;
-
-  }
-
-
-  .admin-info {
-
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-  }
-
-
-  .section-body {
-
-    padding:
-      14px;
-
-  }
-
 
   .form-grid {
 
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
 
   }
 
+}
 
-  .form-group.full {
+@media(max-width:600px) {
 
-    grid-column:
-      auto;
+  .layout {
+
+    flex-direction: column;
 
   }
 
+  .sidebar {
 
-  .detail-row {
+    width: 100%;
 
-    grid-template-columns:
-      1fr;
+    display: flex;
 
-    gap:
-      3px;
+    overflow-x: auto;
+
+    border-right: none;
+
+    border-bottom:
+      1px solid #e5e7eb;
+
+  }
+
+  .menu-button {
+
+    min-width: 150px;
+
+  }
+
+  .header {
+
+    padding: 0 12px;
+
+  }
+
+  .header-title {
+
+    font-size: 16px;
 
   }
 
@@ -1257,571 +756,594 @@ tr:hover td {
 <body>
 
 
+<!-- ================================================
+     HEADER
+     ================================================ -->
+
 <header class="header">
 
-  <div>
+<div class="header-title">
+  🛡️ Student Card System
+</div>
 
-    <div class="header-title">
-      🛡️ Student Card System
-    </div>
+<div class="header-user">
 
-    <div class="header-subtitle">
-      ADMINISTRATOR DASHBOARD
-    </div>
+<span id="adminUsername">
+  Admin
+</span>
 
-  </div>
+<button
+  class="logout-button"
+  onclick="adminLogout()"
+>
+  ออกจากระบบ
+</button>
 
-
-  <button
-    id="logoutButton"
-    class="logout-button"
-  >
-    ออกจากระบบ
-  </button>
+</div>
 
 </header>
 
 
+<!-- ================================================
+     LAYOUT
+     ================================================ -->
 
-<main class="container">
+<div class="layout">
 
 
-  <div class="admin-info">
+<!-- ================================================
+     SIDEBAR
+     ================================================ -->
 
-    <div>
+<aside class="sidebar">
 
-      ผู้ดูแลระบบ:
-      <strong id="adminUsername">
-        -
-      </strong>
 
-    </div>
+<button
+  class="menu-button active"
+  data-page="studentsPage"
+  onclick="showPage('studentsPage', this)"
+>
+  👨‍🎓 ข้อมูลนักศึกษา
+</button>
 
-    <button
-      class="btn btn-primary"
-      onclick="loadAllData()"
-    >
-      ↻ รีเฟรชข้อมูล
-    </button>
 
-  </div>
+<button
+  class="menu-button"
+  data-page="resetPage"
+  onclick="showPage('resetPage', this)"
+>
+  🔑 คำร้องลืมรหัสผ่าน
+</button>
 
 
-  <div
-    id="pageMessage"
-    class="message"
-  ></div>
+</aside>
 
 
+<!-- ================================================
+     CONTENT
+     ================================================ -->
 
-  <!-- =======================================
-       PASSWORD RESET REQUESTS
-       ======================================== -->
+<main class="content">
 
-  <section class="section">
 
-    <div class="section-header">
+<!-- ================================================
+     GLOBAL MESSAGE
+     ================================================ -->
 
-      <div>
+<div
+  id="globalMessage"
+  class="message"
+></div>
 
-        <div class="section-title">
-          🔑 คำร้องลืมรหัสผ่าน
-        </div>
 
-        <div class="section-description">
-          ตรวจสอบ อนุมัติ ปฏิเสธ และรีเซ็ตรหัสผ่านนักศึกษา
-        </div>
+<!-- ================================================
+     STUDENTS PAGE
+     ================================================ -->
 
-      </div>
+<section
+  id="studentsPage"
+  class="page active"
+>
 
-    </div>
+<h1 class="page-title">
+  ข้อมูลนักศึกษา
+</h1>
 
+<p class="page-subtitle">
+  ค้นหาและแก้ไขข้อมูลนักศึกษา
+</p>
 
-    <div class="section-body">
 
+<div class="card">
 
-      <div class="toolbar">
 
-        <div class="request-count">
-          คำร้องทั้งหมด:
-          <strong id="requestCount">
-            0
-          </strong>
-          รายการ
-        </div>
+<div class="toolbar">
 
+<input
+  id="studentSearch"
+  class="search-input"
+  type="text"
+  placeholder="ค้นหารหัส ชื่อ นามสกุล ภาควิชา..."
+>
 
-        <button
-          class="btn btn-primary"
-          onclick="loadResetRequests()"
-        >
-          ↻ โหลดคำร้อง
-        </button>
+<button
+  class="primary-button"
+  onclick="loadStudents()"
+>
+  🔍 ค้นหา
+</button>
 
-      </div>
+</div>
 
 
-      <div
-        id="requestLoading"
-        class="loading"
-      >
-        กำลังโหลดคำร้อง...
-      </div>
+<div class="table-wrap">
 
+<table>
 
-      <div
-        id="requestEmpty"
-        class="empty"
-        style="display:none;"
-      >
-        ยังไม่มีคำร้องลืมรหัสผ่าน
-      </div>
+<thead>
 
+<tr>
 
-      <div
-        id="requestTableWrapper"
-        class="table-wrapper"
-        style="display:none;"
-      >
+<th>
+  รหัสนักศึกษา
+</th>
 
-        <table>
+<th>
+  ชื่อ
+</th>
 
-          <thead>
+<th>
+  นามสกุล
+</th>
 
-            <tr>
+<th>
+  ภาควิชา
+</th>
 
-              <th>
-                เลขที่คำร้อง
-              </th>
+<th>
+  สถานะ
+</th>
 
-              <th>
-                รหัสนักศึกษา
-              </th>
+<th>
+  โทรศัพท์
+</th>
 
-              <th>
-                รายละเอียด
-              </th>
+<th>
+  จัดการ
+</th>
 
-              <th>
-                วันที่ร้องขอ
-              </th>
+</tr>
 
-              <th>
-                สถานะ
-              </th>
+</thead>
 
-              <th>
-                ผู้ดำเนินการ
-              </th>
+<tbody id="studentsTableBody">
 
-              <th>
-                การดำเนินการ
-              </th>
+<tr>
 
-            </tr>
+<td colspan="7">
+  กำลังโหลดข้อมูล...
+</td>
 
-          </thead>
+</tr>
 
+</tbody>
 
-          <tbody
-            id="requestTableBody"
-          ></tbody>
+</table>
 
-        </table>
+</div>
 
-      </div>
+</div>
 
-    </div>
+</section>
 
-  </section>
 
+<!-- ================================================
+     RESET PAGE
+     ================================================ -->
 
+<section
+  id="resetPage"
+  class="page"
+>
 
-  <!-- =======================================
-       STUDENT MANAGEMENT
-       ======================================== -->
+<h1 class="page-title">
+  คำร้องลืมรหัสผ่าน
+</h1>
 
-  <section class="section">
+<p class="page-subtitle">
+  ตรวจสอบ อนุมัติ ปฏิเสธ และรีเซ็ตรหัสผ่านนักศึกษา
+</p>
 
-    <div class="section-header">
 
-      <div>
+<div class="card">
 
-        <div class="section-title">
-          👨‍🎓 จัดการข้อมูลนักศึกษา
-        </div>
 
-        <div class="section-description">
-          ค้นหาและแก้ไขข้อมูลนักศึกษา
-        </div>
+<div class="toolbar">
 
-      </div>
+<button
+  class="primary-button"
+  onclick="loadResetRequests()"
+>
+  🔄 โหลดคำร้อง
+</button>
 
+</div>
 
-      <button
-        class="btn btn-primary"
-        onclick="loadStudents()"
-      >
-        ↻ โหลดนักศึกษา
-      </button>
 
-    </div>
+<div class="table-wrap">
 
+<table>
 
-    <div class="section-body">
+<thead>
 
+<tr>
 
-      <div class="toolbar">
+<th>
+  เลขที่คำร้อง
+</th>
 
-        <div class="search-box">
+<th>
+  รหัสนักศึกษา
+</th>
 
-          <input
-            id="studentSearch"
-            type="text"
-            placeholder="ค้นหารหัส ชื่อ นามสกุล สาขา หรือเบอร์โทร"
-          >
+<th>
+  รายละเอียด
+</th>
 
-          <button
-            class="btn btn-primary"
-            onclick="loadStudents()"
-          >
-            ค้นหา
-          </button>
+<th>
+  สถานะ
+</th>
 
-        </div>
+<th>
+  วันที่ร้องขอ
+</th>
 
+<th>
+  ผู้ดำเนินการ
+</th>
 
-        <div class="request-count">
+<th>
+  การดำเนินการ
+</th>
 
-          นักศึกษาทั้งหมด:
-          <strong id="studentCount">
-            0
-          </strong>
+</tr>
 
-        </div>
+</thead>
 
-      </div>
+<tbody id="resetRequestsBody">
 
+<tr>
 
-      <div
-        id="studentLoading"
-        class="loading"
-        style="display:none;"
-      >
-        กำลังโหลดข้อมูลนักศึกษา...
-      </div>
+<td colspan="7">
+  กำลังโหลดข้อมูล...
+</td>
 
+</tr>
 
-      <div
-        id="studentEmpty"
-        class="empty"
-        style="display:none;"
-      >
-        ไม่พบข้อมูลนักศึกษา
-      </div>
+</tbody>
 
+</table>
 
-      <div
-        id="studentGrid"
-        class="student-grid"
-      ></div>
+</div>
 
-    </div>
+</div>
 
-  </section>
+</section>
+
+
+<!-- ================================================
+     EDIT STUDENT PAGE
+     ================================================ -->
+
+<section
+  id="editStudentPage"
+  class="page"
+>
+
+<h1 class="page-title">
+  แก้ไขข้อมูลนักศึกษา
+</h1>
+
+<p class="page-subtitle">
+  แก้ไขข้อมูลแล้วกดบันทึก
+</p>
+
+
+<div class="card">
+
+
+<input
+  type="hidden"
+  id="editStudentId"
+>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+  รหัสนักศึกษา
+</label>
+
+<input
+  id="editStudentIdDisplay"
+  disabled
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  คำนำหน้า
+</label>
+
+<input
+  id="editPrefix"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  ชื่อ
+</label>
+
+<input
+  id="editFirstname"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  นามสกุล
+</label>
+
+<input
+  id="editLastname"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  ชื่อภาษาอังกฤษ
+</label>
+
+<input
+  id="editFirstnameEn"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  นามสกุลภาษาอังกฤษ
+</label>
+
+<input
+  id="editLastnameEn"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  สถานะ
+</label>
+
+<input
+  id="editStatus"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  ภาควิชา
+</label>
+
+<input
+  id="editDepartment"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  โทรศัพท์
+</label>
+
+<input
+  id="editPhone"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  URL รูปภาพ
+</label>
+
+<input
+  id="editPhotoUrl"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  วันที่ออกบัตร
+</label>
+
+<input
+  id="editIssueDate"
+  placeholder="dd/MM/yyyy"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+  วันหมดอายุ
+</label>
+
+<input
+  id="editExpireDate"
+  placeholder="dd/MM/yyyy"
+>
+
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  class="primary-button"
+  onclick="saveStudent()"
+>
+  💾 บันทึกข้อมูล
+</button>
+
+
+<button
+  class="secondary-button"
+  onclick="showPage('studentsPage')"
+>
+  ยกเลิก
+</button>
+
+</div>
+
+</div>
+
+</section>
 
 
 </main>
 
+</div>
 
 
-<!-- =========================================
-     REQUEST DETAIL MODAL
-     ========================================== -->
+<!-- ================================================
+     RESET MODAL
+     ================================================ -->
 
 <div
-  id="requestModal"
+  id="resetModal"
   class="modal"
 >
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <div class="modal-header">
+<h2
+  id="resetModalTitle"
+  class="modal-title"
+>
+  ดำเนินการ
+</h2>
 
-      <div class="modal-title">
-        รายละเอียดคำร้อง
-      </div>
-
-      <button
-        class="close"
-        onclick="closeModal('requestModal')"
-      >
-        ×
-      </button>
-
-    </div>
+<div
+  id="resetModalText"
+  class="modal-text"
+></div>
 
 
-    <div
-      id="requestModalBody"
-      class="modal-body"
-    ></div>
+<div class="form-group">
 
+<label>
+  หมายเหตุ
+</label>
 
-    <div class="modal-footer">
-
-      <button
-        class="btn btn-gray"
-        onclick="closeModal('requestModal')"
-      >
-        ปิด
-      </button>
-
-    </div>
-
-  </div>
+<input
+  id="resetNote"
+  placeholder="หมายเหตุ (ถ้ามี)"
+>
 
 </div>
 
 
-
-<!-- =========================================
-     EDIT STUDENT MODAL
-     ========================================== -->
-
 <div
-  id="studentModal"
-  class="modal"
+  id="newPasswordGroup"
+  class="form-group"
+  style="margin-top:12px;"
 >
 
-  <div class="modal-box">
-
-    <div class="modal-header">
-
-      <div class="modal-title">
-        แก้ไขข้อมูลนักศึกษา
-      </div>
-
-      <button
-        class="close"
-        onclick="closeModal('studentModal')"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <div class="modal-body">
-
-      <form id="studentForm">
-
-        <input
-          id="editStudentId"
-          type="hidden"
-        >
-
-
-        <div class="form-grid">
-
-
-          <div class="form-group">
-
-            <label>
-              คำนำหน้า
-            </label>
-
-            <input
-              id="editPrefix"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              สถานะ
-            </label>
-
-            <input
-              id="editStatus"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              ชื่อ
-            </label>
-
-            <input
-              id="editFirstnameTh"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              นามสกุล
-            </label>
-
-            <input
-              id="editLastnameTh"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              ชื่อภาษาอังกฤษ
-            </label>
-
-            <input
-              id="editFirstnameEn"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              นามสกุลภาษาอังกฤษ
-            </label>
-
-            <input
-              id="editLastnameEn"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              สาขา / ภาควิชา
-            </label>
-
-            <input
-              id="editDepartment"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              เบอร์โทรศัพท์
-            </label>
-
-            <input
-              id="editPhone"
-              type="text"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              วันที่ออกบัตร
-            </label>
-
-            <input
-              id="editIssueDate"
-              type="date"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              วันหมดอายุ
-            </label>
-
-            <input
-              id="editExpireDate"
-              type="date"
-            >
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              URL รูปภาพ
-            </label>
-
-            <input
-              id="editPhotoUrl"
-              type="text"
-            >
-
-          </div>
-
-
-        </div>
-
-      </form>
-
-    </div>
-
-
-    <div class="modal-footer">
-
-      <button
-        class="btn btn-gray"
-        onclick="closeModal('studentModal')"
-      >
-        ยกเลิก
-      </button>
-
-      <button
-        id="saveStudentButton"
-        class="btn btn-primary"
-        onclick="saveStudent()"
-      >
-        บันทึกข้อมูล
-      </button>
-
-    </div>
-
-  </div>
+<label>
+  รหัสผ่านใหม่
+</label>
+
+<input
+  id="newPassword"
+  type="password"
+  placeholder="เว้นว่างเพื่อใช้ 123456"
+>
 
 </div>
 
+
+<div class="modal-actions">
+
+<button
+  class="secondary-button"
+  onclick="closeResetModal()"
+>
+  ยกเลิก
+</button>
+
+<button
+  id="confirmResetButton"
+  class="primary-button"
+  onclick="confirmResetAction()"
+>
+  ยืนยัน
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 
 <script>
 
 
-/* =========================================
+/* =================================================
    CONFIG
-   ========================================= */
+   ================================================= */
 
 const CONFIG = {
 
   API_URL:
-    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
+    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP_6xT4/exec",
 
   ADMIN_SESSION_KEY:
     "admin_session",
@@ -1832,123 +1354,101 @@ const CONFIG = {
 };
 
 
-
-/* =========================================
-   GLOBAL
-   ========================================= */
-
-let resetRequests = [];
+/* =================================================
+   STATE
+   ================================================= */
 
 let students = [];
 
+let resetRequests = [];
+
+let currentResetRequest = null;
+
+let currentResetAction = null;
 
 
-/* =========================================
+/* =================================================
    PAGE READY
-   ========================================= */
+   ================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
   function () {
 
-    const token =
-      sessionStorage.getItem(
-        CONFIG.ADMIN_SESSION_KEY
-      );
-
-
-    const adminData =
-      sessionStorage.getItem(
-        CONFIG.ADMIN_KEY
-      );
-
-
-    if (!token) {
-
-      window.location.href =
-        "admin-login.html";
-
-      return;
-
-    }
-
-
-    if (adminData) {
-
-      try {
-
-        const admin =
-          JSON.parse(
-            adminData
-          );
-
-        document
-          .getElementById(
-            "adminUsername"
-          )
-          .textContent =
-            admin.username ||
-            "-";
-
-      } catch (error) {
-
-        console.error(error);
-
-      }
-
-    }
-
-
-    document
-      .getElementById("logoutButton")
-      .addEventListener(
-        "click",
-        adminLogout
-      );
-
-
-    document
-      .getElementById("studentSearch")
-      .addEventListener(
-        "keydown",
-        function (event) {
-
-          if (
-            event.key === "Enter"
-          ) {
-
-            loadStudents();
-
-          }
-
-        }
-      );
-
-
-    loadAllData();
+    initializeDashboard();
 
   }
 );
 
 
+/* =================================================
+   INITIALIZE
+   ================================================= */
 
-/* =========================================
-   API
-   ========================================= */
+async function initializeDashboard() {
 
-async function callAPI(
-  payload
-) {
+
+  const token =
+    sessionStorage.getItem(
+      CONFIG.ADMIN_SESSION_KEY
+    );
+
+
+  if (!token) {
+
+    window.location.replace(
+      "admin-login.html"
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    const adminData =
+      JSON.parse(
+        sessionStorage.getItem(
+          CONFIG.ADMIN_KEY
+        ) || "{}"
+      );
+
+
+    document.getElementById(
+      "adminUsername"
+    ).textContent =
+      adminData.username ||
+      "Admin";
+
+  } catch (error) {
+
+    document.getElementById(
+      "adminUsername"
+    ).textContent =
+      "Admin";
+
+  }
+
+
+  await loadStudents();
+
+}
+
+
+/* =================================================
+   API REQUEST
+   ================================================= */
+
+async function apiRequest(payload) {
+
 
   const response =
     await fetch(
-
       CONFIG.API_URL,
-
       {
 
-        method:
-          "POST",
+        method: "POST",
 
         headers: {
 
@@ -1963,7 +1463,6 @@ async function callAPI(
           )
 
       }
-
     );
 
 
@@ -1977,961 +1476,194 @@ async function callAPI(
   }
 
 
-  return await response.json();
-
-}
-
-
-
-/* =========================================
-   LOAD ALL
-   ========================================= */
-
-async function loadAllData() {
-
-  await Promise.all([
-
-    loadResetRequests(),
-
-    loadStudents()
-
-  ]);
-
-}
-
-
-
-/* =========================================
-   LOAD RESET REQUESTS
-   ========================================= */
-
-async function loadResetRequests() {
-
-  const loading =
-    document.getElementById(
-      "requestLoading"
-    );
-
-  const empty =
-    document.getElementById(
-      "requestEmpty"
-    );
-
-  const wrapper =
-    document.getElementById(
-      "requestTableWrapper"
-    );
-
-
-  loading.style.display =
-    "block";
-
-  empty.style.display =
-    "none";
-
-  wrapper.style.display =
-    "none";
-
-
-  try {
-
-    const token =
-      sessionStorage.getItem(
-        CONFIG.ADMIN_SESSION_KEY
-      );
-
-
-    if (!token) {
-
-      redirectLogin();
-
-      return;
-
-    }
-
-
-    const result =
-      await callAPI({
-
-        action:
-          "adminGetResetRequests",
-
-        token:
-          token
-
-      });
-
-
-    if (
-      !result.success
-    ) {
-
-      if (
-        result.code ===
-        "ADMIN_SESSION_EXPIRED"
-      ) {
-
-        redirectLogin();
-
-        return;
-
-      }
-
-
-      throw new Error(
-        result.message ||
-        "โหลดคำร้องไม่สำเร็จ"
-      );
-
-    }
-
-
-    resetRequests =
-      Array.isArray(
-        result.requests
-      )
-        ? result.requests
-        : [];
-
-
-    document
-      .getElementById(
-        "requestCount"
-      )
-      .textContent =
-        resetRequests.length;
-
-
-    renderResetRequests();
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    showPageMessage(
-      error.message ||
-      "ไม่สามารถโหลดคำร้องได้",
-      "error"
-    );
-
-
-  } finally {
-
-    loading.style.display =
-      "none";
-
-  }
-
-}
-
-
-
-/* =========================================
-   RENDER REQUESTS
-   ========================================= */
-
-function renderResetRequests() {
-
-  const tbody =
-    document.getElementById(
-      "requestTableBody"
-    );
-
-  const empty =
-    document.getElementById(
-      "requestEmpty"
-    );
-
-  const wrapper =
-    document.getElementById(
-      "requestTableWrapper"
-    );
-
-
-  tbody.innerHTML = "";
+  const result =
+    await response.json();
 
 
   if (
-    resetRequests.length === 0
-  ) {
-
-    empty.style.display =
-      "block";
-
-    wrapper.style.display =
-      "none";
-
-    return;
-
-  }
-
-
-  empty.style.display =
-    "none";
-
-  wrapper.style.display =
-    "block";
-
-
-  resetRequests.forEach(
-    function (item) {
-
-      const tr =
-        document.createElement(
-          "tr"
-        );
-
-
-      const status =
-        String(
-          item.status || ""
-        )
-        .toUpperCase();
-
-
-      const statusClass =
-        getStatusClass(
-          status
-        );
-
-
-      const statusText =
-        getStatusText(
-          status
-        );
-
-
-      const actionHtml =
-        buildRequestActions(
-          item
-        );
-
-
-      tr.innerHTML = `
-
-        <td>
-          <strong>
-            ${escapeHtml(
-              item.request_id || "-"
-            )}
-          </strong>
-        </td>
-
-        <td>
-          ${escapeHtml(
-            item.student_id || "-"
-          )}
-        </td>
-
-        <td class="reason">
-          ${escapeHtml(
-            item.reason || "-"
-          )}
-        </td>
-
-        <td>
-          ${escapeHtml(
-            item.requested_at || "-"
-          )}
-        </td>
-
-        <td>
-          <span
-            class="status ${statusClass}"
-          >
-            ${statusText}
-          </span>
-        </td>
-
-        <td>
-          ${escapeHtml(
-            item.processed_by || "-"
-          )}
-        </td>
-
-        <td>
-          <div class="actions">
-            ${actionHtml}
-          </div>
-        </td>
-
-      `;
-
-
-      tbody.appendChild(
-        tr
-      );
-
-    }
-  );
-
-}
-
-
-
-/* =========================================
-   REQUEST ACTIONS
-   ========================================= */
-
-function buildRequestActions(
-  item
-) {
-
-  const status =
-    String(
-      item.status || ""
-    )
-    .toUpperCase();
-
-
-  let html = `
-
-    <button
-      class="btn btn-gray"
-      onclick="showRequestDetail('${jsEscape(
-        item.request_id
-      )}')"
-    >
-      ดู
-    </button>
-
-  `;
-
-
-  if (
-    status === "PENDING"
-  ) {
-
-    html += `
-
-      <button
-        class="btn btn-success"
-        onclick="approveRequest('${jsEscape(
-          item.request_id
-        )}')"
-      >
-        อนุมัติ
-      </button>
-
-      <button
-        class="btn btn-danger"
-        onclick="rejectRequest('${jsEscape(
-          item.request_id
-        )}')"
-      >
-        ปฏิเสธ
-      </button>
-
-    `;
-
-  }
-
-
-  if (
-    status === "APPROVED"
-  ) {
-
-    html += `
-
-      <button
-        class="btn btn-warning"
-        onclick="resetPassword('${jsEscape(
-          item.request_id
-        )}')"
-      >
-        รีเซ็ตรหัสผ่าน
-      </button>
-
-    `;
-
-  }
-
-
-  return html;
-
-}
-
-
-
-/* =========================================
-   APPROVE
-   ========================================= */
-
-async function approveRequest(
-  requestId
-) {
-
-  const item =
-    findRequest(
-      requestId
-    );
-
-
-  if (!item) {
-
-    showPageMessage(
-      "ไม่พบคำร้อง",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const confirmText =
-    "ต้องการอนุมัติคำร้อง " +
-    requestId +
-    " ใช่หรือไม่?";
-
-
-  if (
-    !window.confirm(
-      confirmText
+    result &&
+    (
+      result.code ===
+      "ADMIN_SESSION_EXPIRED"
     )
   ) {
 
-    return;
-
-  }
-
-
-  try {
-
-    const token =
-      getAdminToken();
-
-
-    const result =
-      await callAPI({
-
-        action:
-          "adminApproveReset",
-
-        token:
-          token,
-
-        request_id:
-          requestId
-
-      });
-
-
-    if (
-      !result.success
-    ) {
-
-      handleApiError(
-        result
-      );
-
-      return;
-
-    }
-
-
-    showPageMessage(
-      "อนุมัติคำร้องเรียบร้อยแล้ว",
-      "success"
+    sessionStorage.removeItem(
+      CONFIG.ADMIN_SESSION_KEY
     );
 
+    sessionStorage.removeItem(
+      CONFIG.ADMIN_KEY
+    );
 
-    await loadResetRequests();
+    window.location.replace(
+      "admin-login.html"
+    );
 
-
-  } catch (error) {
-
-    console.error(error);
-
-    showPageMessage(
-      "ไม่สามารถอนุมัติคำร้องได้",
-      "error"
+    throw new Error(
+      "ADMIN_SESSION_EXPIRED"
     );
 
   }
+
+
+  return result;
 
 }
 
 
+/* =================================================
+   SHOW PAGE
+   ================================================= */
 
-/* =========================================
-   REJECT
-   ========================================= */
-
-async function rejectRequest(
-  requestId
+function showPage(
+  pageId,
+  button
 ) {
-
-  const note =
-    window.prompt(
-      "กรุณาระบุเหตุผลที่ปฏิเสธคำร้อง",
-      ""
-    );
-
-
-  if (
-    note === null
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !window.confirm(
-      "ยืนยันปฏิเสธคำร้อง " +
-      requestId +
-      " ?"
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  try {
-
-    const result =
-      await callAPI({
-
-        action:
-          "adminRejectReset",
-
-        token:
-          getAdminToken(),
-
-        request_id:
-          requestId,
-
-        note:
-          note
-
-      });
-
-
-    if (
-      !result.success
-    ) {
-
-      handleApiError(
-        result
-      );
-
-      return;
-
-    }
-
-
-    showPageMessage(
-      "ปฏิเสธคำร้องเรียบร้อยแล้ว",
-      "success"
-    );
-
-
-    await loadResetRequests();
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    showPageMessage(
-      "ไม่สามารถปฏิเสธคำร้องได้",
-      "error"
-    );
-
-  }
-
-}
-
-
-
-/* =========================================
-   RESET PASSWORD
-   ========================================= */
-
-async function resetPassword(
-  requestId
-) {
-
-  const item =
-    findRequest(
-      requestId
-    );
-
-
-  if (!item) {
-
-    showPageMessage(
-      "ไม่พบคำร้อง",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const newPassword =
-    window.prompt(
-
-      "กรุณากำหนดรหัสผ่านใหม่\n" +
-      "หากกดตกลงโดยไม่กรอก ระบบจะใช้รหัสเริ่มต้น 123456",
-
-      ""
-
-    );
-
-
-  if (
-    newPassword === null
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    newPassword &&
-    newPassword.length < 6
-  ) {
-
-    showPageMessage(
-      "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !window.confirm(
-      "ยืนยันรีเซ็ตรหัสผ่านนักศึกษา " +
-      item.student_id +
-      " ?"
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  try {
-
-    const result =
-      await callAPI({
-
-        action:
-          "adminResetPassword",
-
-        token:
-          getAdminToken(),
-
-        request_id:
-          requestId,
-
-        newPassword:
-          newPassword
-
-      });
-
-
-    if (
-      !result.success
-    ) {
-
-      handleApiError(
-        result
-      );
-
-      return;
-
-    }
-
-
-    showPageMessage(
-
-      "รีเซ็ตรหัสผ่านสำเร็จ " +
-      "รหัสผ่านชั่วคราวคือ: " +
-      result.temporary_password,
-
-      "success"
-
-    );
-
-
-    await loadResetRequests();
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    showPageMessage(
-      "ไม่สามารถรีเซ็ตรหัสผ่านได้",
-      "error"
-    );
-
-  }
-
-}
-
-
-
-/* =========================================
-   REQUEST DETAIL
-   ========================================= */
-
-function showRequestDetail(
-  requestId
-) {
-
-  const item =
-    findRequest(
-      requestId
-    );
-
-
-  if (!item) {
-
-    return;
-
-  }
-
-
-  const body =
-    document.getElementById(
-      "requestModalBody"
-    );
-
-
-  body.innerHTML = `
-
-    <div class="detail-box">
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          เลขที่คำร้อง
-        </div>
-
-        <div>
-          ${escapeHtml(
-            item.request_id || "-"
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          รหัสนักศึกษา
-        </div>
-
-        <div>
-          ${escapeHtml(
-            item.student_id || "-"
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          รายละเอียด
-        </div>
-
-        <div>
-          ${escapeHtml(
-            item.reason || "-"
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          วันที่ร้องขอ
-        </div>
-
-        <div>
-          ${escapeHtml(
-            item.requested_at || "-"
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          สถานะ
-        </div>
-
-        <div>
-          ${getStatusText(
-            String(
-              item.status || ""
-            ).toUpperCase()
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          ผู้ดำเนินการ
-        </div>
-
-        <div>
-          ${escapeHtml(
-            item.processed_by || "-"
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          วันที่ดำเนินการ
-        </div>
-
-        <div>
-          ${escapeHtml(
-            item.processed_at || "-"
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="detail-row">
-
-        <div class="detail-label">
-          หมายเหตุ
-        </div>
-
-        <div>
-          ${escapeHtml(
-            item.note || "-"
-          )}
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
 
 
   document
-    .getElementById(
-      "requestModal"
-    )
-    .classList.add(
-      "show"
+    .querySelectorAll(".page")
+    .forEach(
+      function(page) {
+
+        page.classList.remove(
+          "active"
+        );
+
+      }
     );
+
+
+  const page =
+    document.getElementById(
+      pageId
+    );
+
+
+  if (page) {
+
+    page.classList.add(
+      "active"
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(".menu-button")
+    .forEach(
+      function(item) {
+
+        item.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  if (button) {
+
+    button.classList.add(
+      "active"
+    );
+
+  } else {
+
+    const menu =
+      document.querySelector(
+        '[data-page="' +
+        pageId +
+        '"]'
+      );
+
+    if (menu) {
+
+      menu.classList.add(
+        "active"
+      );
+
+    }
+
+  }
+
+
+  if (
+    pageId ===
+    "resetPage"
+  ) {
+
+    loadResetRequests();
+
+  }
 
 }
 
 
-
-/* =========================================
+/* =================================================
    LOAD STUDENTS
-   ========================================= */
+   ================================================= */
 
 async function loadStudents() {
 
-  const loading =
-    document.getElementById(
-      "studentLoading"
-    );
 
-  const grid =
+  const tbody =
     document.getElementById(
-      "studentGrid"
-    );
-
-  const empty =
-    document.getElementById(
-      "studentEmpty"
+      "studentsTableBody"
     );
 
 
-  loading.style.display =
-    "block";
+  tbody.innerHTML =
 
-  empty.style.display =
-    "none";
+    `<tr>
+      <td colspan="7">
+        กำลังโหลดข้อมูล...
+      </td>
+    </tr>`;
 
 
   try {
 
+
+    const search =
+      document
+        .getElementById(
+          "studentSearch"
+        )
+        .value
+        .trim();
+
+
     const result =
-      await callAPI({
+      await apiRequest({
 
         action:
           "adminGetStudents",
 
         token:
-          getAdminToken(),
+          sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
+          ),
 
         search:
-          document
-            .getElementById(
-              "studentSearch"
-            )
-            .value
-            .trim()
+          search
 
       });
 
 
-    if (
-      !result.success
-    ) {
+    if (!result.success) {
 
-      handleApiError(
-        result
+      throw new Error(
+        result.message ||
+        "โหลดข้อมูลไม่สำเร็จ"
       );
-
-      return;
 
     }
 
 
     students =
-      Array.isArray(
-        result.students
-      )
-        ? result.students
-        : [];
-
-
-    document
-      .getElementById(
-        "studentCount"
-      )
-      .textContent =
-        students.length;
+      result.students || [];
 
 
     renderStudents();
@@ -2941,188 +1673,154 @@ async function loadStudents() {
 
     console.error(error);
 
-    showPageMessage(
-      "ไม่สามารถโหลดข้อมูลนักศึกษาได้",
-      "error"
-    );
+
+    tbody.innerHTML =
+
+      `<tr>
+        <td colspan="7">
+          ไม่สามารถโหลดข้อมูลนักศึกษาได้
+        </td>
+      </tr>`;
 
 
-  } finally {
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
 
-    loading.style.display =
-      "none";
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
 
   }
 
 }
 
 
-
-/* =========================================
+/* =================================================
    RENDER STUDENTS
-   ========================================= */
+   ================================================= */
 
 function renderStudents() {
 
-  const grid =
+
+  const tbody =
     document.getElementById(
-      "studentGrid"
+      "studentsTableBody"
     );
 
 
-  grid.innerHTML = "";
+  if (!students.length) {
 
+    tbody.innerHTML =
 
-  if (
-    students.length === 0
-  ) {
-
-    document
-      .getElementById(
-        "studentEmpty"
-      )
-      .style.display =
-        "block";
+      `<tr>
+        <td colspan="7">
+          ไม่พบข้อมูลนักศึกษา
+        </td>
+      </tr>`;
 
     return;
 
   }
 
 
-  document
-    .getElementById(
-      "studentEmpty"
-    )
-    .style.display =
-      "none";
+  tbody.innerHTML =
+    students
+      .map(
+        function(student) {
 
 
-  students.forEach(
-    function (student) {
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-      card.className =
-        "student-card";
+          const fullName =
+            (
+              student.prefix_th || ""
+            ) +
+            " " +
+            (
+              student.firstname_th || ""
+            );
 
 
-      const fullName =
+          return `
 
-        (
-          student.prefix_th || ""
-        ) +
+<tr>
 
-        (
-          student.firstname_th
-            ? " " +
-              student.firstname_th
-            : ""
-        ) +
+<td>
+  ${escapeHtml(
+    student.student_id
+  )}
+</td>
 
-        (
-          student.lastname_th
-            ? " " +
-              student.lastname_th
-            : ""
-        );
+<td>
+  ${escapeHtml(
+    fullName.trim()
+  )}
+</td>
 
+<td>
+  ${escapeHtml(
+    student.lastname_th || ""
+  )}
+</td>
 
-      card.innerHTML = `
+<td>
+  ${escapeHtml(
+    student.department || ""
+  )}
+</td>
 
-        <h3>
-          ${escapeHtml(
-            fullName.trim() ||
-            "-"
-          )}
-        </h3>
+<td>
+  ${escapeHtml(
+    student.status || ""
+  )}
+</td>
 
-        <div class="student-id">
+<td>
+  ${escapeHtml(
+    student.phone || ""
+  )}
+</td>
 
-          รหัส:
-          ${escapeHtml(
-            student.student_id || "-"
-          )}
+<td>
 
-        </div>
+<button
+  class="action-button edit-button"
+  onclick="editStudent('${escapeJs(
+    student.student_id
+  )}')"
+>
+  ✏️ แก้ไข
+</button>
 
+</td>
 
-        <div class="student-field">
+</tr>
 
-          <span>
-            สาขา:
-          </span>
+`;
 
-          ${escapeHtml(
-            student.department || "-"
-          )}
-
-        </div>
-
-
-        <div class="student-field">
-
-          <span>
-            สถานะ:
-          </span>
-
-          ${escapeHtml(
-            student.status || "-"
-          )}
-
-        </div>
-
-
-        <div class="student-field">
-
-          <span>
-            โทร:
-          </span>
-
-          ${escapeHtml(
-            student.phone || "-"
-          )}
-
-        </div>
-
-
-        <button
-          class="btn btn-primary"
-          style="margin-top:8px;"
-          onclick="openEditStudent('${jsEscape(
-            student.student_id
-          )}')"
-        >
-          ✏️ แก้ไขข้อมูล
-        </button>
-
-      `;
-
-
-      grid.appendChild(
-        card
-      );
-
-    }
-  );
+        }
+      )
+      .join("");
 
 }
 
 
+/* =================================================
+   EDIT STUDENT
+   ================================================= */
 
-/* =========================================
-   OPEN EDIT STUDENT
-   ========================================= */
-
-function openEditStudent(
+function editStudent(
   studentId
 ) {
 
+
   const student =
     students.find(
-      function (item) {
+      function(item) {
 
         return String(
           item.student_id
@@ -3137,7 +1835,7 @@ function openEditStudent(
 
   if (!student) {
 
-    showPageMessage(
+    showGlobalMessage(
       "ไม่พบข้อมูลนักศึกษา",
       "error"
     );
@@ -3147,259 +1845,202 @@ function openEditStudent(
   }
 
 
-  document
-    .getElementById(
-      "editStudentId"
-    )
-    .value =
-      student.student_id || "";
+  document.getElementById(
+    "editStudentId"
+  ).value =
+    student.student_id || "";
 
 
-  document
-    .getElementById(
-      "editPrefix"
-    )
-    .value =
-      student.prefix_th || "";
+  document.getElementById(
+    "editStudentIdDisplay"
+  ).value =
+    student.student_id || "";
 
 
-  document
-    .getElementById(
-      "editFirstnameTh"
-    )
-    .value =
-      student.firstname_th || "";
+  document.getElementById(
+    "editPrefix"
+  ).value =
+    student.prefix_th || "";
 
 
-  document
-    .getElementById(
-      "editLastnameTh"
-    )
-    .value =
-      student.lastname_th || "";
+  document.getElementById(
+    "editFirstname"
+  ).value =
+    student.firstname_th || "";
 
 
-  document
-    .getElementById(
-      "editFirstnameEn"
-    )
-    .value =
-      student.firstname_en || "";
+  document.getElementById(
+    "editLastname"
+  ).value =
+    student.lastname_th || "";
 
 
-  document
-    .getElementById(
-      "editLastnameEn"
-    )
-    .value =
-      student.lastname_en || "";
+  document.getElementById(
+    "editFirstnameEn"
+  ).value =
+    student.firstname_en || "";
 
 
-  document
-    .getElementById(
-      "editStatus"
-    )
-    .value =
-      student.status || "";
+  document.getElementById(
+    "editLastnameEn"
+  ).value =
+    student.lastname_en || "";
 
 
-  document
-    .getElementById(
-      "editDepartment"
-    )
-    .value =
-      student.department || "";
+  document.getElementById(
+    "editStatus"
+  ).value =
+    student.status || "";
 
 
-  document
-    .getElementById(
-      "editPhone"
-    )
-    .value =
-      student.phone || "";
+  document.getElementById(
+    "editDepartment"
+  ).value =
+    student.department || "";
 
 
-  document
-    .getElementById(
-      "editPhotoUrl"
-    )
-    .value =
-      student.photo_url || "";
+  document.getElementById(
+    "editPhone"
+  ).value =
+    student.phone || "";
 
 
-  document
-    .getElementById(
-      "editIssueDate"
-    )
-    .value =
-      convertToDateInput(
-        student.issue_date
-      );
+  document.getElementById(
+    "editPhotoUrl"
+  ).value =
+    student.photo_url || "";
 
 
-  document
-    .getElementById(
-      "editExpireDate"
-    )
-    .value =
-      convertToDateInput(
-        student.expire_date
-      );
+  document.getElementById(
+    "editIssueDate"
+  ).value =
+    student.issue_date || "";
 
 
-  document
-    .getElementById(
-      "studentModal"
-    )
-    .classList.add(
-      "show"
-    );
+  document.getElementById(
+    "editExpireDate"
+  ).value =
+    student.expire_date || "";
+
+
+  showPage(
+    "editStudentPage"
+  );
 
 }
 
 
-
-/* =========================================
+/* =================================================
    SAVE STUDENT
-   ========================================= */
+   ================================================= */
 
 async function saveStudent() {
 
-  const button =
+
+  const studentId =
     document.getElementById(
-      "saveStudentButton"
+      "editStudentId"
+    ).value;
+
+
+  if (!studentId) {
+
+    showGlobalMessage(
+      "ไม่พบรหัสนักศึกษา",
+      "error"
     );
 
+    return;
 
-  button.disabled =
-    true;
-
-  button.textContent =
-    "กำลังบันทึก...";
+  }
 
 
   try {
 
-    const payload = {
-
-      action:
-        "adminUpdateStudent",
-
-      token:
-        getAdminToken(),
-
-      student_id:
-        document
-          .getElementById(
-            "editStudentId"
-          )
-          .value,
-
-      prefix_th:
-        document
-          .getElementById(
-            "editPrefix"
-          )
-          .value,
-
-      firstname_th:
-        document
-          .getElementById(
-            "editFirstnameTh"
-          )
-          .value,
-
-      lastname_th:
-        document
-          .getElementById(
-            "editLastnameTh"
-          )
-          .value,
-
-      firstname_en:
-        document
-          .getElementById(
-            "editFirstnameEn"
-          )
-          .value,
-
-      lastname_en:
-        document
-          .getElementById(
-            "editLastnameEn"
-          )
-          .value,
-
-      status:
-        document
-          .getElementById(
-            "editStatus"
-          )
-          .value,
-
-      department:
-        document
-          .getElementById(
-            "editDepartment"
-          )
-          .value,
-
-      phone:
-        document
-          .getElementById(
-            "editPhone"
-          )
-          .value,
-
-      photo_url:
-        document
-          .getElementById(
-            "editPhotoUrl"
-          )
-          .value,
-
-      issue_date:
-        document
-          .getElementById(
-            "editIssueDate"
-          )
-          .value,
-
-      expire_date:
-        document
-          .getElementById(
-            "editExpireDate"
-          )
-          .value
-
-    };
-
 
     const result =
-      await callAPI(
-        payload
+      await apiRequest({
+
+        action:
+          "adminUpdateStudent",
+
+        token:
+          sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
+          ),
+
+        student_id:
+          studentId,
+
+        prefix_th:
+          document.getElementById(
+            "editPrefix"
+          ).value,
+
+        firstname_th:
+          document.getElementById(
+            "editFirstname"
+          ).value,
+
+        lastname_th:
+          document.getElementById(
+            "editLastname"
+          ).value,
+
+        firstname_en:
+          document.getElementById(
+            "editFirstnameEn"
+          ).value,
+
+        lastname_en:
+          document.getElementById(
+            "editLastnameEn"
+          ).value,
+
+        status:
+          document.getElementById(
+            "editStatus"
+          ).value,
+
+        department:
+          document.getElementById(
+            "editDepartment"
+          ).value,
+
+        phone:
+          document.getElementById(
+            "editPhone"
+          ).value,
+
+        photo_url:
+          document.getElementById(
+            "editPhotoUrl"
+          ).value,
+
+        issue_date:
+          document.getElementById(
+            "editIssueDate"
+          ).value,
+
+        expire_date:
+          document.getElementById(
+            "editExpireDate"
+          ).value
+
+      });
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "บันทึกข้อมูลไม่สำเร็จ"
       );
-
-
-    if (
-      !result.success
-    ) {
-
-      handleApiError(
-        result
-      );
-
-      return;
 
     }
 
 
-    closeModal(
-      "studentModal"
-    );
-
-
-    showPageMessage(
+    showGlobalMessage(
       "บันทึกข้อมูลนักศึกษาสำเร็จ",
       "success"
     );
@@ -3408,15 +2049,677 @@ async function saveStudent() {
     await loadStudents();
 
 
+    showPage(
+      "studentsPage"
+    );
+
+
   } catch (error) {
 
     console.error(error);
 
-    showPageMessage(
-      "ไม่สามารถบันทึกข้อมูลได้",
+
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
+
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =================================================
+   LOAD RESET REQUESTS
+   ================================================= */
+
+async function loadResetRequests() {
+
+
+  const tbody =
+    document.getElementById(
+      "resetRequestsBody"
+    );
+
+
+  tbody.innerHTML =
+
+    `<tr>
+      <td colspan="7">
+        กำลังโหลดคำร้อง...
+      </td>
+    </tr>`;
+
+
+  try {
+
+
+    const result =
+      await apiRequest({
+
+        action:
+          "adminGetResetRequests",
+
+        token:
+          sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
+          )
+
+      });
+
+
+    console.log(
+      "RESET REQUEST RESULT",
+      result
+    );
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "โหลดคำร้องไม่สำเร็จ"
+      );
+
+    }
+
+
+    resetRequests =
+      result.requests || [];
+
+
+    renderResetRequests();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    tbody.innerHTML =
+
+      `<tr>
+        <td colspan="7">
+          ไม่สามารถโหลดคำร้องได้
+        </td>
+      </tr>`;
+
+
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
+
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =================================================
+   RENDER RESET REQUESTS
+   ================================================= */
+
+function renderResetRequests() {
+
+
+  const tbody =
+    document.getElementById(
+      "resetRequestsBody"
+    );
+
+
+  if (!resetRequests.length) {
+
+    tbody.innerHTML =
+
+      `<tr>
+        <td colspan="7">
+          ยังไม่มีคำร้องลืมรหัสผ่าน
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    resetRequests
+      .map(
+        function(item) {
+
+
+          const status =
+            String(
+              item.status || ""
+            )
+            .toUpperCase();
+
+
+          let badgeClass =
+            "badge-pending";
+
+
+          if (
+            status ===
+            "APPROVED"
+          ) {
+
+            badgeClass =
+              "badge-approved";
+
+          }
+
+
+          if (
+            status ===
+            "REJECTED"
+          ) {
+
+            badgeClass =
+              "badge-rejected";
+
+          }
+
+
+          if (
+            status ===
+            "RESET"
+          ) {
+
+            badgeClass =
+              "badge-reset";
+
+          }
+
+
+          let actions =
+            "";
+
+
+          if (
+            status ===
+            "PENDING"
+          ) {
+
+            actions += `
+
+<button
+  class="action-button approve-button"
+  onclick="openResetAction(
+    '${escapeJs(item.request_id)}',
+    'approve'
+  )"
+>
+  ✓ อนุมัติ
+</button>
+
+<button
+  class="action-button reject-button"
+  onclick="openResetAction(
+    '${escapeJs(item.request_id)}',
+    'reject'
+  )"
+>
+  ✕ ปฏิเสธ
+</button>
+
+`;
+
+          }
+
+
+          if (
+            status ===
+            "APPROVED"
+          ) {
+
+            actions += `
+
+<button
+  class="action-button reset-button"
+  onclick="openResetAction(
+    '${escapeJs(item.request_id)}',
+    'reset'
+  )"
+>
+  🔑 รีเซ็ตรหัสผ่าน
+</button>
+
+`;
+
+          }
+
+
+          if (!actions) {
+
+            actions =
+              '<span style="color:#9ca3af">ดำเนินการแล้ว</span>';
+
+          }
+
+
+          return `
+
+<tr>
+
+<td>
+  ${escapeHtml(
+    item.request_id || ""
+  )}
+</td>
+
+<td>
+  ${escapeHtml(
+    item.student_id || ""
+  )}
+</td>
+
+<td>
+  ${escapeHtml(
+    item.reason || "-"
+  )}
+</td>
+
+<td>
+
+<span
+  class="badge ${badgeClass}"
+>
+  ${escapeHtml(
+    status
+  )}
+</span>
+
+</td>
+
+<td>
+  ${escapeHtml(
+    item.requested_at || ""
+  )}
+</td>
+
+<td>
+  ${escapeHtml(
+    item.processed_by || "-"
+  )}
+</td>
+
+<td>
+  ${actions}
+</td>
+
+</tr>
+
+`;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =================================================
+   OPEN RESET ACTION
+   ================================================= */
+
+function openResetAction(
+  requestId,
+  action
+) {
+
+
+  const request =
+    resetRequests.find(
+      function(item) {
+
+        return String(
+          item.request_id
+        ) ===
+        String(
+          requestId
+        );
+
+      }
+    );
+
+
+  if (!request) {
+
+    showGlobalMessage(
+      "ไม่พบคำร้อง",
       "error"
     );
 
+    return;
+
+  }
+
+
+  currentResetRequest =
+    request;
+
+  currentResetAction =
+    action;
+
+
+  const modal =
+    document.getElementById(
+      "resetModal"
+    );
+
+
+  const title =
+    document.getElementById(
+      "resetModalTitle"
+    );
+
+
+  const text =
+    document.getElementById(
+      "resetModalText"
+    );
+
+
+  const passwordGroup =
+    document.getElementById(
+      "newPasswordGroup"
+    );
+
+
+  document.getElementById(
+    "resetNote"
+  ).value = "";
+
+
+  document.getElementById(
+    "newPassword"
+  ).value = "";
+
+
+  if (
+    action ===
+    "approve"
+  ) {
+
+    title.textContent =
+      "อนุมัติคำร้อง";
+
+
+    text.innerHTML =
+      "ต้องการอนุมัติคำร้อง<br>" +
+      "<strong>" +
+      escapeHtml(
+        request.request_id
+      ) +
+      "</strong><br>" +
+      "รหัสนักศึกษา: " +
+      escapeHtml(
+        request.student_id
+      );
+
+
+    passwordGroup.style.display =
+      "none";
+
+  }
+
+
+  if (
+    action ===
+    "reject"
+  ) {
+
+    title.textContent =
+      "ปฏิเสธคำร้อง";
+
+
+    text.innerHTML =
+      "ต้องการปฏิเสธคำร้อง<br>" +
+      "<strong>" +
+      escapeHtml(
+        request.request_id
+      ) +
+      "</strong><br>" +
+      "รหัสนักศึกษา: " +
+      escapeHtml(
+        request.student_id
+      );
+
+
+    passwordGroup.style.display =
+      "none";
+
+  }
+
+
+  if (
+    action ===
+    "reset"
+  ) {
+
+    title.textContent =
+      "รีเซ็ตรหัสผ่าน";
+
+
+    text.innerHTML =
+      "รีเซ็ตรหัสผ่านของนักศึกษา<br>" +
+      "<strong>" +
+      escapeHtml(
+        request.student_id
+      ) +
+      "</strong><br><br>" +
+      "หากไม่กรอกรหัสผ่าน ระบบจะใช้รหัสเริ่มต้น " +
+      "<strong>123456</strong>";
+
+
+    passwordGroup.style.display =
+      "flex";
+
+  }
+
+
+  modal.classList.add(
+    "show"
+  );
+
+}
+
+
+/* =================================================
+   CLOSE MODAL
+   ================================================= */
+
+function closeResetModal() {
+
+  document
+    .getElementById(
+      "resetModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+
+  currentResetRequest =
+    null;
+
+  currentResetAction =
+    null;
+
+}
+
+
+/* =================================================
+   CONFIRM RESET ACTION
+   ================================================= */
+
+async function confirmResetAction() {
+
+
+  if (
+    !currentResetRequest ||
+    !currentResetAction
+  ) {
+
+    return;
+
+  }
+
+
+  const requestId =
+    currentResetRequest.request_id;
+
+
+  const note =
+    document.getElementById(
+      "resetNote"
+    ).value.trim();
+
+
+  const newPassword =
+    document.getElementById(
+      "newPassword"
+    ).value;
+
+
+  const button =
+    document.getElementById(
+      "confirmResetButton"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "กำลังดำเนินการ...";
+
+
+  try {
+
+
+    let payload = {
+
+      token:
+        sessionStorage.getItem(
+          CONFIG.ADMIN_SESSION_KEY
+        ),
+
+      request_id:
+        requestId,
+
+      note:
+        note
+
+    };
+
+
+    if (
+      currentResetAction ===
+      "approve"
+    ) {
+
+      payload.action =
+        "adminApproveReset";
+
+    }
+
+
+    if (
+      currentResetAction ===
+      "reject"
+    ) {
+
+      payload.action =
+        "adminRejectReset";
+
+    }
+
+
+    if (
+      currentResetAction ===
+      "reset"
+    ) {
+
+      payload.action =
+        "adminResetPassword";
+
+
+      if (newPassword) {
+
+        payload.newPassword =
+          newPassword;
+
+      }
+
+    }
+
+
+    const result =
+      await apiRequest(
+        payload
+      );
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "ดำเนินการไม่สำเร็จ"
+      );
+
+    }
+
+
+    closeResetModal();
+
+
+    showGlobalMessage(
+      result.message ||
+      "ดำเนินการสำเร็จ",
+      "success"
+    );
+
+
+    await loadResetRequests();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    if (
+      error.message !==
+      "ADMIN_SESSION_EXPIRED"
+    ) {
+
+      showGlobalMessage(
+        error.message ||
+        "เกิดข้อผิดพลาด",
+        "error"
+      );
+
+    }
 
   } finally {
 
@@ -3424,29 +2727,31 @@ async function saveStudent() {
       false;
 
     button.textContent =
-      "บันทึกข้อมูล";
+      "ยืนยัน";
 
   }
 
 }
 
 
-
-/* =========================================
+/* =================================================
    LOGOUT
-   ========================================= */
+   ================================================= */
 
 async function adminLogout() {
 
+
   const token =
-    getAdminToken();
+    sessionStorage.getItem(
+      CONFIG.ADMIN_SESSION_KEY
+    );
 
 
   try {
 
     if (token) {
 
-      await callAPI({
+      await apiRequest({
 
         action:
           "adminLogout",
@@ -3474,198 +2779,26 @@ async function adminLogout() {
   );
 
 
-  window.location.href =
-    "admin-login.html";
-
-}
-
-
-
-/* =========================================
-   HELPERS
-   ========================================= */
-
-function getAdminToken() {
-
-  const token =
-    sessionStorage.getItem(
-      CONFIG.ADMIN_SESSION_KEY
-    );
-
-
-  if (!token) {
-
-    redirectLogin();
-
-    throw new Error(
-      "ADMIN_SESSION_EXPIRED"
-    );
-
-  }
-
-
-  return token;
-
-}
-
-
-function redirectLogin() {
-
-  sessionStorage.removeItem(
-    CONFIG.ADMIN_SESSION_KEY
-  );
-
-  sessionStorage.removeItem(
-    CONFIG.ADMIN_KEY
-  );
-
-
-  window.location.href =
-    "admin-login.html";
-
-}
-
-
-function handleApiError(
-  result
-) {
-
-  if (
-    result &&
-    result.code ===
-      "ADMIN_SESSION_EXPIRED"
-  ) {
-
-    redirectLogin();
-
-    return;
-
-  }
-
-
-  showPageMessage(
-
-    result &&
-    result.message
-
-      ? result.message
-
-      : "เกิดข้อผิดพลาด",
-
-    "error"
-
+  window.location.replace(
+    "admin-login.html"
   );
 
 }
 
 
-function findRequest(
-  requestId
-) {
+/* =================================================
+   GLOBAL MESSAGE
+   ================================================= */
 
-  return resetRequests.find(
-    function (item) {
-
-      return String(
-        item.request_id
-      ) ===
-      String(
-        requestId
-      );
-
-    }
-  );
-
-}
-
-
-function getStatusClass(
-  status
-) {
-
-  switch (
-    String(status)
-      .toUpperCase()
-  ) {
-
-    case "PENDING":
-      return "status-pending";
-
-    case "APPROVED":
-      return "status-approved";
-
-    case "REJECTED":
-      return "status-rejected";
-
-    case "RESET":
-      return "status-reset";
-
-    default:
-      return "status-pending";
-
-  }
-
-}
-
-
-function getStatusText(
-  status
-) {
-
-  switch (
-    String(status)
-      .toUpperCase()
-  ) {
-
-    case "PENDING":
-      return "รอดำเนินการ";
-
-    case "APPROVED":
-      return "อนุมัติแล้ว";
-
-    case "REJECTED":
-      return "ปฏิเสธ";
-
-    case "RESET":
-      return "รีเซ็ตแล้ว";
-
-    default:
-      return status || "-";
-
-  }
-
-}
-
-
-function closeModal(
-  id
-) {
-
-  const modal =
-    document.getElementById(
-      id
-    );
-
-
-  if (modal) {
-
-    modal.classList.remove(
-      "show"
-    );
-
-  }
-
-}
-
-
-function showPageMessage(
+function showGlobalMessage(
   text,
   type
 ) {
 
+
   const message =
     document.getElementById(
-      "pageMessage"
+      "globalMessage"
     );
 
 
@@ -3692,9 +2825,12 @@ function showPageMessage(
 }
 
 
-function escapeHtml(
-  value
-) {
+/* =================================================
+   ESCAPE HTML
+   ================================================= */
+
+function escapeHtml(value) {
+
 
   return String(
     value == null
@@ -3702,144 +2838,113 @@ function escapeHtml(
       : value
   )
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+  .replace(
+    /</g,
+    "&lt;"
+  )
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
+  .replace(
+    />/g,
+    "&gt;"
+  )
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
 
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
 
-function jsEscape(
-  value
-) {
+/* =================================================
+   ESCAPE JAVASCRIPT
+   ================================================= */
+
+function escapeJs(value) {
+
 
   return String(
     value == null
       ? ""
       : value
   )
-    .replace(
-      /\\/g,
-      "\\\\"
-    )
-    .replace(
-      /'/g,
-      "\\'"
-    )
-    .replace(
-      /\r/g,
-      "\\r"
-    )
-    .replace(
-      /\n/g,
-      "\\n"
-    );
+
+  .replace(
+    /\\/g,
+    "\\\\"
+  )
+
+  .replace(
+    /'/g,
+    "\\'"
+  )
+
+  .replace(
+    /"/g,
+    '\\"'
+  )
+
+  .replace(
+    /\r/g,
+    "\\r"
+  )
+
+  .replace(
+    /\n/g,
+    "\\n"
+  );
 
 }
 
 
-function convertToDateInput(
-  value
-) {
+/* =================================================
+   SEARCH ENTER
+   ================================================= */
 
-  if (!value) {
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
 
-    return "";
-
-  }
-
-
-  const text =
-    String(value)
-      .trim();
-
-
-  const match =
-    text.match(
-      /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
-    );
-
-
-  if (match) {
-
-    let year =
-      Number(
-        match[3]
-      );
-
-    const month =
-      String(
-        Number(
-          match[2]
-        )
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-    const day =
-      String(
-        Number(
-          match[1]
-        )
-      )
-      .padStart(
-        2,
-        "0"
+    const search =
+      document.getElementById(
+        "studentSearch"
       );
 
 
-    /*
-     * ถ้าปีเป็น พ.ศ.
-     * แปลงเป็น ค.ศ.
-     */
+    if (search) {
 
-    if (
-      year > 2400
-    ) {
+      search.addEventListener(
+        "keydown",
+        function(event) {
 
-      year -= 543;
+          if (
+            event.key ===
+            "Enter"
+          ) {
+
+            event.preventDefault();
+
+            loadStudents();
+
+          }
+
+        }
+      );
 
     }
 
-
-    return (
-      year +
-      "-" +
-      month +
-      "-" +
-      day
-    );
-
   }
-
-
-  return "";
-
-}
-
+);
 
 </script>
 
