@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("LOGIN JS LOADED");
 
+    alert("LOGIN JS ทำงานแล้ว");
+
     const loginForm =
         document.getElementById("loginForm");
 
