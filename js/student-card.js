@@ -4,22 +4,24 @@
  * student-card.js
  * ============================================================
  *
- * หน้าที่:
- * 1. ตรวจสอบ Session
- * 2. อ่านข้อมูลนักศึกษาจาก sessionStorage
- * 3. แสดงข้อมูลบนบัตรนักศึกษา
- * 4. โหลดรูปจาก photo_url หรือ GitHub
- * 5. รองรับ JPG / JPEG / PNG
- * 6. สร้าง QR Code
- * 7. รองรับการกลับ Dashboard
- * 8. รองรับการพิมพ์บัตร
+ * รองรับ:
+ * - JPG
+ * - JPEG
+ * - PNG
  *
+ * รูปจาก GitHub:
+ * assets/students/รหัสนักศึกษา.jpg
+ * assets/students/รหัสนักศึกษา.jpeg
+ * assets/students/รหัสนักศึกษา.png
+ *
+ * GitHub Repository:
+ * nktkhonkaen09-bit/STUDENT-CARD-SYSTEM
  * ============================================================
  */
 
 
 /* ============================================================
-   เมื่อหน้าเว็บโหลดเสร็จ
+   เริ่มทำงานเมื่อเปิดหน้า student-card.html
 ============================================================ */
 
 document.addEventListener(
@@ -33,13 +35,13 @@ document.addEventListener(
 
 
 /* ============================================================
-   เริ่มต้นระบบบัตรนักศึกษา
+   เริ่มระบบบัตรนักศึกษา
 ============================================================ */
 
 function initializeStudentCard() {
 
     /*
-     * ตรวจสอบว่ามี CONFIG หรือไม่
+     * ตรวจสอบ CONFIG
      */
 
     if (
@@ -55,12 +57,11 @@ function initializeStudentCard() {
         );
 
         return;
-
     }
 
 
     /*
-     * ตรวจสอบ Session
+     * อ่าน Token
      */
 
     const token =
@@ -69,6 +70,10 @@ function initializeStudentCard() {
         );
 
 
+    /*
+     * อ่านข้อมูลนักศึกษา
+     */
+
     const studentData =
         sessionStorage.getItem(
             CONFIG.STUDENT_KEY
@@ -76,7 +81,7 @@ function initializeStudentCard() {
 
 
     /*
-     * ถ้าไม่มี Session
+     * ถ้ายังไม่ได้ Login
      */
 
     if (
@@ -88,16 +93,14 @@ function initializeStudentCard() {
             "index.html";
 
         return;
-
     }
 
 
     /*
-     * อ่านข้อมูลนักศึกษา
+     * แปลงข้อมูล JSON
      */
 
     let student;
-
 
     try {
 
@@ -109,26 +112,23 @@ function initializeStudentCard() {
     } catch (error) {
 
         console.error(
-            "ไม่สามารถอ่านข้อมูลนักศึกษา:",
+            "ข้อมูลนักศึกษาไม่ถูกต้อง",
             error
         );
-
 
         sessionStorage.removeItem(
             CONFIG.STUDENT_KEY
         );
 
-
         window.location.href =
             "index.html";
 
         return;
-
     }
 
 
     /*
-     * แสดงข้อมูล
+     * แสดงข้อมูลบนบัตร
      */
 
     displayStudentInformation(
@@ -137,7 +137,7 @@ function initializeStudentCard() {
 
 
     /*
-     * โหลดรูป
+     * โหลดรูปนักศึกษา
      */
 
     loadStudentPhoto(
@@ -164,7 +164,6 @@ function displayStudentInformation(
     student
 ) {
 
-
     /*
      * รหัสนักศึกษา
      */
@@ -185,30 +184,29 @@ function displayStudentInformation(
      * ชื่อภาษาไทย
      */
 
-    const prefixTh =
-        student.prefix_th || "";
-
-
-    const firstnameTh =
-        student.firstname_th || "";
-
-
-    const lastnameTh =
-        student.lastname_th || "";
-
-
     const fullNameTh =
+
         (
-            prefixTh +
-            firstnameTh +
-            " " +
-            lastnameTh
-        ).trim();
+            student.prefix_th ||
+            ""
+        ) +
+
+        (
+            student.firstname_th ||
+            ""
+        ) +
+
+        " " +
+
+        (
+            student.lastname_th ||
+            ""
+        );
 
 
     setText(
         "studentName",
-        fullNameTh || "-"
+        fullNameTh.trim() || "-"
     );
 
 
@@ -216,25 +214,24 @@ function displayStudentInformation(
      * ชื่อภาษาอังกฤษ
      */
 
-    const firstnameEn =
-        student.firstname_en || "";
-
-
-    const lastnameEn =
-        student.lastname_en || "";
-
-
     const fullNameEn =
+
         (
-            firstnameEn +
-            " " +
-            lastnameEn
-        ).trim();
+            student.firstname_en ||
+            ""
+        ) +
+
+        " " +
+
+        (
+            student.lastname_en ||
+            ""
+        );
 
 
     setText(
         "studentNameEn",
-        fullNameEn || "-"
+        fullNameEn.trim() || "-"
     );
 
 
@@ -282,7 +279,7 @@ function displayStudentInformation(
 
 
 /* ============================================================
-   ฟังก์ชันใส่ข้อความ
+   ใส่ข้อความลงใน HTML
 ============================================================ */
 
 function setText(
@@ -304,7 +301,6 @@ function setText(
         );
 
         return;
-
     }
 
 
@@ -336,22 +332,12 @@ function loadStudentPhoto(
         );
 
         return;
-
     }
 
 
     /*
-     * ป้องกันการโหลดรูปซ้ำ
-     */
-
-    image.removeAttribute(
-        "src"
-    );
-
-
-    /*
-     * ถ้ามี photo_url
-     * ให้ใช้ photo_url ก่อน
+     * ถ้า Google Sheets มี photo_url
+     * ให้ใช้รูปจาก photo_url ก่อน
      */
 
     if (
@@ -367,18 +353,17 @@ function loadStudentPhoto(
             ).trim();
 
 
-        loadImage(
-            image,
-            photoUrl,
-
+        image.onload =
             function () {
 
                 console.log(
                     "โหลดรูปจาก photo_url สำเร็จ"
                 );
 
-            },
+            };
 
+
+        image.onerror =
             function () {
 
                 console.warn(
@@ -387,8 +372,8 @@ function loadStudentPhoto(
 
 
                 /*
-                 * ถ้า URL ใช้ไม่ได้
-                 * ให้ไปค้นหาที่ GitHub
+                 * ถ้า photo_url ใช้ไม่ได้
+                 * ให้ไปค้นหารูปใน GitHub
                  */
 
                 findGitHubStudentPhoto(
@@ -396,18 +381,20 @@ function loadStudentPhoto(
                     student.student_id
                 );
 
-            }
-        );
+            };
+
+
+        image.src =
+            photoUrl;
 
 
         return;
-
     }
 
 
     /*
-     * ถ้าไม่มี photo_url
-     * ค้นหาจาก GitHub
+     * ถ้า photo_url ว่าง
+     * ให้ค้นหารูปจาก GitHub
      */
 
     findGitHubStudentPhoto(
@@ -419,65 +406,7 @@ function loadStudentPhoto(
 
 
 /* ============================================================
-   โหลดรูปและตรวจสอบว่าสำเร็จหรือไม่
-============================================================ */
-
-function loadImage(
-    image,
-    url,
-    onSuccess,
-    onError
-) {
-
-    /*
-     * ล้าง Event เดิม
-     */
-
-    image.onload =
-        null;
-
-    image.onerror =
-        null;
-
-
-    image.onload =
-        function () {
-
-            if (
-                typeof onSuccess ===
-                "function"
-            ) {
-
-                onSuccess();
-
-            }
-
-        };
-
-
-    image.onerror =
-        function () {
-
-            if (
-                typeof onError ===
-                "function"
-            ) {
-
-                onError();
-
-            }
-
-        };
-
-
-    image.src =
-        url;
-
-}
-
-
-/* ============================================================
-   ค้นหารูปนักศึกษาจาก GitHub
+   ค้นหารูปจาก GitHub
 ============================================================ */
 
 function findGitHubStudentPhoto(
@@ -486,7 +415,7 @@ function findGitHubStudentPhoto(
 ) {
 
     /*
-     * ตรวจสอบรหัสนักศึกษา
+     * ถ้าไม่มีรหัสนักศึกษา
      */
 
     if (
@@ -496,55 +425,42 @@ function findGitHubStudentPhoto(
         ).trim() === ""
     ) {
 
-        console.warn(
-            "ไม่มีรหัสนักศึกษา"
-        );
-
-
         setDefaultPhoto(
             image
         );
 
-
         return;
-
     }
 
 
     /*
-     * GitHub Username
+     * ========================================================
+     * GitHub ของคุณ
+     * ========================================================
      */
 
     const githubUsername =
         "nktkhonkaen09-bit";
 
 
-    /*
-     * GitHub Repository
-     */
-
     const githubRepository =
         "STUDENT-CARD-SYSTEM";
 
 
-    /*
-     * Branch
-     */
-
     const githubBranch =
         "main";
 
-
-    /*
-     * Folder รูป
-     */
 
     const imageFolder =
         "assets/students";
 
 
     /*
-     * รหัสนักศึกษา
+     * ชื่อไฟล์
+     *
+     * เช่น
+     *
+     * TEST001
      */
 
     const filename =
@@ -556,24 +472,22 @@ function findGitHubStudentPhoto(
 
 
     /*
-     * รองรับทั้ง JPG / JPEG / PNG
-     *
-     * จะค้นหาตามลำดับนี้
-     *
-     * 1. .jpg
-     * 2. .jpeg
-     * 3. .png
+     * รองรับทั้ง 3 แบบ
      */
 
     const extensions = [
+
         ".jpg",
+
         ".jpeg",
+
         ".png"
+
     ];
 
 
     /*
-     * เริ่มค้นหา
+     * เริ่มค้นหารูป
      */
 
     tryNextStudentPhoto(
@@ -591,7 +505,7 @@ function findGitHubStudentPhoto(
 
 
 /* ============================================================
-   ลองโหลดรูปทีละนามสกุล
+   ทดลองหารูปทีละนามสกุล
 ============================================================ */
 
 function tryNextStudentPhoto(
@@ -606,7 +520,7 @@ function tryNextStudentPhoto(
 ) {
 
     /*
-     * ถ้าค้นหาครบทุกนามสกุลแล้ว
+     * ถ้าลองครบทุกนามสกุลแล้ว
      */
 
     if (
@@ -615,7 +529,7 @@ function tryNextStudentPhoto(
     ) {
 
         console.warn(
-            "ไม่พบรูปนักศึกษา:",
+            "ไม่พบรูป:",
             filename
         );
 
@@ -628,9 +542,7 @@ function tryNextStudentPhoto(
             image
         );
 
-
         return;
-
     }
 
 
@@ -643,7 +555,7 @@ function tryNextStudentPhoto(
 
 
     /*
-     * สร้าง URL GitHub Raw
+     * สร้าง URL รูป
      */
 
     const imageUrl =
@@ -678,37 +590,33 @@ function tryNextStudentPhoto(
 
 
     /*
-     * ลองโหลดรูป
+     * ทดลองโหลดรูป
      */
 
-    loadImage(
-
-        image,
-
-        imageUrl,
-
-
+    image.onload =
         function () {
-
-            /*
-             * สำเร็จ
-             */
 
             console.log(
                 "พบรูปนักศึกษา:",
                 imageUrl
             );
 
-        },
+        };
 
 
+    /*
+     * ถ้าโหลดไม่ได้
+     * ให้ลองนามสกุลถัดไป
+     */
+
+    image.onerror =
         function () {
 
-            /*
-             * ไม่พบ
-             *
-             * ลองนามสกุลถัดไป
-             */
+            console.log(
+                "ไม่พบ:",
+                imageUrl
+            );
+
 
             tryNextStudentPhoto(
 
@@ -730,9 +638,15 @@ function tryNextStudentPhoto(
 
             );
 
-        }
+        };
 
-    );
+
+    /*
+     * เริ่มโหลด
+     */
+
+    image.src =
+        imageUrl;
 
 }
 
@@ -748,21 +662,16 @@ function setDefaultPhoto(
     if (!image) {
 
         return;
-
     }
 
 
     /*
-     * ใช้รูป Default
+     * ใช้ default.png
      */
 
     const defaultPhoto =
         "assets/students/default.png";
 
-
-    /*
-     * ป้องกัน Loop
-     */
 
     image.onload =
         function () {
@@ -784,7 +693,7 @@ function setDefaultPhoto(
 
             /*
              * ถ้าไม่มี default.png
-             * ให้แสดงพื้นหลังแทน
+             * ซ่อนรูป
              */
 
             image.style.display =
@@ -832,12 +741,11 @@ function generateStudentQRCode(
         );
 
         return;
-
     }
 
 
     /*
-     * ตรวจสอบว่ามี QRCode Library
+     * ตรวจสอบ QRCode Library
      */
 
     if (
@@ -850,16 +758,17 @@ function generateStudentQRCode(
         );
 
         return;
-
     }
 
 
     /*
-     * ข้อมูลที่บันทึกใน QR
+     * ข้อมูลใน QR Code
      *
-     * ไม่ใส่ password
-     * ไม่ใส่ password_hash
-     * ไม่ใส่ token
+     * จะไม่ใส่:
+     *
+     * - password
+     * - password_hash
+     * - token
      */
 
     const qrData = {
@@ -871,15 +780,22 @@ function generateStudentQRCode(
             student.student_id || "",
 
         name:
+
             (
-                student.prefix_th || ""
+                student.prefix_th ||
+                ""
             ) +
+
             (
-                student.firstname_th || ""
+                student.firstname_th ||
+                ""
             ) +
+
             " " +
+
             (
-                student.lastname_th || ""
+                student.lastname_th ||
+                ""
             ),
 
         department:
@@ -947,7 +863,6 @@ function generateStudentQRCode(
                 );
 
                 return;
-
             }
 
 
@@ -975,7 +890,7 @@ function goBack() {
 
 
 /* ============================================================
-   ดาวน์โหลดบัตร
+   ดาวน์โหลดบัตรเป็น PNG
 ============================================================ */
 
 function downloadCard() {
@@ -990,11 +905,10 @@ function downloadCard() {
     ) {
 
         alert(
-            "ฟังก์ชันดาวน์โหลดจะเปิดใช้งานในขั้นตอนถัดไป"
+            "ไม่พบระบบดาวน์โหลดบัตร"
         );
 
         return;
-
     }
 
 
@@ -1006,13 +920,22 @@ function downloadCard() {
 
     if (!card) {
 
-        return;
+        alert(
+            "ไม่พบบัตรนักศึกษา"
+        );
 
+        return;
     }
 
 
+    /*
+     * แปลงบัตรเป็นรูป
+     */
+
     html2canvas(
+
         card,
+
         {
 
             scale:
@@ -1021,22 +944,34 @@ function downloadCard() {
             useCORS:
                 true,
 
+            allowTaint:
+                false,
+
             backgroundColor:
                 null
 
         }
 
     ).then(
+
         function (canvas) {
+
+            /*
+             * สร้างชื่อไฟล์
+             */
+
+            const studentId =
+                getCurrentStudentId();
+
+
+            /*
+             * สร้าง Link ดาวน์โหลด
+             */
 
             const link =
                 document.createElement(
                     "a"
                 );
-
-
-            const studentId =
-                getCurrentStudentId();
 
 
             link.download =
@@ -1056,6 +991,7 @@ function downloadCard() {
         }
 
     ).catch(
+
         function (error) {
 
             console.error(
@@ -1069,6 +1005,7 @@ function downloadCard() {
             );
 
         }
+
     );
 
 }
@@ -1091,7 +1028,6 @@ function getCurrentStudentId() {
         if (!raw) {
 
             return "student";
-
         }
 
 
@@ -1102,8 +1038,11 @@ function getCurrentStudentId() {
 
 
         return (
+
             student.student_id ||
+
             "student"
+
         );
 
     } catch (error) {
@@ -1116,7 +1055,7 @@ function getCurrentStudentId() {
 
 
 /* ============================================================
-   ป้องกันการเรียกฟังก์ชันที่ไม่มี
+   ทำให้ฟังก์ชันใช้งานจาก HTML ได้
 ============================================================ */
 
 window.goBack =
