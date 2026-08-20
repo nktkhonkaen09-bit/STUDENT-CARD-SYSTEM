@@ -2,11 +2,6 @@
    STUDENT CARD SYSTEM
    ========================================================= */
 
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
 * {
     box-sizing: border-box;
 }
@@ -25,10 +20,6 @@ body {
 
 }
 
-
-/* =========================================================
-   BODY
-   ========================================================= */
 
 body {
 
@@ -51,7 +42,7 @@ body {
 
 
 /* =========================================================
-   ปุ่มควบคุม
+   ปุ่ม
    ========================================================= */
 
 .card-controls {
@@ -108,15 +99,8 @@ body {
 }
 
 
-.card-controls button:hover {
-
-    opacity: 0.85;
-
-}
-
-
 /* =========================================================
-   บัตรนักศึกษา
+   บัตร
    ========================================================= */
 
 .student-card {
@@ -164,8 +148,6 @@ body {
 
     z-index: 1;
 
-    pointer-events: none;
-
 }
 
 
@@ -209,6 +191,9 @@ body {
 
 /* =========================================================
    ข้อมูลนักศึกษา
+
+   เลื่อนลงมาอีก
+   และจัดให้อยู่กึ่งกลางพื้นที่ว่าง
    ========================================================= */
 
 .student-information {
@@ -217,17 +202,13 @@ body {
 
     z-index: 6;
 
-    /*
-     * เลื่อนลงมาอีก
-     */
-
     left: 36.5%;
 
-    top: 38%;
+    top: 42%;
 
     width: 58%;
 
-    height: 40%;
+    height: 38%;
 
     color: #111111;
 
@@ -244,17 +225,17 @@ body {
 
     font-weight: bold;
 
-    color: #111111;
+    color: #000000;
 
     line-height: 1.1;
 
-    margin-bottom: 16px;
+    margin-bottom: 15px;
 
 }
 
 
 /* =========================================================
-   ชื่อภาษาไทย
+   ชื่อไทย
    ========================================================= */
 
 .student-name {
@@ -273,7 +254,7 @@ body {
 
 
 /* =========================================================
-   ชื่อภาษาอังกฤษ
+   ชื่ออังกฤษ
    ========================================================= */
 
 .student-name-en {
@@ -288,13 +269,13 @@ body {
 
     line-height: 1.2;
 
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 
 }
 
 
 /* =========================================================
-   ข้อมูลเพิ่มเติม
+   ข้อมูล
    ========================================================= */
 
 .info-row {
@@ -303,7 +284,7 @@ body {
 
     align-items: baseline;
 
-    margin-bottom: 10px;
+    margin-bottom: 9px;
 
     line-height: 1.25;
 
@@ -387,7 +368,7 @@ body {
 
 
 /* =========================================================
-   QR AREA
+   QR CODE
    ========================================================= */
 
 .qr-area {
@@ -414,14 +395,8 @@ body {
 
     align-items: center;
 
-    justify-content: center;
-
 }
 
-
-/* =========================================================
-   พื้นที่กด QR
-   ========================================================= */
 
 .qr-click-area {
 
@@ -433,18 +408,8 @@ body {
 
     justify-content: center;
 
-    padding: 5px;
-
-    background: white;
-
 }
 
-
-/* =========================================================
-   QR CODE
-   ใหญ่ขึ้น 2 เท่า
-   สีดำ
-   ========================================================= */
 
 .student-qr {
 
@@ -456,18 +421,10 @@ body {
 
     background: #ffffff;
 
-    padding: 0;
-
-    border-radius: 0;
-
     cursor: pointer;
 
 }
 
-
-/* =========================================================
-   ข้อความใต้ QR
-   ========================================================= */
 
 .qr-label {
 
@@ -493,6 +450,82 @@ body {
     color: #777777;
 
     text-align: center;
+
+}
+
+
+/* =========================================================
+   BARCODE
+   ========================================================= */
+
+.barcode-area {
+
+    width: 100%;
+
+    max-width: 1000px;
+
+    margin-top: 25px;
+
+    padding: 25px 20px 30px;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0, 0, 0, 0.15);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.barcode-title {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: #000000;
+
+    margin-bottom: 15px;
+
+}
+
+
+.student-barcode {
+
+    display: block;
+
+    width: 500px;
+
+    max-width: 90%;
+
+    height: 130px;
+
+    background: #ffffff;
+
+}
+
+
+.barcode-id {
+
+    margin-top: 8px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    color: #000000;
 
 }
 
@@ -529,18 +562,12 @@ body {
 }
 
 
-/* เปิด Fullscreen */
-
 .qr-fullscreen.show {
 
     display: flex;
 
 }
 
-
-/* =========================================================
-   กล่อง QR เต็มหน้าจอ
-   ========================================================= */
 
 .qr-fullscreen-content {
 
@@ -563,23 +590,13 @@ body {
 }
 
 
-/* =========================================================
-   QR ขนาดใหญ่
-   ========================================================= */
-
 .student-qr-fullscreen {
 
     display: block;
 
-    width: min(
-        80vw,
-        600px
-    );
+    width: min(80vw, 600px);
 
-    height: min(
-        80vw,
-        600px
-    );
+    height: min(80vw, 600px);
 
     max-width: 80vh;
 
@@ -592,10 +609,6 @@ body {
 }
 
 
-/* =========================================================
-   ข้อความ QR เต็มหน้าจอ
-   ========================================================= */
-
 .qr-fullscreen-label {
 
     margin-top: 20px;
@@ -605,8 +618,6 @@ body {
     font-size: 24px;
 
     font-weight: bold;
-
-    text-align: center;
 
 }
 
@@ -623,10 +634,6 @@ body {
 
 }
 
-
-/* =========================================================
-   ปุ่มปิด
-   ========================================================= */
 
 .qr-close {
 
@@ -655,139 +662,7 @@ body {
 
     font-size: 36px;
 
-    line-height: 45px;
-
     cursor: pointer;
-
-    z-index: 100000;
-
-}
-
-
-.qr-close:hover {
-
-    background: rgba(
-        255,
-        255,
-        255,
-        0.3
-    );
-
-}
-
-
-/* =========================================================
-   ไม่มีรูป
-   ========================================================= */
-
-.student-photo-box.no-photo {
-
-    background: #eeeeee;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-}
-
-
-.student-photo-box.no-photo::after {
-
-    content: "ไม่มีรูปนักศึกษา";
-
-    color: #777777;
-
-    font-size: 16px;
-
-}
-
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 800px) {
-
-    body {
-
-        padding: 10px;
-
-    }
-
-
-    .student-id {
-
-        font-size: 3.2vw;
-
-    }
-
-
-    .student-name {
-
-        font-size: 2.7vw;
-
-    }
-
-
-    .student-name-en {
-
-        font-size: 2.2vw;
-
-        margin-bottom: 2vw;
-
-    }
-
-
-    .info-label {
-
-        min-width: 10vw;
-
-        font-size: 1.7vw;
-
-    }
-
-
-    .info-value {
-
-        font-size: 1.8vw;
-
-    }
-
-
-    .date-label {
-
-        font-size: 1.4vw;
-
-    }
-
-
-    .date-value {
-
-        font-size: 1.8vw;
-
-    }
-
-
-    .student-qr {
-
-        width: 300px;
-
-        height: 300px;
-
-        max-width: 80vw;
-
-        max-height: 80vw;
-
-    }
-
-
-    .qr-label {
-
-        font-size: 18px;
-
-    }
 
 }
 
@@ -802,15 +677,6 @@ body {
 
         padding: 5px;
 
-        background: #dddddd;
-
-    }
-
-
-    .card-controls {
-
-        margin-bottom: 10px;
-
     }
 
 
@@ -819,22 +685,6 @@ body {
         padding: 8px 12px;
 
         font-size: 13px;
-
-    }
-
-
-    .student-card {
-
-        border-radius: 4px;
-
-    }
-
-
-    .qr-area {
-
-        margin-top: 20px;
-
-        padding: 20px 10px 25px;
 
     }
 
@@ -859,34 +709,23 @@ body {
     }
 
 
-    .qr-hint {
+    .student-barcode {
 
-        font-size: 13px;
+        width: 90%;
 
-    }
-
-
-    .student-qr-fullscreen {
-
-        width: 85vw;
-
-        height: 85vw;
-
-        max-width: 85vh;
-
-        max-height: 85vh;
+        height: 110px;
 
     }
 
 
-    .qr-fullscreen-label {
+    .barcode-title {
 
-        font-size: 20px;
+        font-size: 18px;
 
     }
 
 
-    .qr-fullscreen-id {
+    .barcode-id {
 
         font-size: 18px;
 
@@ -901,29 +740,6 @@ body {
 
 @media print {
 
-    @page {
-
-        margin: 0;
-
-    }
-
-
-    html,
-    body {
-
-        width: 100%;
-
-        height: 100%;
-
-        margin: 0;
-
-        padding: 0;
-
-        background: white;
-
-    }
-
-
     .card-controls {
 
         display: none;
@@ -933,20 +749,15 @@ body {
 
     .student-card {
 
-        width: 1000px;
-
-        height: 632px;
-
-        max-width: none;
+        box-shadow: none;
 
         border-radius: 0;
-
-        box-shadow: none;
 
     }
 
 
-    .qr-area {
+    .qr-area,
+    .barcode-area {
 
         display: none;
 
