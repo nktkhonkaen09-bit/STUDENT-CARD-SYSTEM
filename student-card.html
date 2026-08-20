@@ -7,23 +7,17 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <meta
-        name="theme-color"
-        content="#F5A900">
+    <title>บัตรนักศึกษา</title>
 
-    <title>
-        บัตรนักศึกษา
-    </title>
 
+    <!-- CSS หลัก -->
     <link
         rel="stylesheet"
-        href="css/style.css">
-
-    <link
-        rel="stylesheet"
-        href="css/student-card.css">
+        href="css/student-card.css"
+    >
 
 </head>
 
@@ -31,308 +25,236 @@
 <body>
 
 
-<div class="student-card-page">
+    <!-- =====================================================
+         ส่วนควบคุม
+    ====================================================== -->
 
-
-    <!-- HEADER -->
-
-    <header class="card-page-header">
+    <div class="card-controls">
 
         <button
             type="button"
-            class="back-button"
-            onclick="goBack()">
-
-            ←
-
+            onclick="goBack()"
+            class="btn-back"
+        >
+            ← กลับ
         </button>
 
 
-        <div class="page-title">
+        <button
+            type="button"
+            onclick="downloadCard()"
+            class="btn-download"
+        >
+            ดาวน์โหลดบัตร
+        </button>
 
-            บัตรนักศึกษา
+    </div>
+
+
+
+    <!-- =====================================================
+         บัตรนักศึกษา
+    ====================================================== -->
+
+    <div
+        id="studentCard"
+        class="student-card"
+    >
+
+
+        <!-- =================================================
+             Background
+        ================================================== -->
+
+        <img
+            class="card-background"
+            src="https://raw.githubusercontent.com/nktkhonkaen09-bit/STUDENT-CARD-SYSTEM/main/assets/students/STD-BG.png"
+            alt="Student Card Background"
+        >
+
+
+
+        <!-- =================================================
+             รูปนักศึกษา
+        ================================================== -->
+
+        <div class="student-photo-box">
+
+            <img
+                id="studentPhoto"
+                class="student-photo"
+                alt="รูปนักศึกษา"
+            >
 
         </div>
 
 
-        <div class="header-space"></div>
 
-    </header>
+        <!-- =================================================
+             ข้อมูลนักศึกษา
+        ================================================== -->
 
-
-
-    <!-- CONTENT -->
-
-    <main class="card-content">
+        <div class="student-information">
 
 
-        <!-- STUDENT CARD -->
+            <!-- รหัสนักศึกษา -->
 
-        <section
-            id="studentCard"
-            class="student-card">
-
-
-            <!-- CARD HEADER -->
-
-            <div class="card-header">
-
-
-                <div class="institution-logo">
-
-                    <img
-                        id="institutionLogo"
-                        src="assets/logo.png"
-                        alt="Institution Logo"
-                        onerror="this.style.display='none'">
-
-                </div>
-
-
-                <div class="institution-name">
-
-                    <div class="institution-th">
-                        บัตรประจำตัวนักศึกษา
-                    </div>
-
-                    <div class="institution-en">
-                        STUDENT ID CARD
-                    </div>
-
-                </div>
-
-
+            <div
+                id="studentId"
+                class="student-id"
+            >
+                -
             </div>
 
 
+            <!-- ชื่อภาษาไทย -->
 
-            <!-- CARD BODY -->
-
-            <div class="card-body">
-
-
-                <!-- PHOTO -->
-
-                <div class="photo-section">
-
-                    <div class="student-photo-frame">
-
-                        <img
-                            id="studentPhoto"
-                            src=""
-                            alt="Student Photo">
-
-                    </div>
-
-
-                    <div
-                        id="studentStatus"
-                        class="student-status">
-
-                        นักศึกษาปกติ
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- INFORMATION -->
-
-                <div class="student-details">
-
-
-                    <div class="detail-row">
-
-                        <div class="detail-label">
-                            รหัสนักศึกษา
-                        </div>
-
-                        <div
-                            id="studentId"
-                            class="detail-value student-number">
-
-                            -
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="detail-row">
-
-                        <div class="detail-label">
-                            ชื่อ - นามสกุล
-                        </div>
-
-                        <div
-                            id="studentName"
-                            class="detail-value">
-
-                            -
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="detail-row">
-
-                        <div class="detail-label">
-                            Name
-                        </div>
-
-                        <div
-                            id="studentNameEn"
-                            class="detail-value english-name">
-
-                            -
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="detail-row">
-
-                        <div class="detail-label">
-                            สาขาวิชา
-                        </div>
-
-                        <div
-                            id="studentDepartment"
-                            class="detail-value">
-
-                            -
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
+            <div
+                id="studentName"
+                class="student-name"
+            >
+                -
             </div>
 
 
+            <!-- ชื่อภาษาอังกฤษ -->
 
-            <!-- CARD FOOTER -->
-
-            <div class="card-footer">
-
-
-                <div class="date-block">
-
-                    <div class="date-label">
-                        ออกบัตร
-                    </div>
-
-                    <div
-                        id="issueDate"
-                        class="date-value">
-
-                        -
-
-                    </div>
-
-                </div>
-
-
-                <div class="date-block">
-
-                    <div class="date-label">
-                        หมดอายุ
-                    </div>
-
-                    <div
-                        id="expireDate"
-                        class="date-value expire">
-
-                        -
-
-                    </div>
-
-                </div>
-
-
-                <div class="qr-container">
-
-                    <canvas
-                        id="studentQR">
-                    </canvas>
-
-                </div>
-
-
+            <div
+                id="studentNameEn"
+                class="student-name-en"
+            >
+                -
             </div>
 
 
+            <!-- สาขาวิชา -->
 
-            <!-- CARD NUMBER -->
+            <div class="info-row">
 
-            <div class="card-number">
-
-                <span>
-                    STUDENT ID :
+                <span class="info-label">
+                    สาขาวิชา
                 </span>
 
-                <strong
-                    id="cardStudentId">
-
+                <span
+                    id="studentDepartment"
+                    class="info-value"
+                >
                     -
-
-                </strong>
+                </span>
 
             </div>
 
 
-        </section>
+            <!-- สถานะ -->
 
+            <div class="info-row">
 
+                <span class="info-label">
+                    สถานะ
+                </span>
 
-        <!-- ACTIONS -->
+                <span
+                    id="studentStatus"
+                    class="info-value"
+                >
+                    -
+                </span>
 
-        <div class="card-actions">
-
-
-            <button
-                type="button"
-                class="action-button primary"
-                onclick="downloadCard()">
-
-                ⬇️
-                ดาวน์โหลดบัตร
-
-            </button>
-
-
-            <button
-                type="button"
-                class="action-button secondary"
-                onclick="window.print()">
-
-                🖨️
-                พิมพ์บัตร
-
-            </button>
+            </div>
 
 
         </div>
 
 
-    </main>
+
+        <!-- =================================================
+             วันที่ออกบัตร
+        ================================================== -->
+
+        <div class="issue-information">
+
+            <div class="date-box">
+
+                <span class="date-label">
+                    วันออกบัตร
+                </span>
+
+                <span
+                    id="issueDate"
+                    class="date-value"
+                >
+                    -
+                </span>
+
+            </div>
 
 
-</div>
+            <div class="date-box">
+
+                <span class="date-label">
+                    วันหมดอายุ
+                </span>
+
+                <span
+                    id="expireDate"
+                    class="date-value"
+                >
+                    -
+                </span>
+
+            </div>
+
+        </div>
 
 
 
-<script src="js/config.js"></script>
+        <!-- =================================================
+             QR CODE
+        ================================================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+        <div class="qr-area">
 
-<script src="js/student-card.js"></script>
+            <canvas
+                id="studentQR"
+                class="student-qr"
+            ></canvas>
+
+
+            <div class="qr-label">
+                QR ตรวจสอบข้อมูล
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         JavaScript
+    ====================================================== -->
+
+    <script src="js/config.js"></script>
+
+
+    <!-- QR Code -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"
+    ></script>
+
+
+    <!-- HTML2Canvas -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+    ></script>
+
+
+    <!-- Student Card -->
+
+    <script src="js/student-card.js"></script>
 
 
 </body>
