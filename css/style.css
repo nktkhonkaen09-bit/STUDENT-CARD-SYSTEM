@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    Arial,
+    "Noto Sans Thai",
+    sans-serif;
+
+  background: #fff9dc;
+
+  color: #444;
+}
+
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+
+.login-card {
+
+  width: 100%;
+  max-width: 400px;
+
+  background: #fff;
+
+  border-radius: 20px;
+
+  padding: 30px 25px;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0, 0, 0, 0.12);
+
+  text-align: center;
+}
+
+
+.logo {
+
+  width: 90px;
+  height: 90px;
+
+  object-fit: contain;
+
+  margin-bottom: 10px;
+}
+
+
+h1 {
+
+  margin: 5px 0;
+
+  color: #f4a900;
+
+  font-size: 25px;
+}
+
+
+.subtitle {
+
+  margin-top: 5px;
+  margin-bottom: 30px;
+
+  color: #777;
+}
+
+
+.form-group {
+
+  text-align: left;
+
+  margin-bottom: 18px;
+}
+
+
+.form-group label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-weight: 600;
+}
+
+
+.form-group input {
+
+  width: 100%;
+
+  padding: 13px 15px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+
+.form-group input:focus {
+
+  border-color: #f4a900;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(244, 169, 0, 0.15);
+}
+
+
+.login-button {
+
+  width: 100%;
+
+  border: none;
+
+  border-radius: 10px;
+
+  padding: 14px;
+
+  background: #f4a900;
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+
+.login-button:hover {
+
+  background: #e39b00;
+}
+
+
+.message {
+
+  margin-top: 15px;
+
+  color: #d33;
+
+  font-size: 14px;
+}
