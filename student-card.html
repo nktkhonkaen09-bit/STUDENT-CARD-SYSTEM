@@ -60,9 +60,7 @@
     >
 
 
-        <!-- =================================================
-             Background บัตรนักศึกษา
-        ================================================== -->
+        <!-- Background -->
 
         <img
             class="card-background"
@@ -162,12 +160,13 @@
 
             </div>
 
+
         </div>
 
 
 
         <!-- =================================================
-             วันที่ออกบัตร / วันหมดอายุ
+             วันที่
         ================================================== -->
 
         <div class="issue-information">
@@ -204,6 +203,7 @@
 
             </div>
 
+
         </div>
 
 
@@ -214,20 +214,83 @@
 
     <!-- =====================================================
          QR CODE
-         อยู่นอกบัตร
     ====================================================== -->
 
     <div class="qr-area">
 
 
-        <canvas
-            id="studentQR"
-            class="student-qr"
-        ></canvas>
+        <div
+            class="qr-click-area"
+            onclick="openQRFullscreen()"
+            title="แตะเพื่อขยาย QR Code"
+        >
+
+            <canvas
+                id="studentQR"
+                class="student-qr"
+            ></canvas>
+
+        </div>
 
 
         <div class="qr-label">
             QR Code รหัสนักศึกษา
+        </div>
+
+
+        <div class="qr-hint">
+            แตะ QR Code เพื่อขยาย
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         QR FULLSCREEN
+    ====================================================== -->
+
+    <div
+        id="qrFullscreen"
+        class="qr-fullscreen"
+        onclick="closeQRFullscreen()"
+    >
+
+
+        <div
+            class="qr-fullscreen-content"
+            onclick="event.stopPropagation()"
+        >
+
+
+            <button
+                type="button"
+                class="qr-close"
+                onclick="closeQRFullscreen()"
+            >
+                ×
+            </button>
+
+
+            <canvas
+                id="studentQRFullscreen"
+                class="student-qr-fullscreen"
+            ></canvas>
+
+
+            <div class="qr-fullscreen-label">
+                QR Code รหัสนักศึกษา
+            </div>
+
+
+            <div class="qr-fullscreen-id">
+                <span id="qrStudentId">
+                    -
+                </span>
+            </div>
+
+
         </div>
 
 
@@ -259,6 +322,228 @@
     <!-- Student Card -->
 
     <script src="js/student-card.js"></script>
+
+
+    <!-- QR Fullscreen -->
+
+    <script>
+
+        /*
+         * เปิด QR Code เต็มหน้าจอ
+         */
+
+        function openQRFullscreen() {
+
+            const fullscreen =
+                document.getElementById(
+                    "qrFullscreen"
+                );
+
+            const originalQR =
+                document.getElementById(
+                    "studentQR"
+                );
+
+            const fullscreenQR =
+                document.getElementById(
+                    "studentQRFullscreen"
+                );
+
+
+            if (
+                !originalQR ||
+                !fullscreenQR
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * คัดลอก QR Code
+             */
+
+            const context =
+                fullscreenQR.getContext("2d");
+
+
+            context.clearRect(
+                0,
+                0,
+                fullscreenQR.width,
+                fullscreenQR.height
+            );
+
+
+            fullscreenQR.width = 600;
+            fullscreenQR.height = 600;
+
+
+            context.imageSmoothingEnabled = false;
+
+
+            context.drawImage(
+                originalQR,
+                0,
+                0,
+                600,
+                600
+            );
+
+
+            /*
+             * แสดงรหัสนักศึกษา
+             */
+
+            const studentId =
+                document.getElementById(
+                    "studentId"
+                );
+
+
+            const qrStudentId =
+                document.getElementById(
+                    "qrStudentId"
+                );
+
+
+            if (
+                studentId &&
+                qrStudentId
+            ) {
+
+                qrStudentId.textContent =
+                    studentId.textContent.trim();
+
+            }
+
+
+            /*
+             * แสดงหน้าจอเต็ม
+             */
+
+            fullscreen.classList.add(
+                "show"
+            );
+
+
+            document.body.classList.add(
+                "qr-open"
+            );
+
+
+            /*
+             * พยายามใช้ Fullscreen API
+             */
+
+            if (
+                fullscreen.requestFullscreen
+            ) {
+
+                fullscreen
+                    .requestFullscreen()
+                    .catch(() => {});
+
+            }
+
+        }
+
+
+
+        /*
+         * ปิด QR Code
+         */
+
+        function closeQRFullscreen() {
+
+            const fullscreen =
+                document.getElementById(
+                    "qrFullscreen"
+                );
+
+
+            fullscreen.classList.remove(
+                "show"
+            );
+
+
+            document.body.classList.remove(
+                "qr-open"
+            );
+
+
+            /*
+             * ออกจาก Fullscreen
+             */
+
+            if (
+                document.fullscreenElement
+            ) {
+
+                document
+                    .exitFullscreen()
+                    .catch(() => {});
+
+            }
+
+        }
+
+
+
+        /*
+         * กด ESC เพื่อปิด
+         */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeQRFullscreen();
+
+                }
+
+            }
+        );
+
+
+        /*
+         * เมื่อออกจาก Fullscreen
+         */
+
+        document.addEventListener(
+            "fullscreenchange",
+            function() {
+
+                const fullscreen =
+                    document.getElementById(
+                        "qrFullscreen"
+                    );
+
+
+                if (
+                    !document.fullscreenElement &&
+                    fullscreen.classList.contains("show")
+                ) {
+
+                    fullscreen.classList.remove(
+                        "show"
+                    );
+
+                    document.body.classList.remove(
+                        "qr-open"
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
 
 
 </body>
