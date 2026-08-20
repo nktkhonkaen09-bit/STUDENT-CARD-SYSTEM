@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>ระบบบริการนักศึกษา</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css">
+</head>
+
+<body>
+
+  <main class="app">
+
+    <section class="login-card">
+
+      <img
+        src="assets/logo.png"
+        class="logo"
+        alt="Logo">
+
+      <h1>ระบบบริการนักศึกษา</h1>
+
+      <p class="subtitle">
+        Student Service System
+      </p>
+
+      <form id="loginForm">
+
+        <div class="form-group">
+
+          <label>
+            รหัสนักศึกษา
+          </label>
+
+          <input
+            type="text"
+            id="studentId"
+            placeholder="กรอกรหัสนักศึกษา"
+            autocomplete="username"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            รหัสผ่าน
+          </label>
+
+          <input
+            type="password"
+            id="password"
+            placeholder="กรอกรหัสผ่าน"
+            autocomplete="current-password"
+            required>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-button">
+
+          เข้าสู่ระบบ
+
+        </button>
+
+      </form>
+
+      <div
+        id="loginMessage"
+        class="message">
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="js/login.js"></script>
+
+</body>
+
+</html>
