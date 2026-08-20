@@ -7,6 +7,12 @@ const CONFIG = {
         "student_session",
 
     STUDENT_KEY:
-        "student_data"
+        "student_data",
+
+    ADMIN_SESSION_KEY:
+        "admin_session",
+
+    ADMIN_KEY:
+        "admin_data"
 
 };
