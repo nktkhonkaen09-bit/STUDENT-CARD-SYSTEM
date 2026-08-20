@@ -1,88 +1,84 @@
 /* =========================================================
-   STUDENT CARD SYSTEM
+   STUDENT CARD
    ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("Student Card: เริ่มทำงาน");
+
+    loadStudentData();
+
+});
 
 
 /* =========================================================
    โหลดข้อมูลนักศึกษา
    ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        loadStudentCard();
-
-    }
-);
-
-
-
-/* =========================================================
-   โหลดข้อมูลจาก Session Storage
-   ========================================================= */
-
-function loadStudentCard() {
-
-    /*
-     * ระบบ Login ของเราเก็บข้อมูลนักศึกษาไว้ที่นี่
-     */
+function loadStudentData() {
 
     let student = null;
 
 
-    try {
+    /*
+     * รายการชื่อที่ระบบอาจเก็บข้อมูลไว้
+     */
 
-        const studentData =
-            sessionStorage.getItem(
-                "student"
-            );
-
-
-        if (studentData) {
-
-            student =
-                JSON.parse(studentData);
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "อ่านข้อมูลนักศึกษาไม่สำเร็จ",
-            error
-        );
-
-    }
-
+    const storageKeys = [
+        "student",
+        "studentData",
+        "currentStudent",
+        "loginStudent",
+        "user",
+        "userData"
+    ];
 
 
     /*
-     * ถ้าไม่มีข้อมูลใน session
-     * ลองอ่าน localStorage
+     * ลอง sessionStorage
      */
 
-    if (!student) {
+    for (const key of storageKeys) {
 
         try {
 
-            const studentData =
-                localStorage.getItem(
-                    "student"
-                );
+            const data =
+                sessionStorage.getItem(key);
 
+            if (data) {
 
-            if (studentData) {
+                const parsed =
+                    JSON.parse(data);
 
-                student =
-                    JSON.parse(studentData);
+                if (
+                    parsed &&
+                    (
+                        parsed.student_id ||
+                        parsed.student
+                    )
+                {
+
+                    student =
+                        parsed.student ||
+                        parsed;
+
+                    console.log(
+                        "พบข้อมูลจาก sessionStorage:",
+                        key,
+                        student
+                    );
+
+                    break;
+
+                }
 
             }
 
         } catch (error) {
 
-            console.error(
-                "อ่าน localStorage ไม่สำเร็จ",
+            console.log(
+                "อ่าน sessionStorage:",
+                key,
                 error
             );
 
@@ -91,29 +87,89 @@ function loadStudentCard() {
     }
 
 
-
     /*
-     * ถ้ายังไม่มีข้อมูล
+     * ถ้ายังไม่พบ
+     * ลอง localStorage
      */
 
     if (!student) {
 
-        console.warn(
-            "ไม่พบข้อมูลนักศึกษา"
-        );
+        for (const key of storageKeys) {
+
+            try {
+
+                const data =
+                    localStorage.getItem(key);
+
+                if (data) {
+
+                    const parsed =
+                        JSON.parse(data);
+
+                    if (
+                        parsed &&
+                        (
+                            parsed.student_id ||
+                            parsed.student
+                        )
+                    {
+
+                        student =
+                            parsed.student ||
+                            parsed;
+
+                        console.log(
+                            "พบข้อมูลจาก localStorage:",
+                            key,
+                            student
+                        );
+
+                        break;
+
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.log(
+                    "อ่าน localStorage:",
+                    key,
+                    error
+                );
+
+            }
+
+        }
+
+    }
+
+
+    /*
+     * ถ้าพบข้อมูล
+     */
+
+    if (student) {
+
+        displayStudent(student);
 
         return;
 
     }
 
 
-
     /*
-     * แสดงข้อมูล
+     * ไม่พบข้อมูล
      */
 
-    displayStudent(student);
+    console.error(
+        "ไม่พบข้อมูลนักศึกษาใน Storage"
+    );
 
+
+    showError(
+        "ไม่พบข้อมูลนักศึกษา กรุณากลับไปเข้าสู่ระบบใหม่"
+    );
 
 }
 
@@ -124,6 +180,11 @@ function loadStudentCard() {
    ========================================================= */
 
 function displayStudent(student) {
+
+    console.log(
+        "ข้อมูลนักศึกษา:",
+        student
+    );
 
 
     /*
@@ -136,12 +197,11 @@ function displayStudent(student) {
     );
 
 
-
     /*
      * ชื่อภาษาไทย
      */
 
-    const fullNameTh =
+    const thaiName =
         [
             student.prefix_th,
             student.firstname_th,
@@ -153,16 +213,15 @@ function displayStudent(student) {
 
     setText(
         "studentName",
-        fullNameTh
+        thaiName
     );
-
 
 
     /*
      * ชื่อภาษาอังกฤษ
      */
 
-    const fullNameEn =
+    const englishName =
         [
             student.firstname_en,
             student.lastname_en
@@ -173,9 +232,8 @@ function displayStudent(student) {
 
     setText(
         "studentNameEn",
-        fullNameEn
+        englishName
     );
-
 
 
     /*
@@ -188,7 +246,6 @@ function displayStudent(student) {
     );
 
 
-
     /*
      * สถานะ
      */
@@ -199,16 +256,14 @@ function displayStudent(student) {
     );
 
 
-
     /*
-     * วันที่ออกบัตร
+     * วันออกบัตร
      */
 
     setText(
         "issueDate",
         student.issue_date
     );
-
 
 
     /*
@@ -221,15 +276,13 @@ function displayStudent(student) {
     );
 
 
-
     /*
-     * รูปนักศึกษา
+     * รูป
      */
 
     loadStudentPhoto(
         student
     );
-
 
 
     /*
@@ -239,7 +292,6 @@ function displayStudent(student) {
     createQRCode(
         student.student_id
     );
-
 
 
     /*
@@ -255,21 +307,24 @@ function displayStudent(student) {
 
 
 /* =========================================================
-   ฟังก์ชันกำหนดข้อความ
+   ใส่ข้อความ
    ========================================================= */
 
 function setText(
-    elementId,
+    id,
     value
 ) {
 
     const element =
-        document.getElementById(
-            elementId
-        );
+        document.getElementById(id);
 
 
     if (!element) {
+
+        console.warn(
+            "ไม่พบ element:",
+            id
+        );
 
         return;
 
@@ -289,212 +344,97 @@ function setText(
 
 function loadStudentPhoto(student) {
 
-    const photo =
+    const image =
         document.getElementById(
             "studentPhoto"
         );
 
 
-    const photoBox =
-        document.getElementById(
-            "studentPhotoBox"
-        );
+    if (!image) {
 
+        return;
+
+    }
+
+
+    const studentId =
+        student.student_id;
+
+
+    if (!studentId) {
+
+        return;
+
+    }
+
+
+    /*
+     * ถ้ามี photo_url จาก API
+     */
 
     if (
-        !photo ||
-        !photoBox
+        student.photo_url &&
+        student.photo_url.trim() !== ""
     ) {
 
+        image.src =
+            student.photo_url;
+
         return;
 
     }
 
 
     /*
-     * ถ้า API มี photo_url
-     * ให้ใช้ photo_url ก่อน
+     * GitHub
      */
 
-    let photoUrl =
-        student.photo_url || "";
+    const baseUrl =
+        "https://raw.githubusercontent.com/" +
+        "nktkhonkaen09-bit/" +
+        "STUDENT-CARD-SYSTEM/" +
+        "main/assets/students/";
 
 
-
-    /*
-     * ถ้าไม่มี photo_url
-     * สร้าง URL จาก GitHub
-     *
-     * ตัวอย่าง:
-     * TEST001
-     *
-     * จะหา:
-     *
-     * TEST001.png
-     *
-     * และถ้าไม่มี จะลอง JPG
-     */
-
-    if (!photoUrl) {
-
-        const studentId =
-            student.student_id;
+    const png =
+        baseUrl +
+        encodeURIComponent(studentId) +
+        ".png";
 
 
-        if (!studentId) {
-
-            showNoPhoto();
-
-            return;
-
-        }
+    const jpg =
+        baseUrl +
+        encodeURIComponent(studentId) +
+        ".jpg";
 
 
-        const baseUrl =
-            "https://raw.githubusercontent.com/" +
-            "nktkhonkaen09-bit/" +
-            "STUDENT-CARD-SYSTEM/" +
-            "main/assets/students/";
+    image.onerror =
+        function () {
 
+            /*
+             * ถ้า PNG ไม่พบ
+             * ลอง JPG
+             */
 
-        const pngUrl =
-            baseUrl +
-            encodeURIComponent(
-                studentId
-            ) +
-            ".png";
+            if (
+                image.src !== jpg
+            ) {
 
+                image.src = jpg;
 
-        const jpgUrl =
-            baseUrl +
-            encodeURIComponent(
-                studentId
-            ) +
-            ".jpg";
-
-
-        /*
-         * ลอง PNG ก่อน
-         */
-
-        photo.src = pngUrl;
-
-
-        photo.onload =
-            function () {
-
-                photoBox.classList.remove(
-                    "no-photo"
-                );
-
-            };
-
-
-        photo.onerror =
-            function () {
-
-                /*
-                 * ถ้า PNG ไม่มี
-                 * ลอง JPG
-                 */
-
-                photo.src = jpgUrl;
-
-            };
-
-
-        /*
-         * ถ้า JPG ก็ไม่มี
-         */
-
-        photo.addEventListener(
-            "error",
-            function () {
-
-                showNoPhoto();
-
-            },
-            {
-                once: true
             }
-        );
-
-
-        return;
-
-    }
-
-
-
-    /*
-     * ใช้ photo_url จาก API
-     */
-
-    photo.src =
-        photoUrl;
-
-
-    photo.onload =
-        function () {
-
-            photoBox.classList.remove(
-                "no-photo"
-            );
 
         };
 
 
-    photo.onerror =
-        function () {
-
-            showNoPhoto();
-
-        };
+    image.src = png;
 
 }
 
 
 
 /* =========================================================
-   แสดงกรณีไม่มีรูป
-   ========================================================= */
-
-function showNoPhoto() {
-
-    const photo =
-        document.getElementById(
-            "studentPhoto"
-        );
-
-
-    const photoBox =
-        document.getElementById(
-            "studentPhotoBox"
-        );
-
-
-    if (photo) {
-
-        photo.style.display =
-            "none";
-
-    }
-
-
-    if (photoBox) {
-
-        photoBox.classList.add(
-            "no-photo"
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   สร้าง QR Code
+   QR CODE
    ========================================================= */
 
 function createQRCode(
@@ -517,26 +457,18 @@ function createQRCode(
     }
 
 
-    /*
-     * ตรวจสอบ Library
-     */
-
     if (
         typeof QRCode === "undefined"
     ) {
 
         console.error(
-            "ไม่พบ QRCode Library"
+            "QRCode Library ไม่พร้อมใช้งาน"
         );
 
         return;
 
     }
 
-
-    /*
-     * QR สีดำ พื้นขาว
-     */
 
     QRCode.toCanvas(
         canvas,
@@ -558,12 +490,13 @@ function createQRCode(
             }
 
         },
+
         function (error) {
 
             if (error) {
 
                 console.error(
-                    "สร้าง QR Code ไม่สำเร็จ",
+                    "สร้าง QR ไม่สำเร็จ:",
                     error
                 );
 
@@ -577,8 +510,7 @@ function createQRCode(
 
 
 /* =========================================================
-   สร้าง Barcode
-   CODE128
+   BARCODE
    ========================================================= */
 
 function createBarcode(
@@ -591,7 +523,7 @@ function createBarcode(
         );
 
 
-    const barcodeStudentId =
+    const barcodeText =
         document.getElementById(
             "barcodeStudentId"
         );
@@ -607,26 +539,18 @@ function createBarcode(
     }
 
 
-    /*
-     * ตรวจสอบ JsBarcode
-     */
-
     if (
         typeof JsBarcode === "undefined"
     ) {
 
         console.error(
-            "ไม่พบ JsBarcode Library"
+            "JsBarcode Library ไม่พร้อมใช้งาน"
         );
 
         return;
 
     }
 
-
-    /*
-     * สร้าง Barcode
-     */
 
     try {
 
@@ -637,15 +561,15 @@ function createBarcode(
 
                 format: "CODE128",
 
-                lineColor: "#000000",
-
-                background: "#FFFFFF",
-
                 width: 2,
 
                 height: 55,
 
                 displayValue: false,
+
+                lineColor: "#000000",
+
+                background: "#FFFFFF",
 
                 margin: 2
 
@@ -653,15 +577,9 @@ function createBarcode(
         );
 
 
-        /*
-         * แสดงรหัสใต้ Barcode
-         */
+        if (barcodeText) {
 
-        if (
-            barcodeStudentId
-        ) {
-
-            barcodeStudentId.textContent =
+            barcodeText.textContent =
                 studentId;
 
         }
@@ -669,7 +587,7 @@ function createBarcode(
     } catch (error) {
 
         console.error(
-            "สร้าง Barcode ไม่สำเร็จ",
+            "สร้าง Barcode ไม่สำเร็จ:",
             error
         );
 
@@ -680,14 +598,10 @@ function createBarcode(
 
 
 /* =========================================================
-   กลับหน้าหลัก
+   กลับ Dashboard
    ========================================================= */
 
 function goBack() {
-
-    /*
-     * ถ้ามี dashboard.html
-     */
 
     window.location.href =
         "dashboard.html";
@@ -715,12 +629,9 @@ function downloadCard() {
     }
 
 
-    /*
-     * ตรวจสอบ html2canvas
-     */
-
     if (
-        typeof html2canvas === "undefined"
+        typeof html2canvas ===
+        "undefined"
     ) {
 
         alert(
@@ -744,69 +655,140 @@ function downloadCard() {
 
         }
     )
-    .then(
-        function (canvas) {
+    .then(function (canvas) {
+
+        const link =
+            document.createElement("a");
 
 
-            const link =
-                document.createElement(
-                    "a"
-                );
-
-
-            const studentId =
-                document.getElementById(
-                    "studentId"
-                );
-
-
-            let fileName =
-                "student-card";
-
-
-            if (
-                studentId &&
-                studentId.textContent
-            ) {
-
-                fileName =
-                    "student-card-" +
-                    studentId.textContent
-                        .trim();
-
-            }
-
-
-            link.download =
-                fileName +
-                ".png";
-
-
-            link.href =
-                canvas.toDataURL(
-                    "image/png"
-                );
-
-
-            link.click();
-
-
-        }
-    )
-    .catch(
-        function (error) {
-
-            console.error(
-                "ดาวน์โหลดบัตรไม่สำเร็จ",
-                error
+        const id =
+            document.getElementById(
+                "studentId"
             );
 
 
-            alert(
-                "ไม่สามารถดาวน์โหลดบัตรได้"
-            );
+        let studentId =
+            "student";
+
+
+        if (
+            id &&
+            id.textContent.trim()
+        ) {
+
+            studentId =
+                id.textContent.trim();
 
         }
-    );
+
+
+        link.download =
+            "student-card-" +
+            studentId +
+            ".png";
+
+
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+
+        link.click();
+
+    })
+    .catch(function (error) {
+
+        console.error(
+            "ดาวน์โหลดไม่สำเร็จ:",
+            error
+        );
+
+        alert(
+            "ไม่สามารถดาวน์โหลดบัตรได้"
+        );
+
+    });
+
+}
+
+
+
+/* =========================================================
+   แสดง Error
+   ========================================================= */
+
+function showError(message) {
+
+    const card =
+        document.getElementById(
+            "studentCard"
+        );
+
+
+    if (!card) {
+
+        return;
+
+    }
+
+
+    const error =
+        document.createElement("div");
+
+
+    error.style.position =
+        "absolute";
+
+
+    error.style.left =
+        "50%";
+
+
+    error.style.top =
+        "50%";
+
+
+    error.style.transform =
+        "translate(-50%, -50%)";
+
+
+    error.style.zIndex =
+        "999";
+
+
+    error.style.background =
+        "#ffffff";
+
+
+    error.style.color =
+        "#cc0000";
+
+
+    error.style.padding =
+        "25px";
+
+
+    error.style.borderRadius =
+        "12px";
+
+
+    error.style.fontSize =
+        "20px";
+
+
+    error.style.fontWeight =
+        "bold";
+
+
+    error.style.textAlign =
+        "center";
+
+
+    error.textContent =
+        message;
+
+
+    card.appendChild(error);
 
 }
