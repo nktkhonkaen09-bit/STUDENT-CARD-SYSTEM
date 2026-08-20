@@ -7,21 +7,17 @@
 :root {
 
     --primary: #0a1383;
-
     --primary-dark: #070d62;
-
     --primary-light: #eef0ff;
 
     --white: #ffffff;
 
     --text: #111827;
-
     --gray: #6b7280;
 
     --border: #e1e4f0;
 
     --logout: #dc2626;
-
     --logout-light: #fff1f2;
 
 }
@@ -32,24 +28,18 @@
    ========================================= */
 
 * {
-
-    box-sizing:
-        border-box;
-
+    box-sizing: border-box;
 }
 
 
 html,
 body {
 
-    margin:
-        0;
+    margin: 0;
 
-    padding:
-        0;
+    padding: 0;
 
-    min-height:
-        100%;
+    min-height: 100%;
 
 }
 
@@ -59,7 +49,7 @@ body {
     font-family:
         Arial,
         "Noto Sans Thai",
-        "Tahoma",
+        Tahoma,
         sans-serif;
 
     color:
@@ -77,8 +67,7 @@ body {
 
 .dashboard-page {
 
-    min-height:
-        100vh;
+    min-height: 100vh;
 
     background:
         linear-gradient(
@@ -97,23 +86,17 @@ body {
 
 .dashboard-header {
 
-    width:
-        100%;
+    width: 100%;
 
-    min-height:
-        82px;
+    min-height: 82px;
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        space-between;
+    justify-content: space-between;
 
-    padding:
-        12px 28px;
+    padding: 12px 28px;
 
     background:
         #ffffff;
@@ -134,28 +117,22 @@ body {
 
 .header-left {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        13px;
+    gap: 13px;
 
 }
 
 
 .header-logo {
 
-    width:
-        52px;
+    width: 52px;
 
-    height:
-        52px;
+    height: 52px;
 
-    object-fit:
-        contain;
+    object-fit: contain;
 
 }
 
@@ -165,31 +142,25 @@ body {
     color:
         var(--primary);
 
-    font-size:
-        19px;
+    font-size: 19px;
 
-    font-weight:
-        700;
+    font-weight: 700;
 
-    line-height:
-        1.4;
+    line-height: 1.4;
 
 }
 
 
 .header-system-subtitle {
 
-    margin-top:
-        2px;
+    margin-top: 2px;
 
     color:
         var(--gray);
 
-    font-size:
-        10px;
+    font-size: 10px;
 
-    letter-spacing:
-        1.2px;
+    letter-spacing: 1.2px;
 
 }
 
@@ -200,20 +171,16 @@ body {
 
 .header-student {
 
-    min-width:
-        170px;
+    min-width: 170px;
 
-    padding:
-        8px 14px;
+    padding: 8px 14px;
 
-    text-align:
-        right;
+    text-align: right;
 
     background:
         var(--primary-light);
 
-    border-radius:
-        10px;
+    border-radius: 10px;
 
 }
 
@@ -223,28 +190,23 @@ body {
     color:
         var(--primary);
 
-    font-size:
-        13px;
+    font-size: 13px;
 
-    font-weight:
-        700;
+    font-weight: 700;
 
 }
 
 
 .header-student-name {
 
-    margin-top:
-        3px;
+    margin-top: 3px;
 
     color:
         var(--text);
 
-    font-size:
-        13px;
+    font-size: 13px;
 
-    font-weight:
-        600;
+    font-weight: 600;
 
 }
 
@@ -255,17 +217,13 @@ body {
 
 .dashboard-main {
 
-    width:
-        100%;
+    width: 100%;
 
-    max-width:
-        950px;
+    max-width: 950px;
 
-    margin:
-        0 auto;
+    margin: 0 auto;
 
-    padding:
-        32px 20px 35px;
+    padding: 32px 20px 35px;
 
 }
 
@@ -276,39 +234,33 @@ body {
 
 .welcome-section {
 
-    margin-bottom:
-        25px;
+    margin-bottom: 25px;
 
 }
 
 
 .welcome-title {
 
-    margin:
-        0;
+    margin: 0;
 
     color:
         var(--primary);
 
-    font-size:
-        26px;
+    font-size: 26px;
 
-    font-weight:
-        700;
+    font-weight: 700;
 
 }
 
 
 .welcome-subtitle {
 
-    margin:
-        7px 0 0;
+    margin: 7px 0 0;
 
     color:
         var(--gray);
 
-    font-size:
-        14px;
+    font-size: 14px;
 
 }
 
@@ -319,14 +271,12 @@ body {
 
 .dashboard-menu {
 
-    display:
-        grid;
+    display: grid;
 
     grid-template-columns:
         repeat(2, 1fr);
 
-    gap:
-        18px;
+    gap: 18px;
 
 }
 
@@ -337,29 +287,21 @@ body {
 
 .menu-card {
 
-    position:
-        relative;
+    position: relative;
 
-    min-height:
-        165px;
+    min-height: 165px;
 
-    padding:
-        25px 20px;
+    padding: 25px 20px;
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    text-align:
-        center;
+    text-align: center;
 
     background:
         #ffffff;
@@ -370,15 +312,13 @@ body {
     border-top:
         5px solid var(--primary);
 
-    border-radius:
-        16px;
+    border-radius: 16px;
 
     box-shadow:
         0 7px 22px
         rgba(10, 19, 131, 0.07);
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
     transition:
         transform 0.18s ease,
@@ -413,7 +353,7 @@ body {
 
 
 /* =========================================
-   STUDENT CARD
+   STUDENT CARD MENU
    ========================================= */
 
 .student-card-menu {
@@ -431,10 +371,10 @@ body {
 .menu-icon {
 
     width:
-        62px;
+        68px;
 
     height:
-        62px;
+        68px;
 
     margin-bottom:
         12px;
@@ -467,10 +407,10 @@ body {
 .menu-icon svg {
 
     width:
-        34px;
+        44px;
 
     height:
-        34px;
+        44px;
 
     fill:
         none;
@@ -756,13 +696,17 @@ body {
     }
 
 
+    /* =====================================
+       MOBILE ICON
+       ===================================== */
+
     .menu-icon {
 
         width:
-            54px;
+            60px;
 
         height:
-            54px;
+            60px;
 
         margin-bottom:
             9px;
@@ -773,10 +717,10 @@ body {
     .menu-icon svg {
 
         width:
-            30px;
+            40px;
 
         height:
-            30px;
+            40px;
 
     }
 
