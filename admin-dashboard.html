@@ -19,7 +19,6 @@
   Admin Dashboard | Student Card System
 </title>
 
-
 <style>
 
 * {
@@ -42,9 +41,9 @@ body {
 }
 
 
-/* ================================================
+/* =================================================
    HEADER
-   ================================================ */
+   ================================================= */
 
 .header {
 
@@ -52,7 +51,7 @@ body {
 
   background: #0a1383;
 
-  color: white;
+  color: #fff;
 
   display: flex;
 
@@ -60,11 +59,10 @@ body {
 
   justify-content: space-between;
 
-  padding: 0 25px;
+  padding: 0 24px;
 
   box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.12);
+    0 3px 12px rgba(0,0,0,.12);
 
 }
 
@@ -72,7 +70,7 @@ body {
 
   font-size: 20px;
 
-  font-weight: bold;
+  font-weight: 700;
 
 }
 
@@ -90,12 +88,12 @@ body {
 
 .logout-button {
 
-  border: 1px solid
-    rgba(255,255,255,.4);
+  border:
+    1px solid rgba(255,255,255,.45);
 
   background: transparent;
 
-  color: white;
+  color: #fff;
 
   border-radius: 7px;
 
@@ -113,9 +111,9 @@ body {
 }
 
 
-/* ================================================
+/* =================================================
    LAYOUT
-   ================================================ */
+   ================================================= */
 
 .layout {
 
@@ -127,15 +125,15 @@ body {
 }
 
 
-/* ================================================
+/* =================================================
    SIDEBAR
-   ================================================ */
+   ================================================= */
 
 .sidebar {
 
   width: 240px;
 
-  background: white;
+  background: #fff;
 
   border-right:
     1px solid #e5e7eb;
@@ -180,22 +178,22 @@ body {
 
   background: #0a1383;
 
-  color: white;
+  color: #fff;
 
 }
 
 
-/* ================================================
+/* =================================================
    CONTENT
-   ================================================ */
+   ================================================= */
 
 .content {
 
   flex: 1;
 
-  padding: 25px;
-
   min-width: 0;
+
+  padding: 25px;
 
 }
 
@@ -232,15 +230,16 @@ body {
 }
 
 
-/* ================================================
-   CARDS
-   ================================================ */
+/* =================================================
+   CARD
+   ================================================= */
 
 .card {
 
-  background: white;
+  background: #fff;
 
-  border: 1px solid #e5e7eb;
+  border:
+    1px solid #e5e7eb;
 
   border-radius: 12px;
 
@@ -249,15 +248,14 @@ body {
   margin-bottom: 20px;
 
   box-shadow:
-    0 4px 14px
-    rgba(0,0,0,.04);
+    0 4px 14px rgba(0,0,0,.04);
 
 }
 
 
-/* ================================================
-   SEARCH
-   ================================================ */
+/* =================================================
+   TOOLBAR
+   ================================================= */
 
 .toolbar {
 
@@ -288,7 +286,23 @@ body {
 
   font-size: 14px;
 
+  outline: none;
+
 }
+
+.search-input:focus {
+
+  border-color: #0a1383;
+
+  box-shadow:
+    0 0 0 3px rgba(10,19,131,.08);
+
+}
+
+
+/* =================================================
+   BUTTONS
+   ================================================= */
 
 .primary-button {
 
@@ -300,7 +314,7 @@ body {
 
   background: #0a1383;
 
-  color: white;
+  color: #fff;
 
   padding: 0 17px;
 
@@ -316,6 +330,14 @@ body {
 
 }
 
+.primary-button:disabled {
+
+  opacity: .6;
+
+  cursor: not-allowed;
+
+}
+
 .secondary-button {
 
   min-height: 40px;
@@ -325,7 +347,7 @@ body {
 
   border-radius: 7px;
 
-  background: white;
+  background: #fff;
 
   color: #374151;
 
@@ -335,10 +357,16 @@ body {
 
 }
 
+.secondary-button:hover {
 
-/* ================================================
+  background: #f9fafb;
+
+}
+
+
+/* =================================================
    TABLE
-   ================================================ */
+   ================================================= */
 
 .table-wrap {
 
@@ -352,7 +380,7 @@ table {
 
   border-collapse: collapse;
 
-  min-width: 760px;
+  min-width: 850px;
 
 }
 
@@ -370,6 +398,8 @@ th {
 
   border-bottom:
     1px solid #e5e7eb;
+
+  white-space: nowrap;
 
 }
 
@@ -393,9 +423,9 @@ tr:hover td {
 }
 
 
-/* ================================================
-   STATUS
-   ================================================ */
+/* =================================================
+   BADGES
+   ================================================= */
 
 .badge {
 
@@ -444,9 +474,9 @@ tr:hover td {
 }
 
 
-/* ================================================
+/* =================================================
    ACTION BUTTON
-   ================================================ */
+   ================================================= */
 
 .action-button {
 
@@ -498,17 +528,25 @@ tr:hover td {
 
 }
 
+.view-button {
 
-/* ================================================
+  background: #f3f4f6;
+
+  color: #374151;
+
+}
+
+
+/* =================================================
    FORM
-   ================================================ */
+   ================================================= */
 
 .form-grid {
 
   display: grid;
 
   grid-template-columns:
-    repeat(2, minmax(0,1fr));
+    repeat(2,minmax(0,1fr));
 
   gap: 15px;
 
@@ -543,6 +581,14 @@ tr:hover td {
 
   padding: 0 10px;
 
+  outline: none;
+
+}
+
+.form-group input:focus {
+
+  border-color: #0a1383;
+
 }
 
 .form-actions {
@@ -556,9 +602,9 @@ tr:hover td {
 }
 
 
-/* ================================================
+/* =================================================
    MESSAGE
-   ================================================ */
+   ================================================= */
 
 .message {
 
@@ -605,9 +651,9 @@ tr:hover td {
 }
 
 
-/* ================================================
+/* =================================================
    MODAL
-   ================================================ */
+   ================================================= */
 
 .modal {
 
@@ -642,7 +688,7 @@ tr:hover td {
 
   max-width: 500px;
 
-  background: white;
+  background: #fff;
 
   border-radius: 12px;
 
@@ -679,9 +725,9 @@ tr:hover td {
 }
 
 
-/* ================================================
-   RESPONSIVE
-   ================================================ */
+/* =================================================
+   MOBILE
+   ================================================= */
 
 @media(max-width:800px) {
 
@@ -756,79 +802,56 @@ tr:hover td {
 <body>
 
 
-<!-- ================================================
-     HEADER
-     ================================================ -->
-
 <header class="header">
 
-<div class="header-title">
-  🛡️ Student Card System
-</div>
+  <div class="header-title">
+    🛡️ Student Card System
+  </div>
 
-<div class="header-user">
+  <div class="header-user">
 
-<span id="adminUsername">
-  Admin
-</span>
+    <span id="adminUsername">
+      Admin
+    </span>
 
-<button
-  class="logout-button"
-  onclick="adminLogout()"
->
-  ออกจากระบบ
-</button>
+    <button
+      class="logout-button"
+      onclick="adminLogout()"
+    >
+      ออกจากระบบ
+    </button>
 
-</div>
+  </div>
 
 </header>
 
 
-<!-- ================================================
-     LAYOUT
-     ================================================ -->
-
 <div class="layout">
 
 
-<!-- ================================================
-     SIDEBAR
-     ================================================ -->
-
 <aside class="sidebar">
 
+  <button
+    class="menu-button active"
+    data-page="studentsPage"
+    onclick="showPage('studentsPage', this)"
+  >
+    👨‍🎓 ข้อมูลนักศึกษา
+  </button>
 
-<button
-  class="menu-button active"
-  data-page="studentsPage"
-  onclick="showPage('studentsPage', this)"
->
-  👨‍🎓 ข้อมูลนักศึกษา
-</button>
-
-
-<button
-  class="menu-button"
-  data-page="resetPage"
-  onclick="showPage('resetPage', this)"
->
-  🔑 คำร้องลืมรหัสผ่าน
-</button>
-
+  <button
+    class="menu-button"
+    data-page="resetPage"
+    onclick="showPage('resetPage', this)"
+  >
+    🔑 คำร้องลืมรหัสผ่าน
+  </button>
 
 </aside>
 
 
-<!-- ================================================
-     CONTENT
-     ================================================ -->
-
 <main class="content">
 
-
-<!-- ================================================
-     GLOBAL MESSAGE
-     ================================================ -->
 
 <div
   id="globalMessage"
@@ -836,9 +859,9 @@ tr:hover td {
 ></div>
 
 
-<!-- ================================================
-     STUDENTS PAGE
-     ================================================ -->
+<!-- =================================================
+     STUDENTS
+     ================================================= -->
 
 <section
   id="studentsPage"
@@ -856,7 +879,6 @@ tr:hover td {
 
 <div class="card">
 
-
 <div class="toolbar">
 
 <input
@@ -867,10 +889,18 @@ tr:hover td {
 >
 
 <button
+  id="searchStudentButton"
   class="primary-button"
   onclick="loadStudents()"
 >
   🔍 ค้นหา
+</button>
+
+<button
+  class="secondary-button"
+  onclick="loadStudents()"
+>
+  🔄 โหลดใหม่
 </button>
 
 </div>
@@ -884,33 +914,19 @@ tr:hover td {
 
 <tr>
 
-<th>
-  รหัสนักศึกษา
-</th>
+<th>รหัสนักศึกษา</th>
 
-<th>
-  ชื่อ
-</th>
+<th>ชื่อ</th>
 
-<th>
-  นามสกุล
-</th>
+<th>นามสกุล</th>
 
-<th>
-  ภาควิชา
-</th>
+<th>ภาควิชา</th>
 
-<th>
-  สถานะ
-</th>
+<th>สถานะ</th>
 
-<th>
-  โทรศัพท์
-</th>
+<th>โทรศัพท์</th>
 
-<th>
-  จัดการ
-</th>
+<th>จัดการ</th>
 
 </tr>
 
@@ -921,7 +937,7 @@ tr:hover td {
 <tr>
 
 <td colspan="7">
-  กำลังโหลดข้อมูล...
+กำลังโหลดข้อมูล...
 </td>
 
 </tr>
@@ -937,9 +953,9 @@ tr:hover td {
 </section>
 
 
-<!-- ================================================
-     RESET PAGE
-     ================================================ -->
+<!-- =================================================
+     RESET REQUESTS
+     ================================================= -->
 
 <section
   id="resetPage"
@@ -978,33 +994,19 @@ tr:hover td {
 
 <tr>
 
-<th>
-  เลขที่คำร้อง
-</th>
+<th>เลขที่คำร้อง</th>
 
-<th>
-  รหัสนักศึกษา
-</th>
+<th>รหัสนักศึกษา</th>
 
-<th>
-  รายละเอียด
-</th>
+<th>รายละเอียด</th>
 
-<th>
-  สถานะ
-</th>
+<th>สถานะ</th>
 
-<th>
-  วันที่ร้องขอ
-</th>
+<th>วันที่ร้องขอ</th>
 
-<th>
-  ผู้ดำเนินการ
-</th>
+<th>ผู้ดำเนินการ</th>
 
-<th>
-  การดำเนินการ
-</th>
+<th>การดำเนินการ</th>
 
 </tr>
 
@@ -1015,7 +1017,7 @@ tr:hover td {
 <tr>
 
 <td colspan="7">
-  กำลังโหลดข้อมูล...
+กำลังโหลดคำร้อง...
 </td>
 
 </tr>
@@ -1031,9 +1033,9 @@ tr:hover td {
 </section>
 
 
-<!-- ================================================
-     EDIT STUDENT PAGE
-     ================================================ -->
+<!-- =================================================
+     EDIT STUDENT
+     ================================================= -->
 
 <section
   id="editStudentPage"
@@ -1051,7 +1053,6 @@ tr:hover td {
 
 <div class="card">
 
-
 <input
   type="hidden"
   id="editStudentId"
@@ -1064,7 +1065,7 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  รหัสนักศึกษา
+รหัสนักศึกษา
 </label>
 
 <input
@@ -1078,12 +1079,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  คำนำหน้า
+คำนำหน้า
 </label>
 
-<input
-  id="editPrefix"
->
+<input id="editPrefix">
 
 </div>
 
@@ -1091,12 +1090,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  ชื่อ
+ชื่อ
 </label>
 
-<input
-  id="editFirstname"
->
+<input id="editFirstname">
 
 </div>
 
@@ -1104,12 +1101,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  นามสกุล
+นามสกุล
 </label>
 
-<input
-  id="editLastname"
->
+<input id="editLastname">
 
 </div>
 
@@ -1117,12 +1112,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  ชื่อภาษาอังกฤษ
+ชื่อภาษาอังกฤษ
 </label>
 
-<input
-  id="editFirstnameEn"
->
+<input id="editFirstnameEn">
 
 </div>
 
@@ -1130,12 +1123,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  นามสกุลภาษาอังกฤษ
+นามสกุลภาษาอังกฤษ
 </label>
 
-<input
-  id="editLastnameEn"
->
+<input id="editLastnameEn">
 
 </div>
 
@@ -1143,12 +1134,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  สถานะ
+สถานะ
 </label>
 
-<input
-  id="editStatus"
->
+<input id="editStatus">
 
 </div>
 
@@ -1156,12 +1145,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  ภาควิชา
+ภาควิชา
 </label>
 
-<input
-  id="editDepartment"
->
+<input id="editDepartment">
 
 </div>
 
@@ -1169,12 +1156,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  โทรศัพท์
+โทรศัพท์
 </label>
 
-<input
-  id="editPhone"
->
+<input id="editPhone">
 
 </div>
 
@@ -1182,12 +1167,10 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  URL รูปภาพ
+URL รูปภาพ
 </label>
 
-<input
-  id="editPhotoUrl"
->
+<input id="editPhotoUrl">
 
 </div>
 
@@ -1195,7 +1178,7 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  วันที่ออกบัตร
+วันที่ออกบัตร
 </label>
 
 <input
@@ -1209,7 +1192,7 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  วันหมดอายุ
+วันหมดอายุ
 </label>
 
 <input
@@ -1226,12 +1209,12 @@ tr:hover td {
 <div class="form-actions">
 
 <button
+  id="saveStudentButton"
   class="primary-button"
   onclick="saveStudent()"
 >
   💾 บันทึกข้อมูล
 </button>
-
 
 <button
   class="secondary-button"
@@ -1252,9 +1235,9 @@ tr:hover td {
 </div>
 
 
-<!-- ================================================
+<!-- =================================================
      RESET MODAL
-     ================================================ -->
+     ================================================= -->
 
 <div
   id="resetModal"
@@ -1267,7 +1250,7 @@ tr:hover td {
   id="resetModalTitle"
   class="modal-title"
 >
-  ดำเนินการ
+ดำเนินการ
 </h2>
 
 <div
@@ -1279,7 +1262,7 @@ tr:hover td {
 <div class="form-group">
 
 <label>
-  หมายเหตุ
+หมายเหตุ
 </label>
 
 <input
@@ -1297,7 +1280,7 @@ tr:hover td {
 >
 
 <label>
-  รหัสผ่านใหม่
+รหัสผ่านใหม่
 </label>
 
 <input
@@ -1315,7 +1298,7 @@ tr:hover td {
   class="secondary-button"
   onclick="closeResetModal()"
 >
-  ยกเลิก
+ยกเลิก
 </button>
 
 <button
@@ -1323,7 +1306,7 @@ tr:hover td {
   class="primary-button"
   onclick="confirmResetAction()"
 >
-  ยืนยัน
+ยืนยัน
 </button>
 
 </div>
@@ -1335,7 +1318,6 @@ tr:hover td {
 
 <script>
 
-
 /* =================================================
    CONFIG
    ================================================= */
@@ -1343,7 +1325,7 @@ tr:hover td {
 const CONFIG = {
 
   API_URL:
-    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP_6xT4/exec",
+    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
 
   ADMIN_SESSION_KEY:
     "admin_session",
@@ -1368,16 +1350,12 @@ let currentResetAction = null;
 
 
 /* =================================================
-   PAGE READY
+   READY
    ================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
-  function () {
-
-    initializeDashboard();
-
-  }
+  initializeDashboard
 );
 
 
@@ -1387,12 +1365,10 @@ document.addEventListener(
 
 async function initializeDashboard() {
 
-
   const token =
     sessionStorage.getItem(
       CONFIG.ADMIN_SESSION_KEY
     );
-
 
   if (!token) {
 
@@ -1414,11 +1390,11 @@ async function initializeDashboard() {
         ) || "{}"
       );
 
-
     document.getElementById(
       "adminUsername"
     ).textContent =
       adminData.username ||
+      adminData.name ||
       "Admin";
 
   } catch (error) {
@@ -1441,6 +1417,26 @@ async function initializeDashboard() {
    ================================================= */
 
 async function apiRequest(payload) {
+
+  const token =
+    sessionStorage.getItem(
+      CONFIG.ADMIN_SESSION_KEY
+    );
+
+
+  if (!token) {
+
+    sessionStorage.clear();
+
+    window.location.replace(
+      "admin-login.html"
+    );
+
+    throw new Error(
+      "ADMIN_SESSION_EXPIRED"
+    );
+
+  }
 
 
   const response =
@@ -1476,15 +1472,39 @@ async function apiRequest(payload) {
   }
 
 
-  const result =
-    await response.json();
+  const text =
+    await response.text();
+
+
+  let result;
+
+  try {
+
+    result =
+      JSON.parse(text);
+
+  } catch (error) {
+
+    console.error(
+      "API RAW RESPONSE:",
+      text
+    );
+
+    throw new Error(
+      "API ไม่ได้ส่ง JSON กลับมา"
+    );
+
+  }
 
 
   if (
     result &&
     (
       result.code ===
-      "ADMIN_SESSION_EXPIRED"
+      "ADMIN_SESSION_EXPIRED" ||
+
+      result.code ===
+      "ADMIN_NOT_LOGGED_IN"
     )
   ) {
 
@@ -1520,7 +1540,6 @@ function showPage(
   pageId,
   button
 ) {
-
 
   document
     .querySelectorAll(".page")
@@ -1607,7 +1626,6 @@ function showPage(
 
 async function loadStudents() {
 
-
   const tbody =
     document.getElementById(
       "studentsTableBody"
@@ -1624,7 +1642,6 @@ async function loadStudents() {
 
 
   try {
-
 
     const search =
       document
@@ -1656,14 +1673,18 @@ async function loadStudents() {
 
       throw new Error(
         result.message ||
-        "โหลดข้อมูลไม่สำเร็จ"
+        "โหลดข้อมูลนักศึกษาไม่สำเร็จ"
       );
 
     }
 
 
     students =
-      result.students || [];
+      Array.isArray(
+        result.students
+      )
+      ? result.students
+      : [];
 
 
     renderStudents();
@@ -1671,7 +1692,10 @@ async function loadStudents() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "LOAD STUDENTS ERROR:",
+      error
+    );
 
 
     tbody.innerHTML =
@@ -1707,7 +1731,6 @@ async function loadStudents() {
 
 function renderStudents() {
 
-
   const tbody =
     document.getElementById(
       "studentsTableBody"
@@ -1734,7 +1757,6 @@ function renderStudents() {
       .map(
         function(student) {
 
-
           const fullName =
             (
               student.prefix_th || ""
@@ -1750,50 +1772,36 @@ function renderStudents() {
 <tr>
 
 <td>
-  ${escapeHtml(
-    student.student_id
-  )}
+${escapeHtml(student.student_id)}
 </td>
 
 <td>
-  ${escapeHtml(
-    fullName.trim()
-  )}
+${escapeHtml(fullName.trim())}
 </td>
 
 <td>
-  ${escapeHtml(
-    student.lastname_th || ""
-  )}
+${escapeHtml(student.lastname_th || "")}
 </td>
 
 <td>
-  ${escapeHtml(
-    student.department || ""
-  )}
+${escapeHtml(student.department || "")}
 </td>
 
 <td>
-  ${escapeHtml(
-    student.status || ""
-  )}
+${escapeHtml(student.status || "")}
 </td>
 
 <td>
-  ${escapeHtml(
-    student.phone || ""
-  )}
+${escapeHtml(student.phone || "")}
 </td>
 
 <td>
 
 <button
   class="action-button edit-button"
-  onclick="editStudent('${escapeJs(
-    student.student_id
-  )}')"
+  onclick="editStudent('${escapeJs(student.student_id)}')"
 >
-  ✏️ แก้ไข
+✏️ แก้ไข
 </button>
 
 </td>
@@ -1813,10 +1821,7 @@ function renderStudents() {
    EDIT STUDENT
    ================================================= */
 
-function editStudent(
-  studentId
-) {
-
+function editStudent(studentId) {
 
   const student =
     students.find(
@@ -1825,9 +1830,7 @@ function editStudent(
         return String(
           item.student_id
         ) ===
-        String(
-          studentId
-        );
+        String(studentId);
 
       }
     );
@@ -1936,11 +1939,11 @@ function editStudent(
 
 async function saveStudent() {
 
-
   const studentId =
     document.getElementById(
       "editStudentId"
-    ).value;
+    ).value
+    .trim();
 
 
   if (!studentId) {
@@ -1955,8 +1958,19 @@ async function saveStudent() {
   }
 
 
-  try {
+  const button =
+    document.getElementById(
+      "saveStudentButton"
+    );
 
+
+  button.disabled = true;
+
+  button.textContent =
+    "กำลังบันทึก...";
+
+
+  try {
 
     const result =
       await apiRequest({
@@ -2056,7 +2070,10 @@ async function saveStudent() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "SAVE STUDENT ERROR:",
+      error
+    );
 
 
     if (
@@ -2072,6 +2089,13 @@ async function saveStudent() {
 
     }
 
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      "💾 บันทึกข้อมูล";
+
   }
 
 }
@@ -2082,7 +2106,6 @@ async function saveStudent() {
    ================================================= */
 
 async function loadResetRequests() {
-
 
   const tbody =
     document.getElementById(
@@ -2101,7 +2124,6 @@ async function loadResetRequests() {
 
   try {
 
-
     const result =
       await apiRequest({
 
@@ -2117,7 +2139,7 @@ async function loadResetRequests() {
 
 
     console.log(
-      "RESET REQUEST RESULT",
+      "RESET REQUEST RESULT:",
       result
     );
 
@@ -2133,7 +2155,11 @@ async function loadResetRequests() {
 
 
     resetRequests =
-      result.requests || [];
+      Array.isArray(
+        result.requests
+      )
+      ? result.requests
+      : [];
 
 
     renderResetRequests();
@@ -2141,7 +2167,10 @@ async function loadResetRequests() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "LOAD RESET REQUESTS ERROR:",
+      error
+    );
 
 
     tbody.innerHTML =
@@ -2177,7 +2206,6 @@ async function loadResetRequests() {
 
 function renderResetRequests() {
 
-
   const tbody =
     document.getElementById(
       "resetRequestsBody"
@@ -2204,11 +2232,11 @@ function renderResetRequests() {
       .map(
         function(item) {
 
-
           const status =
             String(
-              item.status || ""
+              item.status || "PENDING"
             )
+            .trim()
             .toUpperCase();
 
 
@@ -2217,8 +2245,7 @@ function renderResetRequests() {
 
 
           if (
-            status ===
-            "APPROVED"
+            status === "APPROVED"
           ) {
 
             badgeClass =
@@ -2228,8 +2255,7 @@ function renderResetRequests() {
 
 
           if (
-            status ===
-            "REJECTED"
+            status === "REJECTED"
           ) {
 
             badgeClass =
@@ -2239,8 +2265,7 @@ function renderResetRequests() {
 
 
           if (
-            status ===
-            "RESET"
+            status === "RESET"
           ) {
 
             badgeClass =
@@ -2249,35 +2274,27 @@ function renderResetRequests() {
           }
 
 
-          let actions =
-            "";
+          let actions = "";
 
 
           if (
-            status ===
-            "PENDING"
+            status === "PENDING"
           ) {
 
             actions += `
 
 <button
   class="action-button approve-button"
-  onclick="openResetAction(
-    '${escapeJs(item.request_id)}',
-    'approve'
-  )"
+  onclick="openResetAction('${escapeJs(item.request_id)}','approve')"
 >
-  ✓ อนุมัติ
+✓ อนุมัติ
 </button>
 
 <button
   class="action-button reject-button"
-  onclick="openResetAction(
-    '${escapeJs(item.request_id)}',
-    'reject'
-  )"
+  onclick="openResetAction('${escapeJs(item.request_id)}','reject')"
 >
-  ✕ ปฏิเสธ
+✕ ปฏิเสธ
 </button>
 
 `;
@@ -2286,20 +2303,16 @@ function renderResetRequests() {
 
 
           if (
-            status ===
-            "APPROVED"
+            status === "APPROVED"
           ) {
 
             actions += `
 
 <button
   class="action-button reset-button"
-  onclick="openResetAction(
-    '${escapeJs(item.request_id)}',
-    'reset'
-  )"
+  onclick="openResetAction('${escapeJs(item.request_id)}','reset')"
 >
-  🔑 รีเซ็ตรหัสผ่าน
+🔑 รีเซ็ตรหัสผ่าน
 </button>
 
 `;
@@ -2315,54 +2328,50 @@ function renderResetRequests() {
           }
 
 
+          /*
+           * รองรับทั้ง request_note และ reason
+           */
+
+          const requestNote =
+            item.request_note ||
+            item.reason ||
+            "-";
+
+
           return `
 
 <tr>
 
 <td>
-  ${escapeHtml(
-    item.request_id || ""
-  )}
+${escapeHtml(item.request_id || "")}
 </td>
 
 <td>
-  ${escapeHtml(
-    item.student_id || ""
-  )}
+${escapeHtml(item.student_id || "")}
 </td>
 
 <td>
-  ${escapeHtml(
-    item.reason || "-"
-  )}
+${escapeHtml(requestNote)}
 </td>
 
 <td>
 
-<span
-  class="badge ${badgeClass}"
->
-  ${escapeHtml(
-    status
-  )}
+<span class="badge ${badgeClass}">
+${escapeHtml(status)}
 </span>
 
 </td>
 
 <td>
-  ${escapeHtml(
-    item.requested_at || ""
-  )}
+${escapeHtml(item.requested_at || "")}
 </td>
 
 <td>
-  ${escapeHtml(
-    item.processed_by || "-"
-  )}
+${escapeHtml(item.processed_by || "-")}
 </td>
 
 <td>
-  ${actions}
+${actions}
 </td>
 
 </tr>
@@ -2385,7 +2394,6 @@ function openResetAction(
   action
 ) {
 
-
   const request =
     resetRequests.find(
       function(item) {
@@ -2393,9 +2401,7 @@ function openResetAction(
         return String(
           item.request_id
         ) ===
-        String(
-          requestId
-        );
+        String(requestId);
 
       }
     );
@@ -2455,8 +2461,7 @@ function openResetAction(
 
 
   if (
-    action ===
-    "approve"
+    action === "approve"
   ) {
 
     title.textContent =
@@ -2483,8 +2488,7 @@ function openResetAction(
 
 
   if (
-    action ===
-    "reject"
+    action === "reject"
   ) {
 
     title.textContent =
@@ -2511,8 +2515,7 @@ function openResetAction(
 
 
   if (
-    action ===
-    "reset"
+    action === "reset"
   ) {
 
     title.textContent =
@@ -2573,7 +2576,6 @@ function closeResetModal() {
 
 async function confirmResetAction() {
 
-
   if (
     !currentResetRequest ||
     !currentResetAction
@@ -2606,16 +2608,13 @@ async function confirmResetAction() {
     );
 
 
-  button.disabled =
-    true;
-
+  button.disabled = true;
 
   button.textContent =
     "กำลังดำเนินการ...";
 
 
   try {
-
 
     let payload = {
 
@@ -2705,7 +2704,10 @@ async function confirmResetAction() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "RESET ACTION ERROR:",
+      error
+    );
 
 
     if (
@@ -2723,8 +2725,7 @@ async function confirmResetAction() {
 
   } finally {
 
-    button.disabled =
-      false;
+    button.disabled = false;
 
     button.textContent =
       "ยืนยัน";
@@ -2739,7 +2740,6 @@ async function confirmResetAction() {
    ================================================= */
 
 async function adminLogout() {
-
 
   const token =
     sessionStorage.getItem(
@@ -2765,7 +2765,10 @@ async function adminLogout() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "LOGOUT ERROR:",
+      error
+    );
 
   }
 
@@ -2795,7 +2798,6 @@ function showGlobalMessage(
   type
 ) {
 
-
   const message =
     document.getElementById(
       "globalMessage"
@@ -2812,7 +2814,7 @@ function showGlobalMessage(
 
 
   setTimeout(
-    function () {
+    function() {
 
       message.classList.remove(
         "show"
@@ -2830,7 +2832,6 @@ function showGlobalMessage(
    ================================================= */
 
 function escapeHtml(value) {
-
 
   return String(
     value == null
@@ -2867,11 +2868,10 @@ function escapeHtml(value) {
 
 
 /* =================================================
-   ESCAPE JAVASCRIPT
+   ESCAPE JS
    ================================================= */
 
 function escapeJs(value) {
-
 
   return String(
     value == null
@@ -2913,7 +2913,7 @@ function escapeJs(value) {
 
 document.addEventListener(
   "DOMContentLoaded",
-  function () {
+  function() {
 
     const search =
       document.getElementById(
