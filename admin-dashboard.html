@@ -3,1212 +3,1243 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <meta
-        name="theme-color"
-        content="#0a1383"
-    >
+<meta
+    name="theme-color"
+    content="#0a1383"
+>
 
-    <title>
-        Admin Dashboard | Student Card System
-    </title>
+<title>
+    Admin Dashboard | Student Card System
+</title>
 
 
-    <style>
+<style>
 
-        /* =========================================
-           RESET
-           ========================================= */
+* {
+    box-sizing: border-box;
+}
 
-        * {
-            box-sizing: border-box;
-        }
 
+:root {
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-        }
+    --blue:
+        #0a1383;
 
+    --blue-dark:
+        #080f6d;
 
-        body {
+    --blue-light:
+        #eef0ff;
 
-            font-family:
-                Arial,
-                "Noto Sans Thai",
-                sans-serif;
+    --white:
+        #ffffff;
 
-            background:
-                #f5f6fb;
+    --gray:
+        #6b7280;
 
-            color:
-                #111827;
+    --border:
+        #e5e7eb;
 
-        }
+    --danger:
+        #dc2626;
 
+    --success:
+        #15803d;
 
-        /* =========================================
-           COLOR
-           ========================================= */
+}
 
-        :root {
 
-            --blue:
-                #0a1383;
+body {
 
-            --blue-dark:
-                #080f6d;
+    margin: 0;
 
-            --blue-light:
-                #eef0ff;
+    font-family:
+        Arial,
+        "Noto Sans Thai",
+        sans-serif;
 
-            --white:
-                #ffffff;
+    background:
+        #f5f6fb;
 
-            --gray:
-                #6b7280;
+    color:
+        #111827;
 
-            --border:
-                #e5e7eb;
+}
 
-            --danger:
-                #dc2626;
 
-            --success:
-                #15803d;
+/* =========================================
+   HEADER
+   ========================================= */
 
-        }
+.admin-header {
 
+    position:
+        sticky;
 
-        /* =========================================
-           HEADER
-           ========================================= */
+    top: 0;
 
-        .admin-header {
+    z-index: 1000;
 
-            position:
-                sticky;
+    background:
+        #ffffff;
 
-            top:
-                0;
+    border-bottom:
+        1px solid var(--border);
 
-            z-index:
-                1000;
+    box-shadow:
+        0 3px 15px
+        rgba(10,19,131,.06);
 
-            width:
-                100%;
+}
 
-            background:
-                var(--white);
 
-            border-bottom:
-                1px solid var(--border);
+.header-inner {
 
-            box-shadow:
-                0 3px 15px
-                rgba(10, 19, 131, 0.06);
+    max-width:
+        1200px;
 
-        }
+    min-height:
+        72px;
 
+    margin:
+        auto;
 
-        .header-inner {
+    padding:
+        12px 20px;
 
-            width:
-                100%;
+    display:
+        flex;
 
-            max-width:
-                1200px;
+    align-items:
+        center;
 
-            margin:
-                0 auto;
+    justify-content:
+        space-between;
 
-            min-height:
-                72px;
+}
 
-            padding:
-                12px 20px;
 
-            display:
-                flex;
+.brand {
 
-            align-items:
-                center;
+    display:
+        flex;
 
-            justify-content:
-                space-between;
+    align-items:
+        center;
 
-            gap:
-                15px;
+    gap:
+        12px;
 
-        }
+}
 
 
-        /* =========================================
-           BRAND
-           ========================================= */
+.brand-icon {
 
-        .brand {
+    width:
+        45px;
 
-            display:
-                flex;
+    height:
+        45px;
 
-            align-items:
-                center;
+    display:
+        flex;
 
-            gap:
-                12px;
+    align-items:
+        center;
 
-            min-width:
-                0;
+    justify-content:
+        center;
 
-        }
+    border-radius:
+        12px;
 
+    background:
+        var(--blue-light);
 
-        .brand-icon {
+    color:
+        var(--blue);
 
-            width:
-                45px;
+    font-size:
+        23px;
 
-            height:
-                45px;
+}
 
-            flex:
-                0 0 45px;
 
-            display:
-                flex;
+.brand-title {
 
-            align-items:
-                center;
+    color:
+        var(--blue);
 
-            justify-content:
-                center;
+    font-size:
+        18px;
 
-            border-radius:
-                12px;
+    font-weight:
+        700;
 
-            background:
-                var(--blue-light);
+}
 
-            color:
-                var(--blue);
 
-            font-size:
-                23px;
+.brand-subtitle {
 
-        }
+    color:
+        var(--gray);
 
+    font-size:
+        10px;
 
-        .brand-text {
+    letter-spacing:
+        .7px;
 
-            min-width:
-                0;
+}
 
-        }
 
+.admin-info {
 
-        .brand-title {
+    display:
+        flex;
 
-            margin:
-                0;
+    align-items:
+        center;
 
-            color:
-                var(--blue);
+    gap:
+        10px;
 
-            font-size:
-                18px;
+}
 
-            font-weight:
-                700;
 
-        }
+.admin-name {
 
+    font-size:
+        13px;
 
-        .brand-subtitle {
+    font-weight:
+        600;
 
-            margin:
-                2px 0 0;
+}
 
-            color:
-                var(--gray);
 
-            font-size:
-                10px;
+.logout-button {
 
-            letter-spacing:
-                0.7px;
+    height:
+        38px;
 
-        }
+    padding:
+        0 14px;
 
+    border:
+        none;
 
-        /* =========================================
-           ADMIN INFO
-           ========================================= */
+    border-radius:
+        8px;
 
-        .admin-info {
+    background:
+        #f3f4f6;
 
-            display:
-                flex;
+    color:
+        #374151;
 
-            align-items:
-                center;
+    cursor:
+        pointer;
 
-            gap:
-                10px;
+}
 
-        }
 
+/* =========================================
+   PAGE
+   ========================================= */
 
-        .admin-name {
+.admin-page {
 
-            color:
-                #374151;
+    max-width:
+        1200px;
 
-            font-size:
-                13px;
+    margin:
+        auto;
 
-            font-weight:
-                600;
+    padding:
+        25px 20px 40px;
 
-        }
+}
 
 
-        .logout-button {
+.page-heading {
 
-            height:
-                38px;
+    margin-bottom:
+        22px;
 
-            padding:
-                0 14px;
+}
 
-            border:
-                none;
 
-            border-radius:
-                8px;
+.page-heading h1 {
 
-            background:
-                #f3f4f6;
+    margin: 0;
 
-            color:
-                #374151;
+    color:
+        var(--blue);
 
-            font-size:
-                12px;
+    font-size:
+        25px;
 
-            font-weight:
-                600;
+}
 
-            cursor:
-                pointer;
 
-        }
+.page-heading p {
 
+    margin:
+        6px 0 0;
 
-        .logout-button:hover {
+    color:
+        var(--gray);
 
-            background:
-                #e5e7eb;
+    font-size:
+        13px;
 
-        }
+}
 
 
+/* =========================================
+   STATS
+   ========================================= */
 
-        /* =========================================
-           PAGE
-           ========================================= */
+.stats {
 
-        .admin-page {
+    display:
+        grid;
 
-            width:
-                100%;
+    grid-template-columns:
+        repeat(3,1fr);
 
-            max-width:
-                1200px;
+    gap:
+        15px;
 
-            margin:
-                0 auto;
+    margin-bottom:
+        20px;
 
-            padding:
-                25px 20px 40px;
+}
 
-        }
 
+.stat-card {
 
-        /* =========================================
-           PAGE TITLE
-           ========================================= */
+    padding:
+        18px;
 
-        .page-heading {
+    background:
+        #ffffff;
 
-            margin-bottom:
-                22px;
+    border:
+        1px solid var(--border);
 
-        }
+    border-radius:
+        13px;
 
+}
 
-        .page-heading h1 {
 
-            margin:
-                0;
+.stat-label {
 
-            color:
-                var(--blue);
+    color:
+        var(--gray);
 
-            font-size:
-                25px;
+    font-size:
+        12px;
 
-        }
+}
 
 
-        .page-heading p {
+.stat-value {
 
-            margin:
-                6px 0 0;
+    margin-top:
+        5px;
 
-            color:
-                var(--gray);
+    color:
+        var(--blue);
 
-            font-size:
-                13px;
+    font-size:
+        27px;
 
-        }
+    font-weight:
+        700;
 
+}
 
-        /* =========================================
-           STAT CARDS
-           ========================================= */
 
-        .stats {
+/* =========================================
+   CONTENT
+   ========================================= */
 
-            display:
-                grid;
+.content-card {
 
-            grid-template-columns:
-                repeat(3, 1fr);
+    background:
+        #ffffff;
 
-            gap:
-                15px;
+    border:
+        1px solid var(--border);
 
-            margin-bottom:
-                20px;
+    border-radius:
+        15px;
 
-        }
+    overflow:
+        hidden;
 
+}
 
-        .stat-card {
 
-            background:
-                var(--white);
+.toolbar {
 
-            border:
-                1px solid var(--border);
+    padding:
+        18px;
 
-            border-radius:
-                13px;
+    border-bottom:
+        1px solid var(--border);
 
-            padding:
-                18px;
+    display:
+        flex;
 
-            box-shadow:
-                0 5px 20px
-                rgba(0,0,0,0.04);
+    gap:
+        12px;
 
-        }
+}
 
 
-        .stat-label {
+.search-box {
 
-            color:
-                var(--gray);
+    flex:
+        1;
 
-            font-size:
-                12px;
+}
 
-        }
 
+.search-box input {
 
-        .stat-value {
+    width:
+        100%;
 
-            margin-top:
-                5px;
+    height:
+        45px;
 
-            color:
-                var(--blue);
+    padding:
+        0 14px;
 
-            font-size:
-                27px;
+    border:
+        1px solid #d9ddea;
 
-            font-weight:
-                700;
+    border-radius:
+        9px;
 
-        }
+    outline:
+        none;
 
+    font-size:
+        14px;
 
+}
 
-        /* =========================================
-           CONTENT CARD
-           ========================================= */
 
-        .content-card {
+.search-box input:focus {
 
-            background:
-                var(--white);
+    border-color:
+        var(--blue);
 
-            border:
-                1px solid var(--border);
+}
 
-            border-radius:
-                15px;
 
-            box-shadow:
-                0 5px 20px
-                rgba(0,0,0,0.04);
+.toolbar-button {
 
-            overflow:
-                hidden;
+    height:
+        45px;
 
-        }
+    padding:
+        0 16px;
 
+    border:
+        none;
 
-        /* =========================================
-           TOOLBAR
-           ========================================= */
+    border-radius:
+        9px;
 
-        .toolbar {
+    background:
+        var(--blue);
 
-            padding:
-                18px;
+    color:
+        #ffffff;
 
-            border-bottom:
-                1px solid var(--border);
+    font-weight:
+        600;
 
-            display:
-                flex;
+    cursor:
+        pointer;
 
-            align-items:
-                center;
+}
 
-            justify-content:
-                space-between;
 
-            gap:
-                12px;
+.toolbar-button.secondary {
 
-            flex-wrap:
-                wrap;
+    background:
+        #f3f4f6;
 
-        }
+    color:
+        #374151;
 
+}
 
-        .search-box {
 
-            flex:
-                1;
+/* =========================================
+   MESSAGE
+   ========================================= */
 
-            min-width:
-                240px;
+.system-message {
 
-            position:
-                relative;
+    display:
+        none;
 
-        }
+    margin:
+        15px 18px 0;
 
+    padding:
+        11px 14px;
 
-        .search-box input {
+    border-radius:
+        8px;
 
-            width:
-                100%;
+    font-size:
+        13px;
 
-            height:
-                45px;
+}
 
-            padding:
-                0 15px;
 
-            border:
-                1px solid #d9ddea;
+.system-message.show {
 
-            border-radius:
-                9px;
+    display:
+        block;
 
-            outline:
-                none;
+}
 
-            font-size:
-                14px;
 
-            color:
-                #111827;
+.system-message.error {
 
-            background:
-                #ffffff;
+    background:
+        #fef2f2;
 
-        }
+    color:
+        var(--danger);
 
+}
 
-        .search-box input:focus {
 
-            border-color:
-                var(--blue);
+.system-message.success {
 
-            box-shadow:
-                0 0 0 3px
-                rgba(
-                    10,
-                    19,
-                    131,
-                    0.08
-                );
+    background:
+        #f0fdf4;
 
-        }
+    color:
+        var(--success);
 
+}
 
-        .toolbar-buttons {
 
-            display:
-                flex;
+.system-message.info {
 
-            gap:
-                8px;
+    background:
+        var(--blue-light);
 
-        }
+    color:
+        var(--blue);
 
+}
 
-        .toolbar-button {
 
-            height:
-                45px;
+/* =========================================
+   TABLE
+   ========================================= */
 
-            padding:
-                0 16px;
+.table-container {
 
-            border:
-                none;
+    width:
+        100%;
 
-            border-radius:
-                9px;
+    overflow-x:
+        auto;
 
-            background:
-                var(--blue);
+}
 
-            color:
-                #ffffff;
 
-            font-size:
-                13px;
+table {
 
-            font-weight:
-                600;
+    width:
+        100%;
 
-            cursor:
-                pointer;
+    min-width:
+        950px;
 
-        }
+    border-collapse:
+        collapse;
 
+}
 
-        .toolbar-button:hover {
 
-            background:
-                var(--blue-dark);
+thead {
 
-        }
+    background:
+        #f8f9fd;
 
+}
 
-        .toolbar-button.secondary {
 
-            background:
-                #f3f4f6;
+th {
 
-            color:
-                #374151;
+    padding:
+        14px;
 
-        }
+    text-align:
+        left;
 
+    font-size:
+        12px;
 
-        .toolbar-button.secondary:hover {
+    color:
+        #374151;
 
-            background:
-                #e5e7eb;
+    white-space:
+        nowrap;
 
-        }
+    border-bottom:
+        1px solid var(--border);
 
+}
 
 
-        /* =========================================
-           MESSAGE
-           ========================================= */
+td {
 
-        .system-message {
+    padding:
+        14px;
 
-            display:
-                none;
+    font-size:
+        13px;
 
-            margin:
-                15px 18px 0;
+    border-bottom:
+        1px solid #f0f1f5;
 
-            padding:
-                11px 14px;
+}
 
-            border-radius:
-                8px;
 
-            font-size:
-                13px;
+.student-id {
 
-            font-weight:
-                600;
+    color:
+        var(--blue);
 
-        }
+    font-weight:
+        700;
 
+}
 
-        .system-message.show {
 
-            display:
-                block;
+.student-name {
 
-        }
+    font-weight:
+        600;
 
+}
 
-        .system-message.error {
 
-            background:
-                #fef2f2;
+.status-badge {
 
-            color:
-                var(--danger);
+    display:
+        inline-flex;
 
-        }
+    padding:
+        4px 10px;
 
+    border-radius:
+        999px;
 
-        .system-message.success {
+    background:
+        var(--blue-light);
 
-            background:
-                #f0fdf4;
+    color:
+        var(--blue);
 
-            color:
-                var(--success);
+    font-size:
+        11px;
 
-        }
+    white-space:
+        nowrap;
 
+}
 
-        .system-message.info {
 
-            background:
-                var(--blue-light);
+.status-badge.active {
 
-            color:
-                var(--blue);
+    background:
+        #ecfdf3;
 
-        }
+    color:
+        #15803d;
 
+}
 
 
-        /* =========================================
-           TABLE
-           ========================================= */
+.status-badge.inactive {
 
-        .table-container {
+    background:
+        #fef2f2;
 
-            width:
-                100%;
+    color:
+        #dc2626;
 
-            overflow-x:
-                auto;
+}
 
-        }
 
+/* =========================================
+   EDIT BUTTON
+   ========================================= */
 
-        table {
+.edit-button {
 
-            width:
-                100%;
+    height:
+        34px;
 
-            min-width:
-                850px;
+    padding:
+        0 12px;
 
-            border-collapse:
-                collapse;
+    border:
+        none;
 
-        }
+    border-radius:
+        7px;
 
+    background:
+        var(--blue-light);
 
-        thead {
+    color:
+        var(--blue);
 
-            background:
-                #f8f9fd;
+    font-size:
+        12px;
 
-        }
+    font-weight:
+        600;
 
+    cursor:
+        pointer;
 
-        th {
+}
 
-            padding:
-                14px 15px;
 
-            text-align:
-                left;
+.edit-button:hover {
 
-            color:
-                #374151;
+    background:
+        #dfe3ff;
 
-            font-size:
-                12px;
+}
 
-            font-weight:
-                700;
 
-            white-space:
-                nowrap;
+/* =========================================
+   LOADING
+   ========================================= */
 
-            border-bottom:
-                1px solid var(--border);
+.loading {
 
-        }
+    padding:
+        60px 20px;
 
+    text-align:
+        center;
 
-        td {
+    color:
+        var(--blue);
 
-            padding:
-                14px 15px;
+}
 
-            border-bottom:
-                1px solid #f0f1f5;
 
-            font-size:
-                13px;
+.spinner {
 
-            color:
-                #374151;
+    width:
+        34px;
 
-            vertical-align:
-                middle;
+    height:
+        34px;
 
-        }
+    margin:
+        0 auto 12px;
 
+    border:
+        4px solid #e5e7eb;
 
-        tbody tr:hover {
+    border-top-color:
+        var(--blue);
 
-            background:
-                #fafbff;
+    border-radius:
+        50%;
 
-        }
+    animation:
+        spin .8s linear infinite;
 
+}
 
-        .student-id {
 
-            color:
-                var(--blue);
+@keyframes spin {
 
-            font-weight:
-                700;
+    to {
+        transform:
+            rotate(360deg);
+    }
 
-            white-space:
-                nowrap;
+}
 
-        }
 
+/* =========================================
+   EMPTY
+   ========================================= */
 
-        .student-name {
+.empty-state {
 
-            color:
-                #111827;
+    padding:
+        60px 20px;
 
-            font-weight:
-                600;
+    text-align:
+        center;
 
-        }
+    color:
+        var(--gray);
 
+}
 
-        .department {
 
-            color:
-                #4b5563;
+/* =========================================
+   MODAL
+   ========================================= */
 
-        }
+.modal-overlay {
 
+    position:
+        fixed;
 
-        /* =========================================
-           STATUS
-           ========================================= */
+    inset:
+        0;
 
-        .status-badge {
+    z-index:
+        2000;
 
-            display:
-                inline-flex;
+    display:
+        none;
 
-            align-items:
-                center;
+    align-items:
+        center;
 
-            justify-content:
-                center;
+    justify-content:
+        center;
 
-            min-height:
-                27px;
+    padding:
+        15px;
 
-            padding:
-                4px 10px;
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .45
+        );
 
-            border-radius:
-                999px;
+}
 
-            background:
-                #eef0ff;
 
-            color:
-                var(--blue);
+.modal-overlay.show {
 
-            font-size:
-                11px;
+    display:
+        flex;
 
-            font-weight:
-                600;
+}
 
-            white-space:
-                nowrap;
 
-        }
+.modal {
 
+    width:
+        100%;
 
-        .status-badge.active {
+    max-width:
+        650px;
 
-            background:
-                #ecfdf3;
+    max-height:
+        90vh;
 
-            color:
-                #15803d;
+    overflow-y:
+        auto;
 
-        }
+    background:
+        #ffffff;
 
+    border-radius:
+        16px;
 
-        .status-badge.inactive {
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.2);
 
-            background:
-                #fef2f2;
+}
 
-            color:
-                #dc2626;
 
-        }
+.modal-header {
 
+    padding:
+        20px;
 
+    border-bottom:
+        1px solid var(--border);
 
-        /* =========================================
-           EMPTY
-           ========================================= */
+    display:
+        flex;
 
-        .empty-state {
+    align-items:
+        center;
 
-            padding:
-                60px 20px;
+    justify-content:
+        space-between;
 
-            text-align:
-                center;
+}
 
-            color:
-                var(--gray);
 
-        }
+.modal-title {
 
+    margin:
+        0;
 
-        .empty-icon {
+    color:
+        var(--blue);
 
-            font-size:
-                42px;
+    font-size:
+        19px;
 
-            margin-bottom:
-                10px;
+}
 
-            opacity:
-                0.7;
 
-        }
+.modal-close {
 
+    width:
+        36px;
 
-        .empty-title {
+    height:
+        36px;
 
-            color:
-                #374151;
+    border:
+        none;
 
-            font-size:
-                15px;
+    border-radius:
+        8px;
 
-            font-weight:
-                600;
+    background:
+        #f3f4f6;
 
-        }
+    color:
+        #374151;
 
+    font-size:
+        20px;
 
-        .empty-text {
+    cursor:
+        pointer;
 
-            margin-top:
-                5px;
+}
 
-            font-size:
-                12px;
 
-        }
+.modal-body {
 
+    padding:
+        20px;
 
+}
 
-        /* =========================================
-           LOADING
-           ========================================= */
 
-        .loading {
+.form-grid {
 
-            padding:
-                60px 20px;
+    display:
+        grid;
 
-            text-align:
-                center;
+    grid-template-columns:
+        repeat(2,1fr);
 
-            color:
-                var(--blue);
+    gap:
+        15px;
 
-            font-size:
-                14px;
+}
 
-            font-weight:
-                600;
 
-        }
+.form-group {
 
+    display:
+        flex;
 
-        .spinner {
+    flex-direction:
+        column;
 
-            width:
-                34px;
+}
 
-            height:
-                34px;
 
-            margin:
-                0 auto 12px;
+.form-group.full {
 
-            border:
-                4px solid #e5e7eb;
+    grid-column:
+        1 / -1;
 
-            border-top-color:
-                var(--blue);
+}
 
-            border-radius:
-                50%;
 
-            animation:
-                spin 0.8s linear infinite;
+.form-group label {
 
-        }
+    margin-bottom:
+        6px;
 
+    font-size:
+        12px;
 
-        @keyframes spin {
+    font-weight:
+        600;
 
-            to {
-                transform:
-                    rotate(360deg);
-            }
+    color:
+        #374151;
 
-        }
+}
 
 
+.form-group input,
+.form-group select {
 
-        /* =========================================
-           FOOTER
-           ========================================= */
+    width:
+        100%;
 
-        .admin-footer {
+    height:
+        43px;
 
-            margin-top:
-                25px;
+    padding:
+        0 11px;
 
-            text-align:
-                center;
+    border:
+        1px solid #d9ddea;
 
-            color:
-                #9ca3af;
+    border-radius:
+        8px;
 
-            font-size:
-                10px;
+    outline:
+        none;
 
-        }
+    font-size:
+        13px;
 
+}
 
 
-        /* =========================================
-           MOBILE
-           ========================================= */
+.form-group input:focus,
+.form-group select:focus {
 
-        @media (
-            max-width: 768px
-        ) {
+    border-color:
+        var(--blue);
 
+}
 
-            .header-inner {
 
-                padding:
-                    10px 14px;
+.readonly-input {
 
-            }
+    background:
+        #f3f4f6;
 
+    color:
+        #6b7280;
 
-            .brand-title {
+}
 
-                font-size:
-                    15px;
 
-            }
+.modal-footer {
 
+    padding:
+        15px 20px 20px;
 
-            .brand-subtitle {
+    display:
+        flex;
 
-                font-size:
-                    8px;
+    justify-content:
+        flex-end;
 
-            }
+    gap:
+        10px;
 
+}
 
-            .admin-name {
 
-                display:
-                    none;
+.modal-button {
 
-            }
+    height:
+        43px;
 
+    padding:
+        0 18px;
 
-            .admin-page {
+    border:
+        none;
 
-                padding:
-                    18px 12px 30px;
+    border-radius:
+        8px;
 
-            }
+    cursor:
+        pointer;
 
+    font-size:
+        13px;
 
-            .page-heading h1 {
+    font-weight:
+        600;
 
-                font-size:
-                    21px;
+}
 
-            }
 
+.modal-button.cancel {
 
-            .stats {
+    background:
+        #f3f4f6;
 
-                grid-template-columns:
-                    1fr;
+    color:
+        #374151;
 
-                gap:
-                    10px;
+}
 
-            }
 
+.modal-button.save {
 
-            .stat-card {
+    background:
+        var(--blue);
 
-                padding:
-                    14px;
+    color:
+        #ffffff;
 
-            }
+}
 
 
-            .stat-value {
+.modal-button.save:hover {
 
-                font-size:
-                    23px;
+    background:
+        var(--blue-dark);
 
-            }
+}
 
 
-            .toolbar {
+.modal-button:disabled {
 
-                align-items:
-                    stretch;
+    opacity:
+        .6;
 
-            }
+    cursor:
+        not-allowed;
 
+}
 
-            .search-box {
 
-                min-width:
-                    100%;
+/* =========================================
+   FOOTER
+   ========================================= */
 
-            }
+.admin-footer {
 
+    margin-top:
+        25px;
 
-            .toolbar-buttons {
+    text-align:
+        center;
 
-                width:
-                    100%;
+    color:
+        #9ca3af;
 
-            }
+    font-size:
+        10px;
 
+}
 
-            .toolbar-button {
 
-                flex:
-                    1;
+/* =========================================
+   MOBILE
+   ========================================= */
 
-            }
+@media (
+    max-width:768px
+) {
 
-        }
+    .header-inner {
 
+        padding:
+            10px 14px;
 
-        @media (
-            max-width: 480px
-        ) {
+    }
 
 
-            .brand-icon {
+    .admin-name {
 
-                width:
-                    40px;
+        display:
+            none;
 
-                height:
-                    40px;
+    }
 
-                flex-basis:
-                    40px;
 
-                font-size:
-                    20px;
+    .admin-page {
 
-            }
+        padding:
+            18px 12px 30px;
 
+    }
 
-            .logout-button {
 
-                padding:
-                    0 11px;
+    .stats {
 
-            }
+        grid-template-columns:
+            1fr;
 
+    }
 
-            .page-heading {
 
-                margin-bottom:
-                    15px;
+    .toolbar {
 
-            }
+        flex-wrap:
+            wrap;
 
+    }
 
-            .content-card {
 
-                border-radius:
-                    11px;
+    .search-box {
 
-            }
+        flex-basis:
+            100%;
 
-        }
+    }
 
-    </style>
+
+    .toolbar-button {
+
+        flex:
+            1;
+
+    }
+
+
+    .form-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .form-group.full {
+
+        grid-column:
+            auto;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -1216,285 +1247,514 @@
 <body>
 
 
-<!-- =============================================
+<!-- =========================================
      HEADER
-     ============================================= -->
+     ========================================= -->
 
 <header class="admin-header">
 
-    <div class="header-inner">
+<div class="header-inner">
 
 
-        <div class="brand">
+    <div class="brand">
 
-
-            <div class="brand-icon">
-
-                🛡️
-
-            </div>
-
-
-            <div class="brand-text">
-
-                <div class="brand-title">
-
-                    ระบบผู้ดูแล
-
-                </div>
-
-
-                <div class="brand-subtitle">
-
-                    STUDENT CARD SYSTEM
-
-                </div>
-
-            </div>
-
-
+        <div class="brand-icon">
+            🛡️
         </div>
 
+        <div>
 
-
-        <div class="admin-info">
-
-
-            <div
-                id="adminName"
-                class="admin-name"
-            >
-
-                Admin
-
+            <div class="brand-title">
+                ระบบผู้ดูแล
             </div>
 
-
-            <button
-                id="logoutButton"
-                class="logout-button"
-                type="button"
-            >
-
-                ออกจากระบบ
-
-            </button>
-
+            <div class="brand-subtitle">
+                STUDENT CARD SYSTEM
+            </div>
 
         </div>
-
 
     </div>
+
+
+    <div class="admin-info">
+
+        <div
+            id="adminName"
+            class="admin-name"
+        >
+            Admin
+        </div>
+
+        <button
+            id="logoutButton"
+            class="logout-button"
+            type="button"
+        >
+            ออกจากระบบ
+        </button>
+
+    </div>
+
+
+</div>
 
 </header>
 
 
 
-<!-- =============================================
+<!-- =========================================
      MAIN
-     ============================================= -->
+     ========================================= -->
 
 <main class="admin-page">
 
 
-    <!-- PAGE TITLE -->
+<div class="page-heading">
 
-    <div class="page-heading">
+    <h1>
+        จัดการข้อมูลนักศึกษา
+    </h1>
 
-        <h1>
+    <p>
+        ตรวจสอบและแก้ไขข้อมูลนักศึกษา
+    </p>
 
-            จัดการข้อมูลนักศึกษา
-
-        </h1>
+</div>
 
 
-        <p>
 
-            ตรวจสอบข้อมูลนักศึกษาจากระบบ
+<!-- =========================================
+     STATS
+     ========================================= -->
 
-        </p>
+<div class="stats">
 
+
+<div class="stat-card">
+
+    <div class="stat-label">
+        นักศึกษาที่พบ
     </div>
 
-
-
-    <!-- =========================================
-         STATISTICS
-         ========================================= -->
-
-    <div class="stats">
-
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-
-                นักศึกษาที่พบ
-
-            </div>
-
-
-            <div
-                id="totalStudents"
-                class="stat-value"
-            >
-
-                0
-
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-
-                สถานะปกติ
-
-            </div>
-
-
-            <div
-                id="activeStudents"
-                class="stat-value"
-            >
-
-                0
-
-            </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-
-                ข้อมูลที่แสดง
-
-            </div>
-
-
-            <div
-                id="displayStudents"
-                class="stat-value"
-            >
-
-                0
-
-            </div>
-
-        </div>
-
-
+    <div
+        id="totalStudents"
+        class="stat-value"
+    >
+        0
     </div>
 
+</div>
 
 
-    <!-- =========================================
-         STUDENT TABLE
-         ========================================= -->
+<div class="stat-card">
 
-    <section class="content-card">
-
-
-        <!-- TOOLBAR -->
-
-        <div class="toolbar">
-
-
-            <div class="search-box">
-
-                <input
-                    id="searchInput"
-                    type="search"
-                    placeholder="ค้นหารหัสนักศึกษา ชื่อ หรือ นามสกุล"
-                    autocomplete="off"
-                >
-
-            </div>
-
-
-            <div class="toolbar-buttons">
-
-
-                <button
-                    id="searchButton"
-                    class="toolbar-button"
-                    type="button"
-                >
-
-                    🔎 ค้นหา
-
-                </button>
-
-
-                <button
-                    id="refreshButton"
-                    class="toolbar-button secondary"
-                    type="button"
-                >
-
-                    ↻ รีเฟรช
-
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- SYSTEM MESSAGE -->
-
-        <div
-            id="systemMessage"
-            class="system-message"
-        ></div>
-
-
-
-        <!-- TABLE AREA -->
-
-        <div
-            id="tableArea"
-            class="table-container"
-        >
-
-            <div class="loading">
-
-                <div class="spinner"></div>
-
-                กำลังโหลดข้อมูล...
-
-            </div>
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- FOOTER -->
-
-    <div class="admin-footer">
-
-        Student Card System · Administrator
-
+    <div class="stat-label">
+        สถานะปกติ
     </div>
+
+    <div
+        id="activeStudents"
+        class="stat-value"
+    >
+        0
+    </div>
+
+</div>
+
+
+<div class="stat-card">
+
+    <div class="stat-label">
+        ข้อมูลที่แสดง
+    </div>
+
+    <div
+        id="displayStudents"
+        class="stat-value"
+    >
+        0
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     CONTENT
+     ========================================= -->
+
+<section class="content-card">
+
+
+<div class="toolbar">
+
+
+<div class="search-box">
+
+<input
+    id="searchInput"
+    type="search"
+    placeholder="ค้นหารหัสนักศึกษา ชื่อ หรือ นามสกุล"
+    autocomplete="off"
+>
+
+
+</div>
+
+
+<button
+    id="searchButton"
+    class="toolbar-button"
+    type="button"
+>
+    🔎 ค้นหา
+</button>
+
+
+<button
+    id="refreshButton"
+    class="toolbar-button secondary"
+    type="button"
+>
+    ↻ รีเฟรช
+</button>
+
+
+</div>
+
+
+
+<div
+    id="systemMessage"
+    class="system-message"
+></div>
+
+
+
+<div
+    id="tableArea"
+    class="table-container"
+>
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+กำลังโหลดข้อมูล...
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+<div class="admin-footer">
+
+Student Card System · Administrator
+
+</div>
 
 
 </main>
 
 
 
-<!-- =============================================
-     JAVASCRIPT
-     ============================================= -->
+<!-- =========================================
+     EDIT MODAL
+     ========================================= -->
+
+<div
+    id="editModal"
+    class="modal-overlay"
+>
+
+
+<div class="modal">
+
+
+<div class="modal-header">
+
+<h2 class="modal-title">
+    แก้ไขข้อมูลนักศึกษา
+</h2>
+
+
+<button
+    id="closeModalButton"
+    class="modal-close"
+    type="button"
+>
+    ×
+</button>
+
+</div>
+
+
+
+<div class="modal-body">
+
+
+<form
+    id="editStudentForm"
+>
+
+
+<div class="form-grid">
+
+
+<!-- STUDENT ID -->
+
+<div class="form-group full">
+
+<label>
+    รหัสนักศึกษา
+</label>
+
+<input
+    id="editStudentId"
+    class="readonly-input"
+    type="text"
+    readonly
+>
+
+</div>
+
+
+
+<!-- PREFIX -->
+
+<div class="form-group">
+
+<label>
+    คำนำหน้า
+</label>
+
+<input
+    id="editPrefix"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- FIRSTNAME -->
+
+<div class="form-group">
+
+<label>
+    ชื่อ
+</label>
+
+<input
+    id="editFirstname"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- LASTNAME -->
+
+<div class="form-group">
+
+<label>
+    นามสกุล
+</label>
+
+<input
+    id="editLastname"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- DEPARTMENT -->
+
+<div class="form-group">
+
+<label>
+    สาขาวิชา
+</label>
+
+<input
+    id="editDepartment"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- STATUS -->
+
+<div class="form-group">
+
+<label>
+    สถานะ
+</label>
+
+<input
+    id="editStatus"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- PHONE -->
+
+<div class="form-group">
+
+<label>
+    เบอร์โทรศัพท์
+</label>
+
+<input
+    id="editPhone"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- PHOTO -->
+
+<div class="form-group full">
+
+<label>
+    URL รูปภาพ
+</label>
+
+<input
+    id="editPhotoUrl"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- ENGLISH FIRSTNAME -->
+
+<div class="form-group">
+
+<label>
+    ชื่อภาษาอังกฤษ
+</label>
+
+<input
+    id="editFirstnameEn"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- ENGLISH LASTNAME -->
+
+<div class="form-group">
+
+<label>
+    นามสกุลภาษาอังกฤษ
+</label>
+
+<input
+    id="editLastnameEn"
+    type="text"
+>
+
+</div>
+
+
+
+<!-- ISSUE DATE -->
+
+<div class="form-group">
+
+<label>
+    วันออกบัตร
+</label>
+
+<input
+    id="editIssueDate"
+    type="text"
+    placeholder="dd/MM/yyyy"
+>
+
+</div>
+
+
+
+<!-- EXPIRE DATE -->
+
+<div class="form-group">
+
+<label>
+    วันหมดอายุ
+</label>
+
+<input
+    id="editExpireDate"
+    type="text"
+    placeholder="dd/MM/yyyy"
+>
+
+</div>
+
+
+</div>
+
+
+</form>
+
+
+</div>
+
+
+
+<div class="modal-footer">
+
+
+<button
+    id="cancelEditButton"
+    class="modal-button cancel"
+    type="button"
+>
+    ยกเลิก
+</button>
+
+
+<button
+    id="saveEditButton"
+    class="modal-button save"
+    type="button"
+>
+    💾 บันทึกข้อมูล
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
 
 <script>
 
@@ -1519,16 +1779,17 @@ const CONFIG = {
 
 
 /* ==============================================
-   GLOBAL DATA
+   GLOBAL
    ============================================== */
 
-let students =
-    [];
+let students = [];
+
+let editingStudentId = "";
 
 
 
 /* ==============================================
-   PAGE READY
+   DOM READY
    ============================================== */
 
 document.addEventListener(
@@ -1536,88 +1797,11 @@ document.addEventListener(
     function () {
 
 
-        /*
-         * ตรวจสอบ Admin Session
-         */
-
         checkAdminSession();
-
-
-        /*
-         * แสดงชื่อ Admin
-         */
 
         loadAdminInfo();
 
-
-        /*
-         * Event
-         */
-
-        document
-            .getElementById(
-                "searchButton"
-            )
-            .addEventListener(
-                "click",
-                loadStudents
-            );
-
-
-        document
-            .getElementById(
-                "refreshButton"
-            )
-            .addEventListener(
-                "click",
-                function () {
-
-                    document
-                        .getElementById(
-                            "searchInput"
-                        )
-                        .value = "";
-
-                    loadStudents();
-
-                }
-            );
-
-
-        document
-            .getElementById(
-                "searchInput"
-            )
-            .addEventListener(
-                "keydown",
-                function (event) {
-
-                    if (
-                        event.key ===
-                        "Enter"
-                    ) {
-
-                        loadStudents();
-
-                    }
-
-                }
-            );
-
-
-        document
-            .getElementById(
-                "logoutButton"
-            )
-            .addEventListener(
-                "click",
-                adminLogout
-            );
-
-
-        /*
-         * โหลดข้อมูลทันที
-         */
+        bindEvents();
 
         loadStudents();
 
@@ -1627,7 +1811,129 @@ document.addEventListener(
 
 
 /* ==============================================
-   CHECK ADMIN SESSION
+   EVENTS
+   ============================================== */
+
+function bindEvents() {
+
+
+    document
+        .getElementById(
+            "searchButton"
+        )
+        .addEventListener(
+            "click",
+            loadStudents
+        );
+
+
+    document
+        .getElementById(
+            "refreshButton"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                document
+                    .getElementById(
+                        "searchInput"
+                    )
+                    .value = "";
+
+                loadStudents();
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "searchInput"
+        )
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+                    loadStudents();
+
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "logoutButton"
+        )
+        .addEventListener(
+            "click",
+            adminLogout
+        );
+
+
+    document
+        .getElementById(
+            "closeModalButton"
+        )
+        .addEventListener(
+            "click",
+            closeEditModal
+        );
+
+
+    document
+        .getElementById(
+            "cancelEditButton"
+        )
+        .addEventListener(
+            "click",
+            closeEditModal
+        );
+
+
+    document
+        .getElementById(
+            "saveEditButton"
+        )
+        .addEventListener(
+            "click",
+            saveStudent
+        );
+
+
+    document
+        .getElementById(
+            "editModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target.id ===
+                    "editModal"
+                ) {
+
+                    closeEditModal();
+
+                }
+
+            }
+        );
+
+}
+
+
+
+/* ==============================================
+   SESSION
    ============================================== */
 
 function checkAdminSession() {
@@ -1656,7 +1962,7 @@ function checkAdminSession() {
 
 
 /* ==============================================
-   LOAD ADMIN INFO
+   ADMIN INFO
    ============================================== */
 
 function loadAdminInfo() {
@@ -1669,14 +1975,11 @@ function loadAdminInfo() {
 
 
     if (!raw) {
-
         return;
-
     }
 
 
     try {
-
 
         const admin =
             JSON.parse(
@@ -1684,24 +1987,18 @@ function loadAdminInfo() {
             );
 
 
-        const name =
-            admin.username ||
-            "Admin";
-
-
         document
             .getElementById(
                 "adminName"
             )
             .textContent =
-            name;
+            admin.username ||
+            "Admin";
 
 
-    } catch (error) {
+    } catch(error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
     }
 
@@ -1740,12 +2037,7 @@ async function loadStudents() {
             .trim();
 
 
-    /*
-     * Loading
-     */
-
     showLoading();
-
 
     hideMessage();
 
@@ -1789,10 +2081,6 @@ async function loadStudents() {
             );
 
 
-        /*
-         * HTTP Error
-         */
-
         if (!response.ok) {
 
             throw new Error(
@@ -1803,93 +2091,41 @@ async function loadStudents() {
         }
 
 
-        /*
-         * JSON
-         */
-
         const result =
             await response.json();
 
-
-        console.log(
-            "ADMIN STUDENTS RESULT:",
-            result
-        );
-
-
-        /*
-         * Session หมดอายุ
-         */
 
         if (
             result.code ===
             "ADMIN_SESSION_EXPIRED"
         ) {
 
+            clearAdminSession();
 
-            sessionStorage.removeItem(
-                CONFIG.ADMIN_SESSION_KEY
-            );
-
-
-            sessionStorage.removeItem(
-                CONFIG.ADMIN_KEY
-            );
-
-
-            showMessage(
-                "Session หมดอายุ กำลังกลับหน้า Admin Login...",
-                "error"
-            );
-
-
-            setTimeout(
-                function () {
-
-                    window.location.href =
-                        "admin-login.html";
-
-                },
-                1000
-            );
-
+            window.location.href =
+                "admin-login.html";
 
             return;
 
         }
 
-
-        /*
-         * Error
-         */
 
         if (
             !result.success
         ) {
 
             showMessage(
-
                 result.message ||
                 "ไม่สามารถโหลดข้อมูลได้",
-
                 "error"
-
             );
 
-
-            renderEmpty(
-                "ไม่สามารถโหลดข้อมูลได้"
-            );
-
+            renderEmpty();
 
             return;
 
         }
 
-
-        /*
-         * เก็บข้อมูล
-         */
 
         students =
             Array.isArray(
@@ -1899,48 +2135,31 @@ async function loadStudents() {
                 : [];
 
 
-        /*
-         * Render
-         */
-
         renderStudents(
             students
         );
 
-
-        /*
-         * Statistics
-         */
 
         updateStatistics(
             students
         );
 
 
-    }
-
-
-    catch (error) {
+    } catch(error) {
 
 
         console.error(
-            "LOAD STUDENTS ERROR:",
             error
         );
 
 
         showMessage(
-
             "ไม่สามารถเชื่อมต่อระบบได้",
-
             "error"
-
         );
 
 
-        renderEmpty(
-            "ไม่สามารถเชื่อมต่อฐานข้อมูลได้"
-        );
+        renderEmpty();
 
     }
 
@@ -1949,7 +2168,7 @@ async function loadStudents() {
 
 
 /* ==============================================
-   RENDER STUDENTS
+   RENDER TABLE
    ============================================== */
 
 function renderStudents(
@@ -1963,89 +2182,72 @@ function renderStudents(
         );
 
 
-    /*
-     * ไม่มีข้อมูล
-     */
-
     if (
         !list ||
         list.length === 0
     ) {
 
-        renderEmpty(
-            "ไม่พบข้อมูลนักศึกษา"
-        );
+        renderEmpty();
 
         return;
 
     }
 
 
-    /*
-     * สร้าง Table
-     */
+    let html = `
 
-    let html = "";
+<table>
 
+<thead>
 
-    html +=
-        '<table>';
+<tr>
 
+<th>
+รหัสนักศึกษา
+</th>
 
-    html +=
-        '<thead>';
+<th>
+ชื่อ-สกุล
+</th>
 
+<th>
+สาขาวิชา
+</th>
 
-    html +=
-        '<tr>';
+<th>
+สถานะ
+</th>
 
+<th>
+เบอร์โทรศัพท์
+</th>
 
-    html +=
-        '<th>รหัสนักศึกษา</th>';
+<th>
+วันออกบัตร
+</th>
 
+<th>
+วันหมดอายุ
+</th>
 
-    html +=
-        '<th>ชื่อ-สกุล</th>';
+<th>
+จัดการ
+</th>
 
+</tr>
 
-    html +=
-        '<th>สาขาวิชา</th>';
+</thead>
 
+<tbody>
 
-    html +=
-        '<th>สถานะ</th>';
-
-
-    html +=
-        '<th>เบอร์โทรศัพท์</th>';
-
-
-    html +=
-        '<th>วันออกบัตร</th>';
-
-
-    html +=
-        '<th>วันหมดอายุ</th>';
-
-
-    html +=
-        '</tr>';
-
-
-    html +=
-        '</thead>';
-
-
-    html +=
-        '<tbody>';
-
+`;
 
 
     list.forEach(
         function(student) {
 
 
-            const fullName =
+            const name =
                 buildThaiName(
                     student
                 );
@@ -2062,252 +2264,607 @@ function renderStudents(
                 );
 
 
-            html +=
-                '<tr>';
+            html += `
+
+<tr>
+
+<td>
+
+<span class="student-id">
+
+${escapeHtml(
+    student.student_id || "-"
+)}
+
+</span>
+
+</td>
 
 
-            /*
-             * ID
-             */
+<td>
 
-            html +=
-                '<td>' +
+<span class="student-name">
 
-                '<span class="student-id">' +
+${escapeHtml(
+    name
+)}
 
-                escapeHtml(
-                    student.student_id ||
-                    "-"
-                ) +
+</span>
 
-                '</span>' +
-
-                '</td>';
+</td>
 
 
-            /*
-             * NAME
-             */
+<td>
 
-            html +=
-                '<td>' +
+${escapeHtml(
+    student.department || "-"
+)}
 
-                '<span class="student-name">' +
-
-                escapeHtml(
-                    fullName
-                ) +
-
-                '</span>' +
-
-                '</td>';
+</td>
 
 
-            /*
-             * DEPARTMENT
-             */
+<td>
 
-            html +=
-                '<td>' +
+<span
+    class="status-badge ${statusClass}"
+>
 
-                '<span class="department">' +
+${escapeHtml(
+    status
+)}
 
-                escapeHtml(
-                    student.department ||
-                    "-"
-                ) +
+</span>
 
-                '</span>' +
-
-                '</td>';
+</td>
 
 
-            /*
-             * STATUS
-             */
+<td>
 
-            html +=
-                '<td>' +
+${escapeHtml(
+    student.phone || "-"
+)}
 
-                '<span class="status-badge ' +
-                statusClass +
-                '">' +
-
-                escapeHtml(
-                    status
-                ) +
-
-                '</span>' +
-
-                '</td>';
+</td>
 
 
-            /*
-             * PHONE
-             */
+<td>
 
-            html +=
-                '<td>' +
+${escapeHtml(
+    student.issue_date || "-"
+)}
 
-                escapeHtml(
-                    student.phone ||
-                    "-"
-                ) +
-
-                '</td>';
+</td>
 
 
-            /*
-             * ISSUE DATE
-             */
+<td>
 
-            html +=
-                '<td>' +
+${escapeHtml(
+    student.expire_date || "-"
+)}
 
-                escapeHtml(
-                    student.issue_date ||
-                    "-"
-                ) +
-
-                '</td>';
+</td>
 
 
-            /*
-             * EXPIRE DATE
-             */
+<td>
 
-            html +=
-                '<td>' +
+<button
+    class="edit-button"
+    type="button"
+    data-student-id="${escapeHtml(
+        student.student_id || ""
+    )}"
+>
 
-                escapeHtml(
-                    student.expire_date ||
-                    "-"
-                ) +
+✏️ แก้ไข
 
-                '</td>';
+</button>
 
+</td>
 
-            html +=
-                '</tr>';
+</tr>
+
+`;
 
         }
     );
 
 
-    html +=
-        '</tbody>';
+    html += `
 
+</tbody>
 
-    html +=
-        '</table>';
+</table>
+
+`;
 
 
     tableArea.innerHTML =
         html;
 
-}
 
+    /*
+     * Bind Edit Buttons
+     */
 
+    document
+        .querySelectorAll(
+            ".edit-button"
+        )
+        .forEach(
+            function(button) {
 
-/* ==============================================
-   BUILD THAI NAME
-   ============================================== */
+                button.addEventListener(
+                    "click",
+                    function() {
 
-function buildThaiName(
-    student
-) {
+                        openEditModal(
+                            button.dataset.studentId
+                        );
 
+                    }
+                );
 
-    const prefix =
-        student.prefix_th ||
-        "";
-
-
-    const firstname =
-        student.firstname_th ||
-        "";
-
-
-    const lastname =
-        student.lastname_th ||
-        "";
-
-
-    return (
-
-        prefix +
-        firstname +
-        " " +
-        lastname
-
-    ).trim();
+            }
+        );
 
 }
 
 
 
 /* ==============================================
-   STATUS CLASS
+   OPEN EDIT
    ============================================== */
 
-function getStatusClass(
-    status
+function openEditModal(
+    studentId
 ) {
 
 
-    const value =
-        String(
-            status || ""
-        )
-        .toLowerCase();
+    const student =
+        students.find(
+            function(item) {
+
+                return String(
+                    item.student_id
+                ) ===
+                String(
+                    studentId
+                );
+
+            }
+        );
 
 
-    if (
+    if (!student) {
 
-        value.includes(
-            "ปกติ"
-        ) ||
+        showMessage(
+            "ไม่พบข้อมูลนักศึกษา",
+            "error"
+        );
 
-        value.includes(
-            "active"
-        )
-
-    ) {
-
-        return "active";
+        return;
 
     }
 
 
-    if (
+    editingStudentId =
+        student.student_id;
 
-        value.includes(
-            "พ้น"
-        ) ||
 
-        value.includes(
-            "inactive"
-        ) ||
-
-        value.includes(
-            "ลาออก"
+    document
+        .getElementById(
+            "editStudentId"
         )
-
-    ) {
-
-        return "inactive";
-
-    }
+        .value =
+        student.student_id || "";
 
 
-    return "";
+    document
+        .getElementById(
+            "editPrefix"
+        )
+        .value =
+        student.prefix_th || "";
+
+
+    document
+        .getElementById(
+            "editFirstname"
+        )
+        .value =
+        student.firstname_th || "";
+
+
+    document
+        .getElementById(
+            "editLastname"
+        )
+        .value =
+        student.lastname_th || "";
+
+
+    document
+        .getElementById(
+            "editDepartment"
+        )
+        .value =
+        student.department || "";
+
+
+    document
+        .getElementById(
+            "editStatus"
+        )
+        .value =
+        student.status || "";
+
+
+    document
+        .getElementById(
+            "editPhone"
+        )
+        .value =
+        student.phone || "";
+
+
+    document
+        .getElementById(
+            "editPhotoUrl"
+        )
+        .value =
+        student.photo_url || "";
+
+
+    document
+        .getElementById(
+            "editFirstnameEn"
+        )
+        .value =
+        student.firstname_en || "";
+
+
+    document
+        .getElementById(
+            "editLastnameEn"
+        )
+        .value =
+        student.lastname_en || "";
+
+
+    document
+        .getElementById(
+            "editIssueDate"
+        )
+        .value =
+        student.issue_date || "";
+
+
+    document
+        .getElementById(
+            "editExpireDate"
+        )
+        .value =
+        student.expire_date || "";
+
+
+    document
+        .getElementById(
+            "editModal"
+        )
+        .classList
+        .add(
+            "show"
+        );
 
 }
 
 
 
 /* ==============================================
-   UPDATE STATISTICS
+   CLOSE MODAL
+   ============================================== */
+
+function closeEditModal() {
+
+
+    editingStudentId =
+        "";
+
+
+    document
+        .getElementById(
+            "editModal"
+        )
+        .classList
+        .remove(
+            "show"
+        );
+
+}
+
+
+
+/* ==============================================
+   SAVE STUDENT
+   ============================================== */
+
+async function saveStudent() {
+
+
+    if (!editingStudentId) {
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "saveEditButton"
+        );
+
+
+    const token =
+        sessionStorage.getItem(
+            CONFIG.ADMIN_SESSION_KEY
+        );
+
+
+    const payload = {
+
+        action:
+            "adminUpdateStudent",
+
+        token:
+            token,
+
+        student_id:
+            editingStudentId,
+
+        prefix_th:
+            document
+                .getElementById(
+                    "editPrefix"
+                )
+                .value
+                .trim(),
+
+        firstname_th:
+            document
+                .getElementById(
+                    "editFirstname"
+                )
+                .value
+                .trim(),
+
+        lastname_th:
+            document
+                .getElementById(
+                    "editLastname"
+                )
+                .value
+                .trim(),
+
+        firstname_en:
+            document
+                .getElementById(
+                    "editFirstnameEn"
+                )
+                .value
+                .trim(),
+
+        lastname_en:
+            document
+                .getElementById(
+                    "editLastnameEn"
+                )
+                .value
+                .trim(),
+
+        department:
+            document
+                .getElementById(
+                    "editDepartment"
+                )
+                .value
+                .trim(),
+
+        status:
+            document
+                .getElementById(
+                    "editStatus"
+                )
+                .value
+                .trim(),
+
+        phone:
+            document
+                .getElementById(
+                    "editPhone"
+                )
+                .value
+                .trim(),
+
+        photo_url:
+            document
+                .getElementById(
+                    "editPhotoUrl"
+                )
+                .value
+                .trim(),
+
+        issue_date:
+            document
+                .getElementById(
+                    "editIssueDate"
+                )
+                .value
+                .trim(),
+
+        expire_date:
+            document
+                .getElementById(
+                    "editExpireDate"
+                )
+                .value
+                .trim()
+
+    };
+
+
+    /*
+     * ตรวจสอบข้อมูลพื้นฐาน
+     */
+
+    if (
+        !payload.firstname_th ||
+        !payload.lastname_th
+    ) {
+
+        showMessage(
+            "กรุณากรอกชื่อและนามสกุล",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "กำลังบันทึก...";
+
+
+    try {
+
+
+        const response =
+            await fetch(
+
+                CONFIG.API_URL,
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            payload
+                        )
+
+                }
+
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            result.code ===
+            "ADMIN_SESSION_EXPIRED"
+        ) {
+
+            clearAdminSession();
+
+            window.location.href =
+                "admin-login.html";
+
+            return;
+
+        }
+
+
+        if (
+            !result.success
+        ) {
+
+            showMessage(
+                result.message ||
+                "บันทึกข้อมูลไม่สำเร็จ",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * สำเร็จ
+         */
+
+        closeEditModal();
+
+
+        showMessage(
+            "บันทึกข้อมูลนักศึกษาสำเร็จ",
+            "success"
+        );
+
+
+        /*
+         * โหลดข้อมูลใหม่
+         */
+
+        await loadStudents();
+
+
+    } catch(error) {
+
+
+        console.error(
+            error
+        );
+
+
+        showMessage(
+            "ไม่สามารถเชื่อมต่อระบบได้",
+            "error"
+        );
+
+
+    } finally {
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "💾 บันทึกข้อมูล";
+
+    }
+
+}
+
+
+
+/* ==============================================
+   STATISTICS
    ============================================== */
 
 function updateStatistics(
@@ -2330,7 +2887,8 @@ function updateStatistics(
             const status =
                 String(
                     student.status || ""
-                );
+                )
+                .toLowerCase();
 
 
             if (
@@ -2339,10 +2897,9 @@ function updateStatistics(
                     "ปกติ"
                 ) ||
 
-                status.toLowerCase()
-                    .includes(
-                        "active"
-                    )
+                status.includes(
+                    "active"
+                )
 
             ) {
 
@@ -2382,6 +2939,91 @@ function updateStatistics(
 
 
 /* ==============================================
+   NAME
+   ============================================== */
+
+function buildThaiName(
+    student
+) {
+
+
+    return (
+
+        (student.prefix_th || "") +
+
+        (student.firstname_th || "") +
+
+        " " +
+
+        (student.lastname_th || "")
+
+    ).trim();
+
+}
+
+
+
+/* ==============================================
+   STATUS
+   ============================================== */
+
+function getStatusClass(
+    status
+) {
+
+
+    const value =
+        String(
+            status || ""
+        )
+        .toLowerCase();
+
+
+    if (
+
+        value.includes(
+            "ปกติ"
+        ) ||
+
+        value.includes(
+            "active"
+        )
+
+    ) {
+
+        return "active";
+
+    }
+
+
+    if (
+
+        value.includes(
+            "ลาออก"
+        ) ||
+
+        value.includes(
+            "inactive"
+        ) ||
+
+        value.includes(
+            "พ้น"
+        )
+
+    ) {
+
+        return "inactive";
+
+    }
+
+
+    return "";
+
+}
+
+
+
+/* ==============================================
    LOADING
    ============================================== */
 
@@ -2394,15 +3036,15 @@ function showLoading() {
         )
         .innerHTML = `
 
-            <div class="loading">
+<div class="loading">
 
-                <div class="spinner"></div>
+<div class="spinner"></div>
 
-                กำลังโหลดข้อมูล...
+กำลังโหลดข้อมูล...
 
-            </div>
+</div>
 
-        `;
+`;
 
 }
 
@@ -2412,9 +3054,7 @@ function showLoading() {
    EMPTY
    ============================================== */
 
-function renderEmpty(
-    text
-) {
+function renderEmpty() {
 
 
     document
@@ -2423,23 +3063,19 @@ function renderEmpty(
         )
         .innerHTML = `
 
-            <div class="empty-state">
+<div class="empty-state">
 
-                <div class="empty-icon">
-                    📋
-                </div>
+<div style="font-size:40px;">
+    📋
+</div>
 
-                <div class="empty-title">
-                    ${escapeHtml(text)}
-                </div>
+<div>
+    ไม่พบข้อมูลนักศึกษา
+</div>
 
-                <div class="empty-text">
-                    ลองค้นหาใหม่หรือกดปุ่มรีเฟรช
-                </div>
+</div>
 
-            </div>
-
-        `;
+`;
 
 
     updateStatistics(
@@ -2451,7 +3087,7 @@ function renderEmpty(
 
 
 /* ==============================================
-   SHOW MESSAGE
+   MESSAGE
    ============================================== */
 
 function showMessage(
@@ -2466,36 +3102,19 @@ function showMessage(
         );
 
 
-    if (!element) {
-
-        return;
-
-    }
-
-
     element.textContent =
         text;
 
 
     element.className =
-        "system-message show";
-
-
-    if (type) {
-
-        element.classList.add(
-            type
+        "system-message show " +
+        (
+            type ||
+            ""
         );
-
-    }
 
 }
 
-
-
-/* ==============================================
-   HIDE MESSAGE
-   ============================================== */
 
 function hideMessage() {
 
@@ -2504,13 +3123,6 @@ function hideMessage() {
         document.getElementById(
             "systemMessage"
         );
-
-
-    if (!element) {
-
-        return;
-
-    }
 
 
     element.textContent =
@@ -2567,7 +3179,27 @@ function escapeHtml(
 
 
 /* ==============================================
-   ADMIN LOGOUT
+   CLEAR SESSION
+   ============================================== */
+
+function clearAdminSession() {
+
+
+    sessionStorage.removeItem(
+        CONFIG.ADMIN_SESSION_KEY
+    );
+
+
+    sessionStorage.removeItem(
+        CONFIG.ADMIN_KEY
+    );
+
+}
+
+
+
+/* ==============================================
+   LOGOUT
    ============================================== */
 
 async function adminLogout() {
@@ -2579,15 +3211,10 @@ async function adminLogout() {
         );
 
 
-    /*
-     * ถ้ามี Token
-     * แจ้ง Backend ให้ลบ Session
-     */
-
-    if (token) {
+    try {
 
 
-        try {
+        if (token) {
 
 
             await fetch(
@@ -2621,43 +3248,25 @@ async function adminLogout() {
 
             );
 
-
-        } catch (error) {
-
-
-            console.error(
-                "ADMIN LOGOUT ERROR:",
-                error
-            );
-
         }
+
+
+    } catch(error) {
+
+        console.error(
+            error
+        );
 
     }
 
 
-    /*
-     * ลบข้อมูลใน Browser
-     */
+    clearAdminSession();
 
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_SESSION_KEY
-    );
-
-
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_KEY
-    );
-
-
-    /*
-     * กลับหน้า Login
-     */
 
     window.location.href =
         "admin-login.html";
 
 }
-
 
 </script>
 
