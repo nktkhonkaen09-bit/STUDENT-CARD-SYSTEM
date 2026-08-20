@@ -1,11 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+
+
+html,
 body {
 
-    background: #fff9dc;
+    margin: 0;
+    padding: 0;
+
+    min-height: 100%;
+
+    font-family:
+        Arial,
+        "Noto Sans Thai",
+        sans-serif;
 
 }
 
 
-.app-shell {
+body {
+
+    background:
+        #fff9df;
+
+    color:
+        #555;
+
+}
+
+
+.app {
 
     width: 100%;
 
@@ -15,13 +40,18 @@ body {
 
     margin: 0 auto;
 
-    background: #fff9dc;
+    background:
+        #fff9df;
+
 }
 
 
 .app-header {
 
-    height: 72px;
+    height: 78px;
+
+    padding:
+        10px 16px;
 
     display: flex;
 
@@ -29,47 +59,50 @@ body {
 
     justify-content: space-between;
 
-    padding:
-        10px 15px;
-
     background:
         linear-gradient(
             135deg,
-            #ffbd17,
-            #f0a000
+            #ffc329 0%,
+            #efa000 100%
         );
 
-    color: white;
+    color:
+        white;
+
 }
 
 
-.student-info {
+.student-header {
 
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
+    gap: 11px;
+
 }
 
 
-.avatar {
+.student-avatar {
 
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     border-radius: 50%;
 
-    display: flex;
+    background:
+        rgba(255,255,255,.95);
 
-    justify-content: center;
-    align-items: center;
+    color:
+        #e9a000;
 
-    background: white;
+    font-size: 26px;
 
-    color: #f0a000;
-
-    font-size: 25px;
 }
 
 
@@ -77,122 +110,204 @@ body {
 
     font-size: 14px;
 
-    font-weight: bold;
+    font-weight: 700;
+
 }
 
 
 .student-name {
 
-    margin-top: 2px;
+    margin-top: 3px;
 
     font-size: 13px;
+
 }
 
 
-.logout-button {
+.header-logout {
 
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
 
     border: none;
 
-    background: transparent;
+    border-radius: 50%;
 
-    color: white;
+    background:
+        rgba(255,255,255,.18);
 
-    font-size: 30px;
+    color:
+        white;
+
+    font-size: 28px;
 
     cursor: pointer;
+
+}
+
+
+.header-logout:hover {
+
+    background:
+        rgba(255,255,255,.28);
+
 }
 
 
 .menu-title {
 
     margin:
-        5px 8px 20px;
+        8px 8px 22px;
 
-    padding: 7px;
+    padding:
+        8px;
 
-    text-align: center;
+    text-align:
+        center;
 
-    border-radius: 5px;
+    border-radius:
+        6px;
 
-    background: #ffc62b;
+    background:
+        #ffc329;
 
-    color: white;
+    color:
+        white;
 
-    font-size: 18px;
+    font-size:
+        18px;
 
-    font-weight: bold;
+    font-weight:
+        700;
+
 }
 
 
 .menu-grid {
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(2, 1fr);
 
     gap:
-        8px 10px;
+        10px;
 
     padding:
-        5px 20px 30px;
+        0 18px;
+
 }
 
 
-.menu-item {
+.menu-card {
 
-    min-height: 145px;
+    min-height:
+        150px;
 
-    border: none;
+    border:
+        none;
 
-    background: transparent;
-
-    color: #e9a500;
-
-    font-size: 15px;
-
-    cursor: pointer;
-
-    border-radius: 12px;
-
-    transition:
-        background 0.2s,
-        transform 0.15s;
-}
-
-
-.menu-item:hover {
+    border-radius:
+        15px;
 
     background:
-        rgba(255, 190, 30, 0.12);
+        transparent;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    cursor:
+        pointer;
+
+    transition:
+        background .2s,
+        transform .15s;
 
 }
 
 
-.menu-item:active {
+.menu-card:hover {
+
+    background:
+        rgba(245,169,0,.10);
+
+}
+
+
+.menu-card:active {
 
     transform:
-        scale(0.96);
+        scale(.96);
+
 }
 
 
 .menu-icon {
 
-    width: 70px;
-    height: 70px;
+    width:
+        72px;
 
-    margin:
-        0 auto 10px;
+    height:
+        72px;
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: center;
-    align-items: center;
+    align-items:
+        center;
 
-    font-size: 50px;
+    justify-content:
+        center;
+
+    margin-bottom:
+        11px;
+
+    font-size:
+        48px;
+
+}
+
+
+.menu-label {
+
+    color:
+        #e5a000;
+
+    font-size:
+        15px;
+
+    font-weight:
+        600;
+
+}
+
+
+.app-footer {
+
+    padding:
+        30px 10px 20px;
+
+    text-align:
+        center;
+
+    color:
+        #c7aa60;
+
+    font-size:
+        10px;
+
+    letter-spacing:
+        .8px;
 
 }
 
@@ -201,14 +316,20 @@ body {
 
     .menu-grid {
 
-        padding-left: 10px;
-        padding-right: 10px;
+        padding:
+            0 10px;
+
+        gap:
+            5px;
+
     }
 
 
-    .menu-item {
+    .menu-card {
 
-        min-height: 130px;
+        min-height:
+            135px;
+
     }
 
 }
