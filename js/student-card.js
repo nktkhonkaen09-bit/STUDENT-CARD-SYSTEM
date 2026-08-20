@@ -1,5 +1,5 @@
 /* =====================================================
-   STUDENT CARD SYSTEM
+   STUDENT CARD
    ===================================================== */
 
 
@@ -12,9 +12,8 @@ document.addEventListener(
     function () {
 
         console.log(
-            "STUDENT CARD : START"
+            "STUDENT CARD JS LOADED"
         );
-
 
         loadStudent();
 
@@ -28,56 +27,26 @@ document.addEventListener(
 
 function loadStudent() {
 
-    console.log(
-        "กำลังโหลดข้อมูลนักศึกษา..."
-    );
-
-
-    /*
-     * ใช้ Key เดียวกับ Login
-     */
-
-    const key =
-        CONFIG.STUDENT_KEY;
-
-
-    console.log(
-        "Student Key:",
-        key
-    );
-
-
-    /*
-     * อ่านข้อมูลจาก Session
-     */
-
     const data =
         sessionStorage.getItem(
-            key
+            CONFIG.STUDENT_KEY
         );
 
 
     console.log(
-        "Student Data:",
+        "STUDENT DATA:",
         data
     );
 
 
-    /*
-     * ถ้าไม่มีข้อมูล
-     */
-
     if (!data) {
 
-        console.error(
-            "ไม่พบข้อมูลนักศึกษา"
-        );
-
-
-        showError(
+        alert(
             "ไม่พบข้อมูลนักศึกษา กรุณาเข้าสู่ระบบใหม่"
         );
 
+        window.location.href =
+            "index.htm";
 
         return;
 
@@ -86,10 +55,6 @@ function loadStudent() {
 
     let student;
 
-
-    /*
-     * แปลง JSON
-     */
 
     try {
 
@@ -104,11 +69,9 @@ function loadStudent() {
             error
         );
 
-
-        showError(
+        alert(
             "ข้อมูลนักศึกษาไม่ถูกต้อง"
         );
-
 
         return;
 
@@ -116,14 +79,10 @@ function loadStudent() {
 
 
     console.log(
-        "Student Object:",
+        "STUDENT:",
         student
     );
 
-
-    /*
-     * แสดงข้อมูล
-     */
 
     displayStudent(
         student
@@ -141,9 +100,9 @@ function displayStudent(
 ) {
 
 
-    /*
-     * Student ID
-     */
+    /* =====================================
+       STUDENT ID
+       ===================================== */
 
     setText(
         "studentId",
@@ -151,9 +110,9 @@ function displayStudent(
     );
 
 
-    /*
-     * Thai Name
-     */
+    /* =====================================
+       NAME
+       ===================================== */
 
     const thaiName = [
 
@@ -174,30 +133,9 @@ function displayStudent(
     );
 
 
-    /*
-     * English Name
-     */
-
-    const englishName = [
-
-        student.firstname_en,
-
-        student.lastname_en
-
-    ]
-    .filter(Boolean)
-    .join(" ");
-
-
-    setText(
-        "studentNameEn",
-        englishName
-    );
-
-
-    /*
-     * Department
-     */
+    /* =====================================
+       DEPARTMENT
+       ===================================== */
 
     setText(
         "studentDepartment",
@@ -205,19 +143,34 @@ function displayStudent(
     );
 
 
+    /* =====================================
+       STATUS
+       ===================================== */
+
     /*
-     * Status
+     * ตอนนี้ API มี status
+     * จึงใช้แสดงแทนระดับชั้นก่อน
      */
 
     setText(
-        "studentStatus",
+        "studentLevel",
         student.status
     );
 
 
     /*
-     * Issue Date
+     * API ยังไม่มีประเภทวิชา
      */
+
+    setText(
+        "studentType",
+        "-"
+    );
+
+
+    /* =====================================
+       DATES
+       ===================================== */
 
     setText(
         "issueDate",
@@ -225,19 +178,15 @@ function displayStudent(
     );
 
 
-    /*
-     * Expire Date
-     */
-
     setText(
         "expireDate",
         student.expire_date
     );
 
 
-    /*
-     * Photo
-     */
+    /* =====================================
+       PHOTO
+       ===================================== */
 
     loadPhoto(
         student.student_id,
@@ -245,18 +194,18 @@ function displayStudent(
     );
 
 
-    /*
-     * QR
-     */
+    /* =====================================
+       QR
+       ===================================== */
 
     createQR(
         student.student_id
     );
 
 
-    /*
-     * Barcode
-     */
+    /* =====================================
+       BARCODE
+       ===================================== */
 
     createBarcode(
         student.student_id
@@ -283,10 +232,9 @@ function setText(
     if (!element) {
 
         console.warn(
-            "ไม่พบ:",
+            "ไม่พบ element:",
             id
         );
-
 
         return;
 
@@ -300,7 +248,7 @@ function setText(
 
 
 /* =====================================================
-   LOAD PHOTO
+   PHOTO
    ===================================================== */
 
 function loadPhoto(
@@ -322,7 +270,7 @@ function loadPhoto(
 
 
     /*
-     * ถ้ามี URL จาก API
+     * ถ้า API มี photo_url
      */
 
     if (
@@ -333,14 +281,13 @@ function loadPhoto(
         image.src =
             photoUrl;
 
-
         return;
 
     }
 
 
     /*
-     * GitHub RAW
+     * GitHub
      */
 
     const baseURL =
@@ -357,23 +304,19 @@ function loadPhoto(
     const pngURL =
 
         baseURL +
-
         studentId +
-
         ".png";
 
 
     const jpgURL =
 
         baseURL +
-
         studentId +
-
         ".jpg";
 
 
     /*
-     * ลอง PNG ก่อน
+     * PNG
      */
 
     image.src =
@@ -381,7 +324,7 @@ function loadPhoto(
 
 
     /*
-     * ถ้า PNG ไม่เจอ
+     * ถ้าไม่มี PNG
      * ลอง JPG
      */
 
@@ -390,7 +333,6 @@ function loadPhoto(
 
             image.onerror =
                 null;
-
 
             image.src =
                 jpgURL;
@@ -401,7 +343,7 @@ function loadPhoto(
 
 
 /* =====================================================
-   CREATE QR CODE
+   QR CODE
    ===================================================== */
 
 function createQR(
@@ -420,35 +362,12 @@ function createQR(
         );
 
 
-    if (!qr) {
-
-        console.warn(
-            "ไม่พบ studentQR"
-        );
-
+    if (!qr || !studentId) {
 
         return;
 
     }
 
-
-    if (!studentId) {
-
-        console.warn(
-            "ไม่มี Student ID"
-        );
-
-
-        return;
-
-    }
-
-
-    /*
-     * QR Server
-     *
-     * ใช้รหัสนักศึกษาเป็นข้อมูล
-     */
 
     const qrURL =
 
@@ -467,17 +386,9 @@ function createQR(
         );
 
 
-    /*
-     * QR ในหน้า
-     */
-
     qr.src =
         qrURL;
 
-
-    /*
-     * QR เต็มจอ
-     */
 
     if (qrFull) {
 
@@ -487,10 +398,6 @@ function createQR(
     }
 
 
-    /*
-     * เมื่อแตะ QR
-     */
-
     qr.onclick =
         function () {
 
@@ -498,17 +405,11 @@ function createQR(
 
         };
 
-
-    console.log(
-        "QR Code:",
-        studentId
-    );
-
 }
 
 
 /* =====================================================
-   OPEN QR FULL SCREEN
+   OPEN QR
    ===================================================== */
 
 function openQR() {
@@ -573,18 +474,7 @@ function createBarcode(
         );
 
 
-    const barcodeText =
-        document.getElementById(
-            "barcodeStudentId"
-        );
-
-
     if (!barcode) {
-
-        console.warn(
-            "ไม่พบ studentBarcode"
-        );
-
 
         return;
 
@@ -597,9 +487,8 @@ function createBarcode(
     ) {
 
         console.error(
-            "ไม่พบ JsBarcode"
+            "JsBarcode ไม่พร้อมใช้งาน"
         );
-
 
         return;
 
@@ -623,7 +512,7 @@ function createBarcode(
                     2,
 
                 height:
-                    45,
+                    55,
 
                 displayValue:
                     false,
@@ -632,35 +521,20 @@ function createBarcode(
                     "#000000",
 
                 background:
-                    "#ffffff",
+                    "transparent",
 
                 margin:
-                    2
+                    0
 
             }
 
         );
 
-
-        if (barcodeText) {
-
-            barcodeText.textContent =
-                studentId;
-
-        }
-
-
-        console.log(
-            "Barcode สำเร็จ:",
-            studentId
-        );
-
-
     }
     catch (error) {
 
         console.error(
-            "Barcode Error:",
+            "BARCODE ERROR:",
             error
         );
 
@@ -683,11 +557,6 @@ function downloadCard() {
 
     if (!card) {
 
-        alert(
-            "ไม่พบข้อมูลบัตร"
-        );
-
-
         return;
 
     }
@@ -702,7 +571,6 @@ function downloadCard() {
             "ระบบดาวน์โหลดไม่พร้อมใช้งาน"
         );
 
-
         return;
 
     }
@@ -714,24 +582,19 @@ function downloadCard() {
 
         {
 
-            scale:
-                2,
+            scale: 2,
 
-            useCORS:
-                true,
+            useCORS: true,
 
-            allowTaint:
-                false,
+            allowTaint: false,
 
-            backgroundColor:
-                null
+            backgroundColor: null
 
         }
 
     )
     .then(
         function (canvas) {
-
 
             const link =
                 document.createElement(
@@ -745,22 +608,12 @@ function downloadCard() {
                 );
 
 
-            let id =
-                "student";
-
-
-            if (
-                studentId &&
-                studentId.textContent
-                    .trim()
-            ) {
-
-                id =
-                    studentId
-                        .textContent
-                        .trim();
-
-            }
+            const id =
+                studentId
+                    ?
+                    studentId.textContent
+                    :
+                    "student";
 
 
             link.download =
@@ -783,10 +636,9 @@ function downloadCard() {
         function (error) {
 
             console.error(
-                "Download Error:",
+                "DOWNLOAD ERROR:",
                 error
             );
-
 
             alert(
                 "ไม่สามารถดาวน์โหลดบัตรได้"
@@ -806,93 +658,5 @@ function goBack() {
 
     window.location.href =
         "dashboard.html";
-
-}
-
-
-/* =====================================================
-   ERROR
-   ===================================================== */
-
-function showError(
-    message
-) {
-
-    const card =
-        document.getElementById(
-            "studentCard"
-        );
-
-
-    if (!card) {
-
-        alert(message);
-
-        return;
-
-    }
-
-
-    const error =
-        document.createElement(
-            "div"
-        );
-
-
-    error.style.position =
-        "absolute";
-
-
-    error.style.left =
-        "50%";
-
-
-    error.style.top =
-        "50%";
-
-
-    error.style.transform =
-        "translate(-50%, -50%)";
-
-
-    error.style.zIndex =
-        "9999";
-
-
-    error.style.background =
-        "#ffffff";
-
-
-    error.style.color =
-        "#dc2626";
-
-
-    error.style.padding =
-        "20px";
-
-
-    error.style.borderRadius =
-        "12px";
-
-
-    error.style.textAlign =
-        "center";
-
-
-    error.style.fontWeight =
-        "bold";
-
-
-    error.style.boxShadow =
-        "0 5px 20px rgba(0,0,0,0.2)";
-
-
-    error.textContent =
-        message;
-
-
-    card.appendChild(
-        error
-    );
 
 }
