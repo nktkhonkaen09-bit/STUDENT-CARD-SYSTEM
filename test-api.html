@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Test</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #fff9dc;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #f5a900;
+            color: white;
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        pre {
+            margin-top: 20px;
+            padding: 15px;
+            background: #222;
+            color: #0f0;
+            white-space: pre-wrap;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Student API Test</h2>
+
+    <button onclick="testLogin()">
+        ทดสอบ Login
+    </button>
+
+    <pre id="result">ยังไม่ได้ทดสอบ</pre>
+
+
+    <script>
+
+        const API_URL =
+            "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec";
+
+
+        async function testLogin() {
+
+            const result =
+                document.getElementById("result");
+
+
+            result.textContent =
+                "กำลังทดสอบ...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "text/plain;charset=utf-8"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    action: "login",
+
+                                    studentId:
+                                        "TEST001",
+
+                                    password:
+                                        "123456"
+
+                                })
+
+                        }
+                    );
+
+
+                const text =
+                    await response.text();
+
+
+                result.textContent =
+                    text;
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                result.textContent =
+                    "ERROR:\n\n" +
+                    error.toString();
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
