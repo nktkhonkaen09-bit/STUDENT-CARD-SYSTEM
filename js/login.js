@@ -1,96 +1,245 @@
-const API_URL =
-  'ใส่_URLของGoogleAppsScript_WebApp';
+document.addEventListener("DOMContentLoaded", function () {
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    if (!loginForm) {
+        return;
+    }
+
+    loginForm.addEventListener(
+        "submit",
+        handleLogin
+    );
+
+});
 
 
-document
-  .getElementById('loginForm')
-  .addEventListener('submit', async function (event) {
+async function handleLogin(event) {
 
     event.preventDefault();
 
+
     const studentId =
-      document
-        .getElementById('studentId')
-        .value
-        .trim();
+        document
+            .getElementById("studentId")
+            .value
+            .trim();
+
 
     const password =
-      document
-        .getElementById('password')
-        .value;
+        document
+            .getElementById("password")
+            .value;
+
+
+    const button =
+        document
+            .getElementById("loginButton");
+
 
     const message =
-      document
-        .getElementById('loginMessage');
+        document
+            .getElementById("loginMessage");
 
-    message.textContent = 'กำลังเข้าสู่ระบบ...';
+
+    if (!studentId || !password) {
+
+        showMessage(
+            "กรุณากรอกรหัสนักศึกษาและรหัสผ่าน",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "กำลังเข้าสู่ระบบ...";
+
+
+    showMessage("", "");
 
 
     try {
 
-      const response =
-        await fetch(API_URL, {
+        const response =
+            await fetch(
+                CONFIG.API_URL,
+                {
 
-          method: 'POST',
+                    method: "POST",
 
-          headers: {
-            'Content-Type':
-              'application/json'
-          },
+                    headers: {
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+                    },
 
-          body: JSON.stringify({
+                    body: JSON.stringify({
 
-            action: 'login',
+                        action: "login",
 
-            studentId: studentId,
+                        studentId:
+                            studentId,
 
-            password: password
+                        password:
+                            password
 
-          })
+                    })
 
-        });
-
-
-      const result =
-        await response.json();
-
-
-      if (!result.success) {
-
-        message.textContent =
-          result.message;
-
-        return;
-      }
+                }
+            );
 
 
-      /*
-       * Login สำเร็จ
-       */
+        if (!response.ok) {
 
-      sessionStorage.setItem(
-        'student_token',
-        result.token
-      );
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
 
-
-      sessionStorage.setItem(
-        'student',
-        JSON.stringify(result.student)
-      );
+        }
 
 
-      window.location.href =
-        'dashboard.html';
+        const result =
+            await response.json();
+
+
+        console.log(
+            "LOGIN RESULT:",
+            result
+        );
+
+
+        if (!result.success) {
+
+            showMessage(
+                result.message ||
+                "เข้าสู่ระบบไม่สำเร็จ",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * =================================
+         * LOGIN SUCCESS
+         * =================================
+         */
+
+        sessionStorage.setItem(
+
+            CONFIG.SESSION_KEY,
+
+            result.token
+
+        );
+
+
+        sessionStorage.setItem(
+
+            CONFIG.STUDENT_KEY,
+
+            JSON.stringify(
+                result.student
+            )
+
+        );
+
+
+        showMessage(
+            "เข้าสู่ระบบสำเร็จ",
+            "success"
+        );
+
+
+        /*
+         * ไป Dashboard
+         */
+
+        setTimeout(
+            function () {
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            500
+        );
 
 
     } catch (error) {
 
-      console.error(error);
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
 
-      message.textContent =
-        'ไม่สามารถเชื่อมต่อระบบได้';
+
+        showMessage(
+
+            "ไม่สามารถเชื่อมต่อระบบได้ " +
+            "กรุณาลองใหม่อีกครั้ง",
+
+            "error"
+
+        );
 
     }
 
-  });
+
+    finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "เข้าสู่ระบบ";
+
+    }
+
+}
+
+
+/**
+ * แสดงข้อความ
+ */
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document
+            .getElementById(
+                "loginMessage"
+            );
+
+
+    if (!message) {
+        return;
+    }
+
+
+    message.textContent =
+        text;
+
+
+    message.className =
+        "login-message";
+
+
+    if (type) {
+
+        message.classList.add(
+            type
+        );
+
+    }
+
+}
