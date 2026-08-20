@@ -3,439 +3,346 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-    <meta
-        name="theme-color"
-        content="#0a1383"
-    >
+<meta
+  name="theme-color"
+  content="#0a1383"
+>
 
-    <title>
-        ผู้ดูแลระบบ | Student Card System
-    </title>
+<title>
+ผู้ดูแลระบบ | Student Card System
+</title>
 
 
-    <style>
+<style>
 
-        * {
-            box-sizing: border-box;
-        }
+* {
+  box-sizing: border-box;
+}
 
 
-        body {
+body {
 
-            margin: 0;
+  margin: 0;
 
-            min-height: 100vh;
+  min-height: 100vh;
 
-            font-family:
-                Arial,
-                "Noto Sans Thai",
-                sans-serif;
+  font-family:
+    Arial,
+    "Noto Sans Thai",
+    sans-serif;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff 0%,
-                    #ffffff 80%,
-                    #eef0ff 100%
-                );
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #ffffff 80%,
+      #eef0ff 100%
+    );
 
-            color:
-                #111827;
+  color:
+    #111827;
 
-        }
+}
 
 
-        .admin-page {
+.admin-page {
 
-            min-height: 100vh;
+  min-height: 100vh;
 
-            display: flex;
+  display: flex;
 
-            align-items: center;
+  align-items: center;
 
-            justify-content: center;
+  justify-content: center;
 
-            padding: 20px;
+  padding: 20px;
 
-        }
+}
 
 
-        .admin-card {
+.admin-card {
 
-            width: 100%;
+  width: 100%;
 
-            max-width: 420px;
+  max-width: 420px;
 
-            padding:
-                35px 30px;
+  padding:
+    35px 30px;
 
-            background:
-                #ffffff;
+  background:
+    #ffffff;
 
-            border:
-                1px solid #e1e4ef;
+  border:
+    1px solid #e1e4ef;
 
-            border-top:
-                6px solid #0a1383;
+  border-top:
+    6px solid #0a1383;
 
-            border-radius:
-                18px;
+  border-radius:
+    18px;
 
-            box-shadow:
-                0 15px 40px
-                rgba(
-                    10,
-                    19,
-                    131,
-                    0.12
-                );
+  box-shadow:
+    0 15px 40px
+    rgba(10,19,131,.12);
 
-        }
+}
 
 
-        .admin-icon {
+.admin-icon {
 
-            width: 80px;
+  width: 80px;
 
-            height: 80px;
+  height: 80px;
 
-            margin:
-                0 auto 18px;
+  margin:
+    0 auto 18px;
 
-            display: flex;
+  display: flex;
 
-            align-items: center;
+  align-items: center;
 
-            justify-content: center;
+  justify-content: center;
 
-            border-radius:
-                50%;
+  border-radius:
+    50%;
 
-            background:
-                #eef0ff;
+  background:
+    #eef0ff;
 
-            color:
-                #0a1383;
+  color:
+    #0a1383;
 
-            font-size:
-                40px;
+  font-size:
+    40px;
 
-        }
+}
 
 
-        h1 {
+h1 {
 
-            margin: 0;
+  margin: 0;
 
-            text-align:
-                center;
+  text-align: center;
 
-            color:
-                #0a1383;
+  color:
+    #0a1383;
 
-            font-size:
-                25px;
+  font-size: 25px;
 
-            font-weight:
-                700;
+}
 
-        }
 
+.subtitle {
 
-        .subtitle {
+  margin:
+    7px 0 28px;
 
-            margin:
-                7px 0 28px;
+  text-align: center;
 
-            text-align:
-                center;
+  color:
+    #6b7280;
 
-            color:
-                #6b7280;
+  font-size: 12px;
 
-            font-size:
-                12px;
+  letter-spacing:
+    1px;
 
-            letter-spacing:
-                1px;
+}
 
-        }
 
+.input-group {
 
-        .input-group {
+  margin-bottom:
+    18px;
 
-            margin-bottom:
-                18px;
+}
 
-        }
 
+.input-group label {
 
-        .input-group label {
+  display: block;
 
-            display:
-                block;
+  margin-bottom:
+    7px;
 
-            margin-bottom:
-                7px;
+  font-size:
+    14px;
 
-            font-size:
-                14px;
+  font-weight:
+    600;
 
-            font-weight:
-                600;
+}
 
-            color:
-                #111827;
 
-        }
+.input-group input {
 
+  width: 100%;
 
-        .input-group input {
+  height: 50px;
 
-            width:
-                100%;
+  padding:
+    0 14px;
 
-            height:
-                50px;
+  border:
+    1px solid #d9ddea;
 
-            padding:
-                0 14px;
+  border-radius:
+    9px;
 
-            border:
-                1px solid #d9ddea;
+  outline: none;
 
-            border-radius:
-                9px;
+  font-size:
+    15px;
 
-            outline:
-                none;
+}
 
-            font-size:
-                15px;
 
-            color:
-                #111827;
+.input-group input:focus {
 
-            background:
-                #ffffff;
+  border-color:
+    #0a1383;
 
-        }
+  box-shadow:
+    0 0 0 3px
+    rgba(10,19,131,.08);
 
+}
 
-        .input-group input:focus {
 
-            border-color:
-                #0a1383;
+.login-button {
 
-            box-shadow:
-                0 0 0 3px
-                rgba(
-                    10,
-                    19,
-                    131,
-                    0.08
-                );
+  width: 100%;
 
-        }
+  height: 50px;
 
+  margin-top: 5px;
 
-        .login-button {
+  border: none;
 
-            width:
-                100%;
+  border-radius: 10px;
 
-            height:
-                50px;
+  background:
+    #0a1383;
 
-            margin-top:
-                5px;
+  color:
+    #ffffff;
 
-            border:
-                none;
+  font-size:
+    15px;
 
-            border-radius:
-                10px;
+  font-weight:
+    bold;
 
-            background:
-                #0a1383;
+  cursor: pointer;
 
-            color:
-                #ffffff;
+}
 
-            font-size:
-                15px;
 
-            font-weight:
-                bold;
+.login-button:disabled {
 
-            cursor:
-                pointer;
+  opacity: .6;
 
-            transition:
-                0.2s;
+  cursor:
+    not-allowed;
 
-        }
+}
 
 
-        .login-button:hover {
+.message {
 
-            background:
-                #080f6d;
+  min-height: 22px;
 
-        }
+  margin-top: 15px;
 
+  text-align: center;
 
-        .login-button:active {
+  font-size: 13px;
 
-            transform:
-                scale(0.98);
+  font-weight: 600;
 
-        }
+}
 
 
-        .login-button:disabled {
+.message.error {
 
-            opacity:
-                0.6;
+  color:
+    #dc2626;
 
-            cursor:
-                not-allowed;
+}
 
-        }
 
+.message.success {
 
-        .message {
+  color:
+    #15803d;
 
-            min-height:
-                22px;
+}
 
-            margin:
-                15px 0 0;
 
-            text-align:
-                center;
+.message.info {
 
-            font-size:
-                13px;
+  color:
+    #0a1383;
 
-            font-weight:
-                600;
+}
 
-        }
 
+.back-link {
 
-        .message.error {
+  display: block;
 
-            color:
-                #dc2626;
+  margin-top: 22px;
 
-        }
+  text-align: center;
 
+  color:
+    #0a1383;
 
-        .message.success {
+  font-size: 13px;
 
-            color:
-                #15803d;
+  text-decoration: none;
 
-        }
+}
 
 
-        .message.info {
+.footer {
 
-            color:
-                #0a1383;
+  margin-top: 25px;
 
-        }
+  text-align: center;
 
+  color:
+    #9ca3af;
 
-        .back-link {
+  font-size: 10px;
 
-            display:
-                block;
+}
 
-            margin-top:
-                22px;
 
-            text-align:
-                center;
+@media (max-width:480px) {
 
-            color:
-                #0a1383;
+  .admin-page {
+    padding: 12px;
+  }
 
-            font-size:
-                13px;
+  .admin-card {
+    padding: 30px 20px;
+  }
 
-            text-decoration:
-                none;
+  h1 {
+    font-size: 22px;
+  }
 
-        }
+}
 
-
-        .back-link:hover {
-
-            text-decoration:
-                underline;
-
-        }
-
-
-        .footer {
-
-            margin-top:
-                25px;
-
-            text-align:
-                center;
-
-            color:
-                #9ca3af;
-
-            font-size:
-                10px;
-
-        }
-
-
-        @media (
-            max-width: 480px
-        ) {
-
-            .admin-page {
-
-                padding:
-                    12px;
-
-            }
-
-
-            .admin-card {
-
-                padding:
-                    30px 20px;
-
-                border-radius:
-                    15px;
-
-            }
-
-
-            h1 {
-
-                font-size:
-                    22px;
-
-            }
-
-        }
-
-    </style>
+</style>
 
 </head>
 
@@ -446,121 +353,102 @@
 <div class="admin-page">
 
 
-    <div class="admin-card">
+<div class="admin-card">
 
 
-        <div class="admin-icon">
-
-            🛡️
-
-        </div>
+<div class="admin-icon">
+  🛡️
+</div>
 
 
-        <h1>
-
-            ผู้ดูแลระบบ
-
-        </h1>
+<h1>
+ผู้ดูแลระบบ
+</h1>
 
 
-        <div class="subtitle">
-
-            ADMINISTRATOR LOGIN
-
-        </div>
+<div class="subtitle">
+ADMINISTRATOR LOGIN
+</div>
 
 
-        <form
-            id="adminLoginForm"
-            autocomplete="on"
-        >
+<form
+  id="adminLoginForm"
+  autocomplete="on"
+>
 
 
-            <div class="input-group">
+<div class="input-group">
 
-                <label
-                    for="adminUsername"
-                >
+<label for="adminUsername">
+ชื่อผู้ใช้
+</label>
 
-                    ชื่อผู้ใช้
+<input
+  id="adminUsername"
+  name="username"
+  type="text"
+  placeholder="กรอกชื่อผู้ใช้"
+  autocomplete="username"
+  required
+>
 
-                </label>
-
-
-                <input
-                    id="adminUsername"
-                    name="username"
-                    type="text"
-                    placeholder="กรอกชื่อผู้ใช้"
-                    autocomplete="username"
-                    required
-                >
-
-            </div>
+</div>
 
 
-            <div class="input-group">
+<div class="input-group">
 
-                <label
-                    for="adminPassword"
-                >
+<label for="adminPassword">
+รหัสผ่าน
+</label>
 
-                    รหัสผ่าน
+<input
+  id="adminPassword"
+  name="password"
+  type="password"
+  placeholder="กรอกรหัสผ่าน"
+  autocomplete="current-password"
+  required
+>
 
-                </label>
-
-
-                <input
-                    id="adminPassword"
-                    name="password"
-                    type="password"
-                    placeholder="กรอกรหัสผ่าน"
-                    autocomplete="current-password"
-                    required
-                >
-
-            </div>
+</div>
 
 
-            <button
-                id="adminLoginButton"
-                class="login-button"
-                type="submit"
-            >
+<button
+  id="adminLoginButton"
+  class="login-button"
+  type="submit"
+>
 
-                เข้าสู่ระบบ Admin
+เข้าสู่ระบบ Admin
 
-            </button>
-
-
-            <div
-                id="adminMessage"
-                class="message"
-            ></div>
+</button>
 
 
-        </form>
+<div
+  id="adminMessage"
+  class="message"
+></div>
 
 
-        <a
-            href="index.html"
-            class="back-link"
-        >
-
-            ← กลับหน้าสำหรับนักศึกษา
-
-        </a>
+</form>
 
 
-        <div class="footer">
+<a
+  href="?page=index"
+  class="back-link"
+>
 
-            Student Card System
+← กลับหน้าสำหรับนักศึกษา
 
-        </div>
+</a>
 
 
-    </div>
+<div class="footer">
+Student Card System
+</div>
 
+
+</div>
 
 </div>
 
@@ -569,402 +457,391 @@
 <script>
 
 
-/* ==============================================
+/* =================================================
    CONFIG
-   ============================================== */
+   ================================================= */
 
 const CONFIG = {
 
-    API_URL:
-        "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
+  /*
+   * API เดิมของคุณ
+   */
 
-    ADMIN_SESSION_KEY:
-        "admin_session",
+  API_URL:
+    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
 
-    ADMIN_KEY:
-        "admin_data"
+
+  /*
+   * URL ของ Web App
+   *
+   * สำคัญ:
+   * ใช้ URL เดียวกับ API_URL
+   */
+
+  WEB_APP_URL:
+    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
+
+
+  ADMIN_SESSION_KEY:
+    "admin_session",
+
+
+  ADMIN_KEY:
+    "admin_data"
 
 };
 
 
 
-/* ==============================================
+/* =================================================
    PAGE READY
-   ============================================== */
+   ================================================= */
 
 document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+  "DOMContentLoaded",
+  function () {
 
-        const form =
-            document.getElementById(
-                "adminLoginForm"
-            );
-
-
-        if (!form) {
-
-            console.error(
-                "ไม่พบ adminLoginForm"
-            );
-
-            return;
-
-        }
+    const form =
+      document.getElementById(
+        "adminLoginForm"
+      );
 
 
-        form.addEventListener(
-            "submit",
-            handleAdminLogin
-        );
+    if (!form) {
 
+      console.error(
+        "ไม่พบ adminLoginForm"
+      );
 
-        console.log(
-            "ADMIN LOGIN READY"
-        );
+      return;
 
     }
+
+
+    form.addEventListener(
+      "submit",
+      handleAdminLogin
+    );
+
+
+  }
 );
 
 
 
-/* ==============================================
+/* =================================================
    ADMIN LOGIN
-   ============================================== */
+   ================================================= */
 
-async function handleAdminLogin(
-    event
-) {
+async function handleAdminLogin(event) {
 
-    event.preventDefault();
+  event.preventDefault();
 
 
-    const username =
-        document
-            .getElementById(
-                "adminUsername"
-            )
-            .value
-            .trim();
+  const username =
+    document
+      .getElementById(
+        "adminUsername"
+      )
+      .value
+      .trim();
 
 
-    const password =
-        document
-            .getElementById(
-                "adminPassword"
-            )
-            .value;
+  const password =
+    document
+      .getElementById(
+        "adminPassword"
+      )
+      .value;
 
 
-    const button =
-        document.getElementById(
-            "adminLoginButton"
-        );
+  const button =
+    document.getElementById(
+      "adminLoginButton"
+    );
 
 
-    if (
-        !username ||
-        !password
-    ) {
+  if (
+    !username ||
+    !password
+  ) {
 
-        showMessage(
-            "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน",
-            "error"
-        );
+    showMessage(
+      "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน",
+      "error"
+    );
 
-        return;
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "กำลังตรวจสอบ...";
+
+
+  showMessage(
+    "กำลังเชื่อมต่อระบบ...",
+    "info"
+  );
+
+
+  try {
+
+
+    const response =
+      await fetch(
+
+        CONFIG.API_URL,
+
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "text/plain;charset=utf-8"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              action:
+                "adminLogin",
+
+              username:
+                username,
+
+              password:
+                password
+
+            })
+
+        }
+
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
 
     }
 
 
-    button.disabled = true;
-
-    button.textContent =
-        "กำลังตรวจสอบ...";
+    const result =
+      await response.json();
 
 
-    showMessage(
-        "กำลังตรวจสอบข้อมูล...",
-        "info"
+    console.log(
+      "ADMIN LOGIN RESULT:",
+      result
     );
 
 
-    try {
+    if (!result.success) {
 
+      showMessage(
 
-        const response =
-            await fetch(
+        result.message ||
+        "เข้าสู่ระบบไม่สำเร็จ",
 
-                CONFIG.API_URL,
+        "error"
 
-                {
+      );
 
-                    method:
-                        "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            action:
-                                "adminLogin",
-
-                            username:
-                                username,
-
-                            password:
-                                password
-
-                        })
-
-                }
-
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        console.log(
-            "ADMIN LOGIN RESULT:",
-            result
-        );
-
-
-        /* ======================================
-           LOGIN FAILED
-           ====================================== */
-
-        if (
-            !result ||
-            result.success !== true
-        ) {
-
-            showMessage(
-
-                result &&
-                result.message
-
-                    ? result.message
-
-                    : "เข้าสู่ระบบไม่สำเร็จ",
-
-                "error"
-
-            );
-
-            return;
-
-        }
-
-
-        /* ======================================
-           ตรวจสอบ TOKEN
-           ====================================== */
-
-        if (
-            !result.token
-        ) {
-
-            console.error(
-                "ไม่พบ Admin Token:",
-                result
-            );
-
-
-            showMessage(
-
-                "เข้าสู่ระบบสำเร็จ แต่ระบบไม่พบ Admin Session",
-
-                "error"
-
-            );
-
-            return;
-
-        }
-
-
-        /* ======================================
-           SAVE ADMIN SESSION
-           ====================================== */
-
-        sessionStorage.setItem(
-
-            CONFIG.ADMIN_SESSION_KEY,
-
-            String(
-                result.token
-            )
-
-        );
-
-
-        if (
-            result.admin
-        ) {
-
-            sessionStorage.setItem(
-
-                CONFIG.ADMIN_KEY,
-
-                JSON.stringify(
-                    result.admin
-                )
-
-            );
-
-        }
-
-
-        /*
-         * ตรวจสอบอีกครั้งว่าเก็บ Token สำเร็จ
-         */
-
-        const savedToken =
-            sessionStorage.getItem(
-                CONFIG.ADMIN_SESSION_KEY
-            );
-
-
-        if (
-            !savedToken
-        ) {
-
-            showMessage(
-
-                "ไม่สามารถสร้าง Admin Session ได้",
-
-                "error"
-
-            );
-
-            return;
-
-        }
-
-
-        /* ======================================
-           SUCCESS
-           ====================================== */
-
-        showMessage(
-
-            "เข้าสู่ระบบสำเร็จ กำลังเข้าสู่ระบบ Admin...",
-
-            "success"
-
-        );
-
-
-        /*
-         * เปลี่ยนหน้าโดยตรง
-         *
-         * ไม่ใช้ setTimeout
-         */
-
-        window.location.replace(
-            "admin-dashboard.html"
-        );
-
-
-    } catch (error) {
-
-
-        console.error(
-            "ADMIN LOGIN ERROR:",
-            error
-        );
-
-
-        showMessage(
-
-            "ไม่สามารถเชื่อมต่อระบบได้",
-
-            "error"
-
-        );
+      return;
 
     }
 
 
     /*
-     * ไม่เปิดปุ่มกลับทันทีหลัง Login สำเร็จ
-     * เพราะกำลังเปลี่ยนหน้า
+     * =========================================
+     * LOGIN SUCCESS
+     * =========================================
+     *
+     * บันทึก Session ก่อนเปลี่ยนหน้า
      */
 
-    if (
-        !sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-        )
-    ) {
+    if (!result.token) {
 
-        button.disabled =
-            false;
+      showMessage(
 
-        button.textContent =
-            "เข้าสู่ระบบ Admin";
+        "เข้าสู่ระบบสำเร็จ แต่ระบบไม่ได้รับ Session Token",
+
+        "error"
+
+      );
+
+      return;
 
     }
+
+
+    sessionStorage.setItem(
+
+      CONFIG.ADMIN_SESSION_KEY,
+
+      result.token
+
+    );
+
+
+    sessionStorage.setItem(
+
+      CONFIG.ADMIN_KEY,
+
+      JSON.stringify(
+        result.admin || {
+          username:
+            username
+        }
+      )
+
+    );
+
+
+    showMessage(
+
+      "เข้าสู่ระบบสำเร็จ กำลังเข้าสู่ระบบ Admin...",
+
+      "success"
+
+    );
+
+
+    /*
+     * =========================================
+     * เปิด Dashboard
+     * =========================================
+     *
+     * ห้ามใช้:
+     *
+     * admin-dashboard.html
+     *
+     * เพราะ Web App ของ Apps Script
+     * ใช้ doGet() เป็นตัว Router
+     */
+
+    const dashboardUrl =
+      CONFIG.WEB_APP_URL +
+      "?page=admin-dashboard";
+
+
+    console.log(
+      "REDIRECT:",
+      dashboardUrl
+    );
+
+
+    /*
+     * ใช้ location.replace()
+     * เพื่อไม่ให้กดย้อนกลับ
+     * กลับหน้า Login ง่ายเกินไป
+     */
+
+    setTimeout(
+      function () {
+
+        window.location.replace(
+          dashboardUrl
+        );
+
+      },
+      500
+    );
+
+
+  } catch (error) {
+
+
+    console.error(
+      "ADMIN LOGIN ERROR:",
+      error
+    );
+
+
+    showMessage(
+
+      "ไม่สามารถเชื่อมต่อระบบได้",
+
+      "error"
+
+    );
+
+
+  } finally {
+
+
+    /*
+     * ถ้ากำลัง Redirect
+     * ไม่จำเป็นต้องเปิดปุ่มกลับ
+     */
+
+    setTimeout(
+      function () {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "เข้าสู่ระบบ Admin";
+
+      },
+      1500
+    );
+
+  }
 
 }
 
 
 
-/* ==============================================
+/* =================================================
    SHOW MESSAGE
-   ============================================== */
+   ================================================= */
 
 function showMessage(
-    text,
-    type
+  text,
+  type
 ) {
 
-    const message =
-        document.getElementById(
-            "adminMessage"
-        );
+  const message =
+    document.getElementById(
+      "adminMessage"
+    );
 
 
-    if (!message) {
+  if (!message) {
 
-        return;
+    return;
 
-    }
-
-
-    message.textContent =
-        text;
+  }
 
 
-    message.className =
-        "message";
+  message.textContent =
+    text;
 
 
-    if (type) {
+  message.className =
+    "message";
 
-        message.classList.add(
-            type
-        );
 
-    }
+  if (type) {
+
+    message.classList.add(
+      type
+    );
+
+  }
 
 }
 
