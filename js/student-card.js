@@ -843,7 +843,7 @@ function generateStudentQRCode(
             color: {
 
                 dark:
-                    "#5d4700",
+                    "#000000",
 
                 light:
                     "#ffffff"
