@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0a1383"
+    >
+
+    <title>
+        ผู้ดูแลระบบ
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                "Noto Sans Thai",
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #ffffff 80%,
+                    #eef0ff 100%
+                );
+
+            color:
+                #111827;
+
+        }
+
+
+        .admin-page {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+        }
+
+
+        .admin-card {
+
+            width: 100%;
+
+            max-width: 420px;
+
+            padding: 35px 30px;
+
+            background: #ffffff;
+
+            border:
+                1px solid #e1e4ef;
+
+            border-top:
+                6px solid #0a1383;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(10,19,131,0.12);
+
+        }
+
+
+        .admin-icon {
+
+            width: 78px;
+
+            height: 78px;
+
+            margin:
+                0 auto 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #eef0ff;
+
+            color: #0a1383;
+
+            font-size: 40px;
+
+        }
+
+
+        h1 {
+
+            margin: 0;
+
+            text-align: center;
+
+            color: #0a1383;
+
+            font-size: 24px;
+
+        }
+
+
+        .subtitle {
+
+            margin:
+                7px 0 28px;
+
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .input-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .input-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        .input-group input {
+
+            width: 100%;
+
+            height: 48px;
+
+            padding: 0 14px;
+
+            border:
+                1px solid #d9ddea;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            font-size: 14px;
+
+        }
+
+
+        .input-group input:focus {
+
+            border-color: #0a1383;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(10,19,131,0.08);
+
+        }
+
+
+        .login-button {
+
+            width: 100%;
+
+            height: 50px;
+
+            margin-top: 5px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #0a1383;
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .login-button:active {
+
+            transform:
+                scale(0.98);
+
+        }
+
+
+        .login-button:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .message {
+
+            min-height: 22px;
+
+            margin:
+                15px 0 0;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .message.error {
+
+            color: #dc2626;
+
+        }
+
+
+        .message.success {
+
+            color: #15803d;
+
+        }
+
+
+        .back-link {
+
+            display: block;
+
+            margin-top: 22px;
+
+            text-align: center;
+
+            color: #0a1383;
+
+            font-size: 13px;
+
+            text-decoration: none;
+
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        .footer {
+
+            margin-top: 25px;
+
+            text-align: center;
+
+            color: #9ca3af;
+
+            font-size: 10px;
+
+        }
+
+
+        @media (
+            max-width: 480px
+        ) {
+
+            .admin-page {
+
+                padding: 12px;
+
+            }
+
+
+            .admin-card {
+
+                padding:
+                    30px 20px;
+
+                border-radius:
+                    15px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+
+    <div class="admin-card">
+
+
+        <div class="admin-icon">
+
+            🛡️
+
+        </div>
+
+
+        <h1>
+
+            ผู้ดูแลระบบ
+
+        </h1>
+
+
+        <div class="subtitle">
+
+            ADMINISTRATOR LOGIN
+
+        </div>
+
+
+        <form
+            id="adminLoginForm"
+            autocomplete="on"
+        >
+
+
+            <div class="input-group">
+
+                <label
+                    for="adminUsername"
+                >
+
+                    ชื่อผู้ใช้
+
+                </label>
+
+
+                <input
+                    id="adminUsername"
+                    name="username"
+                    type="text"
+                    placeholder="กรอกชื่อผู้ใช้"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label
+                    for="adminPassword"
+                >
+
+                    รหัสผ่าน
+
+                </label>
+
+
+                <input
+                    id="adminPassword"
+                    name="password"
+                    type="password"
+                    placeholder="กรอกรหัสผ่าน"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                id="adminLoginButton"
+                class="login-button"
+                type="submit"
+            >
+
+                เข้าสู่ระบบ Admin
+
+            </button>
+
+
+            <div
+                id="adminMessage"
+                class="message"
+            ></div>
+
+
+        </form>
+
+
+        <a
+            href="index.html"
+            class="back-link"
+        >
+
+            ← กลับหน้าสำหรับนักศึกษา
+
+        </a>
+
+
+        <div class="footer">
+
+            Student Card System
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script
+    src="js/config.js"
+></script>
+
+
+<script
+    src="js/admin-login.js"
+></script>
+
+
+</body>
+
+</html>
