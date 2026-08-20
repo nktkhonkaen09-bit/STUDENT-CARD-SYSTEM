@@ -1,3 +1,28 @@
+/* =========================================
+   STUDENT SERVICE SYSTEM
+   DASHBOARD THEME
+   White 80% / Blue #0a1383 20%
+   ========================================= */
+
+:root {
+
+    --primary: #0a1383;
+    --primary-dark: #070d62;
+    --primary-light: #eef0ff;
+
+    --white: #ffffff;
+
+    --text: #111827;
+    --gray: #6b7280;
+    --border: #dfe2f0;
+
+}
+
+
+/* =========================================
+   RESET
+   ========================================= */
+
 * {
     box-sizing: border-box;
 }
@@ -7,51 +32,59 @@ html,
 body {
 
     margin: 0;
+
     padding: 0;
 
     min-height: 100%;
-
-    font-family:
-        Arial,
-        "Noto Sans Thai",
-        sans-serif;
 
 }
 
 
 body {
 
-    background:
-        #fff9df;
+    font-family:
+        Arial,
+        "Noto Sans Thai",
+        "Tahoma",
+        sans-serif;
 
     color:
-        #555;
+        var(--text);
+
+    background:
+        #ffffff;
 
 }
 
 
-.app {
+/* =========================================
+   DASHBOARD PAGE
+   ========================================= */
 
-    width: 100%;
-
-    max-width: 480px;
+.dashboard-page {
 
     min-height: 100vh;
 
-    margin: 0 auto;
-
     background:
-        #fff9df;
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #ffffff 80%,
+            var(--primary-light) 100%
+        );
 
 }
 
 
-.app-header {
+/* =========================================
+   HEADER
+   ========================================= */
 
-    height: 78px;
+.dashboard-header {
 
-    padding:
-        10px 16px;
+    width: 100%;
+
+    min-height: 75px;
 
     display: flex;
 
@@ -59,120 +92,58 @@ body {
 
     justify-content: space-between;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ffc329 0%,
-            #efa000 100%
-        );
-
-    color:
-        white;
-
-}
-
-
-.student-header {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 11px;
-
-}
-
-
-.student-avatar {
-
-    width: 48px;
-    height: 48px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,.95);
-
-    color:
-        #e9a000;
-
-    font-size: 26px;
-
-}
-
-
-.student-id {
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-}
-
-
-.student-name {
-
-    margin-top: 3px;
-
-    font-size: 13px;
-
-}
-
-
-.header-logout {
-
-    width: 44px;
-    height: 44px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,.18);
-
-    color:
-        white;
-
-    font-size: 28px;
-
-    cursor: pointer;
-
-}
-
-
-.header-logout:hover {
-
-    background:
-        rgba(255,255,255,.28);
-
-}
-
-
-.menu-title {
-
-    margin:
-        8px 8px 22px;
-
     padding:
-        8px;
+        12px 25px;
 
-    text-align:
+    background:
+        var(--white);
+
+    border-bottom:
+        4px solid var(--primary);
+
+    box-shadow:
+        0 3px 12px
+        rgba(10, 19, 131, 0.08);
+
+}
+
+
+/* =========================================
+   HEADER LEFT
+   ========================================= */
+
+.header-left {
+
+    display:
+        flex;
+
+    align-items:
         center;
 
-    border-radius:
-        6px;
+    gap:
+        12px;
 
-    background:
-        #ffc329;
+}
+
+
+.header-logo {
+
+    width:
+        48px;
+
+    height:
+        48px;
+
+    object-fit:
+        contain;
+
+}
+
+
+.header-system-name {
 
     color:
-        white;
+        var(--primary);
 
     font-size:
         18px;
@@ -183,7 +154,132 @@ body {
 }
 
 
-.menu-grid {
+.header-system-subtitle {
+
+    margin-top:
+        2px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        11px;
+
+}
+
+
+/* =========================================
+   STUDENT INFO
+   ========================================= */
+
+.header-student {
+
+    text-align:
+        right;
+
+}
+
+
+.header-student-id {
+
+    color:
+        var(--primary);
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+}
+
+
+.header-student-name {
+
+    margin-top:
+        3px;
+
+    color:
+        var(--text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+
+}
+
+
+/* =========================================
+   MAIN
+   ========================================= */
+
+.dashboard-main {
+
+    width:
+        100%;
+
+    max-width:
+        1000px;
+
+    margin:
+        0 auto;
+
+    padding:
+        30px 20px 40px;
+
+}
+
+
+/* =========================================
+   WELCOME
+   ========================================= */
+
+.welcome-section {
+
+    margin-bottom:
+        25px;
+
+}
+
+
+.welcome-title {
+
+    margin:
+        0;
+
+    color:
+        var(--primary);
+
+    font-size:
+        26px;
+
+    font-weight:
+        700;
+
+}
+
+
+.welcome-subtitle {
+
+    margin:
+        7px 0 0;
+
+    color:
+        var(--gray);
+
+    font-size:
+        14px;
+
+}
+
+
+/* =========================================
+   MENU GRID
+   ========================================= */
+
+.dashboard-menu {
 
     display:
         grid;
@@ -192,27 +288,22 @@ body {
         repeat(2, 1fr);
 
     gap:
-        10px;
-
-    padding:
-        0 18px;
+        18px;
 
 }
 
+
+/* =========================================
+   MENU CARD
+   ========================================= */
 
 .menu-card {
 
     min-height:
         150px;
 
-    border:
-        none;
-
-    border-radius:
-        15px;
-
-    background:
-        transparent;
+    padding:
+        24px;
 
     display:
         flex;
@@ -226,12 +317,32 @@ body {
     justify-content:
         center;
 
+    text-align:
+        center;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-top:
+        5px solid var(--primary);
+
+    border-radius:
+        16px;
+
+    box-shadow:
+        0 7px 22px
+        rgba(10, 19, 131, 0.08);
+
     cursor:
         pointer;
 
     transition:
-        background .2s,
-        transform .15s;
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 
 }
 
@@ -239,7 +350,14 @@ body {
 .menu-card:hover {
 
     background:
-        rgba(245,169,0,.10);
+        #fafbff;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(10, 19, 131, 0.14);
 
 }
 
@@ -247,18 +365,25 @@ body {
 .menu-card:active {
 
     transform:
-        scale(.96);
+        scale(0.98);
 
 }
 
 
+/* =========================================
+   MENU ICON
+   ========================================= */
+
 .menu-icon {
 
     width:
-        72px;
+        58px;
 
     height:
-        72px;
+        58px;
+
+    margin-bottom:
+        12px;
 
     display:
         flex;
@@ -269,58 +394,225 @@ body {
     justify-content:
         center;
 
-    margin-bottom:
-        11px;
+    border-radius:
+        50%;
 
-    font-size:
-        48px;
-
-}
-
-
-.menu-label {
+    background:
+        var(--primary-light);
 
     color:
-        #e5a000;
+        var(--primary);
 
     font-size:
-        15px;
-
-    font-weight:
-        600;
+        28px;
 
 }
 
 
-.app-footer {
+/* =========================================
+   MENU TITLE
+   ========================================= */
+
+.menu-title {
+
+    color:
+        var(--primary);
+
+    font-size:
+        17px;
+
+    font-weight:
+        700;
+
+}
+
+
+.menu-description {
+
+    margin-top:
+        5px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =========================================
+   LOGOUT
+   ========================================= */
+
+.logout-area {
+
+    margin-top:
+        28px;
+
+    text-align:
+        center;
+
+}
+
+
+#logoutButton {
+
+    min-width:
+        150px;
+
+    height:
+        45px;
 
     padding:
-        30px 10px 20px;
+        0 22px;
+
+    border:
+        1px solid var(--primary);
+
+    border-radius:
+        10px;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--primary);
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+
+}
+
+
+#logoutButton:hover {
+
+    background:
+        var(--primary);
+
+    color:
+        #ffffff;
+
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.dashboard-footer {
+
+    padding:
+        20px;
 
     text-align:
         center;
 
     color:
-        #c7aa60;
+        var(--gray);
 
     font-size:
-        10px;
-
-    letter-spacing:
-        .8px;
+        11px;
 
 }
 
 
-@media (max-width: 380px) {
+/* =========================================
+   MOBILE
+   ========================================= */
 
-    .menu-grid {
+@media (max-width: 600px) {
+
+    .dashboard-header {
+
+        min-height:
+            68px;
 
         padding:
-            0 10px;
+            10px 14px;
+
+    }
+
+
+    .header-logo {
+
+        width:
+            40px;
+
+        height:
+            40px;
+
+    }
+
+
+    .header-system-name {
+
+        font-size:
+            15px;
+
+    }
+
+
+    .header-system-subtitle {
+
+        font-size:
+            9px;
+
+    }
+
+
+    .header-student-id {
+
+        font-size:
+            11px;
+
+    }
+
+
+    .header-student-name {
+
+        font-size:
+            12px;
+
+    }
+
+
+    .dashboard-main {
+
+        padding:
+            22px 12px 30px;
+
+    }
+
+
+    .welcome-title {
+
+        font-size:
+            22px;
+
+    }
+
+
+    .dashboard-menu {
+
+        grid-template-columns:
+            1fr;
 
         gap:
-            5px;
+            14px;
 
     }
 
@@ -328,7 +620,32 @@ body {
     .menu-card {
 
         min-height:
-            135px;
+            125px;
+
+        padding:
+            20px;
+
+    }
+
+
+    .menu-icon {
+
+        width:
+            52px;
+
+        height:
+            52px;
+
+        font-size:
+            24px;
+
+    }
+
+
+    .menu-title {
+
+        font-size:
+            16px;
 
     }
 
