@@ -39,9 +39,9 @@ function loadStudent() {
     );
 
 
-    /*
-     * ถ้าไม่มีข้อมูล
-     */
+    /* ---------------------------------------------
+       ตรวจสอบว่ามีข้อมูล Login หรือไม่
+       --------------------------------------------- */
 
     if (!data) {
 
@@ -83,7 +83,7 @@ function loadStudent() {
 
 
     console.log(
-        "STUDENT:",
+        "STUDENT OBJECT:",
         student
     );
 
@@ -106,6 +106,9 @@ function displayStudent(
 
     /* =========================================
        1. รหัสนักศึกษา
+
+       ใช้ student_id
+       ซึ่งมาจาก Students
        ========================================= */
 
     setText(
@@ -116,6 +119,8 @@ function displayStudent(
 
     /* =========================================
        2. ชื่อ-สกุล
+
+       ใช้ข้อมูลจาก Students
        ========================================= */
 
     const thaiName = [
@@ -139,6 +144,8 @@ function displayStudent(
 
     /* =========================================
        3. สาขาวิชา
+
+       ใช้ department จาก Students
        ========================================= */
 
     setText(
@@ -149,16 +156,45 @@ function displayStudent(
 
     /* =========================================
        4. สถานะ
+
+       สำคัญ:
+       ใช้ฟิลด์ status จาก Students
+       โดยตรง
        ========================================= */
+
+    let studentStatus = "-";
+
+
+    if (
+        student.status !== undefined &&
+        student.status !== null
+    ) {
+
+        studentStatus =
+            String(
+                student.status
+            ).trim();
+
+    }
+
+
+    if (
+        studentStatus === ""
+    ) {
+
+        studentStatus = "-";
+
+    }
+
 
     setText(
         "studentStatus",
-        student.status
+        studentStatus
     );
 
 
     /* =========================================
-       วันออกบัตร
+       5. วันออกบัตร
        ========================================= */
 
     setText(
@@ -168,7 +204,7 @@ function displayStudent(
 
 
     /* =========================================
-       วันหมดอายุ
+       6. วันหมดอายุ
        ========================================= */
 
     setText(
@@ -178,7 +214,7 @@ function displayStudent(
 
 
     /* =========================================
-       รูปนักศึกษา
+       7. รูปนักศึกษา
        ========================================= */
 
     loadStudentPhoto(
@@ -188,7 +224,7 @@ function displayStudent(
 
 
     /* =========================================
-       QR CODE
+       8. QR CODE
        ========================================= */
 
     createQRCode(
@@ -197,7 +233,7 @@ function displayStudent(
 
 
     /* =========================================
-       BARCODE
+       9. BARCODE
        ========================================= */
 
     createBarcode(
@@ -235,15 +271,18 @@ function setText(
 
 
     element.textContent =
-        value ||
-        "-";
+        value || "-";
 
 }
 
 
 /* =====================================================
    LOAD STUDENT PHOTO
-   รองรับ PNG และ JPG
+
+   รองรับ:
+   PNG
+   JPG
+   JPEG
    ===================================================== */
 
 function loadStudentPhoto(
@@ -265,7 +304,7 @@ function loadStudentPhoto(
 
 
     /*
-     * ถ้า API มี photo_url
+     * ถ้า API ส่ง photo_url มา
      * ให้ใช้ก่อน
      */
 
@@ -289,11 +328,8 @@ function loadStudentPhoto(
     const baseURL =
 
         "https://raw.githubusercontent.com/" +
-
         "nktkhonkaen09-bit/" +
-
         "STUDENT-CARD-SYSTEM/" +
-
         "main/assets/students/";
 
 
@@ -316,7 +352,7 @@ function loadStudentPhoto(
 
 
     /*
-     * เริ่มจาก PNG
+     * เริ่ม PNG
      */
 
     image.src =
@@ -325,7 +361,7 @@ function loadStudentPhoto(
 
     /*
      * ถ้า PNG ไม่พบ
-     * ลอง JPG
+     * เปลี่ยนเป็น JPG
      */
 
     image.onerror =
@@ -340,7 +376,7 @@ function loadStudentPhoto(
 
             /*
              * ถ้า JPG ไม่พบ
-             * ลอง JPEG
+             * เปลี่ยนเป็น JPEG
              */
 
             image.onerror =
@@ -354,7 +390,7 @@ function loadStudentPhoto(
 
 
                     /*
-                     * ถ้าไม่มีทั้งหมด
+                     * ถ้าไม่พบทั้งหมด
                      */
 
                     image.onerror =
@@ -364,7 +400,7 @@ function loadStudentPhoto(
                                 null;
 
                             console.warn(
-                                "ไม่พบรูป:",
+                                "ไม่พบรูปนักศึกษา:",
                                 studentId
                             );
 
@@ -406,27 +442,27 @@ function createQRCode(
         !studentId
     ) {
 
+        console.warn(
+            "ไม่สามารถสร้าง QR Code"
+        );
+
         return;
 
     }
 
 
     /*
-     * QR สีดำ
+     * QR Code สีดำ
+     * ขนาดจริง 600 x 600
      */
 
     const qrURL =
 
         "https://api.qrserver.com/v1/create-qr-code/" +
-
         "?size=600x600" +
-
         "&color=000000" +
-
         "&bgcolor=ffffff" +
-
         "&data=" +
-
         encodeURIComponent(
             String(studentId)
         );
@@ -519,7 +555,7 @@ function closeQR() {
 
 
 /* =====================================================
-   BARCODE
+   CREATE BARCODE
    ===================================================== */
 
 function createBarcode(
@@ -543,7 +579,7 @@ function createBarcode(
 
 
     /*
-     * ตรวจว่า JsBarcode โหลดแล้ว
+     * ตรวจสอบ JsBarcode
      */
 
     if (
@@ -713,18 +749,6 @@ function downloadCard() {
 
         }
     );
-
-}
-
-
-/* =====================================================
-   BACK TO DASHBOARD
-   ===================================================== */
-
-function goBack() {
-
-    window.location.href =
-        "dashboard.html";
 
 }
 
