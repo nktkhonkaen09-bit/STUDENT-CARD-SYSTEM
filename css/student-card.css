@@ -14,10 +14,15 @@
 
 html,
 body {
+
     margin: 0;
+
     padding: 0;
+
     width: 100%;
+
     min-height: 100%;
+
 }
 
 
@@ -46,7 +51,7 @@ body {
 
 
 /* =========================================================
-   ปุ่มด้านบน
+   ปุ่มควบคุม
    ========================================================= */
 
 .card-controls {
@@ -111,8 +116,7 @@ body {
 
 
 /* =========================================================
-   ตัวบัตรนักศึกษา
-   ขนาด Background จริง 1000 x 632 px
+   บัตรนักศึกษา
    ========================================================= */
 
 .student-card {
@@ -175,10 +179,6 @@ body {
 
     z-index: 5;
 
-    /*
-     * ตำแหน่งรูป
-     */
-
     left: 5.5%;
 
     top: 24.8%;
@@ -191,10 +191,6 @@ body {
 
 }
 
-
-/* =========================================================
-   รูปจริง
-   ========================================================= */
 
 .student-photo {
 
@@ -222,19 +218,16 @@ body {
     z-index: 6;
 
     /*
-     * จุดสำคัญ:
-     * เลื่อนลงจากเดิม
-     * เพื่อไม่ให้ทับคำว่า
-     * STUDENT ID CARD
+     * เลื่อนลงมาอีก
      */
 
     left: 36.5%;
 
-    top: 34%;
+    top: 38%;
 
     width: 58%;
 
-    height: 43%;
+    height: 40%;
 
     color: #111111;
 
@@ -394,8 +387,7 @@ body {
 
 
 /* =========================================================
-   QR CODE
-   แยกออกมาอยู่นอกบัตร
+   QR AREA
    ========================================================= */
 
 .qr-area {
@@ -404,9 +396,9 @@ body {
 
     max-width: 1000px;
 
-    margin-top: 25px;
+    margin-top: 30px;
 
-    padding: 20px;
+    padding: 25px 20px 30px;
 
     background: white;
 
@@ -428,39 +420,77 @@ body {
 
 
 /* =========================================================
-   ตัว QR
+   พื้นที่กด QR
+   ========================================================= */
+
+.qr-click-area {
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 5px;
+
+    background: white;
+
+}
+
+
+/* =========================================================
+   QR CODE
+   ใหญ่ขึ้น 2 เท่า
+   สีดำ
    ========================================================= */
 
 .student-qr {
 
     display: block;
 
-    width: 150px;
+    width: 300px;
 
-    height: 150px;
+    height: 300px;
 
-    background: white;
+    background: #ffffff;
 
-    padding: 5px;
+    padding: 0;
 
-    border-radius: 5px;
+    border-radius: 0;
+
+    cursor: pointer;
 
 }
 
 
 /* =========================================================
-   ข้อความ QR
+   ข้อความใต้ QR
    ========================================================= */
 
 .qr-label {
 
-    margin-top: 10px;
+    margin-top: 12px;
 
-    font-size: 18px;
+    font-size: 20px;
 
     font-weight: bold;
 
-    color: #333333;
+    color: #000000;
+
+    text-align: center;
+
+}
+
+
+.qr-hint {
+
+    margin-top: 5px;
+
+    font-size: 14px;
+
+    color: #777777;
 
     text-align: center;
 
@@ -468,7 +498,186 @@ body {
 
 
 /* =========================================================
-   ไม่มีรูปนักศึกษา
+   QR FULLSCREEN
+   ========================================================= */
+
+.qr-fullscreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+
+    height: 100vh;
+
+    background: rgba(
+        0,
+        0,
+        0,
+        0.96
+    );
+
+    z-index: 99999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+/* เปิด Fullscreen */
+
+.qr-fullscreen.show {
+
+    display: flex;
+
+}
+
+
+/* =========================================================
+   กล่อง QR เต็มหน้าจอ
+   ========================================================= */
+
+.qr-fullscreen-content {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 100%;
+
+    height: 100%;
+
+    padding: 30px;
+
+}
+
+
+/* =========================================================
+   QR ขนาดใหญ่
+   ========================================================= */
+
+.student-qr-fullscreen {
+
+    display: block;
+
+    width: min(
+        80vw,
+        600px
+    );
+
+    height: min(
+        80vw,
+        600px
+    );
+
+    max-width: 80vh;
+
+    max-height: 80vh;
+
+    background: #ffffff;
+
+    image-rendering: pixelated;
+
+}
+
+
+/* =========================================================
+   ข้อความ QR เต็มหน้าจอ
+   ========================================================= */
+
+.qr-fullscreen-label {
+
+    margin-top: 20px;
+
+    color: white;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+}
+
+
+.qr-fullscreen-id {
+
+    margin-top: 8px;
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================================================
+   ปุ่มปิด
+   ========================================================= */
+
+.qr-close {
+
+    position: absolute;
+
+    top: 20px;
+
+    right: 25px;
+
+    width: 50px;
+
+    height: 50px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.15
+    );
+
+    color: white;
+
+    font-size: 36px;
+
+    line-height: 45px;
+
+    cursor: pointer;
+
+    z-index: 100000;
+
+}
+
+
+.qr-close:hover {
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.3
+    );
+
+}
+
+
+/* =========================================================
+   ไม่มีรูป
    ========================================================= */
 
 .student-photo-box.no-photo {
@@ -563,16 +772,20 @@ body {
 
     .student-qr {
 
-        width: 15vw;
+        width: 300px;
 
-        height: 15vw;
+        height: 300px;
+
+        max-width: 80vw;
+
+        max-height: 80vw;
 
     }
 
 
     .qr-label {
 
-        font-size: 2vw;
+        font-size: 18px;
 
     }
 
@@ -619,9 +832,63 @@ body {
 
     .qr-area {
 
-        margin-top: 15px;
+        margin-top: 20px;
 
-        padding: 15px;
+        padding: 20px 10px 25px;
+
+    }
+
+
+    .student-qr {
+
+        width: 300px;
+
+        height: 300px;
+
+        max-width: 85vw;
+
+        max-height: 85vw;
+
+    }
+
+
+    .qr-label {
+
+        font-size: 18px;
+
+    }
+
+
+    .qr-hint {
+
+        font-size: 13px;
+
+    }
+
+
+    .student-qr-fullscreen {
+
+        width: 85vw;
+
+        height: 85vw;
+
+        max-width: 85vh;
+
+        max-height: 85vh;
+
+    }
+
+
+    .qr-fullscreen-label {
+
+        font-size: 20px;
+
+    }
+
+
+    .qr-fullscreen-id {
+
+        font-size: 18px;
 
     }
 
@@ -678,10 +945,6 @@ body {
 
     }
 
-
-    /*
-     * QR ไม่พิมพ์ติดไปกับบัตร
-     */
 
     .qr-area {
 
