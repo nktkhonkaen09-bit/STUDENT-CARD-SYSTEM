@@ -3,1457 +3,1470 @@
 
 <head>
 
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-<meta
-  name="theme-color"
-  content="#0a1383"
->
-
-<title>
-  Admin Dashboard | Student Card System
-</title>
-
-
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-
-body {
-
-  margin: 0;
-
-  font-family:
-    Arial,
-    "Noto Sans Thai",
-    sans-serif;
-
-  background:
-    #f5f7fb;
-
-  color:
-    #111827;
-
-}
-
-
-/* ==================================================
-   HEADER
-   ================================================== */
-
-.header {
-
-  height:
-    68px;
-
-  background:
-    #0a1383;
-
-  color:
-    #fff;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  padding:
-    0 25px;
-
-  box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.12);
-
-}
-
-
-.header-title {
-
-  font-size:
-    20px;
-
-  font-weight:
-    bold;
-
-}
-
-
-.header-user {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    12px;
-
-  font-size:
-    13px;
-
-}
-
-
-.logout-button {
-
-  border:
-    1px solid
-    rgba(255,255,255,.4);
-
-  background:
-    transparent;
-
-  color:
-    white;
-
-  border-radius:
-    7px;
-
-  padding:
-    8px 13px;
-
-  cursor:
-    pointer;
-
-}
-
-
-.logout-button:hover {
-
-  background:
-    rgba(255,255,255,.12);
-
-}
-
-
-/* ==================================================
-   LAYOUT
-   ================================================== */
-
-.layout {
-
-  display:
-    flex;
-
-  min-height:
-    calc(100vh - 68px);
-
-}
-
-
-/* ==================================================
-   SIDEBAR
-   ================================================== */
-
-.sidebar {
-
-  width:
-    240px;
-
-  background:
-    white;
-
-  border-right:
-    1px solid #e5e7eb;
-
-  padding:
-    18px 12px;
-
-}
-
-
-.menu-button {
-
-  width:
-    100%;
-
-  border:
-    none;
-
-  background:
-    transparent;
-
-  text-align:
-    left;
-
-  padding:
-    12px 14px;
-
-  margin-bottom:
-    5px;
-
-  border-radius:
-    8px;
-
-  color:
-    #374151;
-
-  cursor:
-    pointer;
-
-  font-size:
-    14px;
-
-}
-
-
-.menu-button:hover {
-
-  background:
-    #eef0ff;
-
-  color:
-    #0a1383;
-
-}
-
-
-.menu-button.active {
-
-  background:
-    #0a1383;
-
-  color:
-    white;
-
-}
-
-
-/* ==================================================
-   CONTENT
-   ================================================== */
-
-.content {
-
-  flex:
-    1;
-
-  padding:
-    25px;
-
-  min-width:
-    0;
-
-}
-
-
-.page {
-
-  display:
-    none;
-
-}
-
-
-.page.active {
-
-  display:
-    block;
-
-}
-
-
-.page-title {
-
-  margin:
-    0 0 5px;
-
-  color:
-    #0a1383;
-
-  font-size:
-    24px;
-
-}
-
-
-.page-subtitle {
-
-  margin:
-    0 0 22px;
-
-  color:
-    #6b7280;
-
-  font-size:
-    13px;
-
-}
-
-
-/* ==================================================
-   CARD
-   ================================================== */
-
-.card {
-
-  background:
-    white;
-
-  border:
-    1px solid #e5e7eb;
-
-  border-radius:
-    12px;
-
-  padding:
-    20px;
-
-  margin-bottom:
-    20px;
-
-  box-shadow:
-    0 4px 14px
-    rgba(0,0,0,.04);
-
-}
-
-
-/* ==================================================
-   TOOLBAR
-   ================================================== */
-
-.toolbar {
-
-  display:
-    flex;
-
-  gap:
-    10px;
-
-  margin-bottom:
-    15px;
-
-  flex-wrap:
-    wrap;
-
-}
-
-
-.search-input {
-
-  flex:
-    1;
-
-  min-width:
-    220px;
-
-  height:
-    43px;
-
-  border:
-    1px solid #d1d5db;
-
-  border-radius:
-    8px;
-
-  padding:
-    0 12px;
-
-  font-size:
-    14px;
-
-  outline:
-    none;
-
-}
-
-
-.search-input:focus {
-
-  border-color:
-    #0a1383;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(10,19,131,.08);
-
-}
-
-
-.primary-button {
-
-  min-height:
-    43px;
-
-  border:
-    none;
-
-  border-radius:
-    8px;
-
-  background:
-    #0a1383;
-
-  color:
-    white;
-
-  padding:
-    0 17px;
-
-  cursor:
-    pointer;
-
-  font-weight:
-    600;
-
-}
-
-
-.primary-button:hover {
-
-  background:
-    #080f6d;
-
-}
-
-
-.primary-button:disabled {
-
-  opacity:
-    .6;
-
-  cursor:
-    not-allowed;
-
-}
-
-
-.secondary-button {
-
-  min-height:
-    40px;
-
-  border:
-    1px solid #d1d5db;
-
-  border-radius:
-    7px;
-
-  background:
-    white;
-
-  color:
-    #374151;
-
-  padding:
-    0 13px;
-
-  cursor:
-    pointer;
-
-}
-
-
-/* ==================================================
-   TABLE
-   ================================================== */
-
-.table-wrap {
-
-  overflow-x:
-    auto;
-
-}
-
-
-table {
-
-  width:
-    100%;
-
-  border-collapse:
-    collapse;
-
-  min-width:
-    850px;
-
-}
-
-
-th {
-
-  background:
-    #f3f4f6;
-
-  color:
-    #374151;
-
-  font-size:
-    13px;
-
-  text-align:
-    left;
-
-  padding:
-    12px;
-
-  border-bottom:
-    1px solid #e5e7eb;
-
-}
-
-
-td {
-
-  padding:
-    11px 12px;
-
-  border-bottom:
-    1px solid #edf0f4;
-
-  font-size:
-    13px;
-
-  vertical-align:
-    middle;
-
-}
-
-
-tr:hover td {
-
-  background:
-    #fafbff;
-
-}
-
-
-/* ==================================================
-   STATUS
-   ================================================== */
-
-.badge {
-
-  display:
-    inline-block;
-
-  padding:
-    5px 9px;
-
-  border-radius:
-    20px;
-
-  font-size:
-    11px;
-
-  font-weight:
-    bold;
-
-}
-
-
-.badge-pending {
-
-  background:
-    #fff7ed;
-
-  color:
-    #c2410c;
-
-}
-
-
-.badge-approved {
-
-  background:
-    #eff6ff;
-
-  color:
-    #1d4ed8;
-
-}
-
-
-.badge-rejected {
-
-  background:
-    #fef2f2;
-
-  color:
-    #dc2626;
-
-}
-
-
-.badge-reset {
-
-  background:
-    #f0fdf4;
-
-  color:
-    #15803d;
-
-}
-
-
-/* ==================================================
-   ACTION
-   ================================================== */
-
-.action-button {
-
-  border:
-    none;
-
-  border-radius:
-    6px;
-
-  padding:
-    7px 10px;
-
-  margin:
-    2px;
-
-  cursor:
-    pointer;
-
-  font-size:
-    12px;
-
-  font-weight:
-    600;
-
-}
-
-
-.approve-button {
-
-  background:
-    #dcfce7;
-
-  color:
-    #166534;
-
-}
-
-
-.reject-button {
-
-  background:
-    #fee2e2;
-
-  color:
-    #991b1b;
-
-}
-
-
-.reset-button {
-
-  background:
-    #dbeafe;
-
-  color:
-    #1e40af;
-
-}
-
-
-.edit-button {
-
-  background:
-    #eef0ff;
-
-  color:
-    #0a1383;
-
-}
-
-
-/* ==================================================
-   FORM
-   ================================================== */
-
-.form-grid {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(
-      2,
-      minmax(0,1fr)
-    );
-
-  gap:
-    15px;
-
-}
-
-
-.form-group {
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    6px;
-
-}
-
-
-.form-group label {
-
-  font-size:
-    13px;
-
-  font-weight:
-    600;
-
-}
-
-
-.form-group input {
-
-  height:
-    42px;
-
-  border:
-    1px solid #d1d5db;
-
-  border-radius:
-    7px;
-
-  padding:
-    0 10px;
-
-  outline:
-    none;
-
-}
-
-
-.form-group input:focus {
-
-  border-color:
-    #0a1383;
-
-}
-
-
-.form-group input:disabled {
-
-  background:
-    #f3f4f6;
-
-  color:
-    #6b7280;
-
-}
-
-
-.form-actions {
-
-  margin-top:
-    18px;
-
-  display:
-    flex;
-
-  gap:
-    10px;
-
-}
-
-
-/* ==================================================
-   DATE INPUT
-   ================================================== */
-
-.date-input {
-
-  font-family:
-    Arial,
-    "Noto Sans Thai",
-    sans-serif;
-
-}
-
-
-/* ==================================================
-   MESSAGE
-   ================================================== */
-
-.message {
-
-  padding:
-    11px 14px;
-
-  border-radius:
-    8px;
-
-  margin-bottom:
-    15px;
-
-  font-size:
-    13px;
-
-  display:
-    none;
-
-}
-
-
-.message.show {
-
-  display:
-    block;
-
-}
-
-
-.message.success {
-
-  background:
-    #ecfdf5;
-
-  color:
-    #166534;
-
-}
-
-
-.message.error {
-
-  background:
-    #fef2f2;
-
-  color:
-    #991b1b;
-
-}
-
-
-.message.info {
-
-  background:
-    #eff6ff;
-
-  color:
-    #1e40af;
-
-}
-
-
-/* ==================================================
-   MODAL
-   ================================================== */
-
-.modal {
-
-  display:
-    none;
-
-  position:
-    fixed;
-
-  inset:
-    0;
-
-  background:
-    rgba(0,0,0,.45);
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  padding:
-    20px;
-
-  z-index:
-    1000;
-
-}
-
-
-.modal.show {
-
-  display:
-    flex;
-
-}
-
-
-.modal-box {
-
-  width:
-    100%;
-
-  max-width:
-    500px;
-
-  background:
-    white;
-
-  border-radius:
-    12px;
-
-  padding:
-    24px;
-
-}
-
-
-.modal-title {
-
-  margin:
-    0 0 15px;
-
-  color:
-    #0a1383;
-
-}
-
-
-.modal-text {
-
-  font-size:
-    14px;
-
-  line-height:
-    1.7;
-
-  margin-bottom:
-    15px;
-
-}
-
-
-.modal-actions {
-
-  display:
-    flex;
-
-  justify-content:
-    flex-end;
-
-  gap:
-    8px;
-
-}
-
-
-/* ==================================================
-   RESPONSIVE
-   ================================================== */
-
-@media(max-width:800px) {
-
-  .sidebar {
-
-    width:
-      190px;
-
-  }
-
-
-  .content {
-
-    padding:
-      15px;
-
-  }
-
-
-  .form-grid {
-
-    grid-template-columns:
-      1fr;
-
-  }
-
-}
-
-
-@media(max-width:600px) {
-
-  .layout {
-
-    flex-direction:
-      column;
-
-  }
-
-
-  .sidebar {
-
-    width:
-      100%;
-
-    display:
-      flex;
-
-    overflow-x:
-      auto;
-
-    border-right:
-      none;
-
-    border-bottom:
-      1px solid #e5e7eb;
-
-  }
-
-
-  .menu-button {
-
-    min-width:
-      150px;
-
-  }
-
-
-  .header {
-
-    padding:
-      0 12px;
-
-  }
-
-
-  .header-title {
-
-    font-size:
-      16px;
-
-  }
-
-}
-
-</style>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Admin Dashboard | Student Card System
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="Css/admin-dashboard.css"
+  >
 
 </head>
 
 
 <body>
 
+  <!-- =========================================
+       SIDEBAR
+  ========================================== -->
 
-<!-- ==================================================
-     HEADER
-     ================================================== -->
+  <aside class="sidebar">
 
-<header class="header">
+    <div class="brand">
 
-
-  <div class="header-title">
-
-    🛡️ Student Card System
-
-  </div>
-
-
-  <div class="header-user">
-
-    <span id="adminUsername">
-      Admin
-    </span>
-
-
-    <button
-      class="logout-button"
-      type="button"
-      onclick="adminLogout()"
-    >
-
-      ออกจากระบบ
-
-    </button>
-
-  </div>
-
-
-</header>
-
-
-
-<!-- ==================================================
-     LAYOUT
-     ================================================== -->
-
-<div class="layout">
-
-
-<!-- ==================================================
-     SIDEBAR
-     ================================================== -->
-
-<aside class="sidebar">
-
-
-  <button
-    class="menu-button active"
-    data-page="studentsPage"
-    type="button"
-    onclick="showPage('studentsPage', this)"
-  >
-
-    👨‍🎓 ข้อมูลนักศึกษา
-
-  </button>
-
-
-  <button
-    class="menu-button"
-    data-page="resetPage"
-    type="button"
-    onclick="showPage('resetPage', this)"
-  >
-
-    🔑 คำร้องลืมรหัสผ่าน
-
-  </button>
-
-
-</aside>
-
-
-
-<!-- ==================================================
-     CONTENT
-     ================================================== -->
-
-<main class="content">
-
-
-  <div
-    id="globalMessage"
-    class="message"
-  ></div>
-
-
-
-  <!-- ==================================================
-       STUDENTS PAGE
-       ================================================== -->
-
-  <section
-    id="studentsPage"
-    class="page active"
-  >
-
-
-    <h1 class="page-title">
-
-      ข้อมูลนักศึกษา
-
-    </h1>
-
-
-    <p class="page-subtitle">
-
-      ค้นหาและแก้ไขข้อมูลนักศึกษา
-
-    </p>
-
-
-    <div class="card">
-
-
-      <div class="toolbar">
-
-
-        <input
-          id="studentSearch"
-          class="search-input"
-          type="text"
-          placeholder="ค้นหารหัส ชื่อ นามสกุล ภาควิชา..."
-          autocomplete="off"
-        >
-
-
-        <button
-          id="searchButton"
-          class="primary-button"
-          type="button"
-          onclick="loadStudents()"
-        >
-
-          🔎 ค้นหา
-
-        </button>
-
-
-        <button
-          class="secondary-button"
-          type="button"
-          onclick="loadStudents()"
-        >
-
-          🔄 โหลดใหม่
-
-        </button>
-
-
+      <div class="brand-icon">
+        🎓
       </div>
 
+      <div>
+        <strong>
+          Student Card
+        </strong>
 
-      <div class="table-wrap">
-
-
-        <table>
-
-
-          <thead>
-
-            <tr>
-
-              <th>
-                รหัสนักศึกษา
-              </th>
-
-              <th>
-                ชื่อ
-              </th>
-
-              <th>
-                นามสกุล
-              </th>
-
-              <th>
-                ภาควิชา
-              </th>
-
-              <th>
-                สถานะ
-              </th>
-
-              <th>
-                โทรศัพท์
-              </th>
-
-              <th>
-                จัดการ
-              </th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody
-            id="studentsTableBody"
-          >
-
-            <tr>
-
-              <td colspan="7">
-
-                กำลังโหลดข้อมูล...
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-
-        </table>
-
-
+        <span>
+          Administration
+        </span>
       </div>
-
 
     </div>
 
 
-  </section>
+    <nav class="nav">
+
+      <button
+        class="nav-item active"
+        data-section="overview"
+      >
+        📊
+        <span>
+          ภาพรวม
+        </span>
+      </button>
 
 
-
-  <!-- ==================================================
-       RESET REQUEST PAGE
-       ================================================== -->
-
-  <section
-    id="resetPage"
-    class="page"
-  >
-
-
-    <h1 class="page-title">
-
-      คำร้องลืมรหัสผ่าน
-
-    </h1>
+      <button
+        class="nav-item"
+        data-section="students"
+      >
+        👨‍🎓
+        <span>
+          นักศึกษา
+        </span>
+      </button>
 
 
-    <p class="page-subtitle">
-
-      ตรวจสอบ อนุมัติ ปฏิเสธ และรีเซ็ตรหัสผ่านนักศึกษา
-
-    </p>
-
-
-    <div class="card">
-
-
-      <div class="toolbar">
+      <button
+        class="nav-item"
+        data-section="add-student"
+      >
+        ➕
+        <span>
+          เพิ่มนักศึกษา
+        </span>
+      </button>
 
 
-        <button
-          class="primary-button"
-          type="button"
-          onclick="loadResetRequests()"
-        >
-
-          🔄 โหลดคำร้อง
-
-        </button>
-
-
-      </div>
+      <button
+        class="nav-item"
+        data-section="staff"
+      >
+        👨‍💼
+        <span>
+          Staff
+        </span>
+      </button>
 
 
-      <div class="table-wrap">
+      <button
+        class="nav-item admin-only"
+        data-section="add-staff"
+      >
+        ➕
+        <span>
+          เพิ่ม Staff
+        </span>
+      </button>
 
 
-        <table>
+      <button
+        class="nav-item"
+        data-section="reset-requests"
+      >
+        🔑
+        <span>
+          คำร้องรหัสผ่าน
+        </span>
+      </button>
+
+    </nav>
 
 
-          <thead>
+    <div class="sidebar-bottom">
 
-            <tr>
-
-              <th>
-                เลขที่คำร้อง
-              </th>
-
-              <th>
-                รหัสนักศึกษา
-              </th>
-
-              <th>
-                รายละเอียด
-              </th>
-
-              <th>
-                สถานะ
-              </th>
-
-              <th>
-                วันที่ร้องขอ
-              </th>
-
-              <th>
-                ผู้ดำเนินการ
-              </th>
-
-              <th>
-                การดำเนินการ
-              </th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody
-            id="resetRequestsBody"
-          >
-
-            <tr>
-
-              <td colspan="7">
-
-                กำลังโหลดคำร้อง...
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-
-        </table>
-
-
-      </div>
-
+      <button
+        id="logoutBtn"
+        class="logout-btn"
+      >
+        🚪
+        ออกจากระบบ
+      </button>
 
     </div>
 
-
-  </section>
-
+  </aside>
 
 
-  <!-- ==================================================
-       EDIT STUDENT PAGE
-       ================================================== -->
+  <!-- =========================================
+       MAIN
+  ========================================== -->
 
-  <section
-    id="editStudentPage"
-    class="page"
-  >
+  <main class="main">
 
+    <!-- HEADER -->
 
-    <h1 class="page-title">
+    <header class="topbar">
 
-      แก้ไขข้อมูลนักศึกษา
+      <div>
 
-    </h1>
+        <h1 id="pageTitle">
+          ภาพรวม
+        </h1>
 
+        <p id="pageSubtitle">
+          ระบบจัดการ Student Card
+        </p>
 
-    <p class="page-subtitle">
-
-      แก้ไขข้อมูลแล้วกดบันทึก
-
-    </p>
-
-
-    <div class="card">
+      </div>
 
 
-      <input
-        type="hidden"
-        id="editStudentId"
+      <div class="admin-profile">
+
+        <div class="avatar">
+          👤
+        </div>
+
+        <div>
+
+          <strong id="adminName">
+            -
+          </strong>
+
+          <span id="adminRole">
+            -
+          </span>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- =====================================
+         CONTENT
+    ====================================== -->
+
+    <div class="content">
+
+
+      <!-- ===================================
+           OVERVIEW
+      ==================================== -->
+
+      <section
+        id="section-overview"
+        class="page-section active"
       >
 
+        <div class="section-heading">
 
-      <div class="form-grid">
+          <div>
 
+            <h2>
+              ภาพรวมระบบ
+            </h2>
 
-        <div class="form-group">
+            <p>
+              จัดการข้อมูลนักศึกษาและ Staff
+            </p>
 
-          <label>
-            รหัสนักศึกษา
-          </label>
-
-          <input
-            id="editStudentIdDisplay"
-            disabled
-          >
+          </div>
 
         </div>
 
 
+        <div class="stats-grid">
+
+          <div class="stat-card blue">
+
+            <div class="stat-icon">
+              👨‍🎓
+            </div>
+
+            <div>
+
+              <span>
+                นักศึกษาทั้งหมด
+              </span>
+
+              <strong id="totalStudents">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card green">
+
+            <div class="stat-icon">
+              👨‍💼
+            </div>
+
+            <div>
+
+              <span>
+                Staff / Admin
+              </span>
+
+              <strong id="totalStaff">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card orange">
+
+            <div class="stat-icon">
+              🔑
+            </div>
+
+            <div>
+
+              <span>
+                คำร้องรอดำเนินการ
+              </span>
+
+              <strong id="pendingRequests">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+          <div class="card-header">
+
+            <h3>
+              เมนูด่วน
+            </h3>
+
+          </div>
+
+
+          <div class="quick-actions">
+
+            <button
+              class="quick-btn"
+              data-section="add-student"
+            >
+              <span>
+                ➕
+              </span>
+
+              <strong>
+                เพิ่มนักศึกษา
+              </strong>
+
+              <small>
+                สร้างบัญชีนักศึกษาใหม่
+              </small>
+
+            </button>
+
+
+            <button
+              class="quick-btn admin-only"
+              data-section="add-staff"
+            >
+              <span>
+                👨‍💼
+              </span>
+
+              <strong>
+                เพิ่ม Staff
+              </strong>
+
+              <small>
+                สร้างบัญชีเจ้าหน้าที่
+              </small>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              data-section="students"
+            >
+              <span>
+                👨‍🎓
+              </span>
+
+              <strong>
+                ดูนักศึกษา
+              </strong>
+
+              <small>
+                ค้นหาและแก้ไขข้อมูล
+              </small>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================
+           STUDENTS
+      ==================================== -->
+
+      <section
+        id="section-students"
+        class="page-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              รายชื่อนักศึกษา
+            </h2>
+
+            <p>
+              ค้นหาและจัดการข้อมูลนักศึกษา
+            </p>
+
+          </div>
+
+
+          <button
+            class="primary-btn"
+            data-section="add-student"
+          >
+            ➕ เพิ่มนักศึกษา
+          </button>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+          <div class="toolbar">
+
+            <input
+              id="studentSearch"
+              type="search"
+              placeholder="ค้นหารหัส ชื่อ นามสกุล สาขา..."
+            >
+
+            <button
+              id="studentSearchBtn"
+              class="secondary-btn"
+            >
+              🔍 ค้นหา
+            </button>
+
+            <button
+              id="studentRefreshBtn"
+              class="secondary-btn"
+            >
+              🔄 รีเฟรช
+            </button>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    รหัสนักศึกษา
+                  </th>
+
+                  <th>
+                    ชื่อ
+                  </th>
+
+                  <th>
+                    สาขา
+                  </th>
+
+                  <th>
+                    เบอร์โทร
+                  </th>
+
+                  <th>
+                    สถานะ
+                  </th>
+
+                  <th>
+                    จัดการ
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="studentsTableBody">
+
+                <tr>
+
+                  <td
+                    colspan="6"
+                    class="empty"
+                  >
+                    กำลังโหลด...
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================
+           ADD STUDENT
+      ==================================== -->
+
+      <section
+        id="section-add-student"
+        class="page-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              เพิ่มนักศึกษา
+            </h2>
+
+            <p>
+              สร้างบัญชีนักศึกษาใหม่เข้าสู่ระบบ
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <form
+          id="addStudentForm"
+          class="dashboard-card form-card"
+        >
+
+          <div class="form-grid">
+
+
+            <div class="form-group">
+
+              <label>
+                รหัสนักศึกษา *
+              </label>
+
+              <input
+                id="add_student_id"
+                name="student_id"
+                required
+                autocomplete="off"
+                placeholder="เช่น STD0001"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                รหัสผ่าน *
+              </label>
+
+              <input
+                id="add_student_password"
+                name="password"
+                type="password"
+                required
+                minlength="4"
+                placeholder="อย่างน้อย 4 ตัวอักษร"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                คำนำหน้า
+              </label>
+
+              <select
+                id="add_prefix_th"
+                name="prefix_th"
+              >
+
+                <option value="">
+                  เลือกคำนำหน้า
+                </option>
+
+                <option value="นาย">
+                  นาย
+                </option>
+
+                <option value="นางสาว">
+                  นางสาว
+                </option>
+
+                <option value="นาง">
+                  นาง
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                ชื่อ
+              </label>
+
+              <input
+                id="add_firstname_th"
+                name="firstname_th"
+                placeholder="ชื่อภาษาไทย"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                นามสกุล
+              </label>
+
+              <input
+                id="add_lastname_th"
+                name="lastname_th"
+                placeholder="นามสกุลภาษาไทย"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                ชื่อภาษาอังกฤษ
+              </label>
+
+              <input
+                id="add_firstname_en"
+                name="firstname_en"
+                placeholder="Firstname"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                นามสกุลภาษาอังกฤษ
+              </label>
+
+              <input
+                id="add_lastname_en"
+                name="lastname_en"
+                placeholder="Lastname"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                สถานะ
+              </label>
+
+              <select
+                id="add_status"
+                name="status"
+              >
+
+                <option value="ACTIVE">
+                  ACTIVE
+                </option>
+
+                <option value="INACTIVE">
+                  INACTIVE
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                แผนก / สาขา
+              </label>
+
+              <input
+                id="add_department"
+                name="department"
+                placeholder="เช่น เทคโนโลยีสารสนเทศ"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                เบอร์โทร
+              </label>
+
+              <input
+                id="add_phone"
+                name="phone"
+                type="tel"
+                placeholder="08xxxxxxxx"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                วันที่ออกบัตร
+              </label>
+
+              <input
+                id="add_issue_date"
+                name="issue_date"
+                type="date"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                วันหมดอายุ
+              </label>
+
+              <input
+                id="add_expire_date"
+                name="expire_date"
+                type="date"
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label>
+                URL รูปนักศึกษา
+              </label>
+
+              <input
+                id="add_photo_url"
+                name="photo_url"
+                placeholder="เช่น assets/students/TEST001.png"
+              >
+
+              <small class="help">
+                ตัวอย่าง:
+                assets/students/TEST001.png
+              </small>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="secondary-btn"
+              id="clearStudentFormBtn"
+            >
+              ล้างข้อมูล
+            </button>
+
+            <button
+              type="submit"
+              class="primary-btn"
+            >
+              💾 บันทึกนักศึกษา
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      <!-- ===================================
+           STAFF
+      ==================================== -->
+
+      <section
+        id="section-staff"
+        class="page-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              Staff / Admin
+            </h2>
+
+            <p>
+              จัดการบัญชีเจ้าหน้าที่ในระบบ
+            </p>
+
+          </div>
+
+
+          <button
+            class="primary-btn admin-only"
+            data-section="add-staff"
+          >
+            ➕ เพิ่ม Staff
+          </button>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+          <div class="toolbar">
+
+            <input
+              id="staffSearch"
+              type="search"
+              placeholder="ค้นหา ID, username, ชื่อ..."
+            >
+
+            <button
+              id="staffRefreshBtn"
+              class="secondary-btn"
+            >
+              🔄 รีเฟรช
+            </button>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    ID
+                  </th>
+
+                  <th>
+                    Username
+                  </th>
+
+                  <th>
+                    ชื่อ
+                  </th>
+
+                  <th>
+                    Role
+                  </th>
+
+                  <th>
+                    สถานะ
+                  </th>
+
+                  <th>
+                    จัดการ
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="staffTableBody">
+
+                <tr>
+
+                  <td
+                    colspan="6"
+                    class="empty"
+                  >
+                    กำลังโหลด...
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================
+           ADD STAFF
+      ==================================== -->
+
+      <section
+        id="section-add-staff"
+        class="page-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              เพิ่ม Staff
+            </h2>
+
+            <p>
+              สร้างบัญชี Staff / Admin ใหม่
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <form
+          id="addStaffForm"
+          class="dashboard-card form-card"
+        >
+
+          <div class="form-grid">
+
+
+            <div class="form-group">
+
+              <label>
+                รหัส Staff *
+              </label>
+
+              <input
+                id="add_admin_id"
+                name="admin_id"
+                required
+                autocomplete="off"
+                placeholder="เช่น STF001"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Username *
+              </label>
+
+              <input
+                id="add_username"
+                name="username"
+                required
+                autocomplete="off"
+                placeholder="เช่น staff01"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                รหัสผ่าน *
+              </label>
+
+              <input
+                id="add_staff_password"
+                name="password"
+                type="password"
+                required
+                minlength="4"
+                placeholder="อย่างน้อย 4 ตัวอักษร"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                ชื่อ *
+              </label>
+
+              <input
+                id="add_staff_name"
+                name="name"
+                required
+                placeholder="ชื่อเจ้าหน้าที่"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Role
+              </label>
+
+              <select
+                id="add_staff_role"
+                name="role"
+              >
+
+                <option value="STAFF">
+                  STAFF
+                </option>
+
+                <option value="ADMIN">
+                  ADMIN
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                สถานะ
+              </label>
+
+              <select
+                id="add_staff_status"
+                name="status"
+              >
+
+                <option value="ACTIVE">
+                  ACTIVE
+                </option>
+
+                <option value="INACTIVE">
+                  INACTIVE
+                </option>
+
+              </select>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="secondary-btn"
+              id="clearStaffFormBtn"
+            >
+              ล้างข้อมูล
+            </button>
+
+            <button
+              type="submit"
+              class="primary-btn"
+            >
+              💾 บันทึก Staff
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      <!-- ===================================
+           RESET REQUESTS
+      ==================================== -->
+
+      <section
+        id="section-reset-requests"
+        class="page-section"
+      >
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              คำร้องลืมรหัสผ่าน
+            </h2>
+
+            <p>
+              ตรวจสอบและจัดการคำร้องจากนักศึกษา
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+          <div class="toolbar">
+
+            <button
+              id="resetRefreshBtn"
+              class="secondary-btn"
+            >
+              🔄 รีเฟรช
+            </button>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Request ID
+                  </th>
+
+                  <th>
+                    รหัสนักศึกษา
+                  </th>
+
+                  <th>
+                    เหตุผล
+                  </th>
+
+                  <th>
+                    สถานะ
+                  </th>
+
+                  <th>
+                    วันที่ส่ง
+                  </th>
+
+                  <th>
+                    จัดการ
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="resetTableBody">
+
+                <tr>
+
+                  <td
+                    colspan="6"
+                    class="empty"
+                  >
+                    กำลังโหลด...
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================================
+       STUDENT EDIT MODAL
+  ========================================== -->
+
+  <div
+    id="studentModal"
+    class="modal hidden"
+  >
+
+    <div class="modal-box large">
+
+      <div class="modal-header">
+
+        <div>
+
+          <h3>
+            แก้ไขข้อมูลนักศึกษา
+          </h3>
+
+          <p id="studentModalId">
+            -
+          </p>
+
+        </div>
+
+        <button
+          class="modal-close"
+          data-close-modal="studentModal"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form id="editStudentForm">
+
+        <input
+          type="hidden"
+          id="edit_student_id"
+        >
+
+
+        <div class="form-grid">
+
+          <div class="form-group">
+
+            <label>
+              คำนำหน้า
+            </label>
+
+            <input
+              id="edit_prefix_th"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              ชื่อ
+            </label>
+
+            <input
+              id="edit_firstname_th"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              นามสกุล
+            </label>
+
+            <input
+              id="edit_lastname_th"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              ชื่อภาษาอังกฤษ
+            </label>
+
+            <input
+              id="edit_firstname_en"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              นามสกุลภาษาอังกฤษ
+            </label>
+
+            <input
+              id="edit_lastname_en"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              สถานะ
+            </label>
+
+            <select id="edit_status">
+
+              <option value="ACTIVE">
+                ACTIVE
+              </option>
+
+              <option value="INACTIVE">
+                INACTIVE
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              แผนก / สาขา
+            </label>
+
+            <input
+              id="edit_department"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              เบอร์โทร
+            </label>
+
+            <input
+              id="edit_phone"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              วันที่ออกบัตร
+            </label>
+
+            <input
+              id="edit_issue_date"
+              type="text"
+              placeholder="เช่น 2026-08-21"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              วันหมดอายุ
+            </label>
+
+            <input
+              id="edit_expire_date"
+              type="text"
+              placeholder="เช่น 2030-08-21"
+            >
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label>
+              URL รูปนักศึกษา
+            </label>
+
+            <input
+              id="edit_photo_url"
+            >
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label>
+              รหัสผ่านใหม่
+            </label>
+
+            <input
+              id="edit_student_password"
+              type="password"
+              minlength="4"
+              placeholder="เว้นว่างหากไม่ต้องการเปลี่ยน"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="secondary-btn"
+            data-close-modal="studentModal"
+          >
+            ยกเลิก
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+          >
+            💾 บันทึกการแก้ไข
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       STAFF EDIT MODAL
+  ========================================== -->
+
+  <div
+    id="staffModal"
+    class="modal hidden"
+  >
+
+    <div class="modal-box">
+
+      <div class="modal-header">
+
+        <div>
+
+          <h3>
+            แก้ไข Staff
+          </h3>
+
+          <p id="staffModalId">
+            -
+          </p>
+
+        </div>
+
+        <button
+          class="modal-close"
+          data-close-modal="staffModal"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form id="editStaffForm">
+
+        <input
+          type="hidden"
+          id="edit_admin_id"
+        >
+
+
         <div class="form-group">
 
           <label>
-            คำนำหน้า
+            Username
           </label>
 
           <input
-            id="editPrefix"
+            id="edit_username"
+            required
           >
 
         </div>
@@ -1466,7 +1479,8 @@ tr:hover td {
           </label>
 
           <input
-            id="editFirstname"
+            id="edit_staff_name"
+            required
           >
 
         </div>
@@ -1475,38 +1489,20 @@ tr:hover td {
         <div class="form-group">
 
           <label>
-            นามสกุล
+            Role
           </label>
 
-          <input
-            id="editLastname"
-          >
+          <select id="edit_staff_role">
 
-        </div>
+            <option value="STAFF">
+              STAFF
+            </option>
 
+            <option value="ADMIN">
+              ADMIN
+            </option>
 
-        <div class="form-group">
-
-          <label>
-            ชื่อภาษาอังกฤษ
-          </label>
-
-          <input
-            id="editFirstnameEn"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            นามสกุลภาษาอังกฤษ
-          </label>
-
-          <input
-            id="editLastnameEn"
-          >
+          </select>
 
         </div>
 
@@ -1517,9 +1513,17 @@ tr:hover td {
             สถานะ
           </label>
 
-          <input
-            id="editStatus"
-          >
+          <select id="edit_staff_status">
+
+            <option value="ACTIVE">
+              ACTIVE
+            </option>
+
+            <option value="INACTIVE">
+              INACTIVE
+            </option>
+
+          </select>
 
         </div>
 
@@ -1527,2373 +1531,62 @@ tr:hover td {
         <div class="form-group">
 
           <label>
-            ภาควิชา
+            รหัสผ่านใหม่
           </label>
 
           <input
-            id="editDepartment"
+            id="edit_staff_password"
+            type="password"
+            minlength="4"
+            placeholder="เว้นว่างหากไม่เปลี่ยน"
           >
 
         </div>
 
 
-        <div class="form-group">
+        <div class="form-actions">
 
-          <label>
-            โทรศัพท์
-          </label>
-
-          <input
-            id="editPhone"
+          <button
+            type="button"
+            class="secondary-btn"
+            data-close-modal="staffModal"
           >
+            ยกเลิก
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+          >
+            💾 บันทึก
+          </button>
 
         </div>
 
-
-        <div class="form-group">
-
-          <label>
-            URL รูปภาพ
-          </label>
-
-          <input
-            id="editPhotoUrl"
-          >
-
-        </div>
-
-
-        <!-- ==========================================
-             ISSUE DATE
-             ========================================== -->
-
-        <div class="form-group">
-
-          <label>
-            วันที่ออกบัตร
-          </label>
-
-          <input
-            id="editIssueDate"
-            class="date-input"
-            type="text"
-            placeholder="dd/MM/yyyy"
-            autocomplete="off"
-          >
-
-        </div>
-
-
-        <!-- ==========================================
-             EXPIRE DATE
-             ========================================== -->
-
-        <div class="form-group">
-
-          <label>
-            วันหมดอายุ
-          </label>
-
-          <input
-            id="editExpireDate"
-            class="date-input"
-            type="text"
-            placeholder="dd/MM/yyyy"
-            autocomplete="off"
-          >
-
-        </div>
-
-
-      </div>
-
-
-      <div class="form-actions">
-
-
-        <button
-          class="primary-button"
-          type="button"
-          onclick="saveStudent()"
-        >
-
-          💾 บันทึกข้อมูล
-
-        </button>
-
-
-        <button
-          class="secondary-button"
-          type="button"
-          onclick="showPage('studentsPage')"
-        >
-
-          ยกเลิก
-
-        </button>
-
-
-      </div>
-
+      </form>
 
     </div>
-
-
-  </section>
-
-
-</main>
-
-</div>
-
-
-
-<!-- ==================================================
-     RESET MODAL
-     ================================================== -->
-
-<div
-  id="resetModal"
-  class="modal"
->
-
-
-  <div class="modal-box">
-
-
-    <h2
-      id="resetModalTitle"
-      class="modal-title"
-    >
-
-      ดำเนินการ
-
-    </h2>
-
-
-    <div
-      id="resetModalText"
-      class="modal-text"
-    ></div>
-
-
-    <div class="form-group">
-
-
-      <label>
-        หมายเหตุ
-      </label>
-
-
-      <input
-        id="resetNote"
-        placeholder="หมายเหตุ (ถ้ามี)"
-      >
-
-
-    </div>
-
-
-    <div
-      id="newPasswordGroup"
-      class="form-group"
-      style="margin-top:12px;"
-    >
-
-
-      <label>
-        รหัสผ่านใหม่
-      </label>
-
-
-      <input
-        id="newPassword"
-        type="password"
-        placeholder="เว้นว่างเพื่อใช้ 123456"
-      >
-
-
-    </div>
-
-
-    <div class="modal-actions">
-
-
-      <button
-        class="secondary-button"
-        type="button"
-        onclick="closeResetModal()"
-      >
-
-        ยกเลิก
-
-      </button>
-
-
-      <button
-        id="confirmResetButton"
-        class="primary-button"
-        type="button"
-        onclick="confirmResetAction()"
-      >
-
-        ยืนยัน
-
-      </button>
-
-
-    </div>
-
 
   </div>
 
 
-</div>
+  <!-- =========================================
+       TOAST
+  ========================================== -->
 
+  <div
+    id="toast"
+    class="toast"
+  ></div>
 
 
-<script>
+  <!-- CONFIG
+       ใช้ config.js เดิมของคุณ
+  -->
 
+  <script src="js/config.js"></script>
 
-/* ==================================================
-   CONFIG
-   ================================================== */
-
-const CONFIG = {
-
-  API_URL:
-    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
-
-  ADMIN_SESSION_KEY:
-    "admin_session",
-
-  ADMIN_KEY:
-    "admin_data"
-
-};
-
-
-/* ==================================================
-   STATE
-   ================================================== */
-
-let students = [];
-
-let resetRequests = [];
-
-let currentResetRequest = null;
-
-let currentResetAction = null;
-
-
-/* ==================================================
-   READY
-   ================================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
-
-    initializeDashboard();
-
-    initializeSearch();
-
-  }
-);
-
-
-/* ==================================================
-   INITIALIZE DASHBOARD
-   ================================================== */
-
-async function initializeDashboard() {
-
-  const token =
-    sessionStorage.getItem(
-      CONFIG.ADMIN_SESSION_KEY
-    );
-
-
-  if (!token) {
-
-    window.location.replace(
-      "admin-login.html"
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    const adminData =
-      JSON.parse(
-        sessionStorage.getItem(
-          CONFIG.ADMIN_KEY
-        ) || "{}"
-      );
-
-
-    const adminUsername =
-      document.getElementById(
-        "adminUsername"
-      );
-
-
-    if (adminUsername) {
-
-      adminUsername.textContent =
-        adminData.username ||
-        "Admin";
-
-    }
-
-  }
-
-  catch (error) {
-
-    console.error(
-      error
-    );
-
-  }
-
-
-  await loadStudents();
-
-}
-
-
-/* ==================================================
-   API REQUEST
-   ================================================== */
-
-async function apiRequest(
-  payload
-) {
-
-  const response =
-    await fetch(
-      CONFIG.API_URL,
-      {
-
-        method:
-          "POST",
-
-        headers: {
-
-          "Content-Type":
-            "text/plain;charset=utf-8"
-
-        },
-
-        body:
-          JSON.stringify(
-            payload
-          )
-
-      }
-    );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      "HTTP " +
-      response.status
-    );
-
-  }
-
-
-  const result =
-    await response.json();
-
-
-  console.log(
-    "API RESULT:",
-    result
-  );
-
-
-  if (
-    result &&
-    result.code ===
-    "ADMIN_SESSION_EXPIRED"
-  ) {
-
-    sessionStorage.removeItem(
-      CONFIG.ADMIN_SESSION_KEY
-    );
-
-    sessionStorage.removeItem(
-      CONFIG.ADMIN_KEY
-    );
-
-
-    window.location.replace(
-      "admin-login.html"
-    );
-
-
-    throw new Error(
-      "ADMIN_SESSION_EXPIRED"
-    );
-
-  }
-
-
-  return result;
-
-}
-
-
-/* ==================================================
-   SHOW PAGE
-   ================================================== */
-
-function showPage(
-  pageId,
-  button
-) {
-
-  document
-    .querySelectorAll(
-      ".page"
-    )
-    .forEach(
-      function (page) {
-
-        page.classList.remove(
-          "active"
-        );
-
-      }
-    );
-
-
-  const page =
-    document.getElementById(
-      pageId
-    );
-
-
-  if (page) {
-
-    page.classList.add(
-      "active"
-    );
-
-  }
-
-
-  document
-    .querySelectorAll(
-      ".menu-button"
-    )
-    .forEach(
-      function (item) {
-
-        item.classList.remove(
-          "active"
-        );
-
-      }
-    );
-
-
-  if (button) {
-
-    button.classList.add(
-      "active"
-    );
-
-  }
-
-  else {
-
-    const menu =
-      document.querySelector(
-        '[data-page="' +
-        pageId +
-        '"]'
-      );
-
-
-    if (menu) {
-
-      menu.classList.add(
-        "active"
-      );
-
-    }
-
-  }
-
-
-  if (
-    pageId ===
-    "resetPage"
-  ) {
-
-    loadResetRequests();
-
-  }
-
-}
-
-
-/* ==================================================
-   LOAD STUDENTS
-   ================================================== */
-
-async function loadStudents() {
-
-  const tbody =
-    document.getElementById(
-      "studentsTableBody"
-    );
-
-
-  if (!tbody) {
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-
-    `<tr>
-      <td colspan="7">
-        กำลังโหลดข้อมูล...
-      </td>
-    </tr>`;
-
-
-  try {
-
-    const searchElement =
-      document.getElementById(
-        "studentSearch"
-      );
-
-
-    const search =
-      searchElement
-        ? searchElement.value.trim()
-        : "";
-
-
-    const result =
-      await apiRequest({
-
-        action:
-          "adminGetStudents",
-
-        token:
-          sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-          ),
-
-        search:
-          search
-
-      });
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "โหลดข้อมูลไม่สำเร็จ"
-      );
-
-    }
-
-
-    students =
-      Array.isArray(
-        result.students
-      )
-        ? result.students
-        : [];
-
-
-    renderStudents();
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "LOAD STUDENTS ERROR:",
-      error
-    );
-
-
-    tbody.innerHTML =
-
-      `<tr>
-        <td colspan="7">
-          ${escapeHtml(
-            error.message ||
-            "ไม่สามารถโหลดข้อมูลนักศึกษาได้"
-          )}
-        </td>
-      </tr>`;
-
-
-    if (
-      error.message !==
-      "ADMIN_SESSION_EXPIRED"
-    ) {
-
-      showGlobalMessage(
-        error.message ||
-        "เกิดข้อผิดพลาด",
-        "error"
-      );
-
-    }
-
-  }
-
-}
-
-
-/* ==================================================
-   RENDER STUDENTS
-   ================================================== */
-
-function renderStudents() {
-
-  const tbody =
-    document.getElementById(
-      "studentsTableBody"
-    );
-
-
-  if (!tbody) {
-
-    return;
-
-  }
-
-
-  if (!students.length) {
-
-    tbody.innerHTML =
-
-      `<tr>
-        <td colspan="7">
-          ไม่พบข้อมูลนักศึกษา
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-    students
-      .map(
-        function (student) {
-
-          const fullName =
-            (
-              student.prefix_th ||
-              ""
-            ) +
-            " " +
-            (
-              student.firstname_th ||
-              ""
-            );
-
-
-          return `
-
-<tr>
-
-<td>
-  ${escapeHtml(
-    student.student_id
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    fullName.trim()
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    student.lastname_th ||
-    ""
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    student.department ||
-    ""
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    student.status ||
-    ""
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    student.phone ||
-    ""
-  )}
-</td>
-
-<td>
-
-<button
-  class="action-button edit-button"
-  type="button"
-  onclick="editStudent('${escapeJs(
-    student.student_id
-  )}')"
->
-
-  ✏️ แก้ไข
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-        }
-      )
-      .join("");
-
-}
-
-
-/* ==================================================
-   EDIT STUDENT
-   ================================================== */
-
-function editStudent(
-  studentId
-) {
-
-  const student =
-    students.find(
-      function (item) {
-
-        return String(
-          item.student_id
-        ) ===
-        String(
-          studentId
-        );
-
-      }
-    );
-
-
-  if (!student) {
-
-    showGlobalMessage(
-      "ไม่พบข้อมูลนักศึกษา",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  setValue(
-    "editStudentId",
-    student.student_id
-  );
-
-
-  setValue(
-    "editStudentIdDisplay",
-    student.student_id
-  );
-
-
-  setValue(
-    "editPrefix",
-    student.prefix_th
-  );
-
-
-  setValue(
-    "editFirstname",
-    student.firstname_th
-  );
-
-
-  setValue(
-    "editLastname",
-    student.lastname_th
-  );
-
-
-  setValue(
-    "editFirstnameEn",
-    student.firstname_en
-  );
-
-
-  setValue(
-    "editLastnameEn",
-    student.lastname_en
-  );
-
-
-  setValue(
-    "editStatus",
-    student.status
-  );
-
-
-  setValue(
-    "editDepartment",
-    student.department
-  );
-
-
-  setValue(
-    "editPhone",
-    student.phone
-  );
-
-
-  setValue(
-    "editPhotoUrl",
-    student.photo_url
-  );
-
-
-  /*
-   * ============================================
-   * จุดที่แก้ไข:
-   * ตัดเวลา 00:00:00 ออกจากวันที่
-   * ============================================
-   */
-
-  setValue(
-    "editIssueDate",
-    formatDateOnly(
-      student.issue_date
-    )
-  );
-
-
-  setValue(
-    "editExpireDate",
-    formatDateOnly(
-      student.expire_date
-    )
-  );
-
-
-  showPage(
-    "editStudentPage"
-  );
-
-}
-
-
-/* ==================================================
-   SAVE STUDENT
-   ================================================== */
-
-async function saveStudent() {
-
-  const studentId =
-    getValue(
-      "editStudentId"
-    );
-
-
-  if (!studentId) {
-
-    showGlobalMessage(
-      "ไม่พบรหัสนักศึกษา",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    const issueDate =
-      formatDateOnly(
-        getValue(
-          "editIssueDate"
-        )
-      );
-
-
-    const expireDate =
-      formatDateOnly(
-        getValue(
-          "editExpireDate"
-        )
-      );
-
-
-    const result =
-      await apiRequest({
-
-        action:
-          "adminUpdateStudent",
-
-        token:
-          sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-          ),
-
-        student_id:
-          studentId,
-
-        prefix_th:
-          getValue(
-            "editPrefix"
-          ),
-
-        firstname_th:
-          getValue(
-            "editFirstname"
-          ),
-
-        lastname_th:
-          getValue(
-            "editLastname"
-          ),
-
-        firstname_en:
-          getValue(
-            "editFirstnameEn"
-          ),
-
-        lastname_en:
-          getValue(
-            "editLastnameEn"
-          ),
-
-        status:
-          getValue(
-            "editStatus"
-          ),
-
-        department:
-          getValue(
-            "editDepartment"
-          ),
-
-        phone:
-          getValue(
-            "editPhone"
-          ),
-
-        photo_url:
-          getValue(
-            "editPhotoUrl"
-          ),
-
-        /*
-         * ส่งวันที่แบบไม่มีเวลา
-         */
-
-        issue_date:
-          issueDate,
-
-        expire_date:
-          expireDate
-
-      });
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "บันทึกข้อมูลไม่สำเร็จ"
-      );
-
-    }
-
-
-    showGlobalMessage(
-      "บันทึกข้อมูลนักศึกษาสำเร็จ",
-      "success"
-    );
-
-
-    await loadStudents();
-
-
-    showPage(
-      "studentsPage"
-    );
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "SAVE STUDENT ERROR:",
-      error
-    );
-
-
-    if (
-      error.message !==
-      "ADMIN_SESSION_EXPIRED"
-    ) {
-
-      showGlobalMessage(
-        error.message ||
-        "เกิดข้อผิดพลาด",
-        "error"
-      );
-
-    }
-
-  }
-
-}
-
-
-/* ==================================================
-   FORMAT DATE ONLY
-   ==================================================
-
-   ฟังก์ชันนี้เป็นจุดสำคัญของการแก้ปัญหา
-
-   ตัวอย่าง:
-
-   01/08/2025 00:00:00
-   ->
-   01/08/2025
-
-   2025-08-01 00:00:00
-   ->
-   01/08/2025
-
-   2025-08-01T00:00:00.000Z
-   ->
-   01/08/2025
-   ================================================== */
-
-function formatDateOnly(
-  value
-) {
-
-  if (
-    value === null ||
-    value === undefined ||
-    value === ""
-  ) {
-
-    return "";
-
-  }
-
-
-  /*
-   * ถ้าเป็น Date object
-   */
-
-  if (
-    value instanceof Date
-  ) {
-
-    if (
-      isNaN(
-        value.getTime()
-      )
-    ) {
-
-      return "";
-
-    }
-
-
-    const day =
-      String(
-        value.getDate()
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-
-    const month =
-      String(
-        value.getMonth() + 1
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-
-    const year =
-      String(
-        value.getFullYear()
-      );
-
-
-    return (
-      day +
-      "/" +
-      month +
-      "/" +
-      year
-    );
-
-  }
-
-
-  let text =
-    String(
-      value
-    )
-    .trim();
-
-
-  if (!text) {
-
-    return "";
-
-  }
-
-
-  /*
-   * ตัดเวลา
-   *
-   * 01/08/2025 00:00:00
-   *
-   * เหลือ
-   *
-   * 01/08/2025
-   */
-
-  text =
-    text
-      .split("T")[0]
-      .split(" ")[0]
-      .trim();
-
-
-  /*
-   * dd/MM/yyyy
-   */
-
-  const slashMatch =
-    text.match(
-      /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
-    );
-
-
-  if (slashMatch) {
-
-    const day =
-      slashMatch[1]
-        .padStart(
-          2,
-          "0"
-        );
-
-
-    const month =
-      slashMatch[2]
-        .padStart(
-          2,
-          "0"
-        );
-
-
-    const year =
-      slashMatch[3];
-
-
-    return (
-      day +
-      "/" +
-      month +
-      "/" +
-      year
-    );
-
-  }
-
-
-  /*
-   * yyyy-MM-dd
-   */
-
-  const isoMatch =
-    text.match(
-      /^(\d{4})-(\d{1,2})-(\d{1,2})$/
-    );
-
-
-  if (isoMatch) {
-
-    const year =
-      isoMatch[1];
-
-
-    const month =
-      isoMatch[2]
-        .padStart(
-          2,
-          "0"
-        );
-
-
-    const day =
-      isoMatch[3]
-        .padStart(
-          2,
-          "0"
-        );
-
-
-    return (
-      day +
-      "/" +
-      month +
-      "/" +
-      year
-    );
-
-  }
-
-
-  /*
-   * กรณีรูปแบบอื่น
-   * ลองแปลงด้วย Date
-   */
-
-  const parsedDate =
-    new Date(
-      text
-    );
-
-
-  if (
-    !isNaN(
-      parsedDate.getTime()
-    )
-  ) {
-
-    const day =
-      String(
-        parsedDate.getDate()
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-
-    const month =
-      String(
-        parsedDate.getMonth() + 1
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-
-    const year =
-      String(
-        parsedDate.getFullYear()
-      );
-
-
-    return (
-      day +
-      "/" +
-      month +
-      "/" +
-      year
-    );
-
-  }
-
-
-  /*
-   * ถ้าไม่รู้จักรูปแบบ
-   * ส่งค่าที่ถูกตัดเวลาแล้วกลับไป
-   */
-
-  return text;
-
-}
-
-
-/* ==================================================
-   LOAD RESET REQUESTS
-   ================================================== */
-
-async function loadResetRequests() {
-
-  const tbody =
-    document.getElementById(
-      "resetRequestsBody"
-    );
-
-
-  if (!tbody) {
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-
-    `<tr>
-      <td colspan="7">
-        กำลังโหลดคำร้อง...
-      </td>
-    </tr>`;
-
-
-  try {
-
-    const result =
-      await apiRequest({
-
-        action:
-          "adminGetResetRequests",
-
-        token:
-          sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-          )
-
-      });
-
-
-    console.log(
-      "RESET REQUEST RESULT:",
-      result
-    );
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "โหลดคำร้องไม่สำเร็จ"
-      );
-
-    }
-
-
-    resetRequests =
-      Array.isArray(
-        result.requests
-      )
-        ? result.requests
-        : [];
-
-
-    renderResetRequests();
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "RESET REQUEST ERROR:",
-      error
-    );
-
-
-    tbody.innerHTML =
-
-      `<tr>
-        <td colspan="7">
-          ${escapeHtml(
-            error.message ||
-            "ไม่สามารถโหลดคำร้องได้"
-          )}
-        </td>
-      </tr>`;
-
-
-    if (
-      error.message !==
-      "ADMIN_SESSION_EXPIRED"
-    ) {
-
-      showGlobalMessage(
-        error.message ||
-        "เกิดข้อผิดพลาด",
-        "error"
-      );
-
-    }
-
-  }
-
-}
-
-
-/* ==================================================
-   RENDER RESET REQUESTS
-   ================================================== */
-
-function renderResetRequests() {
-
-  const tbody =
-    document.getElementById(
-      "resetRequestsBody"
-    );
-
-
-  if (!tbody) {
-
-    return;
-
-  }
-
-
-  if (!resetRequests.length) {
-
-    tbody.innerHTML =
-
-      `<tr>
-        <td colspan="7">
-          ยังไม่มีคำร้องลืมรหัสผ่าน
-        </td>
-      </tr>`;
-
-    return;
-
-  }
-
-
-  tbody.innerHTML =
-    resetRequests
-      .map(
-        function (item) {
-
-          const status =
-            String(
-              item.status ||
-              ""
-            )
-            .trim()
-            .toUpperCase();
-
-
-          let badgeClass =
-            "badge-pending";
-
-
-          if (
-            status ===
-            "APPROVED"
-          ) {
-
-            badgeClass =
-              "badge-approved";
-
-          }
-
-          else if (
-            status ===
-            "REJECTED"
-          ) {
-
-            badgeClass =
-              "badge-rejected";
-
-          }
-
-          else if (
-            status ===
-            "RESET"
-          ) {
-
-            badgeClass =
-              "badge-reset";
-
-          }
-
-
-          let actions =
-            "";
-
-
-          if (
-            status ===
-            "PENDING"
-          ) {
-
-            actions = `
-
-<button
-  class="action-button approve-button"
-  type="button"
-  onclick="openResetAction('${escapeJs(
-    item.request_id
-  )}', 'approve')"
->
-
-  ✓ อนุมัติ
-
-</button>
-
-
-<button
-  class="action-button reject-button"
-  type="button"
-  onclick="openResetAction('${escapeJs(
-    item.request_id
-  )}', 'reject')"
->
-
-  ✕ ปฏิเสธ
-
-</button>
-
-`;
-
-          }
-
-
-          else if (
-            status ===
-            "APPROVED"
-          ) {
-
-            actions = `
-
-<button
-  class="action-button reset-button"
-  type="button"
-  onclick="openResetAction('${escapeJs(
-    item.request_id
-  )}', 'reset')"
->
-
-  🔐 รีเซ็ตรหัสผ่าน
-
-</button>
-
-`;
-
-          }
-
-
-          else {
-
-            actions =
-              '<span style="color:#9ca3af">ดำเนินการแล้ว</span>';
-
-          }
-
-
-          const reason =
-            item.reason ||
-            item.note ||
-            "-";
-
-
-          return `
-
-<tr>
-
-<td>
-  ${escapeHtml(
-    item.request_id ||
-    ""
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    item.student_id ||
-    ""
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    reason
-  )}
-</td>
-
-<td>
-
-<span
-  class="badge ${badgeClass}"
->
-
-  ${escapeHtml(
-    status ||
-    "-"
-  )}
-
-</span>
-
-</td>
-
-<td>
-  ${escapeHtml(
-    item.requested_at ||
-    ""
-  )}
-</td>
-
-<td>
-  ${escapeHtml(
-    item.processed_by ||
-    "-"
-  )}
-</td>
-
-<td>
-  ${actions}
-</td>
-
-</tr>
-
-`;
-
-        }
-      )
-      .join("");
-
-}
-
-
-/* ==================================================
-   OPEN RESET ACTION
-   ================================================== */
-
-function openResetAction(
-  requestId,
-  action
-) {
-
-  const request =
-    resetRequests.find(
-      function (item) {
-
-        return String(
-          item.request_id
-        ) ===
-        String(
-          requestId
-        );
-
-      }
-    );
-
-
-  if (!request) {
-
-    showGlobalMessage(
-      "ไม่พบคำร้อง",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  currentResetRequest =
-    request;
-
-  currentResetAction =
-    action;
-
-
-  const modal =
-    document.getElementById(
-      "resetModal"
-    );
-
-
-  const title =
-    document.getElementById(
-      "resetModalTitle"
-    );
-
-
-  const text =
-    document.getElementById(
-      "resetModalText"
-    );
-
-
-  const passwordGroup =
-    document.getElementById(
-      "newPasswordGroup"
-    );
-
-
-  setValue(
-    "resetNote",
-    ""
-  );
-
-
-  setValue(
-    "newPassword",
-    ""
-  );
-
-
-  if (
-    action ===
-    "approve"
-  ) {
-
-    title.textContent =
-      "อนุมัติคำร้อง";
-
-
-    text.innerHTML =
-
-      "ต้องการอนุมัติคำร้อง<br>" +
-
-      "<strong>" +
-
-      escapeHtml(
-        request.request_id
-      ) +
-
-      "</strong><br>" +
-
-      "รหัสนักศึกษา: " +
-
-      escapeHtml(
-        request.student_id
-      );
-
-
-    passwordGroup.style.display =
-      "none";
-
-  }
-
-
-  else if (
-    action ===
-    "reject"
-  ) {
-
-    title.textContent =
-      "ปฏิเสธคำร้อง";
-
-
-    text.innerHTML =
-
-      "ต้องการปฏิเสธคำร้อง<br>" +
-
-      "<strong>" +
-
-      escapeHtml(
-        request.request_id
-      ) +
-
-      "</strong><br>" +
-
-      "รหัสนักศึกษา: " +
-
-      escapeHtml(
-        request.student_id
-      );
-
-
-    passwordGroup.style.display =
-      "none";
-
-  }
-
-
-  else if (
-    action ===
-    "reset"
-  ) {
-
-    title.textContent =
-      "รีเซ็ตรหัสผ่าน";
-
-
-    text.innerHTML =
-
-      "รีเซ็ตรหัสผ่านของนักศึกษา<br>" +
-
-      "<strong>" +
-
-      escapeHtml(
-        request.student_id
-      ) +
-
-      "</strong><br><br>" +
-
-      "หากไม่กรอกรหัสผ่าน ระบบจะใช้รหัสเริ่มต้น " +
-
-      "<strong>123456</strong>";
-
-
-    passwordGroup.style.display =
-      "flex";
-
-  }
-
-
-  modal.classList.add(
-    "show"
-  );
-
-}
-
-
-/* ==================================================
-   CLOSE RESET MODAL
-   ================================================== */
-
-function closeResetModal() {
-
-  const modal =
-    document.getElementById(
-      "resetModal"
-    );
-
-
-  if (modal) {
-
-    modal.classList.remove(
-      "show"
-    );
-
-  }
-
-
-  currentResetRequest =
-    null;
-
-  currentResetAction =
-    null;
-
-}
-
-
-/* ==================================================
-   CONFIRM RESET ACTION
-   ================================================== */
-
-async function confirmResetAction() {
-
-  if (
-    !currentResetRequest ||
-    !currentResetAction
-  ) {
-
-    return;
-
-  }
-
-
-  const requestId =
-    currentResetRequest.request_id;
-
-
-  const note =
-    getValue(
-      "resetNote"
-    )
-    .trim();
-
-
-  const newPassword =
-    getValue(
-      "newPassword"
-    );
-
-
-  const button =
-    document.getElementById(
-      "confirmResetButton"
-    );
-
-
-  button.disabled =
-    true;
-
-
-  button.textContent =
-    "กำลังดำเนินการ...";
-
-
-  try {
-
-    let payload = {
-
-      token:
-        sessionStorage.getItem(
-          CONFIG.ADMIN_SESSION_KEY
-        ),
-
-      request_id:
-        requestId,
-
-      note:
-        note
-
-    };
-
-
-    if (
-      currentResetAction ===
-      "approve"
-    ) {
-
-      payload.action =
-        "adminApproveReset";
-
-    }
-
-
-    else if (
-      currentResetAction ===
-      "reject"
-    ) {
-
-      payload.action =
-        "adminRejectReset";
-
-    }
-
-
-    else if (
-      currentResetAction ===
-      "reset"
-    ) {
-
-      payload.action =
-        "adminResetPassword";
-
-
-      if (newPassword) {
-
-        payload.newPassword =
-          newPassword;
-
-      }
-
-    }
-
-
-    const result =
-      await apiRequest(
-        payload
-      );
-
-
-    if (!result.success) {
-
-      throw new Error(
-        result.message ||
-        "ดำเนินการไม่สำเร็จ"
-      );
-
-    }
-
-
-    closeResetModal();
-
-
-    showGlobalMessage(
-      result.message ||
-      "ดำเนินการสำเร็จ",
-      "success"
-    );
-
-
-    await loadResetRequests();
-
-  }
-
-  catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    if (
-      error.message !==
-      "ADMIN_SESSION_EXPIRED"
-    ) {
-
-      showGlobalMessage(
-        error.message ||
-        "เกิดข้อผิดพลาด",
-        "error"
-      );
-
-    }
-
-  }
-
-  finally {
-
-    button.disabled =
-      false;
-
-    button.textContent =
-      "ยืนยัน";
-
-  }
-
-}
-
-
-/* ==================================================
-   LOGOUT
-   ================================================== */
-
-async function adminLogout() {
-
-  const token =
-    sessionStorage.getItem(
-      CONFIG.ADMIN_SESSION_KEY
-    );
-
-
-  try {
-
-    if (token) {
-
-      await apiRequest({
-
-        action:
-          "adminLogout",
-
-        token:
-          token
-
-      });
-
-    }
-
-  }
-
-  catch (error) {
-
-    console.error(
-      error
-    );
-
-  }
-
-
-  sessionStorage.removeItem(
-    CONFIG.ADMIN_SESSION_KEY
-  );
-
-
-  sessionStorage.removeItem(
-    CONFIG.ADMIN_KEY
-  );
-
-
-  window.location.replace(
-    "admin-login.html"
-  );
-
-}
-
-
-/* ==================================================
-   GLOBAL MESSAGE
-   ================================================== */
-
-function showGlobalMessage(
-  text,
-  type
-) {
-
-  const message =
-    document.getElementById(
-      "globalMessage"
-    );
-
-
-  if (!message) {
-
-    return;
-
-  }
-
-
-  message.textContent =
-    text;
-
-
-  message.className =
-    "message show " +
-    (
-      type ||
-      "info"
-    );
-
-
-  setTimeout(
-    function () {
-
-      message.classList.remove(
-        "show"
-      );
-
-    },
-    5000
-  );
-
-}
-
-
-/* ==================================================
-   VALUE HELPERS
-   ================================================== */
-
-function getValue(
-  id
-) {
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-
-  return element
-    ? element.value
-    : "";
-
-}
-
-
-function setValue(
-  id,
-  value
-) {
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-
-  if (element) {
-
-    element.value =
-      value == null
-        ? ""
-        : value;
-
-  }
-
-}
-
-
-/* ==================================================
-   ESCAPE HTML
-   ================================================== */
-
-function escapeHtml(
-  value
-) {
-
-  return String(
-    value == null
-      ? ""
-      : value
-  )
-
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-
-  .replace(
-    /</g,
-    "&lt;"
-  )
-
-  .replace(
-    />/g,
-    "&gt;"
-  )
-
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
-
-
-/* ==================================================
-   ESCAPE JS
-   ================================================== */
-
-function escapeJs(
-  value
-) {
-
-  return String(
-    value == null
-      ? ""
-      : value
-  )
-
-  .replace(
-    /\\/g,
-    "\\\\"
-  )
-
-  .replace(
-    /'/g,
-    "\\'"
-  )
-
-  .replace(
-    /"/g,
-    '\\"'
-  )
-
-  .replace(
-    /\r/g,
-    "\\r"
-  )
-
-  .replace(
-    /\n/g,
-    "\\n"
-  );
-
-}
-
-
-/* ==================================================
-   SEARCH ENTER
-   ================================================== */
-
-function initializeSearch() {
-
-  const search =
-    document.getElementById(
-      "studentSearch"
-    );
-
-
-  if (!search) {
-
-    return;
-
-  }
-
-
-  search.addEventListener(
-    "keydown",
-    function (event) {
-
-      if (
-        event.key ===
-        "Enter"
-      ) {
-
-        event.preventDefault();
-
-        loadStudents();
-
-      }
-
-    }
-  );
-
-}
-
-
-/* ==================================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
-   ================================================== */
-
-document.addEventListener(
-  "click",
-  function (event) {
-
-    const modal =
-      document.getElementById(
-        "resetModal"
-      );
-
-
-    if (
-      !modal ||
-      !modal.classList.contains(
-        "show"
-      )
-    ) {
-
-      return;
-
-    }
-
-
-    if (
-      event.target ===
-      modal
-    ) {
-
-      closeResetModal();
-
-    }
-
-  }
-);
-
-
-</script>
-
+  <script src="js/admin-dashboard.js"></script>
 
 </body>
 
