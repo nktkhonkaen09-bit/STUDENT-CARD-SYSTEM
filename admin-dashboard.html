@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="th">
 
 <head>
@@ -11,10 +10,19 @@
     content="width=device-width, initial-scale=1.0"
   >
 
+  <meta
+    name="theme-color"
+    content="#0a1383"
+  >
+
   <title>
-    Admin Dashboard
+    Admin Dashboard | Student Card System
   </title>
 
+
+  <!-- ==================================================
+       CSS
+  =================================================== -->
 
   <link
     rel="stylesheet"
@@ -28,19 +36,19 @@
 
 
 <!-- ==================================================
-     HEADER
+     ADMIN HEADER
 =================================================== -->
 
 <header class="admin-header">
 
-  <div>
+  <div class="admin-header-left">
 
     <div class="admin-title">
       Admin Dashboard
     </div>
 
-    <div>
-      ระบบจัดการนักศึกษา
+    <div class="admin-subtitle">
+      ระบบจัดการนักศึกษาและ Staff
     </div>
 
   </div>
@@ -48,9 +56,12 @@
 
   <div class="admin-user">
 
-    <div>
+    <div class="admin-user-info">
 
-      <div id="adminName">
+      <div
+        id="adminName"
+        class="admin-name"
+      >
         Admin
       </div>
 
@@ -85,6 +96,10 @@
 <main class="admin-container">
 
 
+  <!-- =================================================
+       MESSAGE
+  ================================================== -->
+
   <div
     id="messageBox"
     class="message-box"
@@ -93,26 +108,39 @@
 
 
   <!-- =================================================
-       STUDENTS
+       STUDENT MANAGEMENT
   ================================================== -->
 
   <section class="admin-card">
 
 
-    <div class="card-header">
+    <!-- CARD HEADER -->
 
-      <h2 class="card-title">
-        จัดการนักศึกษา
-      </h2>
+    <div class="card-header">
 
 
       <div>
+
+        <h2 class="card-title">
+          จัดการนักศึกษา
+        </h2>
+
+        <div class="card-description">
+          เพิ่มและตรวจสอบข้อมูลนักศึกษาในระบบ
+        </div>
+
+      </div>
+
+
+      <div class="card-actions">
+
 
         <input
           type="search"
           id="studentSearch"
           class="search-box"
           placeholder="ค้นหารหัส ชื่อ แผนก..."
+          autocomplete="off"
         >
 
 
@@ -129,6 +157,8 @@
     </div>
 
 
+
+    <!-- STUDENT TABLE -->
 
     <div class="table-wrapper">
 
@@ -179,8 +209,11 @@
 
           <tr>
 
-            <td colspan="8">
-              กำลังโหลด...
+            <td
+              colspan="8"
+              class="table-loading"
+            >
+              กำลังโหลดข้อมูลนักศึกษา...
             </td>
 
           </tr>
@@ -191,35 +224,53 @@
 
     </div>
 
+
   </section>
 
 
 
   <!-- =================================================
-       STAFF
+       STAFF MANAGEMENT
   ================================================== -->
 
   <section class="admin-card">
 
 
+    <!-- CARD HEADER -->
+
     <div class="card-header">
 
-      <h2 class="card-title">
-        จัดการ Staff
-      </h2>
+
+      <div>
+
+        <h2 class="card-title">
+          จัดการ Staff
+        </h2>
+
+        <div class="card-description">
+          เพิ่มผู้ดูแลระบบและเจ้าหน้าที่
+        </div>
+
+      </div>
 
 
-      <button
-        type="button"
-        id="addStaffBtn"
-        class="primary-btn"
-      >
-        + เพิ่ม Staff
-      </button>
+      <div class="card-actions">
+
+        <button
+          type="button"
+          id="addStaffBtn"
+          class="primary-btn"
+        >
+          + เพิ่ม Staff
+        </button>
+
+      </div>
 
     </div>
 
 
+
+    <!-- STAFF TABLE -->
 
     <div class="table-wrapper">
 
@@ -258,8 +309,11 @@
 
           <tr>
 
-            <td colspan="5">
-              กำลังโหลด...
+            <td
+              colspan="5"
+              class="table-loading"
+            >
+              กำลังโหลดข้อมูล Staff...
             </td>
 
           </tr>
@@ -269,6 +323,7 @@
       </table>
 
     </div>
+
 
   </section>
 
@@ -284,22 +339,41 @@
 <div
   id="studentModal"
   class="modal"
+  aria-hidden="true"
 >
 
-  <div class="modal-content">
 
+  <div
+    class="modal-content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="studentModalTitle"
+  >
+
+
+    <!-- MODAL HEADER -->
 
     <div class="modal-header">
 
-      <h2>
-        เพิ่มนักศึกษา
-      </h2>
+
+      <div>
+
+        <h2 id="studentModalTitle">
+          เพิ่มนักศึกษา
+        </h2>
+
+        <div class="modal-description">
+          กรอกข้อมูลนักศึกษาเพื่อสร้างบัญชีเข้าสู่ระบบ
+        </div>
+
+      </div>
 
 
       <button
         type="button"
         id="closeStudentModal"
         class="close-btn"
+        aria-label="ปิด"
       >
         ×
       </button>
@@ -308,23 +382,36 @@
 
 
 
+    <!-- STUDENT FORM -->
+
     <form
       id="studentForm"
+      autocomplete="off"
     >
 
 
       <div class="form-grid">
 
 
+        <!-- STUDENT ID -->
+
         <div class="form-group">
 
-          <label>
-            รหัสนักศึกษา *
+          <label
+            for="studentId"
+          >
+            รหัสนักศึกษา
+            <span class="required">
+              *
+            </span>
           </label>
 
           <input
             type="text"
             id="studentId"
+            name="student_id"
+            placeholder="เช่น 65010001"
+            autocomplete="off"
             required
           >
 
@@ -332,33 +419,54 @@
 
 
 
+        <!-- PASSWORD -->
+
         <div class="form-group">
 
-          <label>
-            รหัสผ่านเริ่มต้น *
+          <label
+            for="studentPassword"
+          >
+            รหัสผ่านเริ่มต้น
+            <span class="required">
+              *
+            </span>
           </label>
 
           <input
             type="password"
             id="studentPassword"
+            name="password"
             value="123456"
+            autocomplete="new-password"
+            minlength="4"
             required
           >
+
+          <small class="form-help">
+            ค่าเริ่มต้นคือ 123456 สามารถเปลี่ยนได้
+          </small>
 
         </div>
 
 
 
+        <!-- PREFIX -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentPrefix"
+          >
             คำนำหน้า
           </label>
 
-          <select id="studentPrefix">
+          <select
+            id="studentPrefix"
+            name="prefix_th"
+          >
 
             <option value="">
-              เลือก
+              เลือกคำนำหน้า
             </option>
 
             <option value="นาย">
@@ -379,15 +487,24 @@
 
 
 
+        <!-- FIRSTNAME TH -->
+
         <div class="form-group">
 
-          <label>
-            ชื่อ *
+          <label
+            for="studentFirstnameTh"
+          >
+            ชื่อ
+            <span class="required">
+              *
+            </span>
           </label>
 
           <input
             type="text"
             id="studentFirstnameTh"
+            name="firstname_th"
+            placeholder="ชื่อภาษาไทย"
             required
           >
 
@@ -395,15 +512,24 @@
 
 
 
+        <!-- LASTNAME TH -->
+
         <div class="form-group">
 
-          <label>
-            นามสกุล *
+          <label
+            for="studentLastnameTh"
+          >
+            นามสกุล
+            <span class="required">
+              *
+            </span>
           </label>
 
           <input
             type="text"
             id="studentLastnameTh"
+            name="lastname_th"
+            placeholder="นามสกุลภาษาไทย"
             required
           >
 
@@ -411,73 +537,104 @@
 
 
 
+        <!-- FIRSTNAME EN -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentFirstnameEn"
+          >
             ชื่อภาษาอังกฤษ
           </label>
 
           <input
             type="text"
             id="studentFirstnameEn"
+            name="firstname_en"
+            placeholder="Firstname"
           >
 
         </div>
 
 
 
+        <!-- LASTNAME EN -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentLastnameEn"
+          >
             นามสกุลภาษาอังกฤษ
           </label>
 
           <input
             type="text"
             id="studentLastnameEn"
+            name="lastname_en"
+            placeholder="Lastname"
           >
 
         </div>
 
 
 
+        <!-- DEPARTMENT -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentDepartment"
+          >
             แผนก
           </label>
 
           <input
             type="text"
             id="studentDepartment"
+            name="department"
+            placeholder="เช่น เทคโนโลยีสารสนเทศ"
           >
 
         </div>
 
 
 
+        <!-- PHONE -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentPhone"
+          >
             เบอร์โทรศัพท์
           </label>
 
           <input
             type="tel"
             id="studentPhone"
+            name="phone"
+            placeholder="08xxxxxxxx"
           >
 
         </div>
 
 
 
+        <!-- STATUS -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentStatus"
+          >
             สถานะ
           </label>
 
-          <select id="studentStatus">
+          <select
+            id="studentStatus"
+            name="status"
+          >
 
             <option value="นักศึกษาปกติ">
               นักศึกษาปกติ
@@ -497,47 +654,66 @@
 
 
 
+        <!-- ISSUE DATE -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentIssueDate"
+          >
             วันออกบัตร
           </label>
 
           <input
             type="date"
             id="studentIssueDate"
+            name="issue_date"
           >
 
         </div>
 
 
 
+        <!-- EXPIRE DATE -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="studentExpireDate"
+          >
             วันหมดอายุ
           </label>
 
           <input
             type="date"
             id="studentExpireDate"
+            name="expire_date"
           >
 
         </div>
 
 
 
+        <!-- PHOTO URL -->
+
         <div class="form-group full">
 
-          <label>
+          <label
+            for="studentPhoto"
+          >
             Photo URL
           </label>
 
           <input
             type="text"
             id="studentPhoto"
+            name="photo_url"
             placeholder="เช่น assets/students/TEST001.png"
           >
+
+          <small class="form-help">
+            ตัวอย่าง: assets/students/TEST001.png
+          </small>
 
         </div>
 
@@ -546,7 +722,10 @@
 
 
 
+      <!-- FORM ACTIONS -->
+
       <div class="form-actions">
+
 
         <button
           type="button"
@@ -565,10 +744,12 @@
           บันทึกนักศึกษา
         </button>
 
+
       </div>
 
 
     </form>
+
 
   </div>
 
@@ -583,22 +764,41 @@
 <div
   id="staffModal"
   class="modal"
+  aria-hidden="true"
 >
 
-  <div class="modal-content">
 
+  <div
+    class="modal-content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="staffModalTitle"
+  >
+
+
+    <!-- MODAL HEADER -->
 
     <div class="modal-header">
 
-      <h2>
-        เพิ่ม Staff
-      </h2>
+
+      <div>
+
+        <h2 id="staffModalTitle">
+          เพิ่ม Staff
+        </h2>
+
+        <div class="modal-description">
+          สร้างบัญชีสำหรับผู้ดูแลระบบหรือเจ้าหน้าที่
+        </div>
+
+      </div>
 
 
       <button
         type="button"
         id="closeStaffModal"
         class="close-btn"
+        aria-label="ปิด"
       >
         ×
       </button>
@@ -607,23 +807,36 @@
 
 
 
+    <!-- STAFF FORM -->
+
     <form
       id="staffForm"
+      autocomplete="off"
     >
 
 
       <div class="form-grid">
 
 
+        <!-- USERNAME -->
+
         <div class="form-group">
 
-          <label>
-            Username *
+          <label
+            for="staffUsername"
+          >
+            Username
+            <span class="required">
+              *
+            </span>
           </label>
 
           <input
             type="text"
             id="staffUsername"
+            name="username"
+            placeholder="เช่น staff01"
+            autocomplete="off"
             required
           >
 
@@ -631,31 +844,55 @@
 
 
 
+        <!-- PASSWORD -->
+
         <div class="form-group">
 
-          <label>
-            Password *
+          <label
+            for="staffPassword"
+          >
+            Password
+            <span class="required">
+              *
+            </span>
           </label>
 
           <input
             type="password"
             id="staffPassword"
+            name="password"
+            placeholder="กำหนดรหัสผ่าน"
+            autocomplete="new-password"
+            minlength="4"
             required
           >
+
+          <small class="form-help">
+            ต้องมีอย่างน้อย 4 ตัวอักษร
+          </small>
 
         </div>
 
 
 
+        <!-- NAME -->
+
         <div class="form-group full">
 
-          <label>
-            ชื่อ Staff *
+          <label
+            for="staffName"
+          >
+            ชื่อ Staff
+            <span class="required">
+              *
+            </span>
           </label>
 
           <input
             type="text"
             id="staffName"
+            name="name"
+            placeholder="ชื่อผู้ใช้งาน"
             required
           >
 
@@ -663,13 +900,20 @@
 
 
 
+        <!-- ROLE -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="staffRole"
+          >
             Role
           </label>
 
-          <select id="staffRole">
+          <select
+            id="staffRole"
+            name="role"
+          >
 
             <option value="STAFF">
               STAFF
@@ -685,13 +929,20 @@
 
 
 
+        <!-- STATUS -->
+
         <div class="form-group">
 
-          <label>
+          <label
+            for="staffStatus"
+          >
             Status
           </label>
 
-          <select id="staffStatus">
+          <select
+            id="staffStatus"
+            name="status"
+          >
 
             <option value="ACTIVE">
               ACTIVE
@@ -710,7 +961,10 @@
 
 
 
+      <!-- FORM ACTIONS -->
+
       <div class="form-actions">
+
 
         <button
           type="button"
@@ -729,10 +983,12 @@
           บันทึก Staff
         </button>
 
+
       </div>
 
 
     </form>
+
 
   </div>
 
@@ -744,51 +1000,13 @@
      JAVASCRIPT
 =================================================== -->
 
-<script src="js/config.js"></script>
+<script
+  src="js/config.js"
+></script>
 
-<script src="js/admin-dashboard.js"></script>
-
-
-<script>
-
-document
-  .getElementById(
-    "closeStudentModal2"
-  )
-  .addEventListener(
-    "click",
-    function () {
-
-      document
-        .getElementById(
-          "studentModal"
-        )
-        .classList
-        .remove("show");
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "closeStaffModal2"
-  )
-  .addEventListener(
-    "click",
-    function () {
-
-      document
-        .getElementById(
-          "staffModal"
-        )
-        .classList
-        .remove("show");
-
-    }
-  );
-
-</script>
+<script
+  src="js/admin-dashboard.js"
+></script>
 
 
 </body>
