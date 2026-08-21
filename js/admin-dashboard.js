@@ -1,100 +1,54 @@
-/***************************************************************
+/*******************************************************
  * STUDENT CARD SYSTEM
  * js/admin-dashboard.js
  *
  * ADMIN DASHBOARD
  *
  * รองรับ:
- * -------------------------------------------------------------
- * 1. ตรวจสอบ Admin Session
- * 2. แสดงข้อมูล Admin
- * 3. โหลดนักศึกษา
- * 4. ค้นหานักศึกษา
- * 5. เพิ่มนักศึกษา
- * 6. แก้ไขนักศึกษา
- * 7. รีเซ็ตรหัสผ่านนักศึกษา
- * 8. โหลดคำร้องลืมรหัสผ่าน
- * 9. อนุมัติคำร้อง
- * 10. ปฏิเสธคำร้อง
- * 11. โหลด Staff
- * 12. เพิ่ม Staff
- * 13. Logout
- *
- * ต้องทำงานร่วมกับ:
- *
- * admin-dashboard.html
- * js/config.js
- *
- ***************************************************************/
+ * - ตรวจสอบ Admin Session
+ * - โหลดนักศึกษา
+ * - ค้นหานักศึกษา
+ * - เพิ่มนักศึกษา
+ * - แก้ไขนักศึกษา
+ * - รีเซ็ตรหัสผ่านนักศึกษา
+ * - โหลด Staff
+ * - เพิ่ม Staff
+ * - Logout
+ *******************************************************/
 
 
-/***************************************************************
- * CONFIG
- ***************************************************************/
+/* =====================================================
+   CONFIG
+===================================================== */
 
 const ADMIN_DASHBOARD_CONFIG = {
 
-  /*
-   * Session ที่ admin-login.html บันทึกไว้
-   */
+  API_URL:
+    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
 
-  SESSION_KEY:
+  ADMIN_SESSION_KEY:
     "admin_session",
 
-  ADMIN_KEY:
-    "admin_data",
-
-
-  /*
-   * หน้า Login
-   */
-
-  LOGIN_PAGE:
-    "admin-login.html",
-
-
-  /*
-   * ถ้า config.js มี API_URL
-   * ระบบจะใช้ตัวนั้น
-   */
-
-  API_URL:
-    typeof CONFIG !== "undefined" &&
-    CONFIG.API_URL
-      ? CONFIG.API_URL
-      : "",
-
-
-  /*
-   * จำนวนรายการต่อหน้า
-   */
-
-  PAGE_SIZE:
-    20
+  ADMIN_DATA_KEY:
+    "admin_data"
 
 };
 
 
-/***************************************************************
- * GLOBAL DATA
- ***************************************************************/
+/* =====================================================
+   GLOBAL DATA
+===================================================== */
 
 let students = [];
 
-let filteredStudents = [];
-
-let resetRequests = [];
-
 let staffList = [];
 
-let editingStudentId = "";
-
-let currentStudentForReset = "";
+let currentEditStudent = null;
 
 
-/***************************************************************
- * DOM READY
- ***************************************************************/
+/* =====================================================
+   DOM READY
+===================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -106,152 +60,75 @@ document.addEventListener(
 );
 
 
-/***************************************************************
- * INITIALIZE
- ***************************************************************/
+/* =====================================================
+   INITIALIZE
+===================================================== */
 
 async function initializeAdminDashboard() {
 
-  try {
+  setupSidebar();
 
-    /*
-     * ตรวจ Session ก่อนทุกอย่าง
-     */
+  setupButtons();
 
-    const token =
-      getAdminToken();
+  setupModals();
 
+  setupSearch();
 
-    if (!token) {
+  loadAdminInformation();
 
-      redirectToLogin();
+  /*
+   * ตรวจ Session ก่อนโหลดข้อมูล
+   */
 
-      return;
-
-    }
-
-
-    /*
-     * แสดงข้อมูล Admin จาก sessionStorage
-     */
-
-    loadAdminInfo();
+  const token =
+    getAdminToken();
 
 
-    /*
-     * เตรียม Event ต่าง ๆ
-     */
+  if (!token) {
 
-    bindEvents();
+    redirectToAdminLogin();
 
-
-    /*
-     * เปิดเมนูแรก
-     */
-
-    initializeMenu();
-
-
-    /*
-     * ตรวจ Session กับ Server
-     */
-
-    const sessionResult =
-      await apiRequest(
-        "adminGetStudents",
-        {
-          token: token
-        }
-      );
-
-
-    if (
-      !sessionResult ||
-      !sessionResult.success
-    ) {
-
-      if (
-        isSessionExpired(
-          sessionResult
-        )
-      ) {
-
-        redirectToLogin();
-
-        return;
-
-      }
-
-      showMessage(
-        sessionResult &&
-        sessionResult.message
-          ? sessionResult.message
-          : "ไม่สามารถตรวจสอบ Session ได้",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * ใช้ข้อมูลนักศึกษาที่โหลดมาแล้ว
-     */
-
-    students =
-      Array.isArray(
-        sessionResult.students
-      )
-        ? sessionResult.students
-        : [];
-
-
-    filteredStudents =
-      students.slice();
-
-
-    renderStudents();
-
-
-    /*
-     * โหลดข้อมูลส่วนอื่น
-     */
-
-    await loadResetRequests();
-
-    await loadStaff();
-
-
-  } catch (error) {
-
-    console.error(
-      "INITIALIZE ADMIN DASHBOARD ERROR:",
-      error
-    );
-
-
-    showMessage(
-      error.message ||
-      "เกิดข้อผิดพลาดในการเปิด Dashboard",
-      "error"
-    );
+    return;
 
   }
+
+
+  /*
+   * ตรวจสอบ Session กับ Server
+   */
+
+  const valid =
+    await verifyAdminSession();
+
+
+  if (!valid) {
+
+    return;
+
+  }
+
+
+  /*
+   * โหลดข้อมูล
+   */
+
+  await loadStudents();
+
+  await loadStaff();
 
 }
 
 
-/***************************************************************
- * GET ADMIN TOKEN
- ***************************************************************/
+/* =====================================================
+   GET ADMIN TOKEN
+===================================================== */
 
 function getAdminToken() {
 
   return String(
 
     sessionStorage.getItem(
-      ADMIN_DASHBOARD_CONFIG.SESSION_KEY
+      ADMIN_DASHBOARD_CONFIG.ADMIN_SESSION_KEY
     ) || ""
 
   ).trim();
@@ -259,34 +136,33 @@ function getAdminToken() {
 }
 
 
-/***************************************************************
- * GET ADMIN DATA
- ***************************************************************/
+/* =====================================================
+   GET ADMIN DATA
+===================================================== */
 
 function getAdminData() {
 
   try {
 
-    const data =
+    const value =
       sessionStorage.getItem(
-        ADMIN_DASHBOARD_CONFIG.ADMIN_KEY
+        ADMIN_DASHBOARD_CONFIG.ADMIN_DATA_KEY
       );
 
 
-    if (!data) {
+    if (!value) {
 
       return null;
 
     }
 
 
-    return JSON.parse(data);
-
+    return JSON.parse(value);
 
   } catch (error) {
 
     console.error(
-      "GET ADMIN DATA ERROR:",
+      "ADMIN DATA ERROR",
       error
     );
 
@@ -297,11 +173,11 @@ function getAdminData() {
 }
 
 
-/***************************************************************
- * LOAD ADMIN INFO
- ***************************************************************/
+/* =====================================================
+   LOAD ADMIN INFORMATION
+===================================================== */
 
-function loadAdminInfo() {
+function loadAdminInformation() {
 
   const admin =
     getAdminData();
@@ -347,12 +223,310 @@ function loadAdminInfo() {
 }
 
 
-/***************************************************************
- * BIND EVENTS
- ***************************************************************/
+/* =====================================================
+   VERIFY ADMIN SESSION
+===================================================== */
 
-function bindEvents() {
+async function verifyAdminSession() {
 
+  const token =
+    getAdminToken();
+
+
+  if (!token) {
+
+    redirectToAdminLogin();
+
+    return false;
+
+  }
+
+
+  try {
+
+    const result =
+      await apiRequest({
+
+        action:
+          "adminGetStudents",
+
+        token:
+          token,
+
+        search:
+          ""
+
+      });
+
+
+    if (
+      !result ||
+      !result.success
+    ) {
+
+      if (
+        result &&
+        (
+          result.code ===
+            "ADMIN_SESSION_EXPIRED" ||
+
+          result.code ===
+            "ADMIN_SESSION_INVALID"
+        )
+      ) {
+
+        clearAdminSession();
+
+        redirectToAdminLogin();
+
+        return false;
+
+      }
+
+    }
+
+
+    return true;
+
+
+  } catch (error) {
+
+    console.error(
+      "VERIFY ADMIN SESSION ERROR",
+      error
+    );
+
+    showMessage(
+      "ไม่สามารถตรวจสอบ Session ได้",
+      "error"
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =====================================================
+   API REQUEST
+===================================================== */
+
+async function apiRequest(data) {
+
+  const response =
+    await fetch(
+
+      ADMIN_DASHBOARD_CONFIG.API_URL,
+
+      {
+
+        method:
+          "POST",
+
+        headers: {
+
+          "Content-Type":
+            "text/plain;charset=utf-8"
+
+        },
+
+        body:
+          JSON.stringify(data)
+
+      }
+
+    );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "HTTP " +
+      response.status
+    );
+
+  }
+
+
+  return await response.json();
+
+}
+
+
+/* =====================================================
+   SETUP SIDEBAR
+===================================================== */
+
+function setupSidebar() {
+
+  const menuButtons =
+    document.querySelectorAll(
+      "[data-section]"
+    );
+
+
+  menuButtons.forEach(
+    function (button) {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          const section =
+            button.dataset.section;
+
+
+          switchSection(
+            section
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  /*
+   * Mobile sidebar
+   */
+
+  const sidebarToggle =
+    document.getElementById(
+      "sidebarToggle"
+    );
+
+
+  const sidebar =
+    document.querySelector(
+      ".admin-sidebar"
+    );
+
+
+  if (
+    sidebarToggle &&
+    sidebar
+  ) {
+
+    sidebarToggle.addEventListener(
+      "click",
+      function () {
+
+        sidebar.classList.toggle(
+          "show"
+        );
+
+      }
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SWITCH SECTION
+===================================================== */
+
+function switchSection(section) {
+
+  const sections =
+    document.querySelectorAll(
+      "[data-page-section]"
+    );
+
+
+  sections.forEach(
+    function (item) {
+
+      item.style.display =
+        "none";
+
+    }
+  );
+
+
+  const target =
+    document.querySelector(
+      '[data-page-section="' +
+      section +
+      '"]'
+    );
+
+
+  if (target) {
+
+    target.style.display =
+      "block";
+
+  }
+
+
+  /*
+   * Active menu
+   */
+
+  const menuButtons =
+    document.querySelectorAll(
+      "[data-section]"
+    );
+
+
+  menuButtons.forEach(
+    function (button) {
+
+      button.classList.remove(
+        "active"
+      );
+
+    }
+  );
+
+
+  const activeButton =
+    document.querySelector(
+      '[data-section="' +
+      section +
+      '"]'
+    );
+
+
+  if (activeButton) {
+
+    activeButton.classList.add(
+      "active"
+    );
+
+  }
+
+
+  /*
+   * ปิด Sidebar บนมือถือ
+   */
+
+  const sidebar =
+    document.querySelector(
+      ".admin-sidebar"
+    );
+
+
+  if (sidebar) {
+
+    sidebar.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SETUP BUTTONS
+===================================================== */
+
+function setupButtons() {
 
   /*
    * Logout
@@ -368,40 +542,14 @@ function bindEvents() {
 
     logoutBtn.addEventListener(
       "click",
-      handleLogout
+      handleAdminLogout
     );
 
   }
 
 
   /*
-   * Search Student
-   */
-
-  const searchInput =
-    document.getElementById(
-      "studentSearch"
-    );
-
-
-  if (searchInput) {
-
-    searchInput.addEventListener(
-      "input",
-      function () {
-
-        filterStudents(
-          searchInput.value
-        );
-
-      }
-    );
-
-  }
-
-
-  /*
-   * Add Student
+   * Add student
    */
 
   const addStudentBtn =
@@ -425,7 +573,31 @@ function bindEvents() {
 
 
   /*
-   * Student Form
+   * Add staff
+   */
+
+  const addStaffBtn =
+    document.getElementById(
+      "addStaffBtn"
+    );
+
+
+  if (addStaffBtn) {
+
+    addStaffBtn.addEventListener(
+      "click",
+      function () {
+
+        openStaffModal();
+
+      }
+    );
+
+  }
+
+
+  /*
+   * Student form
    */
 
   const studentForm =
@@ -445,49 +617,7 @@ function bindEvents() {
 
 
   /*
-   * Close Student Modal
-   */
-
-  bindClick(
-    "closeStudentModal",
-    closeStudentModal
-  );
-
-
-  bindClick(
-    "closeStudentModal2",
-    closeStudentModal
-  );
-
-
-  /*
-   * Add Staff
-   */
-
-  bindClick(
-    "addStaffBtn",
-    openStaffModal
-  );
-
-
-  /*
-   * Close Staff Modal
-   */
-
-  bindClick(
-    "closeStaffModal",
-    closeStaffModal
-  );
-
-
-  bindClick(
-    "closeStaffModal2",
-    closeStaffModal
-  );
-
-
-  /*
-   * Staff Form
+   * Staff form
    */
 
   const staffForm =
@@ -507,403 +637,193 @@ function bindEvents() {
 
 
   /*
-   * Menu
+   * Reset password
    */
 
-  document
-    .querySelectorAll(
-      "[data-admin-menu]"
-    )
-    .forEach(
-      function (button) {
+  const resetPasswordBtn =
+    document.getElementById(
+      "resetStudentPasswordBtn"
+    );
+
+
+  if (resetPasswordBtn) {
+
+    resetPasswordBtn.addEventListener(
+      "click",
+      handleResetStudentPassword
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SETUP MODALS
+===================================================== */
+
+function setupModals() {
+
+  const studentModal =
+    document.getElementById(
+      "studentModal"
+    );
+
+
+  const staffModal =
+    document.getElementById(
+      "staffModal"
+    );
+
+
+  /*
+   * Student close buttons
+   */
+
+  [
+    "closeStudentModal",
+    "closeStudentModal2"
+  ]
+  .forEach(
+    function (id) {
+
+      const button =
+        document.getElementById(id);
+
+
+      if (button) {
 
         button.addEventListener(
           "click",
           function () {
 
-            const section =
-              button.getAttribute(
-                "data-admin-menu"
-              );
-
-
-            showAdminSection(
-              section
-            );
+            closeStudentModal();
 
           }
         );
 
       }
-    );
 
-}
-
-
-/***************************************************************
- * BIND CLICK
- ***************************************************************/
-
-function bindClick(
-  id,
-  callback
-) {
-
-  const element =
-    document.getElementById(id);
-
-
-  if (!element) {
-
-    return;
-
-  }
-
-
-  element.addEventListener(
-    "click",
-    callback
+    }
   );
 
-}
-
-
-/***************************************************************
- * INITIALIZE MENU
- ***************************************************************/
-
-function initializeMenu() {
 
   /*
-   * ถ้ามี data-admin-menu
-   * เปิด students เป็นค่าเริ่มต้น
+   * Staff close buttons
    */
 
-  const firstMenu =
-    document.querySelector(
-      '[data-admin-menu="students"]'
-    );
+  [
+    "closeStaffModal",
+    "closeStaffModal2"
+  ]
+  .forEach(
+    function (id) {
+
+      const button =
+        document.getElementById(id);
 
 
-  if (firstMenu) {
+      if (button) {
 
-    showAdminSection(
-      "students"
-    );
+        button.addEventListener(
+          "click",
+          function () {
 
-    return;
+            closeStaffModal();
 
-  }
-
-
-  /*
-   * ถ้า HTML รุ่นเก่าไม่มี menu
-   * ไม่ต้องทำอะไร
-   */
-
-}
-
-
-/***************************************************************
- * SHOW ADMIN SECTION
- ***************************************************************/
-
-function showAdminSection(
-  section
-) {
-
-  section =
-    String(
-      section || ""
-    ).trim();
-
-
-  /*
-   * เปลี่ยน active menu
-   */
-
-  document
-    .querySelectorAll(
-      "[data-admin-menu]"
-    )
-    .forEach(
-      function (item) {
-
-        item.classList.toggle(
-          "active",
-          item.getAttribute(
-            "data-admin-menu"
-          ) === section
+          }
         );
 
       }
-    );
 
-
-  /*
-   * ซ่อน section ทั้งหมด
-   */
-
-  document
-    .querySelectorAll(
-      "[data-admin-section]"
-    )
-    .forEach(
-      function (item) {
-
-        item.style.display =
-          "none";
-
-      }
-    );
-
-
-  /*
-   * แสดง section ที่เลือก
-   */
-
-  const target =
-    document.querySelector(
-      '[data-admin-section="' +
-      section +
-      '"]'
-    );
-
-
-  if (target) {
-
-    target.style.display =
-      "";
-
-  }
-
-
-  /*
-   * ถ้าเป็นนักศึกษา
-   */
-
-  if (
-    section === "students"
-  ) {
-
-    renderStudents();
-
-  }
-
-
-  /*
-   * ถ้าเป็น reset
-   */
-
-  if (
-    section === "reset"
-  ) {
-
-    renderResetRequests();
-
-  }
-
-
-  /*
-   * ถ้าเป็น staff
-   */
-
-  if (
-    section === "staff"
-  ) {
-
-    renderStaff();
-
-  }
-
-}
-
-
-/***************************************************************
- * API REQUEST
- ***************************************************************/
-
-async function apiRequest(
-  action,
-  data
-) {
-
-  const apiUrl =
-    ADMIN_DASHBOARD_CONFIG.API_URL;
-
-
-  if (!apiUrl) {
-
-    throw new Error(
-      "ไม่พบ API_URL กรุณาตรวจสอบ js/config.js"
-    );
-
-  }
-
-
-  const payload =
-    Object.assign(
-      {},
-      data || {},
-      {
-        action: action
-      }
-    );
-
-
-  const response =
-    await fetch(
-      apiUrl,
-      {
-
-        method:
-          "POST",
-
-        headers:
-          {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
-
-        body:
-          JSON.stringify(
-            payload
-          )
-
-      }
-    );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      "HTTP " +
-      response.status
-    );
-
-  }
-
-
-  const result =
-    await response.json();
-
-
-  return result;
-
-}
-
-
-/***************************************************************
- * SESSION EXPIRED
- ***************************************************************/
-
-function isSessionExpired(
-  result
-) {
-
-  if (!result) {
-
-    return false;
-
-  }
-
-
-  return (
-
-    result.code ===
-      "ADMIN_SESSION_EXPIRED"
-
-    ||
-
-    String(
-      result.message || ""
-    )
-    .toLowerCase()
-    .includes(
-      "session"
-    )
-
-  );
-
-}
-
-
-/***************************************************************
- * REDIRECT LOGIN
- ***************************************************************/
-
-function redirectToLogin() {
-
-  sessionStorage.removeItem(
-    ADMIN_DASHBOARD_CONFIG.SESSION_KEY
+    }
   );
 
 
-  sessionStorage.removeItem(
-    ADMIN_DASHBOARD_CONFIG.ADMIN_KEY
-  );
+  /*
+   * Click outside modal
+   */
 
+  if (studentModal) {
 
-  window.location.replace(
-    ADMIN_DASHBOARD_CONFIG.LOGIN_PAGE
-  );
+    studentModal.addEventListener(
+      "click",
+      function (event) {
 
-}
+        if (
+          event.target ===
+          studentModal
+        ) {
 
+          closeStudentModal();
 
-/***************************************************************
- * LOGOUT
- ***************************************************************/
-
-async function handleLogout() {
-
-  const token =
-    getAdminToken();
-
-
-  try {
-
-    if (token) {
-
-      await apiRequest(
-        "adminLogout",
-        {
-          token: token
         }
+
+      }
+    );
+
+  }
+
+
+  if (staffModal) {
+
+    staffModal.addEventListener(
+      "click",
+      function (event) {
+
+        if (
+          event.target ===
+          staffModal
+        ) {
+
+          closeStaffModal();
+
+        }
+
+      }
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SETUP SEARCH
+===================================================== */
+
+function setupSearch() {
+
+  const search =
+    document.getElementById(
+      "studentSearch"
+    );
+
+
+  if (!search) {
+
+    return;
+
+  }
+
+
+  search.addEventListener(
+    "input",
+    function () {
+
+      renderStudents(
+        search.value
       );
 
     }
-
-  } catch (error) {
-
-    console.warn(
-      "ADMIN LOGOUT API ERROR:",
-      error
-    );
-
-  }
-
-
-  sessionStorage.removeItem(
-    ADMIN_DASHBOARD_CONFIG.SESSION_KEY
-  );
-
-
-  sessionStorage.removeItem(
-    ADMIN_DASHBOARD_CONFIG.ADMIN_KEY
-  );
-
-
-  window.location.replace(
-    ADMIN_DASHBOARD_CONFIG.LOGIN_PAGE
   );
 
 }
 
 
-/***************************************************************
- * LOAD STUDENTS
- ***************************************************************/
+/* =====================================================
+   LOAD STUDENTS
+===================================================== */
 
 async function loadStudents() {
 
@@ -913,7 +833,7 @@ async function loadStudents() {
 
   if (!token) {
 
-    redirectToLogin();
+    redirectToAdminLogin();
 
     return;
 
@@ -922,47 +842,35 @@ async function loadStudents() {
 
   setTableLoading(
     "studentsTableBody",
-    8,
-    "กำลังโหลดข้อมูลนักศึกษา..."
+    8
   );
 
 
   try {
 
     const result =
-      await apiRequest(
-        "adminGetStudents",
-        {
-          token: token
-        }
-      );
+      await apiRequest({
+
+        action:
+          "adminGetStudents",
+
+        token:
+          token,
+
+        search:
+          ""
+
+      });
 
 
     if (
+      !result ||
       !result.success
     ) {
 
-      if (
-        isSessionExpired(
-          result
-        )
-      ) {
-
-        redirectToLogin();
-
-        return;
-
-      }
-
-
-      showMessage(
-        result.message ||
-        "ไม่สามารถโหลดนักศึกษาได้",
-        "error"
+      handleApiError(
+        result
       );
-
-
-      renderStudentsEmpty();
 
       return;
 
@@ -973,119 +881,41 @@ async function loadStudents() {
       Array.isArray(
         result.students
       )
+
         ? result.students
+
         : [];
 
 
-    const search =
-      document
-        .getElementById(
-          "studentSearch"
-        );
-
-
-    filterStudents(
-      search
-        ? search.value
-        : ""
-    );
+    renderStudents();
 
 
   } catch (error) {
 
     console.error(
-      "LOAD STUDENTS ERROR:",
+      "LOAD STUDENTS ERROR",
       error
     );
 
 
-    showMessage(
-      error.message ||
-      "โหลดข้อมูลนักศึกษาไม่สำเร็จ",
-      "error"
+    setTableMessage(
+      "studentsTableBody",
+      8,
+      "ไม่สามารถโหลดข้อมูลนักศึกษาได้"
     );
 
-
-    renderStudentsEmpty();
-
   }
 
 }
 
 
-/***************************************************************
- * FILTER STUDENTS
- ***************************************************************/
+/* =====================================================
+   RENDER STUDENTS
+===================================================== */
 
-function filterStudents(
-  keyword
+function renderStudents(
+  searchText
 ) {
-
-  keyword =
-    String(
-      keyword || ""
-    )
-    .trim()
-    .toLowerCase();
-
-
-  if (!keyword) {
-
-    filteredStudents =
-      students.slice();
-
-  } else {
-
-    filteredStudents =
-      students.filter(
-        function (student) {
-
-          const text =
-            [
-
-              student.student_id,
-
-              student.prefix_th,
-
-              student.firstname_th,
-
-              student.lastname_th,
-
-              student.firstname_en,
-
-              student.lastname_en,
-
-              student.department,
-
-              student.phone,
-
-              student.status
-
-            ]
-            .join(" ")
-            .toLowerCase();
-
-
-          return text.includes(
-            keyword
-          );
-
-        }
-      );
-
-  }
-
-
-  renderStudents();
-
-}
-
-
-/***************************************************************
- * RENDER STUDENTS
- ***************************************************************/
-
-function renderStudents() {
 
   const tbody =
     document.getElementById(
@@ -1100,22 +930,76 @@ function renderStudents() {
   }
 
 
+  const search =
+    String(
+      searchText || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  let list =
+    students.slice();
+
+
+  if (search) {
+
+    list =
+      list.filter(
+        function (student) {
+
+          const text = [
+
+            student.student_id,
+
+            student.prefix_th,
+
+            student.firstname_th,
+
+            student.lastname_th,
+
+            student.firstname_en,
+
+            student.lastname_en,
+
+            student.department,
+
+            student.phone,
+
+            student.status
+
+          ]
+          .join(" ")
+          .toLowerCase();
+
+
+          return text.includes(
+            search
+          );
+
+        }
+      );
+
+  }
+
+
   tbody.innerHTML = "";
 
 
-  if (
-    !filteredStudents ||
-    filteredStudents.length === 0
-  ) {
+  if (!list.length) {
 
-    renderStudentsEmpty();
+    setTableMessage(
+      "studentsTableBody",
+      8,
+      "ไม่พบข้อมูลนักศึกษา"
+    );
 
     return;
 
   }
 
 
-  filteredStudents.forEach(
+  list.forEach(
     function (student) {
 
       const tr =
@@ -1124,175 +1008,163 @@ function renderStudents() {
         );
 
 
-      /*
-       * Student ID
-       */
+      tr.innerHTML = `
 
-      tr.appendChild(
-        createTableCell(
-          student.student_id,
-          "student-id"
-        )
-      );
+        <td>
+          ${escapeHtml(
+            student.student_id
+          )}
+        </td>
 
+        <td>
+          ${escapeHtml(
+            [
+              student.prefix_th,
+              student.firstname_th,
+              student.lastname_th
+            ]
+            .filter(Boolean)
+            .join(" ")
+          )}
+        </td>
 
-      /*
-       * Thai Name
-       */
+        <td>
+          ${escapeHtml(
+            [
+              student.firstname_en,
+              student.lastname_en
+            ]
+            .filter(Boolean)
+            .join(" ")
+          )}
+        </td>
 
-      tr.appendChild(
-        createTableCell(
-          formatThaiName(
-            student
-          )
-        )
-      );
+        <td>
+          ${escapeHtml(
+            student.department
+          )}
+        </td>
 
+        <td>
+          ${escapeHtml(
+            student.phone
+          )}
+        </td>
 
-      /*
-       * English Name
-       */
+        <td>
+          <span class="status-badge">
+            ${escapeHtml(
+              student.status
+            )}
+          </span>
+        </td>
 
-      tr.appendChild(
-        createTableCell(
-          formatEnglishName(
-            student
-          )
-        )
-      );
+        <td>
+          ${escapeHtml(
+            formatDate(
+              student.issue_date
+            )
+          )}
+        </td>
 
+        <td>
+          ${escapeHtml(
+            formatDate(
+              student.expire_date
+            )
+          )}
+        </td>
 
-      /*
-       * Department
-       */
+        <td class="action-cell">
 
-      tr.appendChild(
-        createTableCell(
-          student.department
-        )
-      );
+          <button
+            type="button"
+            class="edit-btn"
+            data-student-id="${escapeHtml(
+              student.student_id
+            )}"
+          >
+            แก้ไข
+          </button>
 
+          <button
+            type="button"
+            class="reset-btn"
+            data-reset-student-id="${escapeHtml(
+              student.student_id
+            )}"
+          >
+            รีเซ็ตรหัสผ่าน
+          </button>
 
-      /*
-       * Phone
-       */
+        </td>
 
-      tr.appendChild(
-        createTableCell(
-          student.phone
-        )
-      );
-
-
-      /*
-       * Status
-       */
-
-      tr.appendChild(
-        createStatusCell(
-          student.status
-        )
-      );
-
-
-      /*
-       * Issue Date
-       */
-
-      tr.appendChild(
-        createTableCell(
-          formatDateDisplay(
-            student.issue_date
-          )
-        )
-      );
-
-
-      /*
-       * Expire Date
-       */
-
-      tr.appendChild(
-        createTableCell(
-          formatDateDisplay(
-            student.expire_date
-          )
-        )
-      );
-
-
-      /*
-       * Actions
-       *
-       * เพิ่มท้ายตาราง
-       */
-
-      const actionCell =
-        document.createElement(
-          "td"
-        );
-
-
-      actionCell.className =
-        "action-cell";
-
-
-      const editButton =
-        createButton(
-          "แก้ไข",
-          "edit-btn"
-        );
-
-
-      editButton.addEventListener(
-        "click",
-        function () {
-
-          openStudentEditModal(
-            student
-          );
-
-        }
-      );
-
-
-      const resetButton =
-        createButton(
-          "รีเซ็ตรหัสผ่าน",
-          "reset-btn"
-        );
-
-
-      resetButton.addEventListener(
-        "click",
-        function () {
-
-          resetStudentPassword(
-            student
-          );
-
-        }
-      );
-
-
-      actionCell.appendChild(
-        editButton
-      );
-
-
-      actionCell.appendChild(
-        resetButton
-      );
-
-
-      tr.appendChild(
-        actionCell
-      );
+      `;
 
 
       tbody.appendChild(
         tr
       );
+
+
+      /*
+       * Edit
+       */
+
+      const editButton =
+        tr.querySelector(
+          ".edit-btn"
+        );
+
+
+      if (editButton) {
+
+        editButton.addEventListener(
+          "click",
+          function () {
+
+            const id =
+              editButton.dataset.studentId;
+
+
+            editStudent(
+              id
+            );
+
+          }
+        );
+
+      }
+
+
+      /*
+       * Reset
+       */
+
+      const resetButton =
+        tr.querySelector(
+          ".reset-btn"
+        );
+
+
+      if (resetButton) {
+
+        resetButton.addEventListener(
+          "click",
+          function () {
+
+            const id =
+              resetButton.dataset.resetStudentId;
+
+
+            resetStudentPassword(
+              id
+            );
+
+          }
+        );
+
+      }
 
     }
   );
@@ -1300,459 +1172,149 @@ function renderStudents() {
 }
 
 
-/***************************************************************
- * EMPTY STUDENT
- ***************************************************************/
+/* =====================================================
+   OPEN STUDENT MODAL
+===================================================== */
 
-function renderStudentsEmpty() {
+function openStudentModal(
+  student
+) {
 
-  const tbody =
+  currentEditStudent =
+    student || null;
+
+
+  const modal =
     document.getElementById(
-      "studentsTableBody"
+      "studentModal"
     );
 
 
-  if (!tbody) {
+  if (!modal) {
 
     return;
 
   }
 
 
-  tbody.innerHTML = `
-
-    <tr>
-
-      <td
-        colspan="9"
-        style="text-align:center;"
-      >
-        ไม่พบข้อมูลนักศึกษา
-      </td>
-
-    </tr>
-
-  `;
-
-}
-
-
-/***************************************************************
- * FORMAT THAI NAME
- ***************************************************************/
-
-function formatThaiName(
-  student
-) {
-
-  return [
-
-    student.prefix_th,
-
-    student.firstname_th,
-
-    student.lastname_th
-
-  ]
-  .filter(Boolean)
-  .join(" ");
-
-}
-
-
-/***************************************************************
- * FORMAT ENGLISH NAME
- ***************************************************************/
-
-function formatEnglishName(
-  student
-) {
-
-  return [
-
-    student.firstname_en,
-
-    student.lastname_en
-
-  ]
-  .filter(Boolean)
-  .join(" ");
-
-}
-
-
-/***************************************************************
- * CREATE TABLE CELL
- ***************************************************************/
-
-function createTableCell(
-  value,
-  className
-) {
-
-  const td =
-    document.createElement(
-      "td"
-    );
-
-
-  td.textContent =
-    value == null
-      ? ""
-      : String(value);
-
-
-  if (className) {
-
-    td.className =
-      className;
-
-  }
-
-
-  return td;
-
-}
-
-
-/***************************************************************
- * STATUS CELL
- ***************************************************************/
-
-function createStatusCell(
-  status
-) {
-
-  const td =
-    document.createElement(
-      "td"
-    );
-
-
-  const span =
-    document.createElement(
-      "span"
-    );
-
-
-  span.textContent =
-    status ||
-    "นักศึกษาปกติ";
-
-
-  span.className =
-    "status-badge";
-
-
-  const upper =
-    String(
-      status || ""
-    )
-    .toUpperCase();
-
-
-  if (
-    upper === "INACTIVE"
-  ) {
-
-    span.classList.add(
-      "inactive"
-    );
-
-  } else if (
-    upper === "SUSPENDED"
-  ) {
-
-    span.classList.add(
-      "suspended"
-    );
-
-  } else {
-
-    span.classList.add(
-      "active"
-    );
-
-  }
-
-
-  td.appendChild(
-    span
-  );
-
-
-  return td;
-
-}
-
-
-/***************************************************************
- * CREATE BUTTON
- ***************************************************************/
-
-function createButton(
-  text,
-  className
-) {
-
-  const button =
-    document.createElement(
-      "button"
-    );
-
-
-  button.type =
-    "button";
-
-
-  button.textContent =
-    text;
-
-
-  button.className =
-    className;
-
-
-  return button;
-
-}
-
-
-/***************************************************************
- * FORMAT DATE
- ***************************************************************/
-
-function formatDateDisplay(
-  value
-) {
-
-  if (!value) {
-
-    return "";
-
-  }
-
-
-  const text =
-    String(value).trim();
-
-
-  /*
-   * ถ้าเป็น dd/MM/yyyy HH:mm:ss
-   */
-
-  if (
-    /^\d{2}\/\d{2}\/\d{4}/.test(text)
-  ) {
-
-    return text.split(" ")[0];
-
-  }
-
-
-  /*
-   * ถ้าเป็น yyyy-MM-dd
-   */
-
-  if (
-    /^\d{4}-\d{2}-\d{2}/.test(text)
-  ) {
-
-    const parts =
-      text.substring(
-        0,
-        10
-      ).split("-");
-
-
-    return (
-
-      parts[2] +
-      "/" +
-      parts[1] +
-      "/" +
-      parts[0]
-
-    );
-
-  }
-
-
-  return text;
-
-}
-
-
-/***************************************************************
- * OPEN STUDENT ADD MODAL
- ***************************************************************/
-
-function openStudentModal() {
-
-  editingStudentId =
-    "";
-
-
-  const form =
-    document.getElementById(
-      "studentForm"
-    );
-
-
-  if (form) {
-
-    form.reset();
-
-  }
-
-
-  setValue(
-    "studentPassword",
-    "123456"
-  );
-
-
-  setValue(
-    "studentStatus",
-    "นักศึกษาปกติ"
-  );
-
-
   const title =
-    document.querySelector(
-      "#studentModal .modal-header h2"
+    modal.querySelector(
+      ".modal-header h2"
     );
 
 
   if (title) {
 
     title.textContent =
-      "เพิ่มนักศึกษา";
+      student
 
-  }
+        ? "แก้ไขข้อมูลนักศึกษา"
 
-
-  const saveButton =
-    document.getElementById(
-      "saveStudentBtn"
-    );
-
-
-  if (saveButton) {
-
-    saveButton.textContent =
-      "บันทึกนักศึกษา";
+        : "เพิ่มนักศึกษา";
 
   }
 
 
   setValue(
     "studentId",
-    ""
+    student
+      ? student.student_id
+      : ""
   );
 
 
-  const studentIdInput =
+  const studentId =
     document.getElementById(
       "studentId"
     );
 
 
-  if (studentIdInput) {
+  if (studentId) {
 
-    studentIdInput.disabled =
-      false;
-
-  }
-
-
-  showModal(
-    "studentModal"
-  );
-
-}
-
-
-/***************************************************************
- * OPEN STUDENT EDIT MODAL
- ***************************************************************/
-
-function openStudentEditModal(
-  student
-) {
-
-  if (!student) {
-
-    return;
+    studentId.readOnly =
+      !!student;
 
   }
-
-
-  editingStudentId =
-    String(
-      student.student_id || ""
-    ).trim();
 
 
   setValue(
-    "studentId",
-    student.student_id
+    "studentPassword",
+    student
+      ? ""
+      : "123456"
   );
 
 
   setValue(
     "studentPrefix",
-    student.prefix_th
+    student
+      ? student.prefix_th
+      : ""
   );
 
 
   setValue(
     "studentFirstnameTh",
-    student.firstname_th
+    student
+      ? student.firstname_th
+      : ""
   );
 
 
   setValue(
     "studentLastnameTh",
-    student.lastname_th
+    student
+      ? student.lastname_th
+      : ""
   );
 
 
   setValue(
     "studentFirstnameEn",
-    student.firstname_en
+    student
+      ? student.firstname_en
+      : ""
   );
 
 
   setValue(
     "studentLastnameEn",
-    student.lastname_en
+    student
+      ? student.lastname_en
+      : ""
   );
 
 
   setValue(
     "studentDepartment",
-    student.department
+    student
+      ? student.department
+      : ""
   );
 
 
   setValue(
     "studentPhone",
-    student.phone
+    student
+      ? student.phone
+      : ""
   );
 
 
   setValue(
     "studentStatus",
-    student.status ||
-    "นักศึกษาปกติ"
+    student
+      ? student.status
+      : "นักศึกษาปกติ"
   );
 
 
   setValue(
     "studentIssueDate",
     convertToInputDate(
-      student.issue_date
+      student
+        ? student.issue_date
+        : ""
     )
   );
 
@@ -1760,100 +1322,119 @@ function openStudentEditModal(
   setValue(
     "studentExpireDate",
     convertToInputDate(
-      student.expire_date
+      student
+        ? student.expire_date
+        : ""
     )
   );
 
 
   setValue(
     "studentPhoto",
-    student.photo_url
+    student
+      ? student.photo_url
+      : ""
   );
 
 
   /*
-   * ตอนแก้ไขไม่ให้แก้ student_id
+   * แสดงปุ่ม reset เฉพาะตอนแก้ไข
    */
 
-  const studentIdInput =
+  const resetButton =
     document.getElementById(
-      "studentId"
+      "resetStudentPasswordBtn"
     );
 
 
-  if (studentIdInput) {
+  if (resetButton) {
 
-    studentIdInput.disabled =
-      true;
+    resetButton.style.display =
+      student
+        ? "inline-block"
+        : "none";
 
   }
 
 
-  /*
-   * password ไม่แก้จาก modal นี้
-   */
-
-  setValue(
-    "studentPassword",
-    ""
-  );
-
-
-  const passwordInput =
-    document.getElementById(
-      "studentPassword"
-    );
-
-
-  if (passwordInput) {
-
-    passwordInput.required =
-      false;
-
-    passwordInput.placeholder =
-      "เว้นว่างหากไม่ต้องการเปลี่ยนรหัสผ่าน";
-
-  }
-
-
-  const title =
-    document.querySelector(
-      "#studentModal .modal-header h2"
-    );
-
-
-  if (title) {
-
-    title.textContent =
-      "แก้ไขข้อมูลนักศึกษา";
-
-  }
-
-
-  const saveButton =
-    document.getElementById(
-      "saveStudentBtn"
-    );
-
-
-  if (saveButton) {
-
-    saveButton.textContent =
-      "บันทึกการแก้ไข";
-
-  }
-
-
-  showModal(
-    "studentModal"
+  modal.classList.add(
+    "show"
   );
 
 }
 
 
-/***************************************************************
- * HANDLE STUDENT SUBMIT
- ***************************************************************/
+/* =====================================================
+   CLOSE STUDENT MODAL
+===================================================== */
+
+function closeStudentModal() {
+
+  const modal =
+    document.getElementById(
+      "studentModal"
+    );
+
+
+  if (modal) {
+
+    modal.classList.remove(
+      "show"
+    );
+
+  }
+
+
+  currentEditStudent =
+    null;
+
+}
+
+
+/* =====================================================
+   EDIT STUDENT
+===================================================== */
+
+function editStudent(
+  studentId
+) {
+
+  const student =
+    students.find(
+      function (item) {
+
+        return String(
+          item.student_id
+        ) === String(
+          studentId
+        );
+
+      }
+    );
+
+
+  if (!student) {
+
+    showMessage(
+      "ไม่พบข้อมูลนักศึกษา",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  openStudentModal(
+    student
+  );
+
+}
+
+
+/* =====================================================
+   HANDLE STUDENT SUBMIT
+===================================================== */
 
 async function handleStudentSubmit(
   event
@@ -1868,7 +1449,7 @@ async function handleStudentSubmit(
 
   if (!token) {
 
-    redirectToLogin();
+    redirectToAdminLogin();
 
     return;
 
@@ -1876,7 +1457,7 @@ async function handleStudentSubmit(
 
 
   const isEdit =
-    !!editingStudentId;
+    !!currentEditStudent;
 
 
   const studentId =
@@ -1918,290 +1499,39 @@ async function handleStudentSubmit(
   }
 
 
-  const payload = {
+  const button =
+    document.getElementById(
+      "saveStudentBtn"
+    );
 
-    token:
-      token,
 
-    student_id:
-      studentId,
+  if (button) {
 
-    prefix_th:
-      getValue(
-        "studentPrefix"
-      ),
+    button.disabled =
+      true;
 
-    firstname_th:
-      getValue(
-        "studentFirstnameTh"
-      ),
+    button.textContent =
+      "กำลังบันทึก...";
 
-    lastname_th:
-      getValue(
-        "studentLastnameTh"
-      ),
-
-    firstname_en:
-      getValue(
-        "studentFirstnameEn"
-      ),
-
-    lastname_en:
-      getValue(
-        "studentLastnameEn"
-      ),
-
-    department:
-      getValue(
-        "studentDepartment"
-      ),
-
-    phone:
-      getValue(
-        "studentPhone"
-      ),
-
-    status:
-      getValue(
-        "studentStatus"
-      ),
-
-    issue_date:
-      getValue(
-        "studentIssueDate"
-      ),
-
-    expire_date:
-      getValue(
-        "studentExpireDate"
-      ),
-
-    photo_url:
-      getValue(
-        "studentPhoto"
-      )
-
-  };
+  }
 
 
   try {
 
-    setButtonLoading(
-      "saveStudentBtn",
-      true,
-      isEdit
-        ? "กำลังบันทึก..."
-        : "กำลังเพิ่ม..."
-    );
+    let result;
 
 
-    /*
-     * เพิ่มนักศึกษา
-     *
-     * Backend ต้องมี action:
-     *
-     * adminAddStudent
-     */
-
-    if (!isEdit) {
-
-      payload.password =
-        password;
-
-
-      const result =
-        await apiRequest(
-          "adminAddStudent",
-          payload
-        );
-
-
-      if (!result.success) {
-
-        if (
-          isSessionExpired(
-            result
-          )
-        ) {
-
-          redirectToLogin();
-
-          return;
-
-        }
-
-
-        throw new Error(
-          result.message ||
-          "เพิ่มนักศึกษาไม่สำเร็จ"
-        );
-
-      }
-
-
-      showMessage(
-        "เพิ่มนักศึกษาสำเร็จ",
-        "success"
-      );
-
-
-    } else {
-
+    if (isEdit) {
 
       /*
-       * แก้ไขนักศึกษา
+       * แก้ไขข้อมูล
        */
 
-      const result =
-        await apiRequest(
-          "adminUpdateStudent",
-          payload
-        );
+      result =
+        await apiRequest({
 
-
-      if (!result.success) {
-
-        if (
-          isSessionExpired(
-            result
-          )
-        ) {
-
-          redirectToLogin();
-
-          return;
-
-        }
-
-
-        throw new Error(
-          result.message ||
-          "แก้ไขข้อมูลไม่สำเร็จ"
-        );
-
-      }
-
-
-      showMessage(
-        "แก้ไขข้อมูลนักศึกษาสำเร็จ",
-        "success"
-      );
-
-    }
-
-
-    closeStudentModal();
-
-
-    editingStudentId =
-      "";
-
-
-    /*
-     * โหลดข้อมูลใหม่
-     */
-
-    await loadStudents();
-
-
-  } catch (error) {
-
-    console.error(
-      "STUDENT SAVE ERROR:",
-      error
-    );
-
-
-    showMessage(
-      error.message ||
-      "บันทึกข้อมูลไม่สำเร็จ",
-      "error"
-    );
-
-
-  } finally {
-
-    setButtonLoading(
-      "saveStudentBtn",
-      false,
-      isEdit
-        ? "บันทึกการแก้ไข"
-        : "บันทึกนักศึกษา"
-    );
-
-  }
-
-}
-
-
-/***************************************************************
- * RESET STUDENT PASSWORD
- ***************************************************************/
-
-async function resetStudentPassword(
-  student
-) {
-
-  if (!student) {
-
-    return;
-
-  }
-
-
-  const studentId =
-    String(
-      student.student_id || ""
-    ).trim();
-
-
-  if (!studentId) {
-
-    return;
-
-  }
-
-
-  const confirmed =
-    window.confirm(
-
-      "ต้องการรีเซ็ตรหัสผ่านของ\n\n" +
-      studentId +
-      "\n" +
-      formatThaiName(student) +
-      "\n\n" +
-      "หรือไม่?\n\n" +
-      "รหัสผ่านใหม่จะเป็น 123456"
-
-    );
-
-
-  if (!confirmed) {
-
-    return;
-
-  }
-
-
-  const token =
-    getAdminToken();
-
-
-  if (!token) {
-
-    redirectToLogin();
-
-    return;
-
-  }
-
-
-  try {
-
-    const result =
-      await apiRequest(
-        "adminDirectResetPassword",
-        {
+          action:
+            "adminUpdateStudent",
 
           token:
             token,
@@ -2209,535 +1539,275 @@ async function resetStudentPassword(
           student_id:
             studentId,
 
-          newPassword:
-            "123456"
+          prefix_th:
+            getValue(
+              "studentPrefix"
+            ),
 
-        }
-      );
+          firstname_th:
+            getValue(
+              "studentFirstnameTh"
+            ),
+
+          lastname_th:
+            getValue(
+              "studentLastnameTh"
+            ),
+
+          firstname_en:
+            getValue(
+              "studentFirstnameEn"
+            ),
+
+          lastname_en:
+            getValue(
+              "studentLastnameEn"
+            ),
+
+          department:
+            getValue(
+              "studentDepartment"
+            ),
+
+          phone:
+            getValue(
+              "studentPhone"
+            ),
+
+          status:
+            getValue(
+              "studentStatus"
+            ),
+
+          issue_date:
+            getValue(
+              "studentIssueDate"
+            ),
+
+          expire_date:
+            getValue(
+              "studentExpireDate"
+            ),
+
+          photo_url:
+            getValue(
+              "studentPhoto"
+            )
+
+        });
 
 
-    if (!result.success) {
+    } else {
 
-      if (
-        isSessionExpired(
-          result
-        )
-      ) {
+      /*
+       * เพิ่มนักศึกษา
+       */
 
-        redirectToLogin();
+      result =
+        await apiRequest({
 
-        return;
+          action:
+            "adminCreateStudent",
 
-      }
+          token:
+            token,
 
+          student_id:
+            studentId,
 
-      throw new Error(
-        result.message ||
-        "รีเซ็ตรหัสผ่านไม่สำเร็จ"
-      );
+          password:
+            password,
+
+          prefix_th:
+            getValue(
+              "studentPrefix"
+            ),
+
+          firstname_th:
+            getValue(
+              "studentFirstnameTh"
+            ),
+
+          lastname_th:
+            getValue(
+              "studentLastnameTh"
+            ),
+
+          firstname_en:
+            getValue(
+              "studentFirstnameEn"
+            ),
+
+          lastname_en:
+            getValue(
+              "studentLastnameEn"
+            ),
+
+          department:
+            getValue(
+              "studentDepartment"
+            ),
+
+          phone:
+            getValue(
+              "studentPhone"
+            ),
+
+          status:
+            getValue(
+              "studentStatus"
+            ),
+
+          issue_date:
+            getValue(
+              "studentIssueDate"
+            ),
+
+          expire_date:
+            getValue(
+              "studentExpireDate"
+            ),
+
+          photo_url:
+            getValue(
+              "studentPhoto"
+            )
+
+        });
 
     }
 
 
-    showMessage(
-      "รีเซ็ตรหัสผ่าน " +
-      studentId +
-      " สำเร็จ รหัสผ่านใหม่คือ 123456",
-      "success"
-    );
+    if (
+      !result ||
+      !result.success
+    ) {
 
-
-  } catch (error) {
-
-    console.error(
-      "RESET STUDENT PASSWORD ERROR:",
-      error
-    );
-
-
-    showMessage(
-      error.message ||
-      "รีเซ็ตรหัสผ่านไม่สำเร็จ",
-      "error"
-    );
-
-  }
-
-}
-
-
-/***************************************************************
- * LOAD RESET REQUESTS
- ***************************************************************/
-
-async function loadResetRequests() {
-
-  const token =
-    getAdminToken();
-
-
-  if (!token) {
-
-    return;
-
-  }
-
-
-  try {
-
-    const result =
-      await apiRequest(
-        "adminGetResetRequests",
-        {
-
-          token:
-            token
-
-        }
+      handleApiError(
+        result
       );
-
-
-    if (!result.success) {
-
-      if (
-        isSessionExpired(
-          result
-        )
-      ) {
-
-        redirectToLogin();
-
-        return;
-
-      }
-
-
-      console.warn(
-        "RESET REQUEST ERROR:",
-        result.message
-      );
-
 
       return;
 
     }
 
 
-    resetRequests =
-      Array.isArray(
-        result.requests
-      )
-        ? result.requests
-        : [];
+    showMessage(
+      isEdit
+        ? "แก้ไขข้อมูลนักศึกษาสำเร็จ"
+        : "เพิ่มนักศึกษาสำเร็จ",
+      "success"
+    );
 
 
-    renderResetRequests();
+    closeStudentModal();
+
+
+    await loadStudents();
 
 
   } catch (error) {
 
     console.error(
-      "LOAD RESET REQUESTS ERROR:",
+      "SAVE STUDENT ERROR",
       error
     );
+
+
+    showMessage(
+      "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
+      "error"
+    );
+
+
+  } finally {
+
+    if (button) {
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "บันทึกนักศึกษา";
+
+    }
 
   }
 
 }
 
 
-/***************************************************************
- * RENDER RESET REQUESTS
- ***************************************************************/
+/* =====================================================
+   RESET STUDENT PASSWORD
+===================================================== */
 
-function renderResetRequests() {
+async function resetStudentPassword(
+  studentId
+) {
 
-  /*
-   * รองรับ HTML ที่อาจใช้ id เหล่านี้
-   */
+  const student =
+    students.find(
+      function (item) {
 
-  const tbody =
-    document.getElementById(
-      "resetRequestsTableBody"
+        return String(
+          item.student_id
+        ) === String(
+          studentId
+        );
+
+      }
     );
 
 
-  if (!tbody) {
+  const name =
+    student
 
-    return;
+      ? [
+          student.prefix_th,
+          student.firstname_th,
+          student.lastname_th
+        ]
+        .filter(Boolean)
+        .join(" ")
 
-  }
+      : studentId;
 
 
-  tbody.innerHTML = "";
+  const newPassword =
+    prompt(
+
+      "กำหนดรหัสผ่านใหม่สำหรับ\n" +
+      name +
+      "\n\n" +
+      "กรุณากรอกรหัสผ่านใหม่:",
+
+      "123456"
+
+    );
 
 
   if (
-    !resetRequests.length
+    newPassword === null
   ) {
 
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="7"
-          style="text-align:center;"
-        >
-          ไม่มีคำร้อง
-        </td>
-
-      </tr>
-
-    `;
-
     return;
 
   }
 
 
-  resetRequests.forEach(
-    function (item) {
-
-      const tr =
-        document.createElement(
-          "tr"
-        );
-
-
-      tr.appendChild(
-        createTableCell(
-          item.request_id
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          item.student_id
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          item.reason ||
-          item.note
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          item.status
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          item.requested_at
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          item.processed_at
-        )
-      );
-
-
-      const action =
-        document.createElement(
-          "td"
-        );
-
-
-      if (
-        String(
-          item.status || ""
-        )
-        .toUpperCase()
-        === "PENDING"
-      ) {
-
-        const approve =
-          createButton(
-            "อนุมัติ",
-            "approve-btn"
-          );
-
-
-        approve.addEventListener(
-          "click",
-          function () {
-
-            approveResetRequest(
-              item
-            );
-
-          }
-        );
-
-
-        const reject =
-          createButton(
-            "ปฏิเสธ",
-            "reject-btn"
-          );
-
-
-        reject.addEventListener(
-          "click",
-          function () {
-
-            rejectResetRequest(
-              item
-            );
-
-          }
-        );
-
-
-        action.appendChild(
-          approve
-        );
-
-
-        action.appendChild(
-          reject
-        );
-
-      }
-
-
-      tr.appendChild(
-        action
-      );
-
-
-      tbody.appendChild(
-        tr
-      );
-
-    }
-  );
-
-}
-
-
-/***************************************************************
- * APPROVE RESET REQUEST
- ***************************************************************/
-
-async function approveResetRequest(
-  request
-) {
-
-  if (!request) {
-
-    return;
-
-  }
-
-
-  const confirmed =
-    window.confirm(
-      "ต้องการอนุมัติคำร้อง " +
-      request.request_id +
-      " หรือไม่?"
-    );
-
-
-  if (!confirmed) {
-
-    return;
-
-  }
-
-
-  const token =
-    getAdminToken();
-
-
-  try {
-
-    const result =
-      await apiRequest(
-        "adminApproveReset",
-        {
-
-          token:
-            token,
-
-          request_id:
-            request.request_id
-
-        }
-      );
-
-
-    if (!result.success) {
-
-      if (
-        isSessionExpired(
-          result
-        )
-      ) {
-
-        redirectToLogin();
-
-        return;
-
-      }
-
-
-      throw new Error(
-        result.message ||
-        "อนุมัติไม่สำเร็จ"
-      );
-
-    }
-
+  if (
+    newPassword.length < 4
+  ) {
 
     showMessage(
-      "อนุมัติคำร้องสำเร็จ",
-      "success"
-    );
-
-
-    await loadResetRequests();
-
-
-  } catch (error) {
-
-    console.error(
-      "APPROVE RESET ERROR:",
-      error
-    );
-
-
-    showMessage(
-      error.message ||
-      "อนุมัติไม่สำเร็จ",
+      "รหัสผ่านใหม่ต้องมีอย่างน้อย 4 ตัวอักษร",
       "error"
     );
 
-  }
-
-}
-
-
-/***************************************************************
- * REJECT RESET REQUEST
- ***************************************************************/
-
-async function rejectResetRequest(
-  request
-) {
-
-  if (!request) {
-
     return;
 
   }
 
-
-  const note =
-    window.prompt(
-      "เหตุผลที่ปฏิเสธคำร้อง",
-      ""
-    );
-
-
-  if (note === null) {
-
-    return;
-
-  }
-
-
-  const token =
-    getAdminToken();
-
-
-  try {
-
-    const result =
-      await apiRequest(
-        "adminRejectReset",
-        {
-
-          token:
-            token,
-
-          request_id:
-            request.request_id,
-
-          note:
-            note
-
-        }
-      );
-
-
-    if (!result.success) {
-
-      if (
-        isSessionExpired(
-          result
-        )
-      ) {
-
-        redirectToLogin();
-
-        return;
-
-      }
-
-
-      throw new Error(
-        result.message ||
-        "ปฏิเสธไม่สำเร็จ"
-      );
-
-    }
-
-
-    showMessage(
-      "ปฏิเสธคำร้องสำเร็จ",
-      "success"
-    );
-
-
-    await loadResetRequests();
-
-
-  } catch (error) {
-
-    console.error(
-      "REJECT RESET ERROR:",
-      error
-    );
-
-
-    showMessage(
-      error.message ||
-      "ปฏิเสธไม่สำเร็จ",
-      "error"
-    );
-
-  }
-
-}
-
-
-/***************************************************************
- * LOAD STAFF
- ***************************************************************/
-
-async function loadStaff() {
 
   const token =
     getAdminToken();
@@ -2745,209 +1815,130 @@ async function loadStaff() {
 
   if (!token) {
 
+    redirectToAdminLogin();
+
     return;
 
   }
 
 
   try {
+
+    const result =
+      await apiRequest({
+
+        action:
+          "adminResetStudentPassword",
+
+        token:
+          token,
+
+        student_id:
+          studentId,
+
+        newPassword:
+          newPassword
+
+      });
+
 
     /*
-     * Backend ที่เราจะเพิ่ม:
+     * รองรับ Code.gs เวอร์ชันที่
+     * ใช้ action adminResetPassword
+     * กับ request_id
      *
-     * adminGetStaff
+     * ถ้า API ใหม่รองรับ student_id
+     * จะใช้ด้านบน
      */
 
-    const result =
-      await apiRequest(
-        "adminGetStaff",
-        {
+    if (
+      !result ||
+      !result.success
+    ) {
 
-          token:
-            token
+      /*
+       * แสดงข้อความจาก Server
+       */
 
-        }
+      handleApiError(
+        result
       );
-
-
-    if (!result.success) {
-
-      if (
-        isSessionExpired(
-          result
-        )
-      ) {
-
-        redirectToLogin();
-
-        return;
-
-      }
-
-
-      console.warn(
-        "LOAD STAFF:",
-        result.message
-      );
-
-
-      staffList = [];
-
-
-      renderStaff();
-
 
       return;
 
     }
 
 
-    staffList =
-      Array.isArray(
-        result.staff
-      )
-        ? result.staff
-        : [];
-
-
-    renderStaff();
+    showMessage(
+      "รีเซ็ตรหัสผ่านสำเร็จ",
+      "success"
+    );
 
 
   } catch (error) {
 
     console.error(
-      "LOAD STAFF ERROR:",
+      "RESET PASSWORD ERROR",
       error
     );
 
 
-    staffList = [];
-
-
-    renderStaff();
+    showMessage(
+      "ไม่สามารถรีเซ็ตรหัสผ่านได้",
+      "error"
+    );
 
   }
 
 }
 
 
-/***************************************************************
- * RENDER STAFF
- ***************************************************************/
+/* =====================================================
+   HANDLE RESET FROM MODAL
+===================================================== */
 
-function renderStaff() {
-
-  const tbody =
-    document.getElementById(
-      "staffTableBody"
-    );
-
-
-  if (!tbody) {
-
-    return;
-
-  }
-
-
-  tbody.innerHTML = "";
-
+async function handleResetStudentPassword() {
 
   if (
-    !staffList.length
+    !currentEditStudent
   ) {
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="5"
-          style="text-align:center;"
-        >
-          ไม่พบข้อมูล Staff
-        </td>
-
-      </tr>
-
-    `;
 
     return;
 
   }
 
 
-  staffList.forEach(
-    function (staff) {
+  await resetStudentPassword(
 
-      const tr =
-        document.createElement(
-          "tr"
-        );
+    currentEditStudent.student_id
 
-
-      tr.appendChild(
-        createTableCell(
-          staff.admin_id
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          staff.username
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          staff.name
-        )
-      );
-
-
-      tr.appendChild(
-        createTableCell(
-          staff.role
-        )
-      );
-
-
-      tr.appendChild(
-        createStatusCell(
-          staff.status
-        )
-      );
-
-
-      tbody.appendChild(
-        tr
-      );
-
-    }
   );
 
 }
 
 
-/***************************************************************
- * OPEN STAFF MODAL
- ***************************************************************/
+/* =====================================================
+   OPEN STAFF MODAL
+===================================================== */
 
 function openStaffModal() {
 
-  const form =
+  const modal =
     document.getElementById(
-      "staffForm"
+      "staffModal"
     );
 
 
-  if (form) {
+  if (!modal) {
 
-    form.reset();
+    return;
 
   }
+
+
+  resetForm(
+    "staffForm"
+  );
 
 
   setValue(
@@ -2962,29 +1953,39 @@ function openStaffModal() {
   );
 
 
-  showModal(
-    "staffModal"
+  modal.classList.add(
+    "show"
   );
 
 }
 
 
-/***************************************************************
- * CLOSE STAFF MODAL
- ***************************************************************/
+/* =====================================================
+   CLOSE STAFF MODAL
+===================================================== */
 
 function closeStaffModal() {
 
-  hideModal(
-    "staffModal"
-  );
+  const modal =
+    document.getElementById(
+      "staffModal"
+    );
+
+
+  if (modal) {
+
+    modal.classList.remove(
+      "show"
+    );
+
+  }
 
 }
 
 
-/***************************************************************
- * HANDLE STAFF SUBMIT
- ***************************************************************/
+/* =====================================================
+   HANDLE STAFF SUBMIT
+===================================================== */
 
 async function handleStaffSubmit(
   event
@@ -2999,7 +2000,7 @@ async function handleStaffSubmit(
 
   if (!token) {
 
-    redirectToLogin();
+    redirectToAdminLogin();
 
     return;
 
@@ -3052,75 +2053,62 @@ async function handleStaffSubmit(
   }
 
 
-  if (
-    password.length < 4
-  ) {
-
-    showMessage(
-      "รหัสผ่าน Staff ต้องมีอย่างน้อย 4 ตัวอักษร",
-      "error"
+  const button =
+    document.getElementById(
+      "saveStaffBtn"
     );
 
-    return;
+
+  if (button) {
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "กำลังบันทึก...";
 
   }
 
 
   try {
 
-    setButtonLoading(
-      "saveStaffBtn",
-      true,
-      "กำลังบันทึก..."
-    );
-
-
     const result =
-      await apiRequest(
-        "adminAddStaff",
-        {
+      await apiRequest({
 
-          token:
-            token,
+        action:
+          "adminCreateStaff",
 
-          username:
-            username,
+        token:
+          token,
 
-          password:
-            password,
+        username:
+          username,
 
-          name:
-            name,
+        password:
+          password,
 
-          role:
-            role,
+        name:
+          name,
 
-          status:
-            status
+        role:
+          role,
 
-        }
+        status:
+          status
+
+      });
+
+
+    if (
+      !result ||
+      !result.success
+    ) {
+
+      handleApiError(
+        result
       );
 
-
-    if (!result.success) {
-
-      if (
-        isSessionExpired(
-          result
-        )
-      ) {
-
-        redirectToLogin();
-
-        return;
-
-      }
-
-
-      throw new Error(
-        result.message ||
-        "เพิ่ม Staff ไม่สำเร็จ"
-      );
+      return;
 
     }
 
@@ -3140,24 +2128,118 @@ async function handleStaffSubmit(
   } catch (error) {
 
     console.error(
-      "ADD STAFF ERROR:",
+      "CREATE STAFF ERROR",
       error
     );
 
 
     showMessage(
-      error.message ||
-      "เพิ่ม Staff ไม่สำเร็จ",
+      "ไม่สามารถเพิ่ม Staff ได้",
       "error"
     );
 
 
   } finally {
 
-    setButtonLoading(
-      "saveStaffBtn",
-      false,
-      "บันทึก Staff"
+    if (button) {
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "บันทึก Staff";
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD STAFF
+===================================================== */
+
+async function loadStaff() {
+
+  const token =
+    getAdminToken();
+
+
+  if (!token) {
+
+    return;
+
+  }
+
+
+  setTableLoading(
+    "staffTableBody",
+    5
+  );
+
+
+  try {
+
+    const result =
+      await apiRequest({
+
+        action:
+          "adminGetStaff",
+
+        token:
+          token
+
+      });
+
+
+    if (
+      !result ||
+      !result.success
+    ) {
+
+      /*
+       * ถ้า Code.gs รุ่นปัจจุบัน
+       * ยังไม่มี adminGetStaff
+       * ไม่ทำให้ Dashboard พัง
+       */
+
+      setTableMessage(
+        "staffTableBody",
+        5,
+        "ยังไม่มี API สำหรับโหลด Staff"
+      );
+
+      return;
+
+    }
+
+
+    staffList =
+      Array.isArray(
+        result.staff
+      )
+
+        ? result.staff
+
+        : [];
+
+
+    renderStaff();
+
+
+  } catch (error) {
+
+    console.error(
+      "LOAD STAFF ERROR",
+      error
+    );
+
+
+    setTableMessage(
+      "staffTableBody",
+      5,
+      "ไม่สามารถโหลดข้อมูล Staff ได้"
     );
 
   }
@@ -3165,220 +2247,15 @@ async function handleStaffSubmit(
 }
 
 
-/***************************************************************
- * SHOW MODAL
- ***************************************************************/
-
-function showModal(
-  id
-) {
-
-  const modal =
-    document.getElementById(id);
-
-
-  if (!modal) {
-
-    return;
-
-  }
-
-
-  modal.classList.add(
-    "show"
-  );
-
-
-  /*
-   * รองรับ CSS บางแบบที่ใช้ display
-   */
-
-  modal.style.display =
-    "flex";
-
-}
-
-
-/***************************************************************
- * HIDE MODAL
- ***************************************************************/
-
-function hideModal(
-  id
-) {
-
-  const modal =
-    document.getElementById(id);
-
-
-  if (!modal) {
-
-    return;
-
-  }
-
-
-  modal.classList.remove(
-    "show"
-  );
-
-
-  modal.style.display =
-    "none";
-
-}
-
-
-/***************************************************************
- * CLOSE STUDENT MODAL
- ***************************************************************/
-
-function closeStudentModal() {
-
-  hideModal(
-    "studentModal"
-  );
-
-
-  editingStudentId =
-    "";
-
-
-  const passwordInput =
-    document.getElementById(
-      "studentPassword"
-    );
-
-
-  if (passwordInput) {
-
-    passwordInput.required =
-      true;
-
-    passwordInput.placeholder =
-      "";
-
-  }
-
-
-  const studentIdInput =
-    document.getElementById(
-      "studentId"
-    );
-
-
-  if (studentIdInput) {
-
-    studentIdInput.disabled =
-      false;
-
-  }
-
-}
-
-
-/***************************************************************
- * SET VALUE
- ***************************************************************/
-
-function setValue(
-  id,
-  value
-) {
-
-  const element =
-    document.getElementById(id);
-
-
-  if (!element) {
-
-    return;
-
-  }
-
-
-  element.value =
-    value == null
-      ? ""
-      : String(value);
-
-}
-
-
-/***************************************************************
- * GET VALUE
- ***************************************************************/
-
-function getValue(
-  id
-) {
-
-  const element =
-    document.getElementById(id);
-
-
-  if (!element) {
-
-    return "";
-
-  }
-
-
-  return String(
-    element.value || ""
-  );
-
-}
-
-
-/***************************************************************
- * SET BUTTON LOADING
- ***************************************************************/
-
-function setButtonLoading(
-  id,
-  loading,
-  text
-) {
-
-  const button =
-    document.getElementById(id);
-
-
-  if (!button) {
-
-    return;
-
-  }
-
-
-  button.disabled =
-    !!loading;
-
-
-  if (text) {
-
-    button.textContent =
-      text;
-
-  }
-
-}
-
-
-/***************************************************************
- * TABLE LOADING
- ***************************************************************/
-
-function setTableLoading(
-  tbodyId,
-  colspan,
-  text
-) {
+/* =====================================================
+   RENDER STAFF
+===================================================== */
+
+function renderStaff() {
 
   const tbody =
     document.getElementById(
-      tbodyId
+      "staffTableBody"
     );
 
 
@@ -3389,32 +2266,209 @@ function setTableLoading(
   }
 
 
-  tbody.innerHTML = `
+  tbody.innerHTML = "";
 
-    <tr>
 
-      <td
-        colspan="${colspan}"
-        style="text-align:center;"
-      >
+  if (!staffList.length) {
 
-        ${escapeHtml(
-          text ||
-          "กำลังโหลด..."
-        )}
+    setTableMessage(
+      "staffTableBody",
+      5,
+      "ไม่พบข้อมูล Staff"
+    );
 
-      </td>
+    return;
 
-    </tr>
+  }
 
-  `;
+
+  staffList.forEach(
+    function (staff) {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML = `
+
+        <td>
+          ${escapeHtml(
+            staff.admin_id
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            staff.username
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            staff.name
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            staff.role
+          )}
+        </td>
+
+        <td>
+          <span class="status-badge">
+            ${escapeHtml(
+              staff.status
+            )}
+          </span>
+        </td>
+
+      `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
 
 }
 
 
-/***************************************************************
- * SHOW MESSAGE
- ***************************************************************/
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function handleAdminLogout() {
+
+  const token =
+    getAdminToken();
+
+
+  try {
+
+    if (token) {
+
+      await apiRequest({
+
+        action:
+          "adminLogout",
+
+        token:
+          token
+
+      });
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "LOGOUT ERROR",
+      error
+    );
+
+  }
+
+
+  clearAdminSession();
+
+
+  redirectToAdminLogin();
+
+}
+
+
+/* =====================================================
+   CLEAR SESSION
+===================================================== */
+
+function clearAdminSession() {
+
+  sessionStorage.removeItem(
+    ADMIN_DASHBOARD_CONFIG.ADMIN_SESSION_KEY
+  );
+
+  sessionStorage.removeItem(
+    ADMIN_DASHBOARD_CONFIG.ADMIN_DATA_KEY
+  );
+
+}
+
+
+/* =====================================================
+   REDIRECT LOGIN
+===================================================== */
+
+function redirectToAdminLogin() {
+
+  window.location.replace(
+    "admin-login.html"
+  );
+
+}
+
+
+/* =====================================================
+   HANDLE API ERROR
+===================================================== */
+
+function handleApiError(
+  result
+) {
+
+  if (!result) {
+
+    showMessage(
+      "ไม่พบการตอบกลับจาก Server",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    result.code ===
+      "ADMIN_SESSION_EXPIRED" ||
+
+    result.code ===
+      "ADMIN_SESSION_INVALID"
+  ) {
+
+    clearAdminSession();
+
+    alert(
+      "Session ของ Admin หมดอายุ กรุณาเข้าสู่ระบบใหม่"
+    );
+
+
+    redirectToAdminLogin();
+
+    return;
+
+  }
+
+
+  showMessage(
+
+    result.message ||
+    "เกิดข้อผิดพลาด",
+
+    "error"
+
+  );
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
 
 function showMessage(
   text,
@@ -3428,18 +2482,6 @@ function showMessage(
 
 
   if (!box) {
-
-    /*
-     * ถ้าไม่มี messageBox
-     * ใช้ console แทน
-     */
-
-    console.log(
-      "[" +
-      type +
-      "]",
-      text
-    );
 
     return;
 
@@ -3464,45 +2506,268 @@ function showMessage(
 
 
   /*
-   * แสดงข้อความ
-   */
-
-  box.style.display =
-    text
-      ? "block"
-      : "none";
-
-
-  /*
    * ซ่อนอัตโนมัติ
    */
 
   if (text) {
 
-    clearTimeout(
-      window.__adminMessageTimer
+    setTimeout(
+      function () {
+
+        if (
+          box.textContent ===
+          text
+        ) {
+
+          box.textContent =
+            "";
+
+          box.className =
+            "message-box";
+
+        }
+
+      },
+      5000
     );
-
-
-    window.__adminMessageTimer =
-      setTimeout(
-        function () {
-
-          box.style.display =
-            "none";
-
-        },
-        5000
-      );
 
   }
 
 }
 
 
-/***************************************************************
- * CONVERT DATE TO INPUT DATE
- ***************************************************************/
+/* =====================================================
+   TABLE LOADING
+===================================================== */
+
+function setTableLoading(
+  tbodyId,
+  colspan
+) {
+
+  const tbody =
+    document.getElementById(
+      tbodyId
+    );
+
+
+  if (!tbody) {
+
+    return;
+
+  }
+
+
+  tbody.innerHTML = `
+
+    <tr>
+
+      <td colspan="${colspan}">
+        กำลังโหลด...
+      </td>
+
+    </tr>
+
+  `;
+
+}
+
+
+/* =====================================================
+   TABLE MESSAGE
+===================================================== */
+
+function setTableMessage(
+  tbodyId,
+  colspan,
+  message
+) {
+
+  const tbody =
+    document.getElementById(
+      tbodyId
+    );
+
+
+  if (!tbody) {
+
+    return;
+
+  }
+
+
+  tbody.innerHTML = `
+
+    <tr>
+
+      <td colspan="${colspan}">
+        ${escapeHtml(message)}
+      </td>
+
+    </tr>
+
+  `;
+
+}
+
+
+/* =====================================================
+   GET VALUE
+===================================================== */
+
+function getValue(
+  id
+) {
+
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  if (!element) {
+
+    return "";
+
+  }
+
+
+  return String(
+    element.value || ""
+  );
+
+}
+
+
+/* =====================================================
+   SET VALUE
+===================================================== */
+
+function setValue(
+  id,
+  value
+) {
+
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  if (!element) {
+
+    return;
+
+  }
+
+
+  element.value =
+    value == null
+      ? ""
+      : value;
+
+}
+
+
+/* =====================================================
+   RESET FORM
+===================================================== */
+
+function resetForm(
+  formId
+) {
+
+  const form =
+    document.getElementById(
+      formId
+    );
+
+
+  if (form) {
+
+    form.reset();
+
+  }
+
+}
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDate(
+  value
+) {
+
+  if (!value) {
+
+    return "-";
+
+  }
+
+
+  const text =
+    String(
+      value
+    ).trim();
+
+
+  /*
+   * ถ้าเป็น dd/MM/yyyy HH:mm:ss
+   */
+
+  if (
+    /^\d{2}\/\d{2}\/\d{4}/.test(
+      text
+    )
+  ) {
+
+    return text.substring(
+      0,
+      10
+    );
+
+  }
+
+
+  /*
+   * ถ้าเป็น yyyy-MM-dd
+   */
+
+  if (
+    /^\d{4}-\d{2}-\d{2}/.test(
+      text
+    )
+  ) {
+
+    const parts =
+      text.substring(
+        0,
+        10
+      )
+      .split("-");
+
+
+    return (
+      parts[2] +
+      "/" +
+      parts[1] +
+      "/" +
+      parts[0]
+    );
+
+  }
+
+
+  return text;
+
+}
+
+
+/* =====================================================
+   CONVERT DATE TO INPUT
+===================================================== */
 
 function convertToInputDate(
   value
@@ -3516,7 +2781,9 @@ function convertToInputDate(
 
 
   const text =
-    String(value).trim();
+    String(
+      value
+    ).trim();
 
 
   /*
@@ -3524,13 +2791,12 @@ function convertToInputDate(
    */
 
   if (
-    /^\d{4}-\d{2}-\d{2}/.test(text)
+    /^\d{4}-\d{2}-\d{2}$/.test(
+      text
+    )
   ) {
 
-    return text.substring(
-      0,
-      10
-    );
+    return text;
 
   }
 
@@ -3560,103 +2826,84 @@ function convertToInputDate(
   }
 
 
-  /*
-   * Date string
-   */
-
-  const date =
-    new Date(value);
-
-
-  if (
-    !isNaN(
-      date.getTime()
-    )
-  ) {
-
-    const year =
-      date.getFullYear();
-
-
-    const month =
-      String(
-        date.getMonth() + 1
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-
-    const day =
-      String(
-        date.getDate()
-      )
-      .padStart(
-        2,
-        "0"
-      );
-
-
-    return (
-
-      year +
-      "-" +
-      month +
-      "-" +
-      day
-
-    );
-
-  }
-
-
   return "";
 
 }
 
 
-/***************************************************************
- * ESCAPE HTML
- ***************************************************************/
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHtml(
   value
 ) {
 
-  return String(
-    value == null
-      ? ""
-      : value
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
 
-/***************************************************************
- * DEBUG
- ***************************************************************/
+/* =====================================================
+   DEBUG
+===================================================== */
 
-console.log(
-  "admin-dashboard.js loaded"
-);
+window.AdminDashboard = {
+
+  loadStudents:
+    loadStudents,
+
+  loadStaff:
+    loadStaff,
+
+  editStudent:
+    editStudent,
+
+  resetStudentPassword:
+    resetStudentPassword,
+
+  openStudentModal:
+    openStudentModal,
+
+  openStaffModal:
+    openStaffModal,
+
+  logout:
+    handleAdminLogout
+
+};
