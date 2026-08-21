@@ -518,86 +518,59 @@ body {
 
 }
 /* ============================================================
-   FORGOT PASSWORD LINK
+   FORGOT PASSWORD
 ============================================================ */
 
 .forgot-password-link {
-
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     width: 100%;
-
     box-sizing: border-box;
 
     margin-top: 12px;
-
     padding: 14px 20px;
 
     text-align: center;
 
     text-decoration: none;
-
     border: 1px solid #d9dff0;
-
     border-radius: 10px;
 
     background: #ffffff;
-
     color: #101d91;
 
     font-weight: 700;
+    font-size: 16px;
+
+    cursor: pointer;
 
     transition:
         background 0.2s ease,
-        color 0.2s ease,
         border-color 0.2s ease,
+        color 0.2s ease,
         transform 0.2s ease;
 }
 
-
-/* ไม่เปลี่ยนสีหลังเคยคลิก */
-
-.forgot-password-link:visited {
-
-    color: #101d91;
+.forgot-password-link:link,
+.forgot-password-link:visited,
+.forgot-password-link:hover,
+.forgot-password-link:active,
+.forgot-password-link:focus {
 
     text-decoration: none;
+    color: #101d91;
 }
-
-
-/* ตอนเอาเมาส์วาง */
 
 .forgot-password-link:hover {
 
     background: #f1f3ff;
-
     border-color: #101d91;
-
-    color: #101d91;
-
-    text-decoration: none;
-
     transform: translateY(-1px);
 }
 
-
-/* ตอนกด */
-
-.forgot-password-link:active {
-
-    color: #101d91;
-
-    text-decoration: none;
-}
-
-
-/* ตอนโฟกัส */
-
 .forgot-password-link:focus {
-
-    color: #101d91;
-
-    text-decoration: none;
 
     outline: none;
 }
