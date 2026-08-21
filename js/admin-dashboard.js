@@ -1,14 +1,15 @@
 /*******************************************************
  * ADMIN DASHBOARD
- * js/admin-dashboard.js
+ * File: js/admin-dashboard.js
  *
  * ใช้ร่วมกับ:
  *   - config.js
  *   - admin-dashboard.html
+ *   - admin-dashboard.css
  *
  * ระบบ:
  *   1. ตรวจสอบ Admin Session
- *   2. โหลดข้อมูล Admin
+ *   2. แสดงข้อมูล Admin
  *   3. โหลดนักศึกษา
  *   4. ค้นหานักศึกษา
  *   5. เพิ่มนักศึกษา
@@ -20,8 +21,11 @@
  *******************************************************/
 
 
+"use strict";
+
+
 /* =====================================================
-   GLOBAL
+   GLOBAL STATE
 ===================================================== */
 
 let studentsCache = [];
@@ -30,9 +34,17 @@ let staffCache = [];
 
 let editingStudentId = null;
 
+let isStudentSaving = false;
+
+let isStaffSaving = false;
+
+let isLoggingOut = false;
+
+let sessionExpiredHandled = false;
+
 
 /* =====================================================
-   READY
+   DOM READY
 ===================================================== */
 
 document.addEventListener(
@@ -40,7 +52,15 @@ document.addEventListener(
     function () {
 
         console.log(
+            "================================="
+        );
+
+        console.log(
             "ADMIN DASHBOARD JS READY"
+        );
+
+        console.log(
+            "================================="
         );
 
 
@@ -53,11 +73,11 @@ document.addEventListener(
         ) {
 
             console.error(
-                "ไม่พบ CONFIG จาก config.js"
+                "CONFIG is not defined"
             );
 
             showMessage(
-                "ไม่พบไฟล์ config.js",
+                "ไม่พบ config.js กรุณาตรวจสอบไฟล์",
                 "error"
             );
 
@@ -74,8 +94,12 @@ document.addEventListener(
             !CONFIG.API_URL
         ) {
 
+            console.error(
+                "CONFIG.API_URL is empty"
+            );
+
             showMessage(
-                "ไม่พบ API_URL",
+                "ไม่พบ API_URL ใน config.js",
                 "error"
             );
 
@@ -85,17 +109,12 @@ document.addEventListener(
 
 
         /*
-         * ตรวจ Session
-         */
-
-        checkAdminSession();
-
-
-        /*
-         * Event ต่าง ๆ
+         * เริ่มระบบ
          */
 
         setupEvents();
+
+        checkAdminSession();
 
     }
 );
@@ -107,9 +126,10 @@ document.addEventListener(
 
 function setupEvents() {
 
-    /*
-     * Logout
-     */
+
+    /* -----------------------------------------------
+       LOGOUT
+    ------------------------------------------------ */
 
     const logoutBtn =
         document.getElementById(
@@ -127,9 +147,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * Search Student
-     */
+    /* -----------------------------------------------
+       STUDENT SEARCH
+    ------------------------------------------------ */
 
     const studentSearch =
         document.getElementById(
@@ -153,9 +173,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * Add Student
-     */
+    /* -----------------------------------------------
+       ADD STUDENT
+    ------------------------------------------------ */
 
     const addStudentBtn =
         document.getElementById(
@@ -177,9 +197,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * Close Student Modal
-     */
+    /* -----------------------------------------------
+       CLOSE STUDENT MODAL
+    ------------------------------------------------ */
 
     const closeStudentModal =
         document.getElementById(
@@ -213,9 +233,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * Student Form
-     */
+    /* -----------------------------------------------
+       STUDENT FORM
+    ------------------------------------------------ */
 
     const studentForm =
         document.getElementById(
@@ -233,9 +253,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * Add Staff
-     */
+    /* -----------------------------------------------
+       ADD STAFF
+    ------------------------------------------------ */
 
     const addStaffBtn =
         document.getElementById(
@@ -253,9 +273,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * Close Staff Modal
-     */
+    /* -----------------------------------------------
+       CLOSE STAFF MODAL
+    ------------------------------------------------ */
 
     const closeStaffModal =
         document.getElementById(
@@ -289,9 +309,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * Staff Form
-     */
+    /* -----------------------------------------------
+       STAFF FORM
+    ------------------------------------------------ */
 
     const staffForm =
         document.getElementById(
@@ -309,9 +329,9 @@ function setupEvents() {
     }
 
 
-    /*
-     * คลิกนอก Modal เพื่อปิด
-     */
+    /* -----------------------------------------------
+       CLICK OUTSIDE STUDENT MODAL
+    ------------------------------------------------ */
 
     const studentModal =
         document.getElementById(
@@ -340,6 +360,10 @@ function setupEvents() {
     }
 
 
+    /* -----------------------------------------------
+       CLICK OUTSIDE STAFF MODAL
+    ------------------------------------------------ */
+
     const staffModal =
         document.getElementById(
             "staffModal"
@@ -366,6 +390,31 @@ function setupEvents() {
 
     }
 
+
+    /* -----------------------------------------------
+       ESC KEY
+    ------------------------------------------------ */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key !== "Escape"
+            ) {
+
+                return;
+
+            }
+
+
+            closeStudentModalHandler();
+
+            closeStaffModalHandler();
+
+        }
+    );
+
 }
 
 
@@ -376,9 +425,7 @@ function setupEvents() {
 async function checkAdminSession() {
 
     const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-        );
+        getAdminToken();
 
 
     /*
@@ -386,6 +433,10 @@ async function checkAdminSession() {
      */
 
     if (!token) {
+
+        console.warn(
+            "ADMIN SESSION NOT FOUND"
+        );
 
         redirectToLogin();
 
@@ -395,64 +446,35 @@ async function checkAdminSession() {
 
 
     /*
-     * แสดงข้อมูล Admin จาก sessionStorage ก่อน
+     * แสดงข้อมูล Admin ทันที
      */
 
     loadAdminDisplay();
 
 
     /*
-     * ตรวจ Token กับ API
+     * โหลดข้อมูล
      */
 
     try {
 
-        const result =
-            await apiRequest({
+        await loadStudents();
 
-                action:
-                    "adminGetStudents",
-
-                token:
-                    token
-
-            });
-
+        /*
+         * ถ้า Session ถูกล้างระหว่างโหลด
+         * หยุดทันที
+         */
 
         if (
-            !result ||
-            !result.success
+            !getAdminToken()
         ) {
 
-            if (
-                isSessionExpired(
-                    result
-                )
-            ) {
-
-                handleSessionExpired();
-
-                return;
-
-            }
-
-
-            /*
-             * API ยังใช้ได้
-             * โหลดข้อมูลต่อ
-             */
+            return;
 
         }
 
 
-        /*
-         * โหลดข้อมูล
-         */
-
-        await loadStudents();
-
         await loadStaff();
-
 
     } catch (error) {
 
@@ -462,10 +484,109 @@ async function checkAdminSession() {
         );
 
 
+        /*
+         * ถ้าเป็น Session หมดอายุ
+         */
+
+        if (
+            isSessionExpiredError(
+                error
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
         showMessage(
-            "ไม่สามารถเชื่อมต่อระบบได้",
+            "ไม่สามารถโหลดข้อมูลจากระบบได้",
             "error"
         );
+
+    }
+
+}
+
+
+/* =====================================================
+   GET ADMIN TOKEN
+===================================================== */
+
+function getAdminToken() {
+
+    if (
+        typeof CONFIG === "undefined"
+    ) {
+
+        return "";
+
+    }
+
+
+    const key =
+        CONFIG.ADMIN_SESSION_KEY ||
+        "admin_session";
+
+
+    return (
+        sessionStorage.getItem(
+            key
+        ) || ""
+    ).trim();
+
+}
+
+
+/* =====================================================
+   GET ADMIN DATA
+===================================================== */
+
+function getAdminData() {
+
+    if (
+        typeof CONFIG === "undefined"
+    ) {
+
+        return null;
+
+    }
+
+
+    const key =
+        CONFIG.ADMIN_KEY ||
+        "admin_data";
+
+
+    const raw =
+        sessionStorage.getItem(
+            key
+        );
+
+
+    if (!raw) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        return JSON.parse(
+            raw
+        );
+
+    } catch (error) {
+
+        console.error(
+            "ADMIN DATA JSON ERROR",
+            error
+        );
+
+        return null;
 
     }
 
@@ -478,42 +599,27 @@ async function checkAdminSession() {
 
 function loadAdminDisplay() {
 
-    const raw =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_KEY
+    const admin =
+        getAdminData();
+
+
+    const nameElement =
+        document.getElementById(
+            "adminName"
         );
 
 
-    if (!raw) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const admin =
-            JSON.parse(raw);
+    const roleElement =
+        document.getElementById(
+            "adminRole"
+        );
 
 
-        const nameElement =
-            document.getElementById(
-                "adminName"
-            );
-
-
-        const roleElement =
-            document.getElementById(
-                "adminRole"
-            );
-
+    if (!admin) {
 
         if (nameElement) {
 
             nameElement.textContent =
-                admin.name ||
-                admin.username ||
                 "Admin";
 
         }
@@ -522,18 +628,41 @@ function loadAdminDisplay() {
         if (roleElement) {
 
             roleElement.textContent =
-                admin.role ||
                 "ADMIN";
 
         }
 
 
-    } catch (error) {
+        return;
 
-        console.error(
-            "ADMIN DATA ERROR",
-            error
-        );
+    }
+
+
+    const name =
+        admin.name ||
+        admin.full_name ||
+        admin.displayName ||
+        admin.username ||
+        "Admin";
+
+
+    const role =
+        admin.role ||
+        "ADMIN";
+
+
+    if (nameElement) {
+
+        nameElement.textContent =
+            name;
+
+    }
+
+
+    if (roleElement) {
+
+        roleElement.textContent =
+            role;
 
     }
 
@@ -544,7 +673,21 @@ function loadAdminDisplay() {
    API REQUEST
 ===================================================== */
 
-async function apiRequest(data) {
+async function apiRequest(
+    data
+) {
+
+    if (
+        !CONFIG ||
+        !CONFIG.API_URL
+    ) {
+
+        throw new Error(
+            "ไม่พบ API_URL"
+        );
+
+    }
+
 
     const response =
         await fetch(
@@ -562,7 +705,9 @@ async function apiRequest(data) {
                 },
 
                 body:
-                    JSON.stringify(data)
+                    JSON.stringify(
+                        data
+                    )
 
             }
         );
@@ -578,12 +723,36 @@ async function apiRequest(data) {
     }
 
 
-    const result =
-        await response.json();
+    const text =
+        await response.text();
+
+
+    let result;
+
+
+    try {
+
+        result =
+            JSON.parse(
+                text
+            );
+
+    } catch (error) {
+
+        console.error(
+            "API INVALID JSON",
+            text
+        );
+
+        throw new Error(
+            "API ส่งข้อมูลกลับมาไม่ถูกต้อง"
+        );
+
+    }
 
 
     console.log(
-        "API REQUEST",
+        "[API]",
         data.action,
         result
     );
@@ -595,10 +764,12 @@ async function apiRequest(data) {
 
 
 /* =====================================================
-   SESSION EXPIRED
+   SESSION EXPIRED CHECK
 ===================================================== */
 
-function isSessionExpired(result) {
+function isSessionExpired(
+    result
+) {
 
     if (!result) {
 
@@ -607,10 +778,157 @@ function isSessionExpired(result) {
     }
 
 
+    const code =
+        String(
+            result.code ||
+            result.errorCode ||
+            ""
+        )
+        .trim()
+        .toUpperCase();
+
+
+    const message =
+        String(
+            result.message ||
+            result.error ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        code ===
+        "ADMIN_SESSION_EXPIRED"
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        code ===
+        "SESSION_EXPIRED"
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        code ===
+        "UNAUTHORIZED"
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        code ===
+        "INVALID_TOKEN"
+    ) {
+
+        return true;
+
+    }
+
+
+    /*
+     * รองรับ Backend ที่ส่งข้อความแทน code
+     */
+
+    if (
+        message.includes(
+            "session expired"
+        )
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        message.includes(
+            "invalid token"
+        )
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        message.includes(
+            "unauthorized"
+        )
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        message.includes(
+            "หมดอายุ"
+        )
+    ) {
+
+        return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+/* =====================================================
+   SESSION EXPIRED ERROR
+===================================================== */
+
+function isSessionExpiredError(
+    error
+) {
+
+    if (!error) {
+
+        return false;
+
+    }
+
+
+    const message =
+        String(
+            error.message ||
+            ""
+        )
+        .toLowerCase();
+
+
     return (
 
-        result.code ===
-        "ADMIN_SESSION_EXPIRED"
+        message.includes(
+            "session"
+        ) &&
+
+        (
+            message.includes(
+                "expired"
+            ) ||
+
+            message.includes(
+                "หมดอายุ"
+            )
+        )
 
     );
 
@@ -623,13 +941,29 @@ function isSessionExpired(result) {
 
 function handleSessionExpired() {
 
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_SESSION_KEY
+    /*
+     * ป้องกัน alert / redirect ซ้ำ
+     */
+
+    if (
+        sessionExpiredHandled
+    ) {
+
+        return;
+
+    }
+
+
+    sessionExpiredHandled =
+        true;
+
+
+    console.warn(
+        "ADMIN SESSION EXPIRED"
     );
 
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_KEY
-    );
+
+    clearAdminSession();
 
 
     alert(
@@ -643,10 +977,63 @@ function handleSessionExpired() {
 
 
 /* =====================================================
+   CLEAR ADMIN SESSION
+===================================================== */
+
+function clearAdminSession() {
+
+    const sessionKey =
+        (
+            CONFIG &&
+            CONFIG.ADMIN_SESSION_KEY
+        )
+        ||
+        "admin_session";
+
+
+    const adminKey =
+        (
+            CONFIG &&
+            CONFIG.ADMIN_KEY
+        )
+        ||
+        "admin_data";
+
+
+    sessionStorage.removeItem(
+        sessionKey
+    );
+
+
+    sessionStorage.removeItem(
+        adminKey
+    );
+
+}
+
+
+/* =====================================================
    REDIRECT LOGIN
 ===================================================== */
 
 function redirectToLogin() {
+
+    /*
+     * ป้องกัน redirect ซ้ำ
+     */
+
+    if (
+        window.location.pathname
+            .toLowerCase()
+            .includes(
+                "admin-login.html"
+            )
+    ) {
+
+        return;
+
+    }
+
 
     window.location.replace(
         "admin-login.html"
@@ -661,10 +1048,14 @@ function redirectToLogin() {
 
 async function loadStudents() {
 
-    const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
+    const tbody =
+        document.getElementById(
+            "studentsTableBody"
         );
+
+
+    const token =
+        getAdminToken();
 
 
     if (!token) {
@@ -695,23 +1086,31 @@ async function loadStudents() {
             });
 
 
+        /*
+         * ตรวจ Session
+         */
+
+        if (
+            isSessionExpired(
+                result
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        /*
+         * API Error
+         */
+
         if (
             !result ||
             !result.success
         ) {
-
-            if (
-                isSessionExpired(
-                    result
-                )
-            ) {
-
-                handleSessionExpired();
-
-                return;
-
-            }
-
 
             throw new Error(
                 result &&
@@ -723,12 +1122,44 @@ async function loadStudents() {
         }
 
 
-        studentsCache =
+        /*
+         * รองรับหลายรูปแบบ
+         */
+
+        if (
             Array.isArray(
                 result.students
             )
-                ? result.students
-                : [];
+        ) {
+
+            studentsCache =
+                result.students;
+
+        } else if (
+            result.data &&
+            Array.isArray(
+                result.data.students
+            )
+        ) {
+
+            studentsCache =
+                result.data.students;
+
+        } else if (
+            Array.isArray(
+                result.data
+            )
+        ) {
+
+            studentsCache =
+                result.data;
+
+        } else {
+
+            studentsCache =
+                [];
+
+        }
 
 
         renderStudents();
@@ -742,15 +1173,27 @@ async function loadStudents() {
         );
 
 
+        if (
+            isSessionExpiredError(
+                error
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        renderStudentsError();
+
+
         showMessage(
             error.message ||
             "ไม่สามารถโหลดข้อมูลนักศึกษาได้",
             "error"
         );
-
-
-        renderStudentsError();
-
 
     } finally {
 
@@ -827,12 +1270,25 @@ function renderStudents(
                         student.status
 
                     ]
+                    .map(
+                        function (value) {
+
+                            return (
+                                value == null
+                                    ? ""
+                                    : String(
+                                        value
+                                    )
+                            );
+
+                        }
+                    )
                     .join(" ")
                     .toLowerCase();
 
 
-                    return (
-                        text.indexOf(search) >= 0
+                    return text.includes(
+                        search
                     );
 
                 }
@@ -842,7 +1298,7 @@ function renderStudents(
 
 
     /*
-     * ไม่มีข้อมูล
+     * Empty
      */
 
     if (
@@ -878,13 +1334,7 @@ function renderStudents(
     tbody.innerHTML =
         list
             .map(
-                function (student) {
-
-                    return createStudentRow(
-                        student
-                    );
-
-                }
+                createStudentRow
             )
             .join("");
 
@@ -899,9 +1349,15 @@ function createStudentRow(
     student
 ) {
 
+    const rawStudentId =
+        student.student_id ||
+        student.studentId ||
+        "";
+
+
     const studentId =
         escapeHtml(
-            student.student_id
+            rawStudentId
         );
 
 
@@ -915,7 +1371,17 @@ function createStudentRow(
             student.lastname_th
 
         ]
-        .filter(Boolean)
+        .filter(
+            function (value) {
+
+                return (
+                    value !== null &&
+                    value !== undefined &&
+                    String(value).trim() !== ""
+                );
+
+            }
+        )
         .join(" ");
 
 
@@ -927,7 +1393,17 @@ function createStudentRow(
             student.lastname_en
 
         ]
-        .filter(Boolean)
+        .filter(
+            function (value) {
+
+                return (
+                    value !== null &&
+                    value !== undefined &&
+                    String(value).trim() !== ""
+                );
+
+            }
+        )
         .join(" ");
 
 
@@ -958,6 +1434,19 @@ function createStudentRow(
         );
 
 
+    const safeId =
+        escapeHtml(
+            rawStudentId
+        );
+
+
+    /*
+     * ใช้ data-student-id
+     * แทนการเอา ID ไปใส่ onclick
+     *
+     * ป้องกันปัญหาเครื่องหมาย ' และ "
+     */
+
     return `
 
         <tr>
@@ -967,7 +1456,7 @@ function createStudentRow(
             >
 
                 <strong>
-                    ${studentId}
+                    ${studentId || "-"}
                 </strong>
 
             </td>
@@ -1065,7 +1554,8 @@ function createStudentRow(
                     <button
                         type="button"
                         class="small-btn edit-btn"
-                        onclick="editStudent('${escapeJs(student.student_id)}')"
+                        data-action="edit"
+                        data-student-id="${safeId}"
                     >
                         แก้ไข
                     </button>
@@ -1074,7 +1564,8 @@ function createStudentRow(
                     <button
                         type="button"
                         class="small-btn reset-btn"
-                        onclick="resetStudentPassword('${escapeJs(student.student_id)}')"
+                        data-action="reset-password"
+                        data-student-id="${safeId}"
                     >
                         รีเซ็ตรหัสผ่าน
                     </button>
@@ -1091,7 +1582,69 @@ function createStudentRow(
 
 
 /* =====================================================
-   SET STUDENT LOADING
+   STUDENT TABLE EVENTS
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const button =
+            event.target.closest(
+                "[data-action]"
+            );
+
+
+        if (!button) {
+
+            return;
+
+        }
+
+
+        const action =
+            button.dataset.action;
+
+
+        const studentId =
+            button.dataset.studentId;
+
+
+        if (!studentId) {
+
+            return;
+
+        }
+
+
+        if (
+            action === "edit"
+        ) {
+
+            editStudent(
+                studentId
+            );
+
+        }
+
+
+        if (
+            action ===
+            "reset-password"
+        ) {
+
+            resetStudentPassword(
+                studentId
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   STUDENT LOADING
 ===================================================== */
 
 function setStudentLoading(
@@ -1111,26 +1664,29 @@ function setStudentLoading(
     }
 
 
-    if (loading) {
+    if (!loading) {
 
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="9"
-                    class="loading-row"
-                >
-
-                    กำลังโหลดข้อมูลนักศึกษา...
-
-                </td>
-
-            </tr>
-
-        `;
+        return;
 
     }
+
+
+    tbody.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="9"
+                class="loading-row"
+            >
+
+                กำลังโหลดข้อมูลนักศึกษา...
+
+            </td>
+
+        </tr>
+
+    `;
 
 }
 
@@ -1163,7 +1719,7 @@ function renderStudentsError() {
                 class="error-row"
             >
 
-                ไม่สามารถโหลดข้อมูลได้
+                ไม่สามารถโหลดข้อมูลนักศึกษาได้
 
             </td>
 
@@ -1196,7 +1752,7 @@ function openStudentModal(
 
 
     /*
-     * Reset
+     * Reset Form ก่อน
      */
 
     resetStudentForm();
@@ -1207,7 +1763,7 @@ function openStudentModal(
 
 
     /*
-     * Add Mode
+     * ADD MODE
      */
 
     if (!student) {
@@ -1237,7 +1793,7 @@ function openStudentModal(
 
 
     /*
-     * Edit Mode
+     * EDIT MODE
      */
 
     editingStudentId =
@@ -1249,10 +1805,6 @@ function openStudentModal(
         student.student_id
     );
 
-
-    /*
-     * ถ้าแก้ไข ไม่ควรเปลี่ยน password
-     */
 
     setInputValue(
         "studentPassword",
@@ -1330,6 +1882,10 @@ function openStudentModal(
     );
 
 
+    /*
+     * Title
+     */
+
     const title =
         modal.querySelector(
             ".modal-header h2"
@@ -1345,7 +1901,7 @@ function openStudentModal(
 
 
     /*
-     * Student ID ห้ามแก้ไข
+     * Student ID readonly
      */
 
     const idInput =
@@ -1363,7 +1919,7 @@ function openStudentModal(
 
 
     /*
-     * Password ไม่จำเป็นในโหมดแก้ไข
+     * Password
      */
 
     const passwordInput =
@@ -1378,13 +1934,13 @@ function openStudentModal(
             false;
 
         passwordInput.placeholder =
-            "ไม่เปลี่ยนรหัสผ่าน ให้เว้นว่าง";
+            "เว้นว่างหากไม่ต้องการเปลี่ยนรหัสผ่าน";
 
     }
 
 
     /*
-     * ปุ่ม
+     * Save Button
      */
 
     const saveBtn =
@@ -1416,17 +1972,25 @@ function editStudent(
     studentId
 ) {
 
+    const target =
+        String(
+            studentId || ""
+        )
+        .trim();
+
+
     const student =
         studentsCache.find(
             function (item) {
 
                 return String(
-                    item.student_id
-                ).trim()
+                    item.student_id ||
+                    item.studentId ||
+                    ""
+                )
+                .trim()
                 ===
-                String(
-                    studentId
-                ).trim();
+                target;
 
             }
         );
@@ -1570,10 +2134,17 @@ async function handleStudentSubmit(
     event.preventDefault();
 
 
+    if (
+        isStudentSaving
+    ) {
+
+        return;
+
+    }
+
+
     const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-        );
+        getAdminToken();
 
 
     if (!token) {
@@ -1664,7 +2235,7 @@ async function handleStudentSubmit(
 
 
     /*
-     * Validate
+     * Validation
      */
 
     if (!studentId) {
@@ -1831,6 +2402,19 @@ async function addStudent(
     data
 ) {
 
+    if (
+        isStudentSaving
+    ) {
+
+        return;
+
+    }
+
+
+    isStudentSaving =
+        true;
+
+
     const button =
         document.getElementById(
             "saveStudentBtn"
@@ -1845,15 +2429,6 @@ async function addStudent(
 
 
     try {
-
-        /*
-         * สำคัญ:
-         * API Code.gs ปัจจุบันที่คุณส่งมา
-         * ยังไม่มี action adminAddStudent
-         *
-         * ดังนั้นส่วนนี้จะเรียก API
-         * เมื่อเราเพิ่ม action ฝั่ง Code.gs แล้ว
-         */
 
         const result =
             await apiRequest({
@@ -1907,22 +2482,22 @@ async function addStudent(
 
 
         if (
+            isSessionExpired(
+                result
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        if (
             !result ||
             !result.success
         ) {
-
-            if (
-                isSessionExpired(
-                    result
-                )
-            ) {
-
-                handleSessionExpired();
-
-                return;
-
-            }
-
 
             throw new Error(
                 result &&
@@ -1962,6 +2537,10 @@ async function addStudent(
 
     } finally {
 
+        isStudentSaving =
+            false;
+
+
         setButtonLoading(
             button,
             false,
@@ -1980,6 +2559,19 @@ async function addStudent(
 async function updateStudent(
     data
 ) {
+
+    if (
+        isStudentSaving
+    ) {
+
+        return;
+
+    }
+
+
+    isStudentSaving =
+        true;
+
 
     const button =
         document.getElementById(
@@ -2045,22 +2637,22 @@ async function updateStudent(
 
 
         if (
+            isSessionExpired(
+                result
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        if (
             !result ||
             !result.success
         ) {
-
-            if (
-                isSessionExpired(
-                    result
-                )
-            ) {
-
-                handleSessionExpired();
-
-                return;
-
-            }
-
 
             throw new Error(
                 result &&
@@ -2100,6 +2692,10 @@ async function updateStudent(
 
     } finally {
 
+        isStudentSaving =
+            false;
+
+
         setButtonLoading(
             button,
             false,
@@ -2120,9 +2716,7 @@ async function resetStudentPassword(
 ) {
 
     const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-        );
+        getAdminToken();
 
 
     if (!token) {
@@ -2134,17 +2728,36 @@ async function resetStudentPassword(
     }
 
 
+    const target =
+        String(
+            studentId || ""
+        ).trim();
+
+
+    if (!target) {
+
+        showMessage(
+            "ไม่พบรหัสนักศึกษา",
+            "error"
+        );
+
+        return;
+
+    }
+
+
     const student =
         studentsCache.find(
             function (item) {
 
                 return String(
-                    item.student_id
-                ).trim()
+                    item.student_id ||
+                    item.studentId ||
+                    ""
+                )
+                .trim()
                 ===
-                String(
-                    studentId
-                ).trim();
+                target;
 
             }
         );
@@ -2165,22 +2778,23 @@ async function resetStudentPassword(
 
 
     const confirmed =
-        confirm(
+        window.confirm(
 
-            "ต้องการรีเซ็ตรหัสผ่านนักศึกษา\n\n" +
+            "ต้องการรีเซ็ตรหัสผ่านนักศึกษาหรือไม่?\n\n" +
 
             "รหัสนักศึกษา: " +
-            studentId +
+            target +
 
             (
                 name
-                    ? "\nชื่อ: " + name
+                    ? "\nชื่อ: " +
+                      name
                     : ""
             ) +
 
             "\n\n" +
 
-            "ระบบจะใช้รหัสผ่านเริ่มต้น 123456"
+            "รหัสผ่านใหม่จะเป็น: 123456"
 
         );
 
@@ -2204,7 +2818,7 @@ async function resetStudentPassword(
                     token,
 
                 student_id:
-                    studentId,
+                    target,
 
                 newPassword:
                     "123456"
@@ -2213,26 +2827,22 @@ async function resetStudentPassword(
 
 
         if (
+            isSessionExpired(
+                result
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        if (
             !result ||
             !result.success
         ) {
-
-            if (
-                isSessionExpired(
-                    result
-                )
-            ) {
-
-                handleSessionExpired();
-
-                return;
-
-            }
-
-
-            /*
-             * ถ้า API ยังไม่มี action นี้
-             */
 
             throw new Error(
                 result &&
@@ -2289,9 +2899,7 @@ async function loadStaff() {
 
 
     const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-        );
+        getAdminToken();
 
 
     if (!token) {
@@ -2336,26 +2944,22 @@ async function loadStaff() {
 
 
         if (
+            isSessionExpired(
+                result
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        if (
             !result ||
             !result.success
         ) {
-
-            if (
-                isSessionExpired(
-                    result
-                )
-            ) {
-
-                handleSessionExpired();
-
-                return;
-
-            }
-
-
-            /*
-             * ถ้า API ยังไม่มี adminGetStaff
-             */
 
             throw new Error(
                 result &&
@@ -2367,12 +2971,40 @@ async function loadStaff() {
         }
 
 
-        staffCache =
+        if (
             Array.isArray(
                 result.staff
             )
-                ? result.staff
-                : [];
+        ) {
+
+            staffCache =
+                result.staff;
+
+        } else if (
+            result.data &&
+            Array.isArray(
+                result.data.staff
+            )
+        ) {
+
+            staffCache =
+                result.data.staff;
+
+        } else if (
+            Array.isArray(
+                result.data
+            )
+        ) {
+
+            staffCache =
+                result.data;
+
+        } else {
+
+            staffCache =
+                [];
+
+        }
 
 
         renderStaff();
@@ -2384,6 +3016,19 @@ async function loadStaff() {
             "LOAD STAFF ERROR",
             error
         );
+
+
+        if (
+            isSessionExpiredError(
+                error
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
 
 
         tbody.innerHTML = `
@@ -2402,6 +3047,12 @@ async function loadStaff() {
             </tr>
 
         `;
+
+        showMessage(
+            error.message ||
+            "ไม่สามารถโหลดข้อมูล Staff ได้",
+            "error"
+        );
 
     }
 
@@ -2458,6 +3109,33 @@ function renderStaff() {
             .map(
                 function (staff) {
 
+                    const adminId =
+                        staff.admin_id ||
+                        staff.adminId ||
+                        "-";
+
+
+                    const username =
+                        staff.username ||
+                        "-";
+
+
+                    const name =
+                        staff.name ||
+                        staff.full_name ||
+                        "-";
+
+
+                    const role =
+                        staff.role ||
+                        "STAFF";
+
+
+                    const status =
+                        staff.status ||
+                        "-";
+
+
                     return `
 
                         <tr>
@@ -2465,8 +3143,7 @@ function renderStaff() {
                             <td>
 
                                 ${escapeHtml(
-                                    staff.admin_id ||
-                                    "-"
+                                    adminId
                                 )}
 
                             </td>
@@ -2477,8 +3154,7 @@ function renderStaff() {
                                 <strong>
 
                                     ${escapeHtml(
-                                        staff.username ||
-                                        "-"
+                                        username
                                     )}
 
                                 </strong>
@@ -2489,8 +3165,7 @@ function renderStaff() {
                             <td>
 
                                 ${escapeHtml(
-                                    staff.name ||
-                                    "-"
+                                    name
                                 )}
 
                             </td>
@@ -2503,8 +3178,7 @@ function renderStaff() {
                                 >
 
                                     ${escapeHtml(
-                                        staff.role ||
-                                        "STAFF"
+                                        role
                                     )}
 
                                 </span>
@@ -2515,12 +3189,11 @@ function renderStaff() {
                             <td>
 
                                 <span
-                                    class="status-badge ${getStatusClass(staff.status)}"
+                                    class="status-badge ${getStatusClass(status)}"
                                 >
 
                                     ${escapeHtml(
-                                        staff.status ||
-                                        "-"
+                                        status
                                     )}
 
                                 </span>
@@ -2609,6 +3282,19 @@ function closeStaffModalHandler() {
 
     }
 
+
+    const form =
+        document.getElementById(
+            "staffForm"
+        );
+
+
+    if (form) {
+
+        form.reset();
+
+    }
+
 }
 
 
@@ -2623,10 +3309,17 @@ async function handleStaffSubmit(
     event.preventDefault();
 
 
+    if (
+        isStaffSaving
+    ) {
+
+        return;
+
+    }
+
+
     const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
-        );
+        getAdminToken();
 
 
     if (!token) {
@@ -2668,6 +3361,10 @@ async function handleStaffSubmit(
         );
 
 
+    /*
+     * Validation
+     */
+
     if (!username) {
 
         showMessage(
@@ -2702,6 +3399,10 @@ async function handleStaffSubmit(
         return;
 
     }
+
+
+    isStaffSaving =
+        true;
 
 
     const button =
@@ -2747,22 +3448,22 @@ async function handleStaffSubmit(
 
 
         if (
+            isSessionExpired(
+                result
+            )
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        if (
             !result ||
             !result.success
         ) {
-
-            if (
-                isSessionExpired(
-                    result
-                )
-            ) {
-
-                handleSessionExpired();
-
-                return;
-
-            }
-
 
             throw new Error(
                 result &&
@@ -2802,6 +3503,10 @@ async function handleStaffSubmit(
 
     } finally {
 
+        isStaffSaving =
+            false;
+
+
         setButtonLoading(
             button,
             false,
@@ -2819,8 +3524,17 @@ async function handleStaffSubmit(
 
 async function handleLogout() {
 
+    if (
+        isLoggingOut
+    ) {
+
+        return;
+
+    }
+
+
     const confirmed =
-        confirm(
+        window.confirm(
             "ต้องการออกจากระบบ Admin หรือไม่?"
         );
 
@@ -2832,14 +3546,36 @@ async function handleLogout() {
     }
 
 
-    const token =
-        sessionStorage.getItem(
-            CONFIG.ADMIN_SESSION_KEY
+    isLoggingOut =
+        true;
+
+
+    const logoutBtn =
+        document.getElementById(
+            "logoutBtn"
         );
 
 
+    if (logoutBtn) {
+
+        logoutBtn.disabled =
+            true;
+
+        logoutBtn.textContent =
+            "กำลังออกจากระบบ...";
+
+    }
+
+
+    const token =
+        getAdminToken();
+
+
     /*
-     * แจ้ง API ก่อน
+     * แจ้ง Backend
+     *
+     * ถ้า Backend ไม่มี action adminLogout
+     * ก็ยังล้าง Session ฝั่ง Browser ได้
      */
 
     if (token) {
@@ -2872,17 +3608,11 @@ async function handleLogout() {
      * ล้าง Session
      */
 
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_SESSION_KEY
-    );
-
-    sessionStorage.removeItem(
-        CONFIG.ADMIN_KEY
-    );
+    clearAdminSession();
 
 
     /*
-     * กลับ Login
+     * ไปหน้า Login
      */
 
     window.location.replace(
@@ -2910,7 +3640,7 @@ function showMessage(
     if (!box) {
 
         console.log(
-            "MESSAGE:",
+            "ADMIN MESSAGE:",
             text
         );
 
@@ -2935,10 +3665,6 @@ function showMessage(
 
     }
 
-
-    /*
-     * Auto hide
-     */
 
     if (text) {
 
@@ -2968,7 +3694,7 @@ function showMessage(
 
 
 /* =====================================================
-   INPUT HELPERS
+   INPUT GET
 ===================================================== */
 
 function getInputValue(
@@ -2994,6 +3720,10 @@ function getInputValue(
 
 }
 
+
+/* =====================================================
+   INPUT SET
+===================================================== */
 
 function setInputValue(
     id,
@@ -3040,11 +3770,18 @@ function setButtonLoading(
 
     if (loading) {
 
+        if (
+            !button.disabled
+        ) {
+
+            button.dataset.originalText =
+                button.textContent;
+
+        }
+
+
         button.disabled =
             true;
-
-        button.dataset.originalText =
-            button.textContent;
 
 
         button.textContent =
@@ -3055,6 +3792,7 @@ function setButtonLoading(
 
         button.disabled =
             false;
+
 
         button.textContent =
             button.dataset.originalText ||
@@ -3067,7 +3805,7 @@ function setButtonLoading(
 
 
 /* =====================================================
-   DATE FORMAT
+   DATE DISPLAY
 ===================================================== */
 
 function formatDisplayDate(
@@ -3086,11 +3824,13 @@ function formatDisplayDate(
 
 
     const text =
-        String(value).trim();
+        String(
+            value
+        ).trim();
 
 
     /*
-     * ถ้าเป็น dd/MM/yyyy
+     * dd/MM/yyyy
      */
 
     if (
@@ -3108,7 +3848,7 @@ function formatDisplayDate(
 
 
     /*
-     * ถ้าเป็น yyyy-MM-dd
+     * yyyy-MM-dd
      */
 
     if (
@@ -3125,11 +3865,68 @@ function formatDisplayDate(
 
 
         return (
+
             parts[2] +
             "/" +
             parts[1] +
             "/" +
             parts[0]
+
+        );
+
+    }
+
+
+    /*
+     * Google Date string
+     *
+     * Date(...)
+     */
+
+    const googleDate =
+        text.match(
+            /^Date\((\d+),(\d+),(\d+)\)$/
+        );
+
+
+    if (googleDate) {
+
+        const year =
+            Number(
+                googleDate[1]
+            );
+
+
+        const month =
+            Number(
+                googleDate[2]
+            ) + 1;
+
+
+        const day =
+            Number(
+                googleDate[3]
+            );
+
+
+        return (
+
+            String(day).padStart(
+                2,
+                "0"
+            ) +
+
+            "/" +
+
+            String(month).padStart(
+                2,
+                "0"
+            ) +
+
+            "/" +
+
+            year
+
         );
 
     }
@@ -3149,7 +3946,9 @@ function convertToInputDate(
 ) {
 
     if (
-        !value
+        value === null ||
+        value === undefined ||
+        value === ""
     ) {
 
         return "";
@@ -3158,7 +3957,9 @@ function convertToInputDate(
 
 
     const text =
-        String(value).trim();
+        String(
+            value
+        ).trim();
 
 
     /*
@@ -3196,6 +3997,77 @@ function convertToInputDate(
             "-" +
             match[1]
 
+        );
+
+    }
+
+
+    /*
+     * Google Date
+     */
+
+    const googleDate =
+        text.match(
+            /^Date\((\d+),(\d+),(\d+)\)$/
+        );
+
+
+    if (googleDate) {
+
+        const year =
+            Number(
+                googleDate[1]
+            );
+
+
+        const month =
+            Number(
+                googleDate[2]
+            ) + 1;
+
+
+        const day =
+            Number(
+                googleDate[3]
+            );
+
+
+        return (
+
+            String(year) +
+
+            "-" +
+
+            String(month).padStart(
+                2,
+                "0"
+            ) +
+
+            "-" +
+
+            String(day).padStart(
+                2,
+                "0"
+            )
+
+        );
+
+    }
+
+
+    /*
+     * ISO DateTime
+     */
+
+    if (
+        /^\d{4}-\d{2}-\d{2}T/.test(
+            text
+        )
+    ) {
+
+        return text.substring(
+            0,
+            10
         );
 
     }
@@ -3285,82 +4157,40 @@ function escapeHtml(
     }
 
 
-    return String(value)
+    return String(
+        value
+    )
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+    .replace(
+        /</g,
+        "&lt;"
+    )
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+    .replace(
+        />/g,
+        "&gt;"
+    )
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =====================================================
-   JAVASCRIPT STRING ESCAPE
-===================================================== */
-
-function escapeJs(
-    value
-) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(value)
-
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-
-        .replace(
-            /'/g,
-            "\\'"
-        )
-
-        .replace(
-            /\r/g,
-            "\\r"
-        )
-
-        .replace(
-            /\n/g,
-            "\\n"
-        );
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
 /* =====================================================
    GLOBAL FUNCTIONS
-   เพื่อให้ onclick ใน HTML เรียกได้
 ===================================================== */
 
 window.editStudent =
@@ -3385,6 +4215,10 @@ window.closeStudentModalHandler =
 
 window.closeStaffModalHandler =
     closeStaffModalHandler;
+
+
+window.handleLogout =
+    handleLogout;
 
 
 /*******************************************************
