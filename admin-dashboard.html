@@ -19,11 +19,13 @@
   Admin Dashboard | Student Card System
 </title>
 
+
 <style>
 
 * {
   box-sizing: border-box;
 }
+
 
 body {
 
@@ -34,9 +36,11 @@ body {
     "Noto Sans Thai",
     sans-serif;
 
-  background: #f5f7fb;
+  background:
+    #f5f7fb;
 
-  color: #111827;
+  color:
+    #111827;
 
 }
 
@@ -47,19 +51,26 @@ body {
 
 .header {
 
-  height: 68px;
+  height:
+    68px;
 
-  background: #0a1383;
+  background:
+    #0a1383;
 
-  color: #fff;
+  color:
+    #fff;
 
-  display: flex;
+  display:
+    flex;
 
-  align-items: center;
+  align-items:
+    center;
 
-  justify-content: space-between;
+  justify-content:
+    space-between;
 
-  padding: 0 25px;
+  padding:
+    0 25px;
 
   box-shadow:
     0 3px 12px
@@ -67,25 +78,34 @@ body {
 
 }
 
+
 .header-title {
 
-  font-size: 20px;
+  font-size:
+    20px;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
 }
+
 
 .header-user {
 
-  display: flex;
+  display:
+    flex;
 
-  align-items: center;
+  align-items:
+    center;
 
-  gap: 12px;
+  gap:
+    12px;
 
-  font-size: 13px;
+  font-size:
+    13px;
 
 }
+
 
 .logout-button {
 
@@ -96,15 +116,20 @@ body {
   background:
     transparent;
 
-  color: white;
+  color:
+    white;
 
-  border-radius: 7px;
+  border-radius:
+    7px;
 
-  padding: 8px 13px;
+  padding:
+    8px 13px;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
 }
+
 
 .logout-button:hover {
 
@@ -120,7 +145,8 @@ body {
 
 .layout {
 
-  display: flex;
+  display:
+    flex;
 
   min-height:
     calc(100vh - 68px);
@@ -134,54 +160,74 @@ body {
 
 .sidebar {
 
-  width: 240px;
+  width:
+    240px;
 
-  background: white;
+  background:
+    white;
 
   border-right:
     1px solid #e5e7eb;
 
-  padding: 18px 12px;
+  padding:
+    18px 12px;
 
 }
+
 
 .menu-button {
 
-  width: 100%;
+  width:
+    100%;
 
-  border: none;
+  border:
+    none;
 
-  background: transparent;
+  background:
+    transparent;
 
-  text-align: left;
+  text-align:
+    left;
 
-  padding: 12px 14px;
+  padding:
+    12px 14px;
 
-  margin-bottom: 5px;
+  margin-bottom:
+    5px;
 
-  border-radius: 8px;
+  border-radius:
+    8px;
 
-  color: #374151;
+  color:
+    #374151;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
-  font-size: 14px;
+  font-size:
+    14px;
 
 }
+
 
 .menu-button:hover {
 
-  background: #eef0ff;
+  background:
+    #eef0ff;
 
-  color: #0a1383;
+  color:
+    #0a1383;
 
 }
 
+
 .menu-button.active {
 
-  background: #0a1383;
+  background:
+    #0a1383;
 
-  color: white;
+  color:
+    white;
 
 }
 
@@ -192,25 +238,33 @@ body {
 
 .content {
 
-  flex: 1;
+  flex:
+    1;
 
-  padding: 25px;
+  padding:
+    25px;
 
-  min-width: 0;
+  min-width:
+    0;
 
 }
+
 
 .page {
 
-  display: none;
+  display:
+    none;
 
 }
+
 
 .page.active {
 
-  display: block;
+  display:
+    block;
 
 }
+
 
 .page-title {
 
@@ -224,6 +278,7 @@ body {
     24px;
 
 }
+
 
 .page-subtitle {
 
@@ -287,6 +342,7 @@ body {
 
 }
 
+
 .search-input {
 
   flex:
@@ -315,6 +371,7 @@ body {
 
 }
 
+
 .search-input:focus {
 
   border-color:
@@ -325,6 +382,7 @@ body {
     rgba(10,19,131,.08);
 
 }
+
 
 .primary-button {
 
@@ -354,12 +412,14 @@ body {
 
 }
 
+
 .primary-button:hover {
 
   background:
     #080f6d;
 
 }
+
 
 .primary-button:disabled {
 
@@ -370,6 +430,7 @@ body {
     not-allowed;
 
 }
+
 
 .secondary-button {
 
@@ -408,6 +469,7 @@ body {
 
 }
 
+
 table {
 
   width:
@@ -420,6 +482,7 @@ table {
     850px;
 
 }
+
 
 th {
 
@@ -443,6 +506,7 @@ th {
 
 }
 
+
 td {
 
   padding:
@@ -458,6 +522,7 @@ td {
     middle;
 
 }
+
 
 tr:hover td {
 
@@ -490,6 +555,7 @@ tr:hover td {
 
 }
 
+
 .badge-pending {
 
   background:
@@ -499,6 +565,7 @@ tr:hover td {
     #c2410c;
 
 }
+
 
 .badge-approved {
 
@@ -510,6 +577,7 @@ tr:hover td {
 
 }
 
+
 .badge-rejected {
 
   background:
@@ -519,6 +587,7 @@ tr:hover td {
     #dc2626;
 
 }
+
 
 .badge-reset {
 
@@ -560,6 +629,7 @@ tr:hover td {
 
 }
 
+
 .approve-button {
 
   background:
@@ -569,6 +639,7 @@ tr:hover td {
     #166534;
 
 }
+
 
 .reject-button {
 
@@ -580,6 +651,7 @@ tr:hover td {
 
 }
 
+
 .reset-button {
 
   background:
@@ -589,6 +661,7 @@ tr:hover td {
     #1e40af;
 
 }
+
 
 .edit-button {
 
@@ -621,6 +694,7 @@ tr:hover td {
 
 }
 
+
 .form-group {
 
   display:
@@ -634,6 +708,7 @@ tr:hover td {
 
 }
 
+
 .form-group label {
 
   font-size:
@@ -643,6 +718,7 @@ tr:hover td {
     600;
 
 }
+
 
 .form-group input {
 
@@ -663,12 +739,25 @@ tr:hover td {
 
 }
 
+
 .form-group input:focus {
 
   border-color:
     #0a1383;
 
 }
+
+
+.form-group input:disabled {
+
+  background:
+    #f3f4f6;
+
+  color:
+    #6b7280;
+
+}
+
 
 .form-actions {
 
@@ -680,6 +769,20 @@ tr:hover td {
 
   gap:
     10px;
+
+}
+
+
+/* ==================================================
+   DATE INPUT
+   ================================================== */
+
+.date-input {
+
+  font-family:
+    Arial,
+    "Noto Sans Thai",
+    sans-serif;
 
 }
 
@@ -707,12 +810,14 @@ tr:hover td {
 
 }
 
+
 .message.show {
 
   display:
     block;
 
 }
+
 
 .message.success {
 
@@ -724,6 +829,7 @@ tr:hover td {
 
 }
 
+
 .message.error {
 
   background:
@@ -733,6 +839,7 @@ tr:hover td {
     #991b1b;
 
 }
+
 
 .message.info {
 
@@ -777,12 +884,14 @@ tr:hover td {
 
 }
 
+
 .modal.show {
 
   display:
     flex;
 
 }
+
 
 .modal-box {
 
@@ -803,6 +912,7 @@ tr:hover td {
 
 }
 
+
 .modal-title {
 
   margin:
@@ -812,6 +922,7 @@ tr:hover td {
     #0a1383;
 
 }
+
 
 .modal-text {
 
@@ -825,6 +936,7 @@ tr:hover td {
     15px;
 
 }
+
 
 .modal-actions {
 
@@ -853,12 +965,14 @@ tr:hover td {
 
   }
 
+
   .content {
 
     padding:
       15px;
 
   }
+
 
   .form-grid {
 
@@ -879,6 +993,7 @@ tr:hover td {
 
   }
 
+
   .sidebar {
 
     width:
@@ -898,6 +1013,7 @@ tr:hover td {
 
   }
 
+
   .menu-button {
 
     min-width:
@@ -905,12 +1021,14 @@ tr:hover td {
 
   }
 
+
   .header {
 
     padding:
       0 12px;
 
   }
+
 
   .header-title {
 
@@ -929,550 +1047,599 @@ tr:hover td {
 <body>
 
 
+<!-- ==================================================
+     HEADER
+     ================================================== -->
+
 <header class="header">
 
-<div class="header-title">
 
-  🛡️ Student Card System
+  <div class="header-title">
 
-</div>
+    🛡️ Student Card System
 
-
-<div class="header-user">
-
-<span id="adminUsername">
-  Admin
-</span>
+  </div>
 
 
-<button
-  class="logout-button"
-  onclick="adminLogout()"
->
+  <div class="header-user">
 
-  ออกจากระบบ
+    <span id="adminUsername">
+      Admin
+    </span>
 
-</button>
 
-</div>
+    <button
+      class="logout-button"
+      type="button"
+      onclick="adminLogout()"
+    >
+
+      ออกจากระบบ
+
+    </button>
+
+  </div>
+
 
 </header>
 
 
 
+<!-- ==================================================
+     LAYOUT
+     ================================================== -->
+
 <div class="layout">
 
+
+<!-- ==================================================
+     SIDEBAR
+     ================================================== -->
 
 <aside class="sidebar">
 
 
-<button
-  class="menu-button active"
-  data-page="studentsPage"
-  onclick="showPage('studentsPage', this)"
->
+  <button
+    class="menu-button active"
+    data-page="studentsPage"
+    type="button"
+    onclick="showPage('studentsPage', this)"
+  >
 
-  👨‍🎓 ข้อมูลนักศึกษา
+    👨‍🎓 ข้อมูลนักศึกษา
 
-</button>
+  </button>
 
 
-<button
-  class="menu-button"
-  data-page="resetPage"
-  onclick="showPage('resetPage', this)"
->
+  <button
+    class="menu-button"
+    data-page="resetPage"
+    type="button"
+    onclick="showPage('resetPage', this)"
+  >
 
-  🔑 คำร้องลืมรหัสผ่าน
+    🔑 คำร้องลืมรหัสผ่าน
 
-</button>
+  </button>
 
 
 </aside>
 
 
 
+<!-- ==================================================
+     CONTENT
+     ================================================== -->
+
 <main class="content">
 
 
-<div
-  id="globalMessage"
-  class="message"
-></div>
+  <div
+    id="globalMessage"
+    class="message"
+  ></div>
 
 
 
-<!-- ==================================================
-     STUDENTS
-     ================================================== -->
+  <!-- ==================================================
+       STUDENTS PAGE
+       ================================================== -->
 
-<section
-  id="studentsPage"
-  class="page active"
->
+  <section
+    id="studentsPage"
+    class="page active"
+  >
 
 
-<h1 class="page-title">
+    <h1 class="page-title">
 
-  ข้อมูลนักศึกษา
+      ข้อมูลนักศึกษา
 
-</h1>
+    </h1>
 
 
-<p class="page-subtitle">
+    <p class="page-subtitle">
 
-  ค้นหาและแก้ไขข้อมูลนักศึกษา
+      ค้นหาและแก้ไขข้อมูลนักศึกษา
 
-</p>
+    </p>
 
 
-<div class="card">
+    <div class="card">
 
 
-<div class="toolbar">
+      <div class="toolbar">
 
 
-<input
-  id="studentSearch"
-  class="search-input"
-  type="text"
-  placeholder="ค้นหารหัส ชื่อ นามสกุล ภาควิชา..."
->
+        <input
+          id="studentSearch"
+          class="search-input"
+          type="text"
+          placeholder="ค้นหารหัส ชื่อ นามสกุล ภาควิชา..."
+          autocomplete="off"
+        >
 
 
-<button
-  id="searchButton"
-  class="primary-button"
-  onclick="loadStudents()"
->
+        <button
+          id="searchButton"
+          class="primary-button"
+          type="button"
+          onclick="loadStudents()"
+        >
 
-  🔎 ค้นหา
+          🔎 ค้นหา
 
-</button>
+        </button>
 
 
-<button
-  class="secondary-button"
-  onclick="loadStudents()"
->
+        <button
+          class="secondary-button"
+          type="button"
+          onclick="loadStudents()"
+        >
 
-  🔄 โหลดใหม่
+          🔄 โหลดใหม่
 
-</button>
+        </button>
 
 
-</div>
+      </div>
 
 
-<div class="table-wrap">
+      <div class="table-wrap">
 
 
-<table>
+        <table>
 
 
-<thead>
+          <thead>
 
-<tr>
+            <tr>
 
-<th>
-  รหัสนักศึกษา
-</th>
+              <th>
+                รหัสนักศึกษา
+              </th>
 
-<th>
-  ชื่อ
-</th>
+              <th>
+                ชื่อ
+              </th>
 
-<th>
-  นามสกุล
-</th>
+              <th>
+                นามสกุล
+              </th>
 
-<th>
-  ภาควิชา
-</th>
+              <th>
+                ภาควิชา
+              </th>
 
-<th>
-  สถานะ
-</th>
+              <th>
+                สถานะ
+              </th>
 
-<th>
-  โทรศัพท์
-</th>
+              <th>
+                โทรศัพท์
+              </th>
 
-<th>
-  จัดการ
-</th>
+              <th>
+                จัดการ
+              </th>
 
-</tr>
+            </tr>
 
-</thead>
+          </thead>
 
 
-<tbody
-  id="studentsTableBody"
->
+          <tbody
+            id="studentsTableBody"
+          >
 
-<tr>
+            <tr>
 
-<td colspan="7">
+              <td colspan="7">
 
-  กำลังโหลดข้อมูล...
+                กำลังโหลดข้อมูล...
 
-</td>
+              </td>
 
-</tr>
+            </tr>
 
-</tbody>
+          </tbody>
 
 
-</table>
+        </table>
 
-</div>
 
-</div>
+      </div>
 
-</section>
 
+    </div>
 
 
-<!-- ==================================================
-     RESET REQUESTS
-     ================================================== -->
+  </section>
 
-<section
-  id="resetPage"
-  class="page"
->
 
 
-<h1 class="page-title">
+  <!-- ==================================================
+       RESET REQUEST PAGE
+       ================================================== -->
 
-  คำร้องลืมรหัสผ่าน
+  <section
+    id="resetPage"
+    class="page"
+  >
 
-</h1>
 
+    <h1 class="page-title">
 
-<p class="page-subtitle">
+      คำร้องลืมรหัสผ่าน
 
-  ตรวจสอบ อนุมัติ ปฏิเสธ และรีเซ็ตรหัสผ่านนักศึกษา
+    </h1>
 
-</p>
 
+    <p class="page-subtitle">
 
-<div class="card">
+      ตรวจสอบ อนุมัติ ปฏิเสธ และรีเซ็ตรหัสผ่านนักศึกษา
 
+    </p>
 
-<div class="toolbar">
 
+    <div class="card">
 
-<button
-  class="primary-button"
-  onclick="loadResetRequests()"
->
 
-  🔄 โหลดคำร้อง
+      <div class="toolbar">
 
-</button>
 
+        <button
+          class="primary-button"
+          type="button"
+          onclick="loadResetRequests()"
+        >
 
-</div>
+          🔄 โหลดคำร้อง
 
+        </button>
 
-<div class="table-wrap">
 
+      </div>
 
-<table>
 
+      <div class="table-wrap">
 
-<thead>
 
-<tr>
+        <table>
 
-<th>
-  เลขที่คำร้อง
-</th>
 
-<th>
-  รหัสนักศึกษา
-</th>
+          <thead>
 
-<th>
-  รายละเอียด
-</th>
+            <tr>
 
-<th>
-  สถานะ
-</th>
+              <th>
+                เลขที่คำร้อง
+              </th>
 
-<th>
-  วันที่ร้องขอ
-</th>
+              <th>
+                รหัสนักศึกษา
+              </th>
 
-<th>
-  ผู้ดำเนินการ
-</th>
+              <th>
+                รายละเอียด
+              </th>
 
-<th>
-  การดำเนินการ
-</th>
+              <th>
+                สถานะ
+              </th>
 
-</tr>
+              <th>
+                วันที่ร้องขอ
+              </th>
 
-</thead>
+              <th>
+                ผู้ดำเนินการ
+              </th>
 
+              <th>
+                การดำเนินการ
+              </th>
 
-<tbody
-  id="resetRequestsBody"
->
+            </tr>
 
-<tr>
+          </thead>
 
-<td colspan="7">
 
-  กำลังโหลดคำร้อง...
+          <tbody
+            id="resetRequestsBody"
+          >
 
-</td>
+            <tr>
 
-</tr>
+              <td colspan="7">
 
-</tbody>
+                กำลังโหลดคำร้อง...
 
+              </td>
 
-</table>
+            </tr>
 
-</div>
+          </tbody>
 
-</div>
 
-</section>
+        </table>
 
 
+      </div>
 
-<!-- ==================================================
-     EDIT STUDENT
-     ================================================== -->
 
-<section
-  id="editStudentPage"
-  class="page"
->
+    </div>
 
 
-<h1 class="page-title">
+  </section>
 
-  แก้ไขข้อมูลนักศึกษา
 
-</h1>
 
+  <!-- ==================================================
+       EDIT STUDENT PAGE
+       ================================================== -->
 
-<p class="page-subtitle">
+  <section
+    id="editStudentPage"
+    class="page"
+  >
 
-  แก้ไขข้อมูลแล้วกดบันทึก
 
-</p>
+    <h1 class="page-title">
 
+      แก้ไขข้อมูลนักศึกษา
 
-<div class="card">
+    </h1>
 
 
-<input
-  type="hidden"
-  id="editStudentId"
->
+    <p class="page-subtitle">
 
+      แก้ไขข้อมูลแล้วกดบันทึก
 
-<div class="form-grid">
+    </p>
 
 
-<div class="form-group">
+    <div class="card">
 
-<label>
-  รหัสนักศึกษา
-</label>
 
-<input
-  id="editStudentIdDisplay"
-  disabled
->
+      <input
+        type="hidden"
+        id="editStudentId"
+      >
 
-</div>
 
+      <div class="form-grid">
 
-<div class="form-group">
 
-<label>
-  คำนำหน้า
-</label>
+        <div class="form-group">
 
-<input
-  id="editPrefix"
->
+          <label>
+            รหัสนักศึกษา
+          </label>
 
-</div>
+          <input
+            id="editStudentIdDisplay"
+            disabled
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  ชื่อ
-</label>
+        <div class="form-group">
 
-<input
-  id="editFirstname"
->
+          <label>
+            คำนำหน้า
+          </label>
 
-</div>
+          <input
+            id="editPrefix"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  นามสกุล
-</label>
+        <div class="form-group">
 
-<input
-  id="editLastname"
->
+          <label>
+            ชื่อ
+          </label>
 
-</div>
+          <input
+            id="editFirstname"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  ชื่อภาษาอังกฤษ
-</label>
+        <div class="form-group">
 
-<input
-  id="editFirstnameEn"
->
+          <label>
+            นามสกุล
+          </label>
 
-</div>
+          <input
+            id="editLastname"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  นามสกุลภาษาอังกฤษ
-</label>
+        <div class="form-group">
 
-<input
-  id="editLastnameEn"
->
+          <label>
+            ชื่อภาษาอังกฤษ
+          </label>
 
-</div>
+          <input
+            id="editFirstnameEn"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  สถานะ
-</label>
+        <div class="form-group">
 
-<input
-  id="editStatus"
->
+          <label>
+            นามสกุลภาษาอังกฤษ
+          </label>
 
-</div>
+          <input
+            id="editLastnameEn"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  ภาควิชา
-</label>
+        <div class="form-group">
 
-<input
-  id="editDepartment"
->
+          <label>
+            สถานะ
+          </label>
 
-</div>
+          <input
+            id="editStatus"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  โทรศัพท์
-</label>
+        <div class="form-group">
 
-<input
-  id="editPhone"
->
+          <label>
+            ภาควิชา
+          </label>
 
-</div>
+          <input
+            id="editDepartment"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  URL รูปภาพ
-</label>
+        <div class="form-group">
 
-<input
-  id="editPhotoUrl"
->
+          <label>
+            โทรศัพท์
+          </label>
 
-</div>
+          <input
+            id="editPhone"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  วันที่ออกบัตร
-</label>
+        <div class="form-group">
 
-<input
-  id="editIssueDate"
-  placeholder="dd/MM/yyyy"
->
+          <label>
+            URL รูปภาพ
+          </label>
 
-</div>
+          <input
+            id="editPhotoUrl"
+          >
 
+        </div>
 
-<div class="form-group">
 
-<label>
-  วันหมดอายุ
-</label>
+        <!-- ==========================================
+             ISSUE DATE
+             ========================================== -->
 
-<input
-  id="editExpireDate"
-  placeholder="dd/MM/yyyy"
->
+        <div class="form-group">
 
-</div>
+          <label>
+            วันที่ออกบัตร
+          </label>
 
+          <input
+            id="editIssueDate"
+            class="date-input"
+            type="text"
+            placeholder="dd/MM/yyyy"
+            autocomplete="off"
+          >
 
-</div>
+        </div>
 
 
-<div class="form-actions">
+        <!-- ==========================================
+             EXPIRE DATE
+             ========================================== -->
 
+        <div class="form-group">
 
-<button
-  class="primary-button"
-  onclick="saveStudent()"
->
+          <label>
+            วันหมดอายุ
+          </label>
 
-  💾 บันทึกข้อมูล
+          <input
+            id="editExpireDate"
+            class="date-input"
+            type="text"
+            placeholder="dd/MM/yyyy"
+            autocomplete="off"
+          >
 
-</button>
+        </div>
 
 
-<button
-  class="secondary-button"
-  onclick="showPage('studentsPage')"
->
+      </div>
 
-  ยกเลิก
 
-</button>
+      <div class="form-actions">
 
 
-</div>
+        <button
+          class="primary-button"
+          type="button"
+          onclick="saveStudent()"
+        >
 
-</div>
+          💾 บันทึกข้อมูล
 
-</section>
+        </button>
+
+
+        <button
+          class="secondary-button"
+          type="button"
+          onclick="showPage('studentsPage')"
+        >
+
+          ยกเลิก
+
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
 
 
 </main>
@@ -1491,97 +1658,102 @@ tr:hover td {
 >
 
 
-<div class="modal-box">
+  <div class="modal-box">
 
 
-<h2
-  id="resetModalTitle"
-  class="modal-title"
->
+    <h2
+      id="resetModalTitle"
+      class="modal-title"
+    >
 
-  ดำเนินการ
+      ดำเนินการ
 
-</h2>
-
-
-<div
-  id="resetModalText"
-  class="modal-text"
-></div>
+    </h2>
 
 
-<div class="form-group">
+    <div
+      id="resetModalText"
+      class="modal-text"
+    ></div>
 
 
-<label>
-  หมายเหตุ
-</label>
+    <div class="form-group">
 
 
-<input
-  id="resetNote"
-  placeholder="หมายเหตุ (ถ้ามี)"
->
+      <label>
+        หมายเหตุ
+      </label>
 
 
-</div>
+      <input
+        id="resetNote"
+        placeholder="หมายเหตุ (ถ้ามี)"
+      >
 
 
-<div
-  id="newPasswordGroup"
-  class="form-group"
-  style="margin-top:12px;"
->
+    </div>
 
 
-<label>
-  รหัสผ่านใหม่
-</label>
+    <div
+      id="newPasswordGroup"
+      class="form-group"
+      style="margin-top:12px;"
+    >
 
 
-<input
-  id="newPassword"
-  type="password"
-  placeholder="เว้นว่างเพื่อใช้ 123456"
->
+      <label>
+        รหัสผ่านใหม่
+      </label>
 
 
-</div>
+      <input
+        id="newPassword"
+        type="password"
+        placeholder="เว้นว่างเพื่อใช้ 123456"
+      >
 
 
-<div class="modal-actions">
+    </div>
 
 
-<button
-  class="secondary-button"
-  onclick="closeResetModal()"
->
-
-  ยกเลิก
-
-</button>
+    <div class="modal-actions">
 
 
-<button
-  id="confirmResetButton"
-  class="primary-button"
-  onclick="confirmResetAction()"
->
+      <button
+        class="secondary-button"
+        type="button"
+        onclick="closeResetModal()"
+      >
 
-  ยืนยัน
+        ยกเลิก
 
-</button>
+      </button>
 
 
-</div>
+      <button
+        id="confirmResetButton"
+        class="primary-button"
+        type="button"
+        onclick="confirmResetAction()"
+      >
 
-</div>
+        ยืนยัน
+
+      </button>
+
+
+    </div>
+
+
+  </div>
+
 
 </div>
 
 
 
 <script>
+
 
 /* ==================================================
    CONFIG
@@ -1620,16 +1792,18 @@ let currentResetAction = null;
 
 document.addEventListener(
   "DOMContentLoaded",
-  function() {
+  function () {
 
     initializeDashboard();
+
+    initializeSearch();
 
   }
 );
 
 
 /* ==================================================
-   INITIALIZE
+   INITIALIZE DASHBOARD
    ================================================== */
 
 async function initializeDashboard() {
@@ -1661,17 +1835,27 @@ async function initializeDashboard() {
       );
 
 
-    document.getElementById(
-      "adminUsername"
-    ).textContent =
-      adminData.username ||
-      "Admin";
+    const adminUsername =
+      document.getElementById(
+        "adminUsername"
+      );
+
+
+    if (adminUsername) {
+
+      adminUsername.textContent =
+        adminData.username ||
+        "Admin";
+
+    }
 
   }
 
-  catch(error) {
+  catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
   }
 
@@ -1775,9 +1959,11 @@ function showPage(
 ) {
 
   document
-    .querySelectorAll(".page")
+    .querySelectorAll(
+      ".page"
+    )
     .forEach(
-      function(page) {
+      function (page) {
 
         page.classList.remove(
           "active"
@@ -1807,7 +1993,7 @@ function showPage(
       ".menu-button"
     )
     .forEach(
-      function(item) {
+      function (item) {
 
         item.classList.remove(
           "active"
@@ -1870,6 +2056,13 @@ async function loadStudents() {
     );
 
 
+  if (!tbody) {
+
+    return;
+
+  }
+
+
   tbody.innerHTML =
 
     `<tr>
@@ -1881,13 +2074,16 @@ async function loadStudents() {
 
   try {
 
+    const searchElement =
+      document.getElementById(
+        "studentSearch"
+      );
+
+
     const search =
-      document
-        .getElementById(
-          "studentSearch"
-        )
-        .value
-        .trim();
+      searchElement
+        ? searchElement.value.trim()
+        : "";
 
 
     const result =
@@ -1929,7 +2125,7 @@ async function loadStudents() {
 
   }
 
-  catch(error) {
+  catch (error) {
 
     console.error(
       "LOAD STUDENTS ERROR:",
@@ -1979,6 +2175,13 @@ function renderStudents() {
     );
 
 
+  if (!tbody) {
+
+    return;
+
+  }
+
+
   if (!students.length) {
 
     tbody.innerHTML =
@@ -1997,7 +2200,7 @@ function renderStudents() {
   tbody.innerHTML =
     students
       .map(
-        function(student) {
+        function (student) {
 
           const fullName =
             (
@@ -2059,6 +2262,7 @@ function renderStudents() {
 
 <button
   class="action-button edit-button"
+  type="button"
   onclick="editStudent('${escapeJs(
     student.student_id
   )}')"
@@ -2091,7 +2295,7 @@ function editStudent(
 
   const student =
     students.find(
-      function(item) {
+      function (item) {
 
         return String(
           item.student_id
@@ -2182,15 +2386,26 @@ function editStudent(
   );
 
 
+  /*
+   * ============================================
+   * จุดที่แก้ไข:
+   * ตัดเวลา 00:00:00 ออกจากวันที่
+   * ============================================
+   */
+
   setValue(
     "editIssueDate",
-    student.issue_date
+    formatDateOnly(
+      student.issue_date
+    )
   );
 
 
   setValue(
     "editExpireDate",
-    student.expire_date
+    formatDateOnly(
+      student.expire_date
+    )
   );
 
 
@@ -2227,6 +2442,22 @@ async function saveStudent() {
 
   try {
 
+    const issueDate =
+      formatDateOnly(
+        getValue(
+          "editIssueDate"
+        )
+      );
+
+
+    const expireDate =
+      formatDateOnly(
+        getValue(
+          "editExpireDate"
+        )
+      );
+
+
     const result =
       await apiRequest({
 
@@ -2242,37 +2473,59 @@ async function saveStudent() {
           studentId,
 
         prefix_th:
-          getValue("editPrefix"),
+          getValue(
+            "editPrefix"
+          ),
 
         firstname_th:
-          getValue("editFirstname"),
+          getValue(
+            "editFirstname"
+          ),
 
         lastname_th:
-          getValue("editLastname"),
+          getValue(
+            "editLastname"
+          ),
 
         firstname_en:
-          getValue("editFirstnameEn"),
+          getValue(
+            "editFirstnameEn"
+          ),
 
         lastname_en:
-          getValue("editLastnameEn"),
+          getValue(
+            "editLastnameEn"
+          ),
 
         status:
-          getValue("editStatus"),
+          getValue(
+            "editStatus"
+          ),
 
         department:
-          getValue("editDepartment"),
+          getValue(
+            "editDepartment"
+          ),
 
         phone:
-          getValue("editPhone"),
+          getValue(
+            "editPhone"
+          ),
 
         photo_url:
-          getValue("editPhotoUrl"),
+          getValue(
+            "editPhotoUrl"
+          ),
+
+        /*
+         * ส่งวันที่แบบไม่มีเวลา
+         */
 
         issue_date:
-          getValue("editIssueDate"),
+          issueDate,
 
         expire_date:
-          getValue("editExpireDate")
+          expireDate
 
       });
 
@@ -2302,9 +2555,12 @@ async function saveStudent() {
 
   }
 
-  catch(error) {
+  catch (error) {
 
-    console.error(error);
+    console.error(
+      "SAVE STUDENT ERROR:",
+      error
+    );
 
 
     if (
@@ -2326,6 +2582,279 @@ async function saveStudent() {
 
 
 /* ==================================================
+   FORMAT DATE ONLY
+   ==================================================
+
+   ฟังก์ชันนี้เป็นจุดสำคัญของการแก้ปัญหา
+
+   ตัวอย่าง:
+
+   01/08/2025 00:00:00
+   ->
+   01/08/2025
+
+   2025-08-01 00:00:00
+   ->
+   01/08/2025
+
+   2025-08-01T00:00:00.000Z
+   ->
+   01/08/2025
+   ================================================== */
+
+function formatDateOnly(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+
+    return "";
+
+  }
+
+
+  /*
+   * ถ้าเป็น Date object
+   */
+
+  if (
+    value instanceof Date
+  ) {
+
+    if (
+      isNaN(
+        value.getTime()
+      )
+    ) {
+
+      return "";
+
+    }
+
+
+    const day =
+      String(
+        value.getDate()
+      )
+      .padStart(
+        2,
+        "0"
+      );
+
+
+    const month =
+      String(
+        value.getMonth() + 1
+      )
+      .padStart(
+        2,
+        "0"
+      );
+
+
+    const year =
+      String(
+        value.getFullYear()
+      );
+
+
+    return (
+      day +
+      "/" +
+      month +
+      "/" +
+      year
+    );
+
+  }
+
+
+  let text =
+    String(
+      value
+    )
+    .trim();
+
+
+  if (!text) {
+
+    return "";
+
+  }
+
+
+  /*
+   * ตัดเวลา
+   *
+   * 01/08/2025 00:00:00
+   *
+   * เหลือ
+   *
+   * 01/08/2025
+   */
+
+  text =
+    text
+      .split("T")[0]
+      .split(" ")[0]
+      .trim();
+
+
+  /*
+   * dd/MM/yyyy
+   */
+
+  const slashMatch =
+    text.match(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+    );
+
+
+  if (slashMatch) {
+
+    const day =
+      slashMatch[1]
+        .padStart(
+          2,
+          "0"
+        );
+
+
+    const month =
+      slashMatch[2]
+        .padStart(
+          2,
+          "0"
+        );
+
+
+    const year =
+      slashMatch[3];
+
+
+    return (
+      day +
+      "/" +
+      month +
+      "/" +
+      year
+    );
+
+  }
+
+
+  /*
+   * yyyy-MM-dd
+   */
+
+  const isoMatch =
+    text.match(
+      /^(\d{4})-(\d{1,2})-(\d{1,2})$/
+    );
+
+
+  if (isoMatch) {
+
+    const year =
+      isoMatch[1];
+
+
+    const month =
+      isoMatch[2]
+        .padStart(
+          2,
+          "0"
+        );
+
+
+    const day =
+      isoMatch[3]
+        .padStart(
+          2,
+          "0"
+        );
+
+
+    return (
+      day +
+      "/" +
+      month +
+      "/" +
+      year
+    );
+
+  }
+
+
+  /*
+   * กรณีรูปแบบอื่น
+   * ลองแปลงด้วย Date
+   */
+
+  const parsedDate =
+    new Date(
+      text
+    );
+
+
+  if (
+    !isNaN(
+      parsedDate.getTime()
+    )
+  ) {
+
+    const day =
+      String(
+        parsedDate.getDate()
+      )
+      .padStart(
+        2,
+        "0"
+      );
+
+
+    const month =
+      String(
+        parsedDate.getMonth() + 1
+      )
+      .padStart(
+        2,
+        "0"
+      );
+
+
+    const year =
+      String(
+        parsedDate.getFullYear()
+      );
+
+
+    return (
+      day +
+      "/" +
+      month +
+      "/" +
+      year
+    );
+
+  }
+
+
+  /*
+   * ถ้าไม่รู้จักรูปแบบ
+   * ส่งค่าที่ถูกตัดเวลาแล้วกลับไป
+   */
+
+  return text;
+
+}
+
+
+/* ==================================================
    LOAD RESET REQUESTS
    ================================================== */
 
@@ -2335,6 +2864,13 @@ async function loadResetRequests() {
     document.getElementById(
       "resetRequestsBody"
     );
+
+
+  if (!tbody) {
+
+    return;
+
+  }
 
 
   tbody.innerHTML =
@@ -2390,7 +2926,7 @@ async function loadResetRequests() {
 
   }
 
-  catch(error) {
+  catch (error) {
 
     console.error(
       "RESET REQUEST ERROR:",
@@ -2440,6 +2976,13 @@ function renderResetRequests() {
     );
 
 
+  if (!tbody) {
+
+    return;
+
+  }
+
+
   if (!resetRequests.length) {
 
     tbody.innerHTML =
@@ -2458,7 +3001,7 @@ function renderResetRequests() {
   tbody.innerHTML =
     resetRequests
       .map(
-        function(item) {
+        function (item) {
 
           const status =
             String(
@@ -2517,6 +3060,7 @@ function renderResetRequests() {
 
 <button
   class="action-button approve-button"
+  type="button"
   onclick="openResetAction('${escapeJs(
     item.request_id
   )}', 'approve')"
@@ -2529,6 +3073,7 @@ function renderResetRequests() {
 
 <button
   class="action-button reject-button"
+  type="button"
   onclick="openResetAction('${escapeJs(
     item.request_id
   )}', 'reject')"
@@ -2552,6 +3097,7 @@ function renderResetRequests() {
 
 <button
   class="action-button reset-button"
+  type="button"
   onclick="openResetAction('${escapeJs(
     item.request_id
   )}', 'reset')"
@@ -2659,7 +3205,7 @@ function openResetAction(
 
   const request =
     resetRequests.find(
-      function(item) {
+      function (item) {
 
         return String(
           item.request_id
@@ -2835,18 +3381,24 @@ function openResetAction(
 
 
 /* ==================================================
-   CLOSE MODAL
+   CLOSE RESET MODAL
    ================================================== */
 
 function closeResetModal() {
 
-  document
-    .getElementById(
+  const modal =
+    document.getElementById(
       "resetModal"
-    )
-    .classList.remove(
+    );
+
+
+  if (modal) {
+
+    modal.classList.remove(
       "show"
     );
+
+  }
 
 
   currentResetRequest =
@@ -2881,13 +3433,14 @@ async function confirmResetAction() {
   const note =
     getValue(
       "resetNote"
-    ).trim();
+    )
+    .trim();
 
 
   const newPassword =
-    document.getElementById(
+    getValue(
       "newPassword"
-    ).value;
+    );
 
 
   const button =
@@ -2993,9 +3546,11 @@ async function confirmResetAction() {
 
   }
 
-  catch(error) {
+  catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     if (
@@ -3056,7 +3611,7 @@ async function adminLogout() {
 
   }
 
-  catch(error) {
+  catch (error) {
 
     console.error(
       error
@@ -3097,6 +3652,13 @@ function showGlobalMessage(
     );
 
 
+  if (!message) {
+
+    return;
+
+  }
+
+
   message.textContent =
     text;
 
@@ -3110,7 +3672,7 @@ function showGlobalMessage(
 
 
   setTimeout(
-    function() {
+    function () {
 
       message.classList.remove(
         "show"
@@ -3127,7 +3689,9 @@ function showGlobalMessage(
    VALUE HELPERS
    ================================================== */
 
-function getValue(id) {
+function getValue(
+  id
+) {
 
   const element =
     document.getElementById(
@@ -3250,45 +3814,86 @@ function escapeJs(
 
 
 /* ==================================================
-   ENTER SEARCH
+   SEARCH ENTER
+   ================================================== */
+
+function initializeSearch() {
+
+  const search =
+    document.getElementById(
+      "studentSearch"
+    );
+
+
+  if (!search) {
+
+    return;
+
+  }
+
+
+  search.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.key ===
+        "Enter"
+      ) {
+
+        event.preventDefault();
+
+        loadStudents();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
    ================================================== */
 
 document.addEventListener(
-  "DOMContentLoaded",
-  function() {
+  "click",
+  function (event) {
 
-    const search =
+    const modal =
       document.getElementById(
-        "studentSearch"
+        "resetModal"
       );
 
 
-    if (search) {
+    if (
+      !modal ||
+      !modal.classList.contains(
+        "show"
+      )
+    ) {
 
-      search.addEventListener(
-        "keydown",
-        function(event) {
+      return;
 
-          if (
-            event.key ===
-            "Enter"
-          ) {
+    }
 
-            event.preventDefault();
 
-            loadStudents();
+    if (
+      event.target ===
+      modal
+    ) {
 
-          }
-
-        }
-      );
+      closeResetModal();
 
     }
 
   }
 );
 
+
 </script>
+
 
 </body>
 
