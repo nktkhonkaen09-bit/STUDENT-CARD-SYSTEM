@@ -19,11 +19,6 @@
     Admin Dashboard | Student Card System
   </title>
 
-
-  <!-- ==================================================
-       CSS
-  =================================================== -->
-
   <link
     rel="stylesheet"
     href="Css/admin-dashboard.css"
@@ -35,28 +30,36 @@
 <body>
 
 
-<!-- ==================================================
-     ADMIN HEADER
-=================================================== -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="admin-header">
 
-  <div class="admin-header-left">
+  <div class="header-left">
 
-    <div class="admin-title">
-      Admin Dashboard
+    <div class="header-icon">
+      🛡️
     </div>
 
-    <div class="admin-subtitle">
-      ระบบจัดการนักศึกษาและ Staff
+    <div>
+
+      <h1>
+        Admin Dashboard
+      </h1>
+
+      <p>
+        ระบบจัดการ Student Card System
+      </p>
+
     </div>
 
   </div>
 
 
-  <div class="admin-user">
+  <div class="header-right">
 
-    <div class="admin-user-info">
+    <div class="admin-info">
 
       <div
         id="adminName"
@@ -89,16 +92,16 @@
 
 
 
-<!-- ==================================================
+<!-- =====================================================
      MAIN
-=================================================== -->
+===================================================== -->
 
 <main class="admin-container">
 
 
-  <!-- =================================================
+  <!-- ===================================================
        MESSAGE
-  ================================================== -->
+  ==================================================== -->
 
   <div
     id="messageBox"
@@ -107,41 +110,106 @@
 
 
 
-  <!-- =================================================
+  <!-- ===================================================
+       SUMMARY
+  ==================================================== -->
+
+  <section class="summary-grid">
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon blue">
+        🎓
+      </div>
+
+      <div>
+
+        <div class="summary-label">
+          นักศึกษาทั้งหมด
+        </div>
+
+        <div
+          id="studentCount"
+          class="summary-number"
+        >
+          0
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon green">
+        👨‍💼
+      </div>
+
+      <div>
+
+        <div class="summary-label">
+          Staff / Admin
+        </div>
+
+        <div
+          id="staffCount"
+          class="summary-number"
+        >
+          0
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ===================================================
        STUDENT MANAGEMENT
-  ================================================== -->
+  ==================================================== -->
 
   <section class="admin-card">
 
-
-    <!-- CARD HEADER -->
 
     <div class="card-header">
 
 
       <div>
 
-        <h2 class="card-title">
+        <h2>
           จัดการนักศึกษา
         </h2>
 
-        <div class="card-description">
-          เพิ่มและตรวจสอบข้อมูลนักศึกษาในระบบ
-        </div>
+        <p>
+          เพิ่มและตรวจสอบข้อมูลนักศึกษา
+        </p>
 
       </div>
 
 
       <div class="card-actions">
 
-
         <input
           type="search"
           id="studentSearch"
           class="search-box"
           placeholder="ค้นหารหัส ชื่อ แผนก..."
-          autocomplete="off"
         >
+
+
+        <button
+          type="button"
+          id="reloadStudentsBtn"
+          class="secondary-btn"
+        >
+          ↻ รีโหลด
+        </button>
 
 
         <button
@@ -149,7 +217,7 @@
           id="addStudentBtn"
           class="primary-btn"
         >
-          + เพิ่มนักศึกษา
+          ＋ เพิ่มนักศึกษา
         </button>
 
       </div>
@@ -158,9 +226,7 @@
 
 
 
-    <!-- STUDENT TABLE -->
-
-    <div class="table-wrapper">
+    <div class="table-container">
 
       <table class="data-table">
 
@@ -211,9 +277,9 @@
 
             <td
               colspan="8"
-              class="table-loading"
+              class="loading-cell"
             >
-              กำลังโหลดข้อมูลนักศึกษา...
+              กำลังโหลดข้อมูล...
             </td>
 
           </tr>
@@ -229,50 +295,42 @@
 
 
 
-  <!-- =================================================
+  <!-- ===================================================
        STAFF MANAGEMENT
-  ================================================== -->
+  ==================================================== -->
 
   <section class="admin-card">
 
-
-    <!-- CARD HEADER -->
 
     <div class="card-header">
 
 
       <div>
 
-        <h2 class="card-title">
+        <h2>
           จัดการ Staff
         </h2>
 
-        <div class="card-description">
+        <p>
           เพิ่มผู้ดูแลระบบและเจ้าหน้าที่
-        </div>
+        </p>
 
       </div>
 
 
-      <div class="card-actions">
-
-        <button
-          type="button"
-          id="addStaffBtn"
-          class="primary-btn"
-        >
-          + เพิ่ม Staff
-        </button>
-
-      </div>
+      <button
+        type="button"
+        id="addStaffBtn"
+        class="primary-btn"
+      >
+        ＋ เพิ่ม Staff
+      </button>
 
     </div>
 
 
 
-    <!-- STAFF TABLE -->
-
-    <div class="table-wrapper">
+    <div class="table-container">
 
       <table class="data-table">
 
@@ -311,9 +369,9 @@
 
             <td
               colspan="5"
-              class="table-loading"
+              class="loading-cell"
             >
-              กำลังโหลดข้อมูล Staff...
+              กำลังโหลดข้อมูล...
             </td>
 
           </tr>
@@ -332,39 +390,29 @@
 
 
 
-<!-- ==================================================
+<!-- =====================================================
      STUDENT MODAL
-=================================================== -->
+===================================================== -->
 
 <div
   id="studentModal"
   class="modal"
-  aria-hidden="true"
 >
 
+  <div class="modal-card">
 
-  <div
-    class="modal-content"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="studentModalTitle"
-  >
-
-
-    <!-- MODAL HEADER -->
 
     <div class="modal-header">
 
-
       <div>
 
-        <h2 id="studentModalTitle">
+        <h2>
           เพิ่มนักศึกษา
         </h2>
 
-        <div class="modal-description">
-          กรอกข้อมูลนักศึกษาเพื่อสร้างบัญชีเข้าสู่ระบบ
-        </div>
+        <p>
+          กรอกข้อมูลนักศึกษาใหม่
+        </p>
 
       </div>
 
@@ -372,8 +420,7 @@
       <button
         type="button"
         id="closeStudentModal"
-        class="close-btn"
-        aria-label="ปิด"
+        class="modal-close"
       >
         ×
       </button>
@@ -381,8 +428,6 @@
     </div>
 
 
-
-    <!-- STUDENT FORM -->
 
     <form
       id="studentForm"
@@ -393,25 +438,16 @@
       <div class="form-grid">
 
 
-        <!-- STUDENT ID -->
-
         <div class="form-group">
 
-          <label
-            for="studentId"
-          >
+          <label for="studentId">
             รหัสนักศึกษา
-            <span class="required">
-              *
-            </span>
+            <span>*</span>
           </label>
 
           <input
-            type="text"
             id="studentId"
-            name="student_id"
-            placeholder="เช่น 65010001"
-            autocomplete="off"
+            type="text"
             required
           >
 
@@ -419,51 +455,31 @@
 
 
 
-        <!-- PASSWORD -->
-
         <div class="form-group">
 
-          <label
-            for="studentPassword"
-          >
+          <label for="studentPassword">
             รหัสผ่านเริ่มต้น
-            <span class="required">
-              *
-            </span>
+            <span>*</span>
           </label>
 
           <input
-            type="password"
             id="studentPassword"
-            name="password"
+            type="password"
             value="123456"
-            autocomplete="new-password"
-            minlength="4"
             required
           >
-
-          <small class="form-help">
-            ค่าเริ่มต้นคือ 123456 สามารถเปลี่ยนได้
-          </small>
 
         </div>
 
 
 
-        <!-- PREFIX -->
-
         <div class="form-group">
 
-          <label
-            for="studentPrefix"
-          >
+          <label for="studentPrefix">
             คำนำหน้า
           </label>
 
-          <select
-            id="studentPrefix"
-            name="prefix_th"
-          >
+          <select id="studentPrefix">
 
             <option value="">
               เลือกคำนำหน้า
@@ -487,24 +503,16 @@
 
 
 
-        <!-- FIRSTNAME TH -->
-
         <div class="form-group">
 
-          <label
-            for="studentFirstnameTh"
-          >
+          <label for="studentFirstnameTh">
             ชื่อ
-            <span class="required">
-              *
-            </span>
+            <span>*</span>
           </label>
 
           <input
-            type="text"
             id="studentFirstnameTh"
-            name="firstname_th"
-            placeholder="ชื่อภาษาไทย"
+            type="text"
             required
           >
 
@@ -512,24 +520,16 @@
 
 
 
-        <!-- LASTNAME TH -->
-
         <div class="form-group">
 
-          <label
-            for="studentLastnameTh"
-          >
+          <label for="studentLastnameTh">
             นามสกุล
-            <span class="required">
-              *
-            </span>
+            <span>*</span>
           </label>
 
           <input
-            type="text"
             id="studentLastnameTh"
-            name="lastname_th"
-            placeholder="นามสกุลภาษาไทย"
+            type="text"
             required
           >
 
@@ -537,104 +537,73 @@
 
 
 
-        <!-- FIRSTNAME EN -->
-
         <div class="form-group">
 
-          <label
-            for="studentFirstnameEn"
-          >
+          <label for="studentFirstnameEn">
             ชื่อภาษาอังกฤษ
           </label>
 
           <input
-            type="text"
             id="studentFirstnameEn"
-            name="firstname_en"
-            placeholder="Firstname"
+            type="text"
           >
 
         </div>
 
 
 
-        <!-- LASTNAME EN -->
-
         <div class="form-group">
 
-          <label
-            for="studentLastnameEn"
-          >
+          <label for="studentLastnameEn">
             นามสกุลภาษาอังกฤษ
           </label>
 
           <input
-            type="text"
             id="studentLastnameEn"
-            name="lastname_en"
-            placeholder="Lastname"
+            type="text"
           >
 
         </div>
 
 
 
-        <!-- DEPARTMENT -->
-
         <div class="form-group">
 
-          <label
-            for="studentDepartment"
-          >
+          <label for="studentDepartment">
             แผนก
           </label>
 
           <input
-            type="text"
             id="studentDepartment"
-            name="department"
-            placeholder="เช่น เทคโนโลยีสารสนเทศ"
+            type="text"
           >
 
         </div>
 
 
 
-        <!-- PHONE -->
-
         <div class="form-group">
 
-          <label
-            for="studentPhone"
-          >
+          <label for="studentPhone">
             เบอร์โทรศัพท์
           </label>
 
           <input
-            type="tel"
             id="studentPhone"
-            name="phone"
-            placeholder="08xxxxxxxx"
+            type="tel"
           >
 
         </div>
 
 
 
-        <!-- STATUS -->
-
         <div class="form-group">
 
-          <label
-            for="studentStatus"
-          >
+          <label for="studentStatus">
             สถานะ
           </label>
 
-          <select
-            id="studentStatus"
-            name="status"
-          >
+          <select id="studentStatus">
 
             <option value="นักศึกษาปกติ">
               นักศึกษาปกติ
@@ -654,66 +623,47 @@
 
 
 
-        <!-- ISSUE DATE -->
-
         <div class="form-group">
 
-          <label
-            for="studentIssueDate"
-          >
+          <label for="studentIssueDate">
             วันออกบัตร
           </label>
 
           <input
-            type="date"
             id="studentIssueDate"
-            name="issue_date"
+            type="date"
           >
 
         </div>
 
 
 
-        <!-- EXPIRE DATE -->
-
         <div class="form-group">
 
-          <label
-            for="studentExpireDate"
-          >
+          <label for="studentExpireDate">
             วันหมดอายุ
           </label>
 
           <input
-            type="date"
             id="studentExpireDate"
-            name="expire_date"
+            type="date"
           >
 
         </div>
 
 
 
-        <!-- PHOTO URL -->
-
         <div class="form-group full">
 
-          <label
-            for="studentPhoto"
-          >
+          <label for="studentPhoto">
             Photo URL
           </label>
 
           <input
-            type="text"
             id="studentPhoto"
-            name="photo_url"
-            placeholder="เช่น assets/students/TEST001.png"
+            type="text"
+            placeholder="assets/students/TEST001.png"
           >
-
-          <small class="form-help">
-            ตัวอย่าง: assets/students/TEST001.png
-          </small>
 
         </div>
 
@@ -722,15 +672,12 @@
 
 
 
-      <!-- FORM ACTIONS -->
-
-      <div class="form-actions">
-
+      <div class="modal-actions">
 
         <button
           type="button"
+          id="cancelStudentBtn"
           class="secondary-btn"
-          id="closeStudentModal2"
         >
           ยกเลิก
         </button>
@@ -738,18 +685,16 @@
 
         <button
           type="submit"
-          class="primary-btn"
           id="saveStudentBtn"
+          class="primary-btn"
         >
           บันทึกนักศึกษา
         </button>
-
 
       </div>
 
 
     </form>
-
 
   </div>
 
@@ -757,39 +702,29 @@
 
 
 
-<!-- ==================================================
+<!-- =====================================================
      STAFF MODAL
-=================================================== -->
+===================================================== -->
 
 <div
   id="staffModal"
   class="modal"
-  aria-hidden="true"
 >
 
+  <div class="modal-card">
 
-  <div
-    class="modal-content"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="staffModalTitle"
-  >
-
-
-    <!-- MODAL HEADER -->
 
     <div class="modal-header">
 
-
       <div>
 
-        <h2 id="staffModalTitle">
+        <h2>
           เพิ่ม Staff
         </h2>
 
-        <div class="modal-description">
-          สร้างบัญชีสำหรับผู้ดูแลระบบหรือเจ้าหน้าที่
-        </div>
+        <p>
+          เพิ่มเจ้าหน้าที่เข้าสู่ระบบ
+        </p>
 
       </div>
 
@@ -797,8 +732,7 @@
       <button
         type="button"
         id="closeStaffModal"
-        class="close-btn"
-        aria-label="ปิด"
+        class="modal-close"
       >
         ×
       </button>
@@ -806,8 +740,6 @@
     </div>
 
 
-
-    <!-- STAFF FORM -->
 
     <form
       id="staffForm"
@@ -818,81 +750,50 @@
       <div class="form-grid">
 
 
-        <!-- USERNAME -->
-
         <div class="form-group">
 
-          <label
-            for="staffUsername"
-          >
+          <label for="staffUsername">
             Username
-            <span class="required">
-              *
-            </span>
+            <span>*</span>
           </label>
 
           <input
-            type="text"
             id="staffUsername"
-            name="username"
-            placeholder="เช่น staff01"
-            autocomplete="off"
+            type="text"
             required
           >
 
         </div>
 
 
-
-        <!-- PASSWORD -->
 
         <div class="form-group">
 
-          <label
-            for="staffPassword"
-          >
+          <label for="staffPassword">
             Password
-            <span class="required">
-              *
-            </span>
+            <span>*</span>
           </label>
 
           <input
-            type="password"
             id="staffPassword"
-            name="password"
-            placeholder="กำหนดรหัสผ่าน"
-            autocomplete="new-password"
-            minlength="4"
+            type="password"
             required
           >
-
-          <small class="form-help">
-            ต้องมีอย่างน้อย 4 ตัวอักษร
-          </small>
 
         </div>
 
 
-
-        <!-- NAME -->
 
         <div class="form-group full">
 
-          <label
-            for="staffName"
-          >
+          <label for="staffName">
             ชื่อ Staff
-            <span class="required">
-              *
-            </span>
+            <span>*</span>
           </label>
 
           <input
-            type="text"
             id="staffName"
-            name="name"
-            placeholder="ชื่อผู้ใช้งาน"
+            type="text"
             required
           >
 
@@ -900,20 +801,13 @@
 
 
 
-        <!-- ROLE -->
-
         <div class="form-group">
 
-          <label
-            for="staffRole"
-          >
+          <label for="staffRole">
             Role
           </label>
 
-          <select
-            id="staffRole"
-            name="role"
-          >
+          <select id="staffRole">
 
             <option value="STAFF">
               STAFF
@@ -929,20 +823,13 @@
 
 
 
-        <!-- STATUS -->
-
         <div class="form-group">
 
-          <label
-            for="staffStatus"
-          >
+          <label for="staffStatus">
             Status
           </label>
 
-          <select
-            id="staffStatus"
-            name="status"
-          >
+          <select id="staffStatus">
 
             <option value="ACTIVE">
               ACTIVE
@@ -961,15 +848,12 @@
 
 
 
-      <!-- FORM ACTIONS -->
-
-      <div class="form-actions">
-
+      <div class="modal-actions">
 
         <button
           type="button"
+          id="cancelStaffBtn"
           class="secondary-btn"
-          id="closeStaffModal2"
         >
           ยกเลิก
         </button>
@@ -977,18 +861,16 @@
 
         <button
           type="submit"
-          class="primary-btn"
           id="saveStaffBtn"
+          class="primary-btn"
         >
           บันทึก Staff
         </button>
-
 
       </div>
 
 
     </form>
-
 
   </div>
 
@@ -996,17 +878,13 @@
 
 
 
-<!-- ==================================================
-     JAVASCRIPT
-=================================================== -->
+<!-- =====================================================
+     SCRIPT
+===================================================== -->
 
-<script
-  src="js/config.js"
-></script>
+<script src="js/config.js"></script>
 
-<script
-  src="js/admin-dashboard.js"
-></script>
+<script src="js/admin-dashboard.js"></script>
 
 
 </body>
