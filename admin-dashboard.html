@@ -19,10 +19,11 @@
     Admin Dashboard | Student Card System
   </title>
 
-
-  <!-- ==================================================
-       CSS
-  =================================================== -->
+  <!-- ป้องกัน favicon 404 -->
+  <link
+    rel="icon"
+    href="data:,"
+  >
 
   <link
     rel="stylesheet"
@@ -35,27 +36,20 @@
 <body>
 
 
-<!-- ==================================================
-     APP
-=================================================== -->
-
 <div
   id="adminApp"
   class="admin-app"
 >
 
 
-  <!-- ==================================================
+  <!-- =====================================================
        SIDEBAR
-  =================================================== -->
+  ====================================================== -->
 
   <aside
     id="adminSidebar"
     class="admin-sidebar"
   >
-
-
-    <!-- BRAND -->
 
     <div class="sidebar-brand">
 
@@ -63,7 +57,7 @@
         🛡️
       </div>
 
-      <div class="brand-text">
+      <div>
 
         <div class="brand-title">
           Student Card
@@ -78,16 +72,13 @@
     </div>
 
 
-
-    <!-- ADMIN PROFILE -->
-
     <div class="sidebar-profile">
 
       <div class="profile-avatar">
         👤
       </div>
 
-      <div class="profile-info">
+      <div>
 
         <div
           id="adminName"
@@ -108,13 +99,8 @@
     </div>
 
 
-
-    <!-- NAVIGATION -->
-
     <nav class="sidebar-nav">
 
-
-      <!-- OVERVIEW -->
 
       <div class="nav-section-title">
         ภาพรวม
@@ -127,7 +113,7 @@
         data-section="dashboard"
       >
 
-        <span class="nav-icon">
+        <span>
           🏠
         </span>
 
@@ -137,9 +123,6 @@
 
       </button>
 
-
-
-      <!-- STUDENT -->
 
       <div class="nav-section-title">
         จัดการนักศึกษา
@@ -152,7 +135,7 @@
         data-section="students"
       >
 
-        <span class="nav-icon">
+        <span>
           🎓
         </span>
 
@@ -169,7 +152,7 @@
         data-section="add-student"
       >
 
-        <span class="nav-icon">
+        <span>
           ➕
         </span>
 
@@ -186,7 +169,7 @@
         data-section="reset-password"
       >
 
-        <span class="nav-icon">
+        <span>
           🔑
         </span>
 
@@ -196,9 +179,6 @@
 
       </button>
 
-
-
-      <!-- STAFF -->
 
       <div class="nav-section-title">
         จัดการ Staff
@@ -211,7 +191,7 @@
         data-section="staff"
       >
 
-        <span class="nav-icon">
+        <span>
           👥
         </span>
 
@@ -228,7 +208,7 @@
         data-section="add-staff"
       >
 
-        <span class="nav-icon">
+        <span>
           ➕
         </span>
 
@@ -242,9 +222,6 @@
     </nav>
 
 
-
-    <!-- SIDEBAR FOOTER -->
-
     <div class="sidebar-footer">
 
       <button
@@ -253,10 +230,7 @@
         class="logout-btn"
       >
 
-        <span>
-          🚪
-        </span>
-
+        🚪
         <span>
           ออกจากระบบ
         </span>
@@ -265,14 +239,8 @@
 
     </div>
 
-
   </aside>
 
-
-
-  <!-- ==================================================
-       MOBILE OVERLAY
-  =================================================== -->
 
   <div
     id="sidebarOverlay"
@@ -280,20 +248,14 @@
   ></div>
 
 
-
-  <!-- ==================================================
-       MAIN AREA
-  =================================================== -->
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
 
   <div class="admin-main">
 
 
-    <!-- ==================================================
-         TOP HEADER
-    =================================================== -->
-
     <header class="admin-topbar">
-
 
       <div class="topbar-left">
 
@@ -301,11 +263,9 @@
           type="button"
           id="sidebarToggle"
           class="sidebar-toggle"
-          aria-label="เปิดเมนู"
         >
           ☰
         </button>
-
 
         <div>
 
@@ -328,18 +288,13 @@
       </div>
 
 
-
       <div class="topbar-right">
 
         <div class="topbar-admin">
 
-          <span class="topbar-admin-icon">
-            👤
-          </span>
+          👤
 
-          <span
-            id="topbarAdminName"
-          >
+          <span id="topbarAdminName">
             Admin
           </span>
 
@@ -347,21 +302,11 @@
 
       </div>
 
-
     </header>
 
 
-
-    <!-- ==================================================
-         CONTENT
-    =================================================== -->
-
     <main class="admin-content">
 
-
-      <!-- ==================================================
-           MESSAGE
-      =================================================== -->
 
       <div
         id="messageBox"
@@ -369,16 +314,14 @@
       ></div>
 
 
-
-      <!-- ==================================================
-           DASHBOARD SECTION
-      =================================================== -->
+      <!-- =================================================
+           DASHBOARD
+      ================================================== -->
 
       <section
         id="section-dashboard"
         class="admin-section active"
       >
-
 
         <div class="section-heading">
 
@@ -396,9 +339,6 @@
 
         </div>
 
-
-
-        <!-- STAT CARDS -->
 
         <div class="stats-grid">
 
@@ -427,7 +367,6 @@
           </div>
 
 
-
           <div class="stat-card">
 
             <div class="stat-icon green">
@@ -450,7 +389,6 @@
             </div>
 
           </div>
-
 
 
           <div class="stat-card">
@@ -477,7 +415,6 @@
           </div>
 
 
-
           <div class="stat-card">
 
             <div class="stat-icon red">
@@ -487,7 +424,7 @@
             <div>
 
               <div class="stat-label">
-                คำร้องรีเซ็ตรหัสผ่าน
+                คำร้องรอดำเนินการ
               </div>
 
               <div
@@ -504,9 +441,6 @@
 
         </div>
 
-
-
-        <!-- QUICK ACTION -->
 
         <div class="admin-card">
 
@@ -536,16 +470,13 @@
               data-section="students"
             >
 
-              <span class="quick-icon">
+              <span>
                 🎓
               </span>
 
-              <span>
-                จัดการนักศึกษา
-              </span>
+              จัดการนักศึกษา
 
             </button>
-
 
 
             <button
@@ -554,16 +485,13 @@
               data-section="add-student"
             >
 
-              <span class="quick-icon">
+              <span>
                 ➕
               </span>
 
-              <span>
-                เพิ่มนักศึกษา
-              </span>
+              เพิ่มนักศึกษา
 
             </button>
-
 
 
             <button
@@ -572,16 +500,13 @@
               data-section="reset-password"
             >
 
-              <span class="quick-icon">
+              <span>
                 🔑
               </span>
 
-              <span>
-                รีเซ็ตรหัสผ่าน
-              </span>
+              รีเซ็ตรหัสผ่าน
 
             </button>
-
 
 
             <button
@@ -590,13 +515,11 @@
               data-section="staff"
             >
 
-              <span class="quick-icon">
+              <span>
                 👥
               </span>
 
-              <span>
-                จัดการ Staff
-              </span>
+              จัดการ Staff
 
             </button>
 
@@ -609,16 +532,14 @@
       </section>
 
 
-
-      <!-- ==================================================
-           STUDENTS SECTION
-      =================================================== -->
+      <!-- =================================================
+           STUDENTS
+      ================================================== -->
 
       <section
         id="section-students"
         class="admin-section"
       >
-
 
         <div class="section-heading">
 
@@ -646,19 +567,13 @@
         </div>
 
 
-
         <div class="admin-card">
-
 
           <div class="card-header">
 
-            <div>
-
-              <h2 class="card-title">
-                รายชื่อนักศึกษา
-              </h2>
-
-            </div>
+            <h2 class="card-title">
+              รายชื่อนักศึกษา
+            </h2>
 
 
             <div class="table-tools">
@@ -681,7 +596,6 @@
             </div>
 
           </div>
-
 
 
           <div class="table-wrapper">
@@ -733,9 +647,7 @@
               </thead>
 
 
-              <tbody
-                id="studentsTableBody"
-              >
+              <tbody id="studentsTableBody">
 
                 <tr>
 
@@ -754,33 +666,29 @@
 
           </div>
 
-
         </div>
-
 
       </section>
 
 
-
-      <!-- ==================================================
-           ADD STUDENT SECTION
-      =================================================== -->
+      <!-- =================================================
+           ADD / EDIT STUDENT
+      ================================================== -->
 
       <section
         id="section-add-student"
         class="admin-section"
       >
 
-
         <div class="section-heading">
 
           <div>
 
-            <h1>
+            <h1 id="studentFormTitle">
               เพิ่มนักศึกษา
             </h1>
 
-            <p>
+            <p id="studentFormSubtitle">
               สร้างบัญชีนักศึกษาใหม่เข้าสู่ระบบ
             </p>
 
@@ -789,13 +697,16 @@
         </div>
 
 
-
         <div class="admin-card">
 
 
-          <form
-            id="studentForm"
-          >
+          <form id="studentForm">
+
+            <input
+              type="hidden"
+              id="editingStudentId"
+              value=""
+            >
 
 
             <div class="form-grid">
@@ -817,22 +728,24 @@
               </div>
 
 
-
               <div class="form-group">
 
                 <label for="studentPassword">
-                  รหัสผ่านเริ่มต้น *
+                  รหัสผ่านเริ่มต้น
                 </label>
 
                 <input
                   type="password"
                   id="studentPassword"
                   value="123456"
-                  required
+                  autocomplete="new-password"
                 >
 
-              </div>
+                <small id="studentPasswordHelp">
+                  สำหรับเพิ่มนักศึกษาใหม่
+                </small>
 
+              </div>
 
 
               <div class="form-group">
@@ -864,7 +777,6 @@
               </div>
 
 
-
               <div class="form-group">
 
                 <label for="studentFirstnameTh">
@@ -878,7 +790,6 @@
                 >
 
               </div>
-
 
 
               <div class="form-group">
@@ -896,7 +807,6 @@
               </div>
 
 
-
               <div class="form-group">
 
                 <label for="studentFirstnameEn">
@@ -909,7 +819,6 @@
                 >
 
               </div>
-
 
 
               <div class="form-group">
@@ -926,7 +835,6 @@
               </div>
 
 
-
               <div class="form-group">
 
                 <label for="studentDepartment">
@@ -941,7 +849,6 @@
               </div>
 
 
-
               <div class="form-group">
 
                 <label for="studentPhone">
@@ -954,7 +861,6 @@
                 >
 
               </div>
-
 
 
               <div class="form-group">
@@ -982,7 +888,6 @@
               </div>
 
 
-
               <div class="form-group">
 
                 <label for="studentIssueDate">
@@ -995,7 +900,6 @@
                 >
 
               </div>
-
 
 
               <div class="form-group">
@@ -1012,7 +916,6 @@
               </div>
 
 
-
               <div class="form-group full">
 
                 <label for="studentPhoto">
@@ -1022,7 +925,7 @@
                 <input
                   type="text"
                   id="studentPhoto"
-                  placeholder="เช่น assets/students/TEST001.png"
+                  placeholder="assets/students/TEST001.png"
                 >
 
               </div>
@@ -1031,22 +934,21 @@
             </div>
 
 
-
             <div class="form-actions">
 
               <button
-                type="reset"
+                type="button"
+                id="cancelStudentEditBtn"
                 class="secondary-btn"
-                id="resetStudentFormBtn"
               >
-                ล้างข้อมูล
+                ยกเลิก
               </button>
 
 
               <button
                 type="submit"
-                class="primary-btn"
                 id="saveStudentBtn"
+                class="primary-btn"
               >
                 บันทึกนักศึกษา
               </button>
@@ -1059,20 +961,17 @@
 
         </div>
 
-
       </section>
 
 
-
-      <!-- ==================================================
-           RESET PASSWORD SECTION
-      =================================================== -->
+      <!-- =================================================
+           RESET PASSWORD REQUESTS
+      ================================================== -->
 
       <section
         id="section-reset-password"
         class="admin-section"
       >
-
 
         <div class="section-heading">
 
@@ -1083,7 +982,7 @@
             </h1>
 
             <p>
-              ตรวจสอบและจัดการคำร้องลืมรหัสผ่าน
+              ตรวจสอบและดำเนินการคำร้องรีเซ็ตรหัสผ่าน
             </p>
 
           </div>
@@ -1091,7 +990,7 @@
 
           <button
             type="button"
-            id="refreshResetBtn"
+            id="refreshResetRequestsBtn"
             class="secondary-btn"
           >
             ↻ รีเฟรช
@@ -1100,20 +999,18 @@
         </div>
 
 
-
         <div class="admin-card">
-
 
           <div class="table-wrapper">
 
-            <table class="data-table">
+            <table class="data-table reset-table">
 
               <thead>
 
                 <tr>
 
                   <th>
-                    เลขที่คำร้อง
+                    Request ID
                   </th>
 
                   <th>
@@ -1125,11 +1022,11 @@
                   </th>
 
                   <th>
-                    วันที่ร้องขอ
+                    สถานะ
                   </th>
 
                   <th>
-                    สถานะ
+                    วันที่ร้องขอ
                   </th>
 
                   <th>
@@ -1141,9 +1038,7 @@
               </thead>
 
 
-              <tbody
-                id="resetRequestsTableBody"
-              >
+              <tbody id="resetRequestsTableBody">
 
                 <tr>
 
@@ -1162,23 +1057,19 @@
 
           </div>
 
-
         </div>
-
 
       </section>
 
 
-
-      <!-- ==================================================
-           STAFF SECTION
-      =================================================== -->
+      <!-- =================================================
+           STAFF
+      ================================================== -->
 
       <section
         id="section-staff"
         class="admin-section"
       >
-
 
         <div class="section-heading">
 
@@ -1206,19 +1097,13 @@
         </div>
 
 
-
         <div class="admin-card">
-
 
           <div class="card-header">
 
-            <div>
-
-              <h2 class="card-title">
-                รายชื่อ Staff
-              </h2>
-
-            </div>
+            <h2 class="card-title">
+              รายชื่อ Staff
+            </h2>
 
 
             <button
@@ -1230,7 +1115,6 @@
             </button>
 
           </div>
-
 
 
           <div class="table-wrapper">
@@ -1261,23 +1145,17 @@
                     Status
                   </th>
 
-                  <th>
-                    จัดการ
-                  </th>
-
                 </tr>
 
               </thead>
 
 
-              <tbody
-                id="staffTableBody"
-              >
+              <tbody id="staffTableBody">
 
                 <tr>
 
                   <td
-                    colspan="6"
+                    colspan="5"
                     class="empty-cell"
                   >
                     กำลังโหลดข้อมูล...
@@ -1291,23 +1169,19 @@
 
           </div>
 
-
         </div>
-
 
       </section>
 
 
-
-      <!-- ==================================================
-           ADD STAFF SECTION
-      =================================================== -->
+      <!-- =================================================
+           ADD STAFF
+      ================================================== -->
 
       <section
         id="section-add-staff"
         class="admin-section"
       >
-
 
         <div class="section-heading">
 
@@ -1326,14 +1200,9 @@
         </div>
 
 
-
         <div class="admin-card">
 
-
-          <form
-            id="staffForm"
-          >
-
+          <form id="staffForm">
 
             <div class="form-grid">
 
@@ -1354,7 +1223,6 @@
               </div>
 
 
-
               <div class="form-group">
 
                 <label for="staffPassword">
@@ -1365,10 +1233,10 @@
                   type="password"
                   id="staffPassword"
                   required
+                  autocomplete="new-password"
                 >
 
               </div>
-
 
 
               <div class="form-group full">
@@ -1384,7 +1252,6 @@
                 >
 
               </div>
-
 
 
               <div class="form-group">
@@ -1406,7 +1273,6 @@
                 </select>
 
               </div>
-
 
 
               <div class="form-group">
@@ -1433,13 +1299,12 @@
             </div>
 
 
-
             <div class="form-actions">
 
               <button
                 type="reset"
-                class="secondary-btn"
                 id="resetStaffFormBtn"
+                class="secondary-btn"
               >
                 ล้างข้อมูล
               </button>
@@ -1447,651 +1312,31 @@
 
               <button
                 type="submit"
-                class="primary-btn"
                 id="saveStaffBtn"
+                class="primary-btn"
               >
                 บันทึก Staff
               </button>
 
             </div>
 
-
           </form>
 
-
         </div>
-
 
       </section>
 
 
     </main>
 
-
-  </div>
-
-
-</div>
-
-
-
-<!-- ==================================================
-     EDIT STUDENT MODAL
-=================================================== -->
-
-<div
-  id="studentEditModal"
-  class="modal"
->
-
-
-  <div class="modal-content large-modal">
-
-
-    <div class="modal-header">
-
-      <div>
-
-        <h2>
-          แก้ไขข้อมูลนักศึกษา
-        </h2>
-
-        <p>
-          แก้ไขข้อมูลแล้วกดบันทึก
-        </p>
-
-      </div>
-
-
-      <button
-        type="button"
-        id="closeStudentEditModal"
-        class="close-btn"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-
-    <form
-      id="studentEditForm"
-    >
-
-
-      <input
-        type="hidden"
-        id="editStudentId"
-      >
-
-
-      <div class="form-grid">
-
-
-        <div class="form-group">
-
-          <label>
-            รหัสนักศึกษา
-          </label>
-
-          <input
-            type="text"
-            id="editStudentIdDisplay"
-            disabled
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            คำนำหน้า
-          </label>
-
-          <select id="editStudentPrefix">
-
-            <option value="">
-              เลือก
-            </option>
-
-            <option value="นาย">
-              นาย
-            </option>
-
-            <option value="นางสาว">
-              นางสาว
-            </option>
-
-            <option value="นาง">
-              นาง
-            </option>
-
-          </select>
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            ชื่อ
-          </label>
-
-          <input
-            type="text"
-            id="editStudentFirstnameTh"
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            นามสกุล
-          </label>
-
-          <input
-            type="text"
-            id="editStudentLastnameTh"
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            ชื่อภาษาอังกฤษ
-          </label>
-
-          <input
-            type="text"
-            id="editStudentFirstnameEn"
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            นามสกุลภาษาอังกฤษ
-          </label>
-
-          <input
-            type="text"
-            id="editStudentLastnameEn"
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            แผนก
-          </label>
-
-          <input
-            type="text"
-            id="editStudentDepartment"
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            เบอร์โทรศัพท์
-          </label>
-
-          <input
-            type="tel"
-            id="editStudentPhone"
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            สถานะ
-          </label>
-
-          <select id="editStudentStatus">
-
-            <option value="นักศึกษาปกติ">
-              นักศึกษาปกติ
-            </option>
-
-            <option value="INACTIVE">
-              INACTIVE
-            </option>
-
-            <option value="SUSPENDED">
-              SUSPENDED
-            </option>
-
-          </select>
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            วันออกบัตร
-          </label>
-
-          <input
-            type="date"
-            id="editStudentIssueDate"
-          >
-
-        </div>
-
-
-
-        <div class="form-group">
-
-          <label>
-            วันหมดอายุ
-          </label>
-
-          <input
-            type="date"
-            id="editStudentExpireDate"
-          >
-
-        </div>
-
-
-
-        <div class="form-group full">
-
-          <label>
-            Photo URL
-          </label>
-
-          <input
-            type="text"
-            id="editStudentPhoto"
-          >
-
-        </div>
-
-
-      </div>
-
-
-
-      <div class="form-actions">
-
-        <button
-          type="button"
-          id="cancelStudentEdit"
-          class="secondary-btn"
-        >
-          ยกเลิก
-        </button>
-
-
-        <button
-          type="submit"
-          id="updateStudentBtn"
-          class="primary-btn"
-        >
-          บันทึกการแก้ไข
-        </button>
-
-      </div>
-
-
-    </form>
-
-
   </div>
 
 </div>
 
 
-
-<!-- ==================================================
-     RESET PASSWORD MODAL
-=================================================== -->
-
-<div
-  id="resetPasswordModal"
-  class="modal"
->
-
-
-  <div class="modal-content">
-
-
-    <div class="modal-header">
-
-      <div>
-
-        <h2>
-          รีเซ็ตรหัสผ่านนักศึกษา
-        </h2>
-
-        <p>
-          กำหนดรหัสผ่านใหม่ให้กับนักศึกษา
-        </p>
-
-      </div>
-
-
-      <button
-        type="button"
-        id="closeResetPasswordModal"
-        class="close-btn"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-
-    <form
-      id="resetPasswordForm"
-    >
-
-
-      <input
-        type="hidden"
-        id="resetRequestId"
-      >
-
-
-      <div class="form-group">
-
-        <label>
-          รหัสนักศึกษา
-        </label>
-
-        <input
-          type="text"
-          id="resetStudentId"
-          disabled
-        >
-
-      </div>
-
-
-
-      <div class="form-group">
-
-        <label for="newPassword">
-          รหัสผ่านใหม่ *
-        </label>
-
-        <input
-          type="password"
-          id="newPassword"
-          minlength="4"
-          required
-        >
-
-      </div>
-
-
-
-      <div class="form-group">
-
-        <label for="resetNote">
-          หมายเหตุ
-        </label>
-
-        <textarea
-          id="resetNote"
-          rows="3"
-          placeholder="ระบุหมายเหตุเพิ่มเติม"
-        ></textarea>
-
-      </div>
-
-
-
-      <div class="form-actions">
-
-        <button
-          type="button"
-          id="cancelResetPassword"
-          class="secondary-btn"
-        >
-          ยกเลิก
-        </button>
-
-
-        <button
-          type="submit"
-          id="confirmResetPassword"
-          class="primary-btn"
-        >
-          รีเซ็ตรหัสผ่าน
-        </button>
-
-      </div>
-
-
-    </form>
-
-
-  </div>
-
-</div>
-
-
-
-<!-- ==================================================
-     STAFF EDIT MODAL
-=================================================== -->
-
-<div
-  id="staffEditModal"
-  class="modal"
->
-
-
-  <div class="modal-content">
-
-
-    <div class="modal-header">
-
-      <div>
-
-        <h2>
-          แก้ไขข้อมูล Staff
-        </h2>
-
-      </div>
-
-
-      <button
-        type="button"
-        id="closeStaffEditModal"
-        class="close-btn"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-
-    <form
-      id="staffEditForm"
-    >
-
-
-      <input
-        type="hidden"
-        id="editStaffId"
-      >
-
-
-      <div class="form-group">
-
-        <label>
-          Username
-        </label>
-
-        <input
-          type="text"
-          id="editStaffUsername"
-          disabled
-        >
-
-      </div>
-
-
-
-      <div class="form-group">
-
-        <label>
-          ชื่อ Staff
-        </label>
-
-        <input
-          type="text"
-          id="editStaffName"
-        >
-
-      </div>
-
-
-
-      <div class="form-group">
-
-        <label>
-          Role
-        </label>
-
-        <select id="editStaffRole">
-
-          <option value="STAFF">
-            STAFF
-          </option>
-
-          <option value="ADMIN">
-            ADMIN
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <div class="form-group">
-
-        <label>
-          Status
-        </label>
-
-        <select id="editStaffStatus">
-
-          <option value="ACTIVE">
-            ACTIVE
-          </option>
-
-          <option value="INACTIVE">
-            INACTIVE
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <div class="form-actions">
-
-        <button
-          type="button"
-          id="cancelStaffEdit"
-          class="secondary-btn"
-        >
-          ยกเลิก
-        </button>
-
-
-        <button
-          type="submit"
-          id="updateStaffBtn"
-          class="primary-btn"
-        >
-          บันทึกการแก้ไข
-        </button>
-
-      </div>
-
-
-    </form>
-
-
-  </div>
-
-</div>
-
-
-
-<!-- ==================================================
-     LOADING
-=================================================== -->
-
-<div
-  id="loadingOverlay"
-  class="loading-overlay"
-  style="display:none;"
->
-
-  <div class="loading-box">
-
-    <div class="loading-spinner"></div>
-
-    <div>
-      กำลังดำเนินการ...
-    </div>
-
-  </div>
-
-</div>
-
-
-
-<!-- ==================================================
-     JAVASCRIPT
-=================================================== -->
-
-<script
-  src="js/config.js"
-></script>
-
-
-<script
-  src="js/admin-dashboard.js"
-></script>
+<script src="js/config.js"></script>
+<script src="js/admin-dashboard.js"></script>
 
 
 </body>
-
 </html>
