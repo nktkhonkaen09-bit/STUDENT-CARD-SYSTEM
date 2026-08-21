@@ -1,52 +1,14 @@
 /*******************************************************
- * ADMIN LOGIN
- * js/admin-login.js
+ * STUDENT CARD SYSTEM
+ * admin-login.js
  *
  * หน้าที่:
+ * - ตรวจสอบ Session เดิม
  * - Login Admin / Staff
- * - เรียก Google Apps Script API
  * - บันทึก Admin Session
- * - บันทึกข้อมูล Admin
- * - Redirect ไป admin-dashboard.html
+ * - เปลี่ยนหน้าไป admin-dashboard.html
+ * - ป้องกันการ Login ซ้ำระหว่างกำลังส่งข้อมูล
  *******************************************************/
-
-
-/*******************************************************
- * CONFIG
- *******************************************************/
-
-const ADMIN_LOGIN_CONFIG = {
-
-  /*
-   * Google Apps Script Web App URL
-   *
-   * ใช้ URL เดียวกับระบบของคุณ
-   */
-  API_URL:
-    "https://script.google.com/macros/s/AKfycbxCvk2wb6FydCKNkEDvApbTgZWmSFoAzPvvM2sSDOIwSgvftMoQxIX3cy7npP3_6xT4/exec",
-
-
-  /*
-   * Session Token
-   */
-  ADMIN_SESSION_KEY:
-    "admin_session",
-
-
-  /*
-   * Admin Data
-   */
-  ADMIN_KEY:
-    "admin_data",
-
-
-  /*
-   * หน้า Dashboard
-   */
-  DASHBOARD_PAGE:
-    "admin-dashboard.html"
-
-};
 
 
 /*******************************************************
@@ -57,69 +19,211 @@ document.addEventListener(
   "DOMContentLoaded",
   function () {
 
-    console.log(
-      "ADMIN LOGIN JS READY"
-    );
-
-
-    const form =
-      document.getElementById(
-        "adminLoginForm"
-      );
-
-
-    if (!form) {
-
-      console.error(
-        "ไม่พบ #adminLoginForm"
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * ป้องกันการ bind event ซ้ำ
-     */
-
-    if (
-      form.dataset.adminLoginReady ===
-      "true"
-    ) {
-
-      return;
-
-    }
-
-
-    form.dataset.adminLoginReady =
-      "true";
-
-
-    form.addEventListener(
-      "submit",
-      handleAdminLogin
-    );
-
-
-    /*
-     * ถ้ามี session เดิม
-     * ไม่ redirect อัตโนมัติ
-     *
-     * เพื่อป้องกันกรณี session เก่าค้าง
-     */
-
-    console.log(
-      "ADMIN LOGIN FORM READY"
-    );
+    initAdminLogin();
 
   }
 );
 
 
 /*******************************************************
- * HANDLE LOGIN
+ * INIT
+ *******************************************************/
+
+function initAdminLogin() {
+
+  console.log(
+    "ADMIN LOGIN: initializing..."
+  );
+
+
+  /*
+   * ตรวจสอบว่า config.js โหลดแล้วหรือไม่
+   */
+
+  if (
+    typeof CONFIG === "undefined"
+  ) {
+
+    console.error(
+      "CONFIG ไม่ถูกโหลด"
+    );
+
+    showAdminMessage(
+      "ระบบตั้งค่าไม่ถูกต้อง กรุณาตรวจสอบ config.js",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * ตรวจ API URL
+   */
+
+  if (
+    typeof isApiConfigured === "function" &&
+    !isApiConfigured()
+  ) {
+
+    showAdminMessage(
+      "ไม่พบ API URL",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * หา Form
+   */
+
+  const form =
+    document.getElementById(
+      "adminLoginForm"
+    );
+
+
+  if (!form) {
+
+    console.error(
+      "ไม่พบ #adminLoginForm"
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Submit
+   */
+
+  form.addEventListener(
+    "submit",
+    handleAdminLogin
+  );
+
+
+  /*
+   * Enter / keyboard
+   * Browser จัดการผ่าน form submit อยู่แล้ว
+   */
+
+
+  /*
+   * ตรวจ Session เดิม
+   */
+
+  checkExistingAdminSession();
+
+}
+
+
+/*******************************************************
+ * CHECK EXISTING ADMIN SESSION
+ *******************************************************/
+
+function checkExistingAdminSession() {
+
+  const token =
+    getAdminToken();
+
+
+  const admin =
+    getAdminData();
+
+
+  /*
+   * ถ้ามีทั้ง Token และข้อมูล Admin
+   * ให้ถาม API ตรวจ Session
+   */
+
+  if (
+    token &&
+    admin
+  ) {
+
+    console.log(
+      "พบ Admin Session เดิม"
+    );
+
+
+    verifyExistingAdminSession(
+      token
+    );
+
+  }
+
+}
+
+
+/*******************************************************
+ * VERIFY EXISTING SESSION
+ *******************************************************/
+
+async function verifyExistingAdminSession(
+  token
+) {
+
+  try {
+
+    const result =
+      await apiRequest({
+
+        action:
+          "adminSession",
+
+        token:
+          token
+
+      });
+
+
+    /*
+     * Backend ปัจจุบันของคุณอาจยังไม่มี
+     * adminSession
+     *
+     * ดังนั้นถ้าไม่รองรับ action นี้
+     * จะไม่บังคับ redirect
+     */
+
+    if (
+      result &&
+      result.success
+    ) {
+
+      console.log(
+        "Admin Session ยังใช้งานได้"
+      );
+
+
+      window.location.replace(
+        CONFIG.ADMIN_DASHBOARD_PAGE
+      );
+
+      return;
+
+    }
+
+
+  } catch (error) {
+
+    console.warn(
+      "ตรวจ Admin Session ไม่สำเร็จ",
+      error
+    );
+
+  }
+
+}
+
+
+/*******************************************************
+ * LOGIN
  *******************************************************/
 
 async function handleAdminLogin(
@@ -129,17 +233,9 @@ async function handleAdminLogin(
   event.preventDefault();
 
 
-  const usernameInput =
-    document.getElementById(
-      "adminUsername"
-    );
-
-
-  const passwordInput =
-    document.getElementById(
-      "adminPassword"
-    );
-
+  /*
+   * ป้องกันกดปุ่มซ้ำ
+   */
 
   const button =
     document.getElementById(
@@ -148,12 +244,43 @@ async function handleAdminLogin(
 
 
   if (
+    button &&
+    button.disabled
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * Username
+   */
+
+  const usernameInput =
+    document.getElementById(
+      "adminUsername"
+    );
+
+
+  /*
+   * Password
+   */
+
+  const passwordInput =
+    document.getElementById(
+      "adminPassword"
+    );
+
+
+  if (
     !usernameInput ||
     !passwordInput
   ) {
 
-    console.error(
-      "ไม่พบช่อง Username / Password"
+    showAdminMessage(
+      "ไม่พบช่อง Username หรือ Password",
+      "error"
     );
 
     return;
@@ -162,19 +289,16 @@ async function handleAdminLogin(
 
 
   const username =
-    String(
-      usernameInput.value || ""
-    ).trim();
+    usernameInput.value
+      .trim();
 
 
   const password =
-    String(
-      passwordInput.value || ""
-    );
+    passwordInput.value;
 
 
   /*
-   * ตรวจข้อมูล
+   * Validate
    */
 
   if (!username) {
@@ -206,114 +330,78 @@ async function handleAdminLogin(
 
 
   /*
-   * Disable ปุ่ม
+   * Loading
    */
 
-  if (button) {
-
-    button.disabled =
-      true;
-
-    button.textContent =
-      "กำลังตรวจสอบ...";
-
-  }
+  setAdminLoginLoading(
+    true
+  );
 
 
   showAdminMessage(
-    "กำลังเชื่อมต่อระบบ...",
+    "กำลังตรวจสอบข้อมูล...",
     "info"
   );
 
 
   try {
 
-
-    /*************************************************
-     * CALL API
-     *************************************************/
-
-    const response =
-      await fetch(
-        ADMIN_LOGIN_CONFIG.API_URL,
-        {
-
-          method:
-            "POST",
-
-          headers: {
-
-            "Content-Type":
-              "text/plain;charset=utf-8"
-
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                "adminLogin",
-
-              username:
-                username,
-
-              password:
-                password
-
-            })
-
-        }
-      );
+    console.log(
+      "ADMIN LOGIN REQUEST",
+      {
+        username: username
+      }
+    );
 
 
     /*
-     * ตรวจ HTTP
-     */
-
-    if (!response.ok) {
-
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    /*
-     * อ่าน JSON
+     * ส่ง Login ไป Google Apps Script
      */
 
     const result =
-      await response.json();
+      await apiRequest({
+
+        action:
+          "adminLogin",
+
+        username:
+          username,
+
+        password:
+          password
+
+      });
 
 
     console.log(
-      "ADMIN LOGIN RESULT:",
+      "ADMIN LOGIN RESULT",
       result
     );
 
 
-    /*************************************************
-     * LOGIN FAILED
-     *************************************************/
+    /*
+     * ตรวจ Response
+     */
 
     if (
       !result ||
-      result.success !== true
+      !result.success
     ) {
 
-      showAdminMessage(
+      /*
+       * ล้าง Session เก่า
+       * กรณี Login ไม่สำเร็จ
+       */
 
+      clearAdminSession();
+
+
+      showAdminMessage(
         result &&
         result.message
-
           ? result.message
-
           : "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
-
         "error"
-
       );
 
       return;
@@ -321,16 +409,21 @@ async function handleAdminLogin(
     }
 
 
-    /*************************************************
-     * ตรวจ TOKEN
-     *************************************************/
+    /*
+     * ต้องมี Token
+     */
 
-    if (!result.token) {
+    if (
+      !result.token
+    ) {
 
       console.error(
-        "API login สำเร็จแต่ไม่มี token",
+        "LOGIN สำเร็จแต่ไม่มี token",
         result
       );
+
+
+      clearAdminSession();
 
 
       showAdminMessage(
@@ -338,41 +431,16 @@ async function handleAdminLogin(
         "error"
       );
 
-
       return;
 
     }
 
 
-    /*************************************************
-     * CLEAR OLD SESSION
-     *************************************************/
+    /*
+     * Admin data
+     */
 
-    try {
-
-      sessionStorage.removeItem(
-        ADMIN_LOGIN_CONFIG.ADMIN_SESSION_KEY
-      );
-
-      sessionStorage.removeItem(
-        ADMIN_LOGIN_CONFIG.ADMIN_KEY
-      );
-
-    } catch (storageError) {
-
-      console.warn(
-        "ไม่สามารถล้าง session เดิม",
-        storageError
-      );
-
-    }
-
-
-    /*************************************************
-     * ADMIN DATA
-     *************************************************/
-
-    const adminData =
+    const admin =
       result.admin || {
 
         username:
@@ -387,70 +455,40 @@ async function handleAdminLogin(
       };
 
 
-    /*************************************************
-     * SAVE SESSION
-     *************************************************/
+    /*
+     * บันทึก Session
+     */
 
-    try {
-
-      sessionStorage.setItem(
-
-        ADMIN_LOGIN_CONFIG.ADMIN_SESSION_KEY,
-
-        String(
-          result.token
-        )
-
-      );
+    saveAdminSession(
+      result.token,
+      admin
+    );
 
 
-      sessionStorage.setItem(
-
-        ADMIN_LOGIN_CONFIG.ADMIN_KEY,
-
-        JSON.stringify(
-          adminData
-        )
-
-      );
-
-    } catch (storageError) {
-
-      console.error(
-        "SESSION STORAGE ERROR",
-        storageError
-      );
-
-
-      showAdminMessage(
-        "ไม่สามารถบันทึก Session ได้ กรุณาตรวจสอบ Browser",
-        "error"
-      );
-
-
-      return;
-
-    }
-
-
-    /*************************************************
-     * VERIFY LOCAL SESSION
-     *************************************************/
+    /*
+     * ตรวจสอบว่าบันทึกสำเร็จจริง
+     */
 
     const savedToken =
-      sessionStorage.getItem(
-        ADMIN_LOGIN_CONFIG.ADMIN_SESSION_KEY
-      );
+      getAdminToken();
+
+
+    const savedAdmin =
+      getAdminData();
 
 
     if (
       !savedToken ||
-      savedToken !==
-      String(result.token)
+      !savedAdmin
     ) {
 
+      console.error(
+        "ไม่สามารถบันทึก Admin Session"
+      );
+
+
       showAdminMessage(
-        "ไม่สามารถสร้าง Session ได้",
+        "ไม่สามารถบันทึก Session ได้ กรุณาลองใหม่",
         "error"
       );
 
@@ -459,9 +497,9 @@ async function handleAdminLogin(
     }
 
 
-    /*************************************************
-     * SUCCESS
-     *************************************************/
+    /*
+     * Login สำเร็จ
+     */
 
     showAdminMessage(
       "เข้าสู่ระบบสำเร็จ กำลังเข้าสู่ Admin Dashboard...",
@@ -469,26 +507,15 @@ async function handleAdminLogin(
     );
 
 
-    console.log(
-      "ADMIN SESSION SAVED"
-    );
-
-
-    console.log(
-      "REDIRECT:",
-      ADMIN_LOGIN_CONFIG.DASHBOARD_PAGE
-    );
-
-
-    /*************************************************
-     * REDIRECT
-     *************************************************/
+    /*
+     * ไป Dashboard
+     */
 
     setTimeout(
       function () {
 
         window.location.replace(
-          ADMIN_LOGIN_CONFIG.DASHBOARD_PAGE
+          CONFIG.ADMIN_DASHBOARD_PAGE
         );
 
       },
@@ -498,45 +525,81 @@ async function handleAdminLogin(
 
   } catch (error) {
 
-
     console.error(
-      "ADMIN LOGIN ERROR:",
+      "ADMIN LOGIN ERROR",
       error
     );
 
 
     showAdminMessage(
-      "ไม่สามารถเชื่อมต่อระบบได้ กรุณาตรวจสอบ API และลองใหม่อีกครั้ง",
+      "ไม่สามารถเชื่อมต่อระบบได้ กรุณาตรวจสอบ API และ Internet",
       "error"
     );
 
 
   } finally {
 
-
     /*
      * เปิดปุ่มกลับ
      *
-     * ถ้ากำลัง redirect จริง
-     * Browser จะเปลี่ยนหน้าก่อน
+     * แต่ถ้ากำลัง redirect ก็ไม่เป็นปัญหา
      */
 
     setTimeout(
       function () {
 
-        if (button) {
-
-          button.disabled =
-            false;
-
-          button.textContent =
-            "เข้าสู่ระบบ Admin";
-
-        }
+        setAdminLoginLoading(
+          false
+        );
 
       },
-      1000
+      800
     );
+
+  }
+
+}
+
+
+/*******************************************************
+ * SET LOGIN LOADING
+ *******************************************************/
+
+function setAdminLoginLoading(
+  loading
+) {
+
+  const button =
+    document.getElementById(
+      "adminLoginButton"
+    );
+
+
+  if (!button) {
+
+    return;
+
+  }
+
+
+  button.disabled =
+    loading;
+
+
+  if (loading) {
+
+    button.dataset.originalText =
+      button.textContent;
+
+
+    button.textContent =
+      "กำลังตรวจสอบ...";
+
+  } else {
+
+    button.textContent =
+      button.dataset.originalText ||
+      "เข้าสู่ระบบ Admin";
 
   }
 
@@ -590,101 +653,66 @@ function showAdminMessage(
 
 
 /*******************************************************
- * LOGOUT HELPER
+ * DEBUG SESSION
  *
- * Dashboard สามารถเรียก:
- *
- * adminLogoutLocal();
+ * ใช้ตรวจสอบปัญหา Login → Dashboard
  *******************************************************/
 
-function adminLogoutLocal() {
+function debugAdminSession() {
 
-  try {
-
-    sessionStorage.removeItem(
-      ADMIN_LOGIN_CONFIG.ADMIN_SESSION_KEY
-    );
+  const token =
+    getAdminToken();
 
 
-    sessionStorage.removeItem(
-      ADMIN_LOGIN_CONFIG.ADMIN_KEY
-    );
+  const admin =
+    getAdminData();
 
 
-  } catch (error) {
-
-    console.error(
-      "ADMIN LOCAL LOGOUT ERROR:",
-      error
-    );
-
-  }
+  console.log(
+    "========== ADMIN SESSION =========="
+  );
 
 
-  window.location.replace(
-    "admin-login.html"
+  console.log(
+    "Token:",
+    token
+  );
+
+
+  console.log(
+    "Admin:",
+    admin
+  );
+
+
+  console.log(
+    "Dashboard:",
+    CONFIG.ADMIN_DASHBOARD_PAGE
+  );
+
+
+  console.log(
+    "==================================="
   );
 
 }
 
 
 /*******************************************************
- * GET CURRENT ADMIN
+ * EXPORT / GLOBAL
+ *
+ * เผื่อหน้า HTML เรียกใช้งาน
  *******************************************************/
 
-function getCurrentAdmin() {
+window.adminLogin = {
 
-  try {
+  login:
+    handleAdminLogin,
 
-    const data =
-      sessionStorage.getItem(
-        ADMIN_LOGIN_CONFIG.ADMIN_KEY
-      );
+  checkSession:
+    checkExistingAdminSession,
 
+  debug:
+    debugAdminSession
 
-    if (!data) {
-
-      return null;
-
-    }
-
-
-    return JSON.parse(
-      data
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "GET CURRENT ADMIN ERROR:",
-      error
-    );
-
-
-    return null;
-
-  }
-
-}
-
-
-/*******************************************************
- * GET ADMIN TOKEN
- *******************************************************/
-
-function getAdminToken() {
-
-  try {
-
-    return sessionStorage.getItem(
-      ADMIN_LOGIN_CONFIG.ADMIN_SESSION_KEY
-    ) || "";
-
-  } catch (error) {
-
-    return "";
-
-  }
-
-}
+};
