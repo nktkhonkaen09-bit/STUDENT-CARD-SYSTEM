@@ -7047,3 +7047,1248 @@ function escapeAttribute(
 console.log(
     "ADMIN DASHBOARD JS CLEAN REBUILD LOADED"
 );
+/* ============================================================
+ * STUDENT PHOTO UPLOAD
+ *
+ * Google Drive Upload
+ * ============================================================ */
+
+let selectedAddStudentPhoto = null;
+let selectedEditStudentPhoto = null;
+
+
+/* ============================================================
+ * PHOTO UPLOAD INITIALIZE
+ * ============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        initializeStudentPhotoUpload();
+
+    }
+);
+
+
+/* ============================================================
+ * CREATE UPLOAD UI
+ * ============================================================ */
+
+function initializeStudentPhotoUpload() {
+
+    createAddStudentPhotoUpload();
+
+    createEditStudentPhotoUpload();
+
+}
+
+
+/* ============================================================
+ * ADD STUDENT PHOTO UI
+ * ============================================================ */
+
+function createAddStudentPhotoUpload() {
+
+    const urlInput =
+        getElement(
+            "studentPhoto"
+        );
+
+
+    if (
+        !urlInput
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        getElement(
+            "studentPhotoUploadBox"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const container =
+        document.createElement(
+            "div"
+        );
+
+
+    container.id =
+        "studentPhotoUploadBox";
+
+
+    container.className =
+        "photo-upload-box";
+
+
+    container.innerHTML = `
+
+        <div class="photo-upload-title">
+            รูปนักศึกษา
+        </div>
+
+        <div class="photo-preview-wrapper">
+
+            <img
+                id="studentPhotoPreview"
+                class="photo-preview"
+                src=""
+                alt="ตัวอย่างรูปนักศึกษา"
+            >
+
+            <div
+                id="studentPhotoPreviewEmpty"
+                class="photo-preview-empty"
+            >
+                ยังไม่มีรูป
+            </div>
+
+        </div>
+
+        <div class="photo-upload-actions">
+
+            <label
+                for="studentPhotoFile"
+                class="secondary-btn photo-file-btn"
+            >
+                📷 เลือกรูป
+            </label>
+
+            <input
+                type="file"
+                id="studentPhotoFile"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+            >
+
+        </div>
+
+        <div
+            id="studentPhotoUploadStatus"
+            class="photo-upload-status"
+        >
+            รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB
+        </div>
+
+    `;
+
+
+    urlInput
+        .parentElement
+        .appendChild(
+            container
+        );
+
+
+    urlInput.style.display =
+        "none";
+
+
+    const fileInput =
+        getElement(
+            "studentPhotoFile"
+        );
+
+
+    fileInput.addEventListener(
+        "change",
+        function () {
+
+            handleStudentPhotoSelected(
+                fileInput,
+                "add"
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+ * EDIT STUDENT PHOTO UI
+ * ============================================================ */
+
+function createEditStudentPhotoUpload() {
+
+    const urlInput =
+        getElement(
+            "modalStudentPhoto"
+        );
+
+
+    if (
+        !urlInput
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        getElement(
+            "modalStudentPhotoUploadBox"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const container =
+        document.createElement(
+            "div"
+        );
+
+
+    container.id =
+        "modalStudentPhotoUploadBox";
+
+
+    container.className =
+        "photo-upload-box";
+
+
+    container.innerHTML = `
+
+        <div class="photo-upload-title">
+            รูปนักศึกษา
+        </div>
+
+        <div class="photo-preview-wrapper">
+
+            <img
+                id="modalStudentPhotoPreview"
+                class="photo-preview"
+                src=""
+                alt="ตัวอย่างรูปนักศึกษา"
+            >
+
+            <div
+                id="modalStudentPhotoPreviewEmpty"
+                class="photo-preview-empty"
+            >
+                ยังไม่มีรูป
+            </div>
+
+        </div>
+
+        <div class="photo-upload-actions">
+
+            <label
+                for="modalStudentPhotoFile"
+                class="secondary-btn photo-file-btn"
+            >
+                📷 เลือกรูปใหม่
+            </label>
+
+            <input
+                type="file"
+                id="modalStudentPhotoFile"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+            >
+
+        </div>
+
+        <div
+            id="modalStudentPhotoUploadStatus"
+            class="photo-upload-status"
+        >
+            รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB
+        </div>
+
+    `;
+
+
+    urlInput
+        .parentElement
+        .appendChild(
+            container
+        );
+
+
+    urlInput.style.display =
+        "none";
+
+
+    const fileInput =
+        getElement(
+            "modalStudentPhotoFile"
+        );
+
+
+    fileInput.addEventListener(
+        "change",
+        function () {
+
+            handleStudentPhotoSelected(
+                fileInput,
+                "edit"
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+ * FILE SELECT
+ * ============================================================ */
+
+function handleStudentPhotoSelected(
+    input,
+    mode
+) {
+
+    const file =
+        input.files &&
+        input.files[0];
+
+
+    if (
+        !file
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * ตรวจชนิดไฟล์
+     */
+    const allowed =
+        [
+
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+
+        ];
+
+
+    if (
+        allowed.indexOf(
+            file.type
+        ) === -1
+    ) {
+
+        showPhotoUploadStatus(
+            mode,
+            "รองรับเฉพาะ JPG, PNG และ WEBP",
+            "error"
+        );
+
+
+        input.value =
+            "";
+
+
+        return;
+
+    }
+
+
+    /*
+     * จำกัด 4 MB
+     */
+    const maxSize =
+        4 *
+        1024 *
+        1024;
+
+
+    if (
+        file.size >
+        maxSize
+    ) {
+
+        showPhotoUploadStatus(
+            mode,
+            "ไฟล์ต้องมีขนาดไม่เกิน 4 MB",
+            "error"
+        );
+
+
+        input.value =
+            "";
+
+
+        return;
+
+    }
+
+
+    /*
+     * เก็บไฟล์ไว้
+     */
+    if (
+        mode === "add"
+    ) {
+
+        selectedAddStudentPhoto =
+            file;
+
+    } else {
+
+        selectedEditStudentPhoto =
+            file;
+
+    }
+
+
+    /*
+     * Preview
+     */
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function (event) {
+
+            const previewId =
+                mode === "add"
+
+                    ? "studentPhotoPreview"
+
+                    : "modalStudentPhotoPreview";
+
+
+            const emptyId =
+                mode === "add"
+
+                    ? "studentPhotoPreviewEmpty"
+
+                    : "modalStudentPhotoPreviewEmpty";
+
+
+            const preview =
+                getElement(
+                    previewId
+                );
+
+
+            const empty =
+                getElement(
+                    emptyId
+                );
+
+
+            if (
+                preview
+            ) {
+
+                preview.src =
+                    event.target.result;
+
+                preview.style.display =
+                    "block";
+
+            }
+
+
+            if (
+                empty
+            ) {
+
+                empty.style.display =
+                    "none";
+
+            }
+
+        };
+
+
+    reader.readAsDataURL(
+        file
+    );
+
+
+    showPhotoUploadStatus(
+        mode,
+        "เลือกไฟล์แล้ว: " +
+        file.name +
+        " — ระบบจะอัปโหลดเมื่อกดบันทึก",
+        "success"
+    );
+
+}
+
+
+/* ============================================================
+ * UPLOAD FILE
+ * ============================================================ */
+
+async function uploadStudentPhoto(
+    file,
+    studentId
+) {
+
+    if (
+        !file
+    ) {
+
+        return null;
+
+    }
+
+
+    if (
+        !studentId
+    ) {
+
+        throw new Error(
+            "ไม่พบรหัสนักศึกษา"
+        );
+
+    }
+
+
+    showMessage(
+        "กำลังอัปโหลดรูปนักศึกษา...",
+        "info"
+    );
+
+
+    const base64 =
+        await fileToBase64(
+            file
+        );
+
+
+    const result =
+        await apiRequest({
+
+            action:
+                "adminUploadStudentPhoto",
+
+            student_id:
+                studentId,
+
+            file_name:
+                file.name,
+
+            mime_type:
+                file.type,
+
+            base64:
+                base64
+
+        });
+
+
+    if (
+        !result ||
+        !result.success
+    ) {
+
+        throw new Error(
+
+            result &&
+            result.message
+
+                ? result.message
+
+                : "อัปโหลดรูปไม่สำเร็จ"
+
+        );
+
+    }
+
+
+    return result;
+
+}
+
+
+/* ============================================================
+ * FILE TO BASE64
+ * ============================================================ */
+
+function fileToBase64(
+    file
+) {
+
+    return new Promise(
+        function (
+            resolve,
+            reject
+        ) {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function () {
+
+                    const result =
+                        String(
+                            reader.result ||
+                            ""
+                        );
+
+
+                    const comma =
+                        result.indexOf(
+                            ","
+                        );
+
+
+                    if (
+                        comma >= 0
+                    ) {
+
+                        resolve(
+                            result.substring(
+                                comma + 1
+                            )
+                        );
+
+                    } else {
+
+                        resolve(
+                            result
+                        );
+
+                    }
+
+                };
+
+
+            reader.onerror =
+                function () {
+
+                    reject(
+                        new Error(
+                            "ไม่สามารถอ่านไฟล์รูปได้"
+                        )
+                    );
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+ * UPLOAD STATUS
+ * ============================================================ */
+
+function showPhotoUploadStatus(
+    mode,
+    message,
+    type
+) {
+
+    const id =
+        mode === "add"
+
+            ? "studentPhotoUploadStatus"
+
+            : "modalStudentPhotoUploadStatus";
+
+
+    const element =
+        getElement(
+            id
+        );
+
+
+    if (
+        !element
+    ) {
+
+        return;
+
+    }
+
+
+    element.textContent =
+        message || "";
+
+
+    element.className =
+        "photo-upload-status";
+
+
+    if (
+        type === "success"
+    ) {
+
+        element.classList.add(
+            "success"
+        );
+
+    }
+
+
+    if (
+        type === "error"
+    ) {
+
+        element.classList.add(
+            "error"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+ * PREVIEW EXISTING PHOTO
+ * ============================================================ */
+
+function showExistingStudentPhoto(
+    photoUrl,
+    mode
+) {
+
+    const previewId =
+        mode === "edit"
+
+            ? "modalStudentPhotoPreview"
+
+            : "studentPhotoPreview";
+
+
+    const emptyId =
+        mode === "edit"
+
+            ? "modalStudentPhotoPreviewEmpty"
+
+            : "studentPhotoPreviewEmpty";
+
+
+    const preview =
+        getElement(
+            previewId
+        );
+
+
+    const empty =
+        getElement(
+            emptyId
+        );
+
+
+    if (
+        !preview
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        photoUrl
+    ) {
+
+        preview.src =
+            photoUrl;
+
+
+        preview.style.display =
+            "block";
+
+
+        if (
+            empty
+        ) {
+
+            empty.style.display =
+                "none";
+
+        }
+
+    } else {
+
+        preview.removeAttribute(
+            "src"
+        );
+
+
+        preview.style.display =
+            "none";
+
+
+        if (
+            empty
+        ) {
+
+            empty.style.display =
+                "flex";
+
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+ * RESET ADD PHOTO
+ * ============================================================ */
+
+function resetAddStudentPhoto() {
+
+    selectedAddStudentPhoto =
+        null;
+
+
+    const fileInput =
+        getElement(
+            "studentPhotoFile"
+        );
+
+
+    if (
+        fileInput
+    ) {
+
+        fileInput.value =
+            "";
+
+    }
+
+
+    showExistingStudentPhoto(
+        "",
+        "add"
+    );
+
+
+    showPhotoUploadStatus(
+
+        "add",
+
+        "รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB",
+
+        ""
+
+    );
+
+}
+
+
+/* ============================================================
+ * RESET EDIT PHOTO
+ * ============================================================ */
+
+function resetEditStudentPhoto() {
+
+    selectedEditStudentPhoto =
+        null;
+
+
+    const fileInput =
+        getElement(
+            "modalStudentPhotoFile"
+        );
+
+
+    if (
+        fileInput
+    ) {
+
+        fileInput.value =
+            "";
+
+    }
+
+}
+
+
+/* ============================================================
+ * PATCH ADD FORM
+ *
+ * ห่อฟังก์ชันเดิมเพื่ออัปโหลดรูป
+ * ก่อนส่ง adminAddStudent
+ * ============================================================ */
+
+const originalHandleAddStudent =
+    handleAddStudent;
+
+
+handleAddStudent =
+    async function (event) {
+
+        if (
+            selectedAddStudentPhoto
+        ) {
+
+            event.preventDefault();
+
+
+            if (
+                isBusy
+            ) {
+
+                return;
+
+            }
+
+
+            ensureSession();
+
+
+            const studentId =
+                getValue(
+                    "studentId"
+                );
+
+
+            if (
+                !studentId
+            ) {
+
+                showMessage(
+                    "กรุณากรอกรหัสนักศึกษา",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            isBusy = true;
+
+
+            const button =
+                getElement(
+                    "saveStudentBtn"
+                );
+
+
+            setButtonLoading(
+                button,
+                true,
+                "กำลังอัปโหลดรูป..."
+            );
+
+
+            try {
+
+                const result =
+                    await uploadStudentPhoto(
+
+                        selectedAddStudentPhoto,
+
+                        studentId
+
+                    );
+
+
+                /*
+                 * ใส่ URL ลงช่องเดิม
+                 */
+                setValue(
+
+                    "studentPhoto",
+
+                    result.photo_url
+
+                );
+
+
+                /*
+                 * เก็บ URL ไว้
+                 * แล้วเรียกฟังก์ชันเดิม
+                 */
+                selectedAddStudentPhoto =
+                    null;
+
+
+                setButtonLoading(
+                    button,
+                    false,
+                    "💾 บันทึกนักศึกษา"
+                );
+
+
+                isBusy = false;
+
+
+                /*
+                 * เรียก logic เดิม
+                 */
+                await originalHandleAddStudent(
+                    event
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "ADD PHOTO ERROR",
+                    error
+                );
+
+
+                showMessage(
+
+                    error.message ||
+                    "อัปโหลดรูปไม่สำเร็จ",
+
+                    "error"
+
+                );
+
+
+                setButtonLoading(
+                    button,
+                    false,
+                    "💾 บันทึกนักศึกษา"
+                );
+
+
+                isBusy = false;
+
+            }
+
+
+            return;
+
+        }
+
+
+        /*
+         * ไม่มีรูปใหม่
+         * ใช้ logic เดิม
+         */
+        await originalHandleAddStudent(
+            event
+        );
+
+    };
+
+
+/* ============================================================
+ * PATCH EDIT FORM
+ * ============================================================ */
+
+const originalHandleStudentModalSubmit =
+    handleStudentModalSubmit;
+
+
+handleStudentModalSubmit =
+    async function (event) {
+
+        if (
+            selectedEditStudentPhoto
+        ) {
+
+            event.preventDefault();
+
+
+            if (
+                isBusy
+            ) {
+
+                return;
+
+            }
+
+
+            ensureSession();
+
+
+            const studentId =
+                getValue(
+                    "modalStudentId"
+                );
+
+
+            if (
+                !studentId
+            ) {
+
+                showMessage(
+                    "ไม่พบรหัสนักศึกษา",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            isBusy = true;
+
+
+            const button =
+                getElement(
+                    "saveStudentModalBtn"
+                );
+
+
+            setButtonLoading(
+                button,
+                true,
+                "กำลังอัปโหลดรูป..."
+            );
+
+
+            try {
+
+                const result =
+                    await uploadStudentPhoto(
+
+                        selectedEditStudentPhoto,
+
+                        studentId
+
+                    );
+
+
+                setValue(
+
+                    "modalStudentPhoto",
+
+                    result.photo_url
+
+                );
+
+
+                selectedEditStudentPhoto =
+                    null;
+
+
+                setButtonLoading(
+                    button,
+                    false,
+                    "💾 บันทึก"
+                );
+
+
+                isBusy = false;
+
+
+                await originalHandleStudentModalSubmit(
+                    event
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "EDIT PHOTO ERROR",
+                    error
+                );
+
+
+                showMessage(
+
+                    error.message ||
+                    "อัปโหลดรูปไม่สำเร็จ",
+
+                    "error"
+
+                );
+
+
+                setButtonLoading(
+                    button,
+                    false,
+                    "💾 บันทึก"
+                );
+
+
+                isBusy = false;
+
+            }
+
+
+            return;
+
+        }
+
+
+        await originalHandleStudentModalSubmit(
+            event
+        );
+
+    };
+
+
+/* ============================================================
+ * PATCH STUDENT FORM RESET
+ * ============================================================ */
+
+const originalResetStudentAddForm =
+    resetStudentAddForm;
+
+
+resetStudentAddForm =
+    function () {
+
+        originalResetStudentAddForm();
+
+        resetAddStudentPhoto();
+
+    };
+
+
+/* ============================================================
+ * PATCH STUDENT MODAL
+ * ============================================================ */
+
+const originalOpenStudentModal =
+    openStudentModal;
+
+
+openStudentModal =
+    function (student) {
+
+        resetEditStudentPhoto();
+
+
+        originalOpenStudentModal(
+            student
+        );
+
+
+        if (
+            student
+        ) {
+
+            showExistingStudentPhoto(
+
+                student.photo_url,
+
+                "edit"
+
+            );
+
+        }
+
+    };
+
+
+console.log(
+    "STUDENT PHOTO UPLOAD MODULE READY"
+);
