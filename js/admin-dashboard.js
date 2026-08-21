@@ -2504,7 +2504,7 @@ async function loadResetRequests() {
             await apiRequest({
 
                 action:
-                    "adminGetPasswordResetRequests",
+                    "adminGetResetRequests",
 
                 token:
                     token
