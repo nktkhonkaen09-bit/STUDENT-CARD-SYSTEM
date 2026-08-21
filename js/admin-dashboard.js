@@ -2,40 +2,37 @@
  * STUDENT CARD SYSTEM
  * ADMIN DASHBOARD
  *
- * CLEAN REBUILD
+ * CLEAN REBUILD + GOOGLE DRIVE PHOTO UPLOAD
  *
  * ใช้กับ:
  *   admin-dashboard.html
  *   css/admin-dashboard.css
  *
- * ใช้กับ Code.gs ปัจจุบัน
+ * Backend:
+ *   adminGetStudents
+ *   adminAddStudent
+ *   adminUpdateStudent
+ *   adminDirectResetStudentPassword
  *
- * Backend actions ที่ใช้งาน:
- * ------------------------------------------------------------
- * adminGetStudents
- * adminGetStudent
- * adminAddStudent
- * adminUpdateStudent
- * adminDirectResetStudentPassword
+ *   adminGetStaff
+ *   adminAddStaff
+ *   adminUpdateStaff
+ *   adminDeleteStaff
  *
- * adminGetStaff
- * adminAddStaff
- * adminUpdateStaff
- * adminDeleteStaff
+ *   adminGetResetRequests
+ *   adminApproveReset
+ *   adminRejectReset
+ *   adminResetPassword
  *
- * adminGetResetRequests
- * adminApproveReset
- * adminRejectReset
- * adminResetPassword
- *
- * adminLogout
+ *   adminUploadStudentPhoto
+ *   adminLogout
  * ============================================================ */
 
 "use strict";
 
 
 /* ============================================================
- * GLOBAL
+ * GLOBAL STATE
  * ============================================================ */
 
 let studentsCache = [];
@@ -52,6 +49,9 @@ let staffModalMode = "add";
 let isBusy = false;
 let messageTimer = null;
 
+let selectedAddStudentPhoto = null;
+let selectedEditStudentPhoto = null;
+
 
 /* ============================================================
  * PAGE INFO
@@ -60,50 +60,35 @@ let messageTimer = null;
 const SECTION_INFO = {
 
     dashboard: {
-        title:
-            "Dashboard",
-
-        subtitle:
-            "ภาพรวมระบบ Student Card System"
+        title: "Dashboard",
+        subtitle: "ภาพรวมระบบ Student Card System"
     },
 
     students: {
-        title:
-            "จัดการนักศึกษา",
-
-        subtitle:
-            "ค้นหา ดู แก้ไข และรีเซ็ตรหัสผ่านนักศึกษา"
+        title: "จัดการนักศึกษา",
+        subtitle: "ค้นหา ดู แก้ไข และรีเซ็ตรหัสผ่านนักศึกษา"
     },
 
     "add-student": {
-        title:
-            "เพิ่มนักศึกษา",
-
-        subtitle:
-            "เพิ่มข้อมูลนักศึกษาใหม่เข้าสู่ระบบ"
+        title: "เพิ่มนักศึกษา",
+        subtitle: "เพิ่มข้อมูลนักศึกษาใหม่เข้าสู่ระบบ"
     },
 
     staff: {
-        title:
-            "จัดการ Staff",
-
-        subtitle:
-            "เพิ่ม แก้ไข เปิด/ปิด และลบ Staff"
+        title: "จัดการ Staff",
+        subtitle: "เพิ่ม แก้ไข เปิด/ปิด และลบ Staff"
     },
 
     "reset-requests": {
-        title:
-            "Password Reset Requests",
-
-        subtitle:
-            "จัดการคำขอรีเซ็ตรหัสผ่านจากนักศึกษา"
+        title: "Password Reset Requests",
+        subtitle: "จัดการคำขอรีเซ็ตรหัสผ่านจากนักศึกษา"
     }
 
 };
 
 
 /* ============================================================
- * READY
+ * START
  * ============================================================ */
 
 document.addEventListener(
@@ -135,15 +120,18 @@ async function initAdminDashboard() {
         bindSearch();
         bindModalBackdrops();
 
+        /*
+         * สร้าง UI upload รูป
+         */
+        initializeStudentPhotoUpload();
+
         loadAdminProfile();
+
 
         const token =
             getAdminToken();
 
 
-        /*
-         * ไม่มี Session
-         */
         if (!token) {
 
             console.warn(
@@ -164,16 +152,8 @@ async function initAdminDashboard() {
 
 
         /*
-         * สำคัญ:
-         *
-         * Code.gs ปัจจุบันไม่มี
-         * adminSession
-         *
-         * จึงใช้ adminGetStudents
-         * เป็น API สำหรับตรวจ Session
-         *
-         * เพราะ Backend จะตรวจ
-         * requireRole() ให้เอง
+         * Code.gs ไม่มี adminSession
+         * ใช้ adminGetStudents ตรวจ Session
          */
         const sessionCheck =
             await apiRequest({
@@ -187,9 +167,6 @@ async function initAdminDashboard() {
             });
 
 
-        /*
-         * Session ใช้งานไม่ได้
-         */
         if (
             !sessionCheck ||
             !sessionCheck.success
@@ -222,27 +199,18 @@ async function initAdminDashboard() {
         }
 
 
-        /*
-         * Session ผ่าน
-         */
+        loadAdminProfile();
+
+
         setConnection(
             "● ระบบพร้อมใช้งาน",
             true
         );
 
 
-        loadAdminProfile();
-
-
-        /*
-         * โหลดข้อมูลจริง
-         */
         await loadAllData();
 
 
-        /*
-         * เปิด Dashboard
-         */
         switchSection(
             "dashboard",
             false
@@ -257,13 +225,10 @@ async function initAdminDashboard() {
         );
 
 
-        /*
-         * ถ้าเป็น Session หมดอายุ
-         */
         if (
             error &&
             error.code ===
-                "ADMIN_SESSION_EXPIRED"
+            "ADMIN_SESSION_EXPIRED"
         ) {
 
             handleSessionExpired();
@@ -281,8 +246,12 @@ async function initAdminDashboard() {
 
         showMessage(
 
-            error.message ||
-            "ไม่สามารถเปิดระบบ Admin ได้",
+            error &&
+            error.message
+
+                ? error.message
+
+                : "ไม่สามารถเปิดระบบ Admin ได้",
 
             "error"
 
@@ -299,9 +268,6 @@ async function initAdminDashboard() {
 
 function getAdminToken() {
 
-    /*
-     * CONFIG key
-     */
     try {
 
         if (
@@ -335,9 +301,6 @@ function getAdminToken() {
     }
 
 
-    /*
-     * fallback
-     */
     const keys = [
 
         "adminSessionId",
@@ -399,44 +362,63 @@ function isSessionExpired(
 
 
     const code =
-        String(
-            result.code || ""
+        safeString(
+            result.code
         )
         .toUpperCase();
 
 
     const message =
-        String(
-            result.message || ""
+        safeString(
+            result.message
         )
         .toLowerCase();
 
 
     return (
 
-        code.indexOf(
-            "SESSION"
-        ) >= 0
+        code.includes("SESSION") ||
 
-        ||
+        code.includes("EXPIRED") ||
 
-        code.indexOf(
-            "EXPIRED"
-        ) >= 0
+        message.includes("session") ||
 
-        ||
-
-        message.indexOf(
-            "session"
-        ) >= 0
-
-        ||
-
-        message.indexOf(
-            "หมดอายุ"
-        ) >= 0
+        message.includes("หมดอายุ")
 
     );
+
+}
+
+
+function ensureSession() {
+
+    const token =
+        getAdminToken();
+
+
+    if (
+        !token
+    ) {
+
+        const error =
+            new Error(
+                "ADMIN_SESSION_EXPIRED"
+            );
+
+
+        error.code =
+            "ADMIN_SESSION_EXPIRED";
+
+
+        handleSessionExpired();
+
+
+        throw error;
+
+    }
+
+
+    return token;
 
 }
 
@@ -526,10 +508,12 @@ function clearAdminSession() {
 
 
     [
+
         "adminSessionId",
         "admin_session",
         "adminToken",
         "admin"
+
     ]
     .forEach(
         function (key) {
@@ -700,7 +684,7 @@ async function apiRequest(
     } catch (error) {
 
         console.error(
-            "INVALID JSON:",
+            "INVALID JSON RESPONSE",
             text
         );
 
@@ -738,7 +722,7 @@ async function apiRequest(
 
 
 /* ============================================================
- * LOAD ALL DATA
+ * LOAD ALL
  * ============================================================ */
 
 async function loadAllData() {
@@ -749,27 +733,22 @@ async function loadAllData() {
     );
 
 
-    const tasks = [
-
-        loadStudents(
-            false
-        ),
-
-        loadStaff(
-            false
-        ),
-
-        loadResetRequests(
-            false
-        )
-
-    ];
-
-
     const results =
-        await Promise.allSettled(
-            tasks
-        );
+        await Promise.allSettled([
+
+            loadStudents(
+                false
+            ),
+
+            loadStaff(
+                false
+            ),
+
+            loadResetRequests(
+                false
+            )
+
+        ]);
 
 
     updateDashboardStats();
@@ -813,17 +792,18 @@ async function loadAllData() {
         failed[0].reason;
 
 
-    if (
-        firstError
-    ) {
+    showMessage(
 
-        showMessage(
-            firstError.message ||
-            "โหลดข้อมูลบางส่วนไม่สำเร็จ",
-            "warning"
-        );
+        firstError &&
+        firstError.message
 
-    }
+            ? firstError.message
+
+            : "โหลดข้อมูลบางส่วนไม่สำเร็จ",
+
+        "warning"
+
+    );
 
 }
 
@@ -885,7 +865,9 @@ async function loadStudents(
             Array.isArray(
                 result.students
             )
+
                 ? result.students
+
                 : [];
 
 
@@ -919,10 +901,6 @@ async function loadStudents(
 
 }
 
-
-/* ============================================================
- * RENDER STUDENTS
- * ============================================================ */
 
 function renderStudents() {
 
@@ -977,9 +955,9 @@ function renderStudents() {
                     .toLowerCase();
 
 
-                    return text.indexOf(
+                    return text.includes(
                         search
-                    ) >= 0;
+                    );
 
                 }
             );
@@ -1114,9 +1092,7 @@ function createStudentRow(
                 <span
                     class="status-badge ${getStatusClass(status)}"
                 >
-                    ${escapeHtml(
-                        status
-                    )}
+                    ${escapeHtml(status)}
                 </span>
 
             </td>
@@ -1178,6 +1154,13 @@ function createStudentRow(
 
 /* ============================================================
  * ADD STUDENT
+ *
+ * IMPORTANT:
+ * 1. เพิ่มนักศึกษาใน Sheets ก่อน
+ * 2. ค่อยอัปโหลดรูป
+ * 3. ค่อยอัปเดต photo_url
+ *
+ * ป้องกัน "ไม่พบรหัสนักศึกษา"
  * ============================================================ */
 
 async function handleAddStudent(
@@ -1204,40 +1187,48 @@ async function handleAddStudent(
         action:
             "adminAddStudent",
 
+
         student_id:
             getValue(
                 "studentId"
             ),
+
 
         password:
             getRawValue(
                 "studentPassword"
             ),
 
+
         prefix_th:
             getValue(
                 "studentPrefix"
             ),
+
 
         firstname_th:
             getValue(
                 "studentFirstnameTh"
             ),
 
+
         lastname_th:
             getValue(
                 "studentLastnameTh"
             ),
+
 
         firstname_en:
             getValue(
                 "studentFirstnameEn"
             ),
 
+
         lastname_en:
             getValue(
                 "studentLastnameEn"
             ),
+
 
         status:
             getValue(
@@ -1245,25 +1236,31 @@ async function handleAddStudent(
             ) ||
             "นักศึกษาปกติ",
 
+
+        /*
+         * ตอนแรกยังไม่ใส่รูป
+         */
         photo_url:
-            getValue(
-                "studentPhoto"
-            ),
+            "",
+
 
         issue_date:
             getValue(
                 "studentIssueDate"
             ),
 
+
         expire_date:
             getValue(
                 "studentExpireDate"
             ),
 
+
         department:
             getValue(
                 "studentDepartment"
             ),
+
 
         phone:
             getValue(
@@ -1369,35 +1366,43 @@ async function handleAddStudent(
         );
 
 
-    isBusy = true;
-
-
-    setButtonLoading(
-        button,
-        true,
-        "กำลังบันทึก..."
-    );
+    isBusy =
+        true;
 
 
     try {
 
-        const result =
+        /*
+         * ==================================================
+         * STEP 1
+         * สร้างนักศึกษาก่อน
+         * ==================================================
+         */
+
+        setButtonLoading(
+            button,
+            true,
+            "กำลังบันทึกนักศึกษา..."
+        );
+
+
+        const createResult =
             await apiRequest(
                 data
             );
 
 
         if (
-            !result ||
-            !result.success
+            !createResult ||
+            !createResult.success
         ) {
 
             throw new Error(
 
-                result &&
-                result.message
+                createResult &&
+                createResult.message
 
-                    ? result.message
+                    ? createResult.message
 
                     : "เพิ่มนักศึกษาไม่สำเร็จ"
 
@@ -1406,10 +1411,107 @@ async function handleAddStudent(
         }
 
 
+        /*
+         * ==================================================
+         * STEP 2
+         * ถ้ามีรูป → อัปโหลดหลังจากสร้างนักศึกษาแล้ว
+         * ==================================================
+         */
+
+        let uploadedPhoto =
+            null;
+
+
+        if (
+            selectedAddStudentPhoto
+        ) {
+
+            setButtonLoading(
+                button,
+                true,
+                "กำลังอัปโหลดรูป..."
+            );
+
+
+            uploadedPhoto =
+                await uploadStudentPhoto(
+
+                    selectedAddStudentPhoto,
+
+                    data.student_id
+
+                );
+
+
+            /*
+             * ==================================================
+             * STEP 3
+             * บันทึก URL ลง Students.photo_url
+             * ==================================================
+             */
+
+            if (
+                uploadedPhoto &&
+                uploadedPhoto.photo_url
+            ) {
+
+                setButtonLoading(
+                    button,
+                    true,
+                    "กำลังบันทึกรูป..."
+                );
+
+
+                const updatePhotoResult =
+                    await apiRequest({
+
+                        action:
+                            "adminUpdateStudent",
+
+
+                        student_id:
+                            data.student_id,
+
+
+                        photo_url:
+                            uploadedPhoto.photo_url
+
+                    });
+
+
+                if (
+                    !updatePhotoResult ||
+                    !updatePhotoResult.success
+                ) {
+
+                    throw new Error(
+
+                        updatePhotoResult &&
+                        updatePhotoResult.message
+
+                            ? updatePhotoResult.message
+
+                            : "อัปโหลดรูปสำเร็จ แต่บันทึก URL รูปไม่สำเร็จ"
+
+                    );
+
+                }
+
+            }
+
+        }
+
+
         showMessage(
-            result.message ||
-            "เพิ่มนักศึกษาสำเร็จ",
+
+            uploadedPhoto
+
+                ? "เพิ่มนักศึกษาและอัปโหลดรูปสำเร็จ"
+
+                : "เพิ่มนักศึกษาสำเร็จ",
+
             "success"
+
         );
 
 
@@ -1438,9 +1540,13 @@ async function handleAddStudent(
 
 
         showMessage(
+
             error.message ||
+
             "เพิ่มนักศึกษาไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
@@ -1452,7 +1558,8 @@ async function handleAddStudent(
         );
 
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
@@ -1460,7 +1567,7 @@ async function handleAddStudent(
 
 
 /* ============================================================
- * EDIT STUDENT MODAL
+ * EDIT STUDENT
  * ============================================================ */
 
 function openStudentModal(
@@ -1591,7 +1698,8 @@ function openStudentModal(
 
     setValue(
         "modalStudentPhoto",
-        student.photo_url
+        student.photo_url ||
+        ""
     );
 
 
@@ -1615,6 +1723,18 @@ function openStudentModal(
             true;
 
     }
+
+
+    resetEditStudentPhoto();
+
+
+    showExistingStudentPhoto(
+
+        student.photo_url,
+
+        "edit"
+
+    );
 
 
     showModal(
@@ -1665,6 +1785,12 @@ async function handleStudentModalSubmit(
         );
 
 
+    const password =
+        getRawValue(
+            "modalStudentPassword"
+        );
+
+
     if (
         !studentId
     ) {
@@ -1707,12 +1833,6 @@ async function handleStudentModalSubmit(
     }
 
 
-    const password =
-        getRawValue(
-            "modalStudentPassword"
-        );
-
-
     if (
         password &&
         password.length < 4
@@ -1733,29 +1853,36 @@ async function handleStudentModalSubmit(
         action:
             "adminUpdateStudent",
 
+
         student_id:
             studentId,
+
 
         prefix_th:
             getValue(
                 "modalStudentPrefix"
             ),
 
+
         firstname_th:
             firstname,
 
+
         lastname_th:
             lastname,
+
 
         firstname_en:
             getValue(
                 "modalStudentFirstnameEn"
             ),
 
+
         lastname_en:
             getValue(
                 "modalStudentLastnameEn"
             ),
+
 
         status:
             getValue(
@@ -1763,25 +1890,30 @@ async function handleStudentModalSubmit(
             ) ||
             "นักศึกษาปกติ",
 
+
         photo_url:
             getValue(
                 "modalStudentPhoto"
             ),
+
 
         issue_date:
             getValue(
                 "modalStudentIssueDate"
             ),
 
+
         expire_date:
             getValue(
                 "modalStudentExpireDate"
             ),
 
+
         department:
             getValue(
                 "modalStudentDepartment"
             ),
+
 
         phone:
             getValue(
@@ -1807,17 +1939,70 @@ async function handleStudentModalSubmit(
         );
 
 
-    isBusy = true;
-
-
-    setButtonLoading(
-        button,
-        true,
-        "กำลังบันทึก..."
-    );
+    isBusy =
+        true;
 
 
     try {
+
+        /*
+         * ถ้ามีรูปใหม่
+         * นักศึกษามีอยู่แล้ว
+         * จึงสามารถ Upload ได้เลย
+         */
+
+        if (
+            selectedEditStudentPhoto
+        ) {
+
+            setButtonLoading(
+                button,
+                true,
+                "กำลังอัปโหลดรูป..."
+            );
+
+
+            const photoResult =
+                await uploadStudentPhoto(
+
+                    selectedEditStudentPhoto,
+
+                    studentId
+
+                );
+
+
+            if (
+                !photoResult ||
+                !photoResult.photo_url
+            ) {
+
+                throw new Error(
+                    "อัปโหลดรูปไม่สำเร็จ"
+                );
+
+            }
+
+
+            data.photo_url =
+                photoResult.photo_url;
+
+
+            selectedEditStudentPhoto =
+                null;
+
+        }
+
+
+        /*
+         * บันทึกข้อมูลทั้งหมด
+         */
+        setButtonLoading(
+            button,
+            true,
+            "กำลังบันทึก..."
+        );
+
 
         const result =
             await apiRequest(
@@ -1845,7 +2030,6 @@ async function handleStudentModalSubmit(
 
 
         showMessage(
-            result.message ||
             "บันทึกข้อมูลนักศึกษาสำเร็จ",
             "success"
         );
@@ -1873,9 +2057,13 @@ async function handleStudentModalSubmit(
 
 
         showMessage(
+
             error.message ||
+
             "บันทึกข้อมูลนักศึกษาไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
@@ -1887,7 +2075,8 @@ async function handleStudentModalSubmit(
         );
 
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
@@ -1895,223 +2084,844 @@ async function handleStudentModalSubmit(
 
 
 /* ============================================================
- * DIRECT RESET STUDENT PASSWORD
+ * STUDENT PHOTO UPLOAD
  * ============================================================ */
 
-async function directResetStudentPassword(
+function initializeStudentPhotoUpload() {
+
+    createAddStudentPhotoUpload();
+
+    createEditStudentPhotoUpload();
+
+}
+
+
+function createAddStudentPhotoUpload() {
+
+    const urlInput =
+        getElement(
+            "studentPhoto"
+        );
+
+
+    if (
+        !urlInput
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        getElement(
+            "studentPhotoUploadBox"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const container =
+        document.createElement(
+            "div"
+        );
+
+
+    container.id =
+        "studentPhotoUploadBox";
+
+
+    container.className =
+        "photo-upload-box";
+
+
+    container.innerHTML = `
+
+        <div class="photo-upload-title">
+            รูปนักศึกษา
+        </div>
+
+
+        <div class="photo-preview-wrapper">
+
+            <img
+                id="studentPhotoPreview"
+                class="photo-preview"
+                src=""
+                alt="ตัวอย่างรูปนักศึกษา"
+            >
+
+
+            <div
+                id="studentPhotoPreviewEmpty"
+                class="photo-preview-empty"
+            >
+                ยังไม่มีรูป
+            </div>
+
+        </div>
+
+
+        <div class="photo-upload-actions">
+
+            <label
+                for="studentPhotoFile"
+                class="secondary-btn photo-file-btn"
+            >
+                📷 เลือกรูป
+            </label>
+
+
+            <input
+                type="file"
+                id="studentPhotoFile"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+            >
+
+        </div>
+
+
+        <div
+            id="studentPhotoUploadStatus"
+            class="photo-upload-status"
+        >
+            รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB
+        </div>
+
+    `;
+
+
+    urlInput
+        .parentElement
+        .appendChild(
+            container
+        );
+
+
+    urlInput.style.display =
+        "none";
+
+
+    const fileInput =
+        getElement(
+            "studentPhotoFile"
+        );
+
+
+    if (
+        fileInput
+    ) {
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                handleStudentPhotoSelected(
+
+                    fileInput,
+
+                    "add"
+
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+function createEditStudentPhotoUpload() {
+
+    const urlInput =
+        getElement(
+            "modalStudentPhoto"
+        );
+
+
+    if (
+        !urlInput
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        getElement(
+            "modalStudentPhotoUploadBox"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const container =
+        document.createElement(
+            "div"
+        );
+
+
+    container.id =
+        "modalStudentPhotoUploadBox";
+
+
+    container.className =
+        "photo-upload-box";
+
+
+    container.innerHTML = `
+
+        <div class="photo-upload-title">
+            รูปนักศึกษา
+        </div>
+
+
+        <div class="photo-preview-wrapper">
+
+            <img
+                id="modalStudentPhotoPreview"
+                class="photo-preview"
+                src=""
+                alt="ตัวอย่างรูปนักศึกษา"
+            >
+
+
+            <div
+                id="modalStudentPhotoPreviewEmpty"
+                class="photo-preview-empty"
+            >
+                ยังไม่มีรูป
+            </div>
+
+        </div>
+
+
+        <div class="photo-upload-actions">
+
+            <label
+                for="modalStudentPhotoFile"
+                class="secondary-btn photo-file-btn"
+            >
+                📷 เลือกรูปใหม่
+            </label>
+
+
+            <input
+                type="file"
+                id="modalStudentPhotoFile"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+            >
+
+        </div>
+
+
+        <div
+            id="modalStudentPhotoUploadStatus"
+            class="photo-upload-status"
+        >
+            รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB
+        </div>
+
+    `;
+
+
+    urlInput
+        .parentElement
+        .appendChild(
+            container
+        );
+
+
+    urlInput.style.display =
+        "none";
+
+
+    const fileInput =
+        getElement(
+            "modalStudentPhotoFile"
+        );
+
+
+    if (
+        fileInput
+    ) {
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                handleStudentPhotoSelected(
+
+                    fileInput,
+
+                    "edit"
+
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+function handleStudentPhotoSelected(
+    input,
+    mode
+) {
+
+    const file =
+        input.files &&
+        input.files[0];
+
+
+    if (
+        !file
+    ) {
+
+        return;
+
+    }
+
+
+    const allowedTypes = [
+
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+
+    ];
+
+
+    if (
+        allowedTypes.indexOf(
+            file.type
+        ) === -1
+    ) {
+
+        showPhotoUploadStatus(
+
+            mode,
+
+            "รองรับเฉพาะ JPG, PNG และ WEBP",
+
+            "error"
+
+        );
+
+
+        input.value =
+            "";
+
+
+        return;
+
+    }
+
+
+    const maxSize =
+        4 *
+        1024 *
+        1024;
+
+
+    if (
+        file.size >
+        maxSize
+    ) {
+
+        showPhotoUploadStatus(
+
+            mode,
+
+            "ไฟล์ต้องมีขนาดไม่เกิน 4 MB",
+
+            "error"
+
+        );
+
+
+        input.value =
+            "";
+
+
+        return;
+
+    }
+
+
+    if (
+        mode ===
+        "add"
+    ) {
+
+        selectedAddStudentPhoto =
+            file;
+
+    } else {
+
+        selectedEditStudentPhoto =
+            file;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function (event) {
+
+            const previewId =
+                mode === "add"
+
+                    ? "studentPhotoPreview"
+
+                    : "modalStudentPhotoPreview";
+
+
+            const emptyId =
+                mode === "add"
+
+                    ? "studentPhotoPreviewEmpty"
+
+                    : "modalStudentPhotoPreviewEmpty";
+
+
+            const preview =
+                getElement(
+                    previewId
+                );
+
+
+            const empty =
+                getElement(
+                    emptyId
+                );
+
+
+            if (
+                preview
+            ) {
+
+                preview.src =
+                    event.target.result;
+
+
+                preview.style.display =
+                    "block";
+
+            }
+
+
+            if (
+                empty
+            ) {
+
+                empty.style.display =
+                    "none";
+
+            }
+
+        };
+
+
+    reader.readAsDataURL(
+        file
+    );
+
+
+    showPhotoUploadStatus(
+
+        mode,
+
+        "เลือกไฟล์แล้ว: " +
+        file.name +
+        " — จะอัปโหลดเมื่อกดบันทึก",
+
+        "success"
+
+    );
+
+}
+
+
+async function uploadStudentPhoto(
+    file,
     studentId
 ) {
 
-    ensureSession();
+    if (
+        !file
+    ) {
+
+        return null;
+
+    }
 
 
     if (
         !studentId
     ) {
 
-        showMessage(
-            "ไม่พบรหัสนักศึกษา",
-            "error"
+        throw new Error(
+            "ไม่พบรหัสนักศึกษา"
         );
-
-        return;
 
     }
 
 
-    const student =
-        findStudent(
-            studentId
+    const base64 =
+        await fileToBase64(
+            file
         );
 
 
-    const name =
-        student
+    const result =
+        await apiRequest({
 
-            ? [
-
-                student.firstname_th,
-                student.lastname_th
-
-              ]
-              .filter(Boolean)
-              .join(" ")
-
-            : "";
+            action:
+                "adminUploadStudentPhoto",
 
 
-    const passwordInput =
-        window.prompt(
+            student_id:
+                studentId,
 
-            "รีเซ็ตรหัสผ่านนักศึกษา\n\n" +
 
-            "รหัสนักศึกษา: " +
-            studentId +
+            file_name:
+                file.name,
 
-            (
-                name
-                    ? "\nชื่อ: " +
-                      name
-                    : ""
-            ) +
 
-            "\n\n" +
+            mime_type:
+                file.type,
 
-            "กรอกรหัสผ่านใหม่\n" +
-            "เว้นว่างเพื่อใช้ 123456"
 
-        );
+            base64:
+                base64
+
+        });
 
 
     if (
-        passwordInput === null
+        !result ||
+        !result.success
     ) {
 
-        return;
+        throw new Error(
+
+            result &&
+            result.message
+
+                ? result.message
+
+                : "อัปโหลดรูปไม่สำเร็จ"
+
+        );
 
     }
 
 
-    const newPassword =
-        passwordInput ||
-        "123456";
+    return result;
+
+}
 
 
-    if (
-        newPassword.length < 4
-    ) {
+function fileToBase64(
+    file
+) {
 
-        showMessage(
-            "รหัสผ่านใหม่ต้องมีอย่างน้อย 4 ตัวอักษร",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const confirmed =
-        window.confirm(
-
-            "ยืนยันการรีเซ็ตรหัสผ่าน?\n\n" +
-
-            "รหัสนักศึกษา: " +
-            studentId +
-
-            "\nรหัสผ่านใหม่: " +
-            newPassword
-
-        );
-
-
-    if (
-        !confirmed
-    ) {
-
-        return;
-
-    }
-
-
-    isBusy = true;
-
-
-    try {
-
-        setConnection(
-            "● กำลังรีเซ็ตรหัสผ่าน...",
-            true
-        );
-
-
-        const result =
-            await apiRequest({
-
-                action:
-                    "adminDirectResetStudentPassword",
-
-                student_id:
-                    studentId,
-
-                newPassword:
-                    newPassword,
-
-                note:
-                    "รีเซ็ตรหัสผ่านจาก Admin Dashboard"
-
-            });
-
-
-        if (
-            !result ||
-            !result.success
+    return new Promise(
+        function (
+            resolve,
+            reject
         ) {
 
-            throw new Error(
+            const reader =
+                new FileReader();
 
-                result &&
-                result.message
 
-                    ? result.message
+            reader.onload =
+                function () {
 
-                    : "รีเซ็ตรหัสผ่านไม่สำเร็จ"
+                    const result =
+                        String(
+                            reader.result ||
+                            ""
+                        );
 
+
+                    const comma =
+                        result.indexOf(
+                            ","
+                        );
+
+
+                    if (
+                        comma >= 0
+                    ) {
+
+                        resolve(
+                            result.substring(
+                                comma + 1
+                            )
+                        );
+
+                    } else {
+
+                        resolve(
+                            result
+                        );
+
+                    }
+
+                };
+
+
+            reader.onerror =
+                function () {
+
+                    reject(
+                        new Error(
+                            "ไม่สามารถอ่านไฟล์รูปได้"
+                        )
+                    );
+
+                };
+
+
+            reader.readAsDataURL(
+                file
             );
 
         }
+    );
+
+}
 
 
-        window.alert(
+function showPhotoUploadStatus(
+    mode,
+    message,
+    type
+) {
 
-            "รีเซ็ตรหัสผ่านสำเร็จ\n\n" +
+    const id =
+        mode ===
+        "add"
 
-            "รหัสนักศึกษา: " +
-            studentId +
+            ? "studentPhotoUploadStatus"
 
-            "\nรหัสผ่านใหม่: " +
-            (
-                result.password ||
-                newPassword
-            )
+            : "modalStudentPhotoUploadStatus";
 
+
+    const element =
+        getElement(
+            id
         );
 
 
-        showMessage(
-            "รีเซ็ตรหัสผ่านนักศึกษาสำเร็จ",
+    if (
+        !element
+    ) {
+
+        return;
+
+    }
+
+
+    element.textContent =
+        message || "";
+
+
+    element.className =
+        "photo-upload-status";
+
+
+    if (
+        type === "success"
+    ) {
+
+        element.classList.add(
             "success"
         );
 
-
-        await loadResetRequests(
-            false
-        );
+    }
 
 
-    } catch (error) {
+    if (
+        type === "error"
+    ) {
 
-        console.error(
-            "DIRECT RESET ERROR",
-            error
-        );
-
-
-        showMessage(
-            error.message ||
-            "รีเซ็ตรหัสผ่านไม่สำเร็จ",
+        element.classList.add(
             "error"
         );
 
-    } finally {
+    }
 
-        setConnection(
-            "● ระบบพร้อมใช้งาน",
-            true
+}
+
+
+function showExistingStudentPhoto(
+    photoUrl,
+    mode
+) {
+
+    const previewId =
+        mode ===
+        "edit"
+
+            ? "modalStudentPhotoPreview"
+
+            : "studentPhotoPreview";
+
+
+    const emptyId =
+        mode ===
+        "edit"
+
+            ? "modalStudentPhotoPreviewEmpty"
+
+            : "studentPhotoPreviewEmpty";
+
+
+    const preview =
+        getElement(
+            previewId
         );
 
 
-        isBusy = false;
+    const empty =
+        getElement(
+            emptyId
+        );
+
+
+    if (
+        !preview
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        photoUrl
+    ) {
+
+        preview.src =
+            photoUrl;
+
+
+        preview.style.display =
+            "block";
+
+
+        if (
+            empty
+        ) {
+
+            empty.style.display =
+                "none";
+
+        }
+
+    } else {
+
+        preview.removeAttribute(
+            "src"
+        );
+
+
+        preview.style.display =
+            "none";
+
+
+        if (
+            empty
+        ) {
+
+            empty.style.display =
+                "flex";
+
+        }
+
+    }
+
+}
+
+
+function resetAddStudentPhoto() {
+
+    selectedAddStudentPhoto =
+        null;
+
+
+    const fileInput =
+        getElement(
+            "studentPhotoFile"
+        );
+
+
+    if (
+        fileInput
+    ) {
+
+        fileInput.value =
+            "";
+
+    }
+
+
+    showExistingStudentPhoto(
+        "",
+        "add"
+    );
+
+
+    showPhotoUploadStatus(
+
+        "add",
+
+        "รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB",
+
+        ""
+
+    );
+
+}
+
+
+function resetEditStudentPhoto() {
+
+    selectedEditStudentPhoto =
+        null;
+
+
+    const fileInput =
+        getElement(
+            "modalStudentPhotoFile"
+        );
+
+
+    if (
+        fileInput
+    ) {
+
+        fileInput.value =
+            "";
 
     }
 
@@ -2175,7 +2985,9 @@ async function loadStaff(
             Array.isArray(
                 result.staff
             )
+
                 ? result.staff
+
                 : [];
 
 
@@ -2259,9 +3071,9 @@ function renderStaff() {
                     .toLowerCase();
 
 
-                    return text.indexOf(
+                    return text.includes(
                         search
-                    ) >= 0;
+                    );
 
                 }
             );
@@ -2323,7 +3135,8 @@ function createStaffRow(
         safeString(
             staff.role ||
             "STAFF"
-        ).toUpperCase();
+        )
+        .toUpperCase();
 
 
     const status =
@@ -2338,12 +3151,10 @@ function createStaffRow(
         );
 
 
-    let actions = "";
+    let actions =
+        "";
 
 
-    /*
-     * ADMIN เท่านั้น
-     */
     if (
         isAdminRole()
     ) {
@@ -2367,7 +3178,8 @@ function createStaffRow(
         ) {
 
             const toggleText =
-                status === "ACTIVE"
+                status ===
+                "ACTIVE"
 
                     ? "⛔ ปิดใช้งาน"
 
@@ -2375,7 +3187,8 @@ function createStaffRow(
 
 
             const toggleClass =
-                status === "ACTIVE"
+                status ===
+                "ACTIVE"
 
                     ? "secondary-btn"
 
@@ -2486,10 +3299,6 @@ function createStaffRow(
 }
 
 
-/* ============================================================
- * STAFF MODAL
- * ============================================================ */
-
 function openStaffModal(
     staff
 ) {
@@ -2582,11 +3391,13 @@ function openStaffModal(
             "staffStatus",
             normalizeAdminStatus(
                 staff.status
-            ) === "ACTIVE"
+            ) ===
+            "ACTIVE"
 
                 ? "Active"
 
                 : "Inactive"
+
         );
 
 
@@ -2669,10 +3480,6 @@ function openStaffModal(
 
 }
 
-
-/* ============================================================
- * SAVE STAFF
- * ============================================================ */
 
 async function handleStaffSubmit(
     event
@@ -2774,7 +3581,8 @@ async function handleStaffSubmit(
 
 
     if (
-        staffModalMode === "add" &&
+        staffModalMode ===
+        "add" &&
         !password
     ) {
 
@@ -2806,20 +3614,25 @@ async function handleStaffSubmit(
     const data = {
 
         action:
-            staffModalMode === "add"
+            staffModalMode ===
+            "add"
 
                 ? "adminAddStaff"
 
                 : "adminUpdateStaff",
 
+
         username:
             username,
+
 
         name:
             name,
 
+
         role:
             role,
+
 
         status:
             normalizeAdminStatusForApi(
@@ -2855,7 +3668,8 @@ async function handleStaffSubmit(
         );
 
 
-    isBusy = true;
+    isBusy =
+        true;
 
 
     setButtonLoading(
@@ -2921,9 +3735,12 @@ async function handleStaffSubmit(
 
 
         showMessage(
+
             error.message ||
             "บันทึก Staff ไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
@@ -2935,20 +3752,13 @@ async function handleStaffSubmit(
         );
 
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
 }
 
-
-/* ============================================================
- * TOGGLE STAFF
- *
- * ไม่มี adminToggleStaff ใน Backend
- *
- * ใช้ adminUpdateStaff
- * ============================================================ */
 
 async function toggleStaff(
     adminId,
@@ -3010,7 +3820,8 @@ async function toggleStaff(
 
 
     const next =
-        current === "ACTIVE"
+        current ===
+        "ACTIVE"
 
             ? "Inactive"
 
@@ -3021,7 +3832,8 @@ async function toggleStaff(
         window.confirm(
 
             (
-                next === "Active"
+                next ===
+                "Active"
 
                     ? "ต้องการเปิดใช้งาน Staff "
 
@@ -3048,7 +3860,8 @@ async function toggleStaff(
     }
 
 
-    isBusy = true;
+    isBusy =
+        true;
 
 
     try {
@@ -3059,8 +3872,10 @@ async function toggleStaff(
                 action:
                     "adminUpdateStaff",
 
+
                 admin_id:
                     adminId,
+
 
                 status:
                     next
@@ -3111,23 +3926,24 @@ async function toggleStaff(
 
 
         showMessage(
+
             error.message ||
+
             "เปลี่ยนสถานะ Staff ไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
 }
 
-
-/* ============================================================
- * DELETE STAFF
- * ============================================================ */
 
 async function deleteStaff(
     adminId,
@@ -3191,9 +4007,7 @@ async function deleteStaff(
                 adminId
             ) +
 
-            "\n\n" +
-
-            "การลบไม่สามารถย้อนกลับได้"
+            "\n\nการลบไม่สามารถย้อนกลับได้"
 
         );
 
@@ -3207,7 +4021,8 @@ async function deleteStaff(
     }
 
 
-    isBusy = true;
+    isBusy =
+        true;
 
 
     try {
@@ -3217,6 +4032,7 @@ async function deleteStaff(
 
                 action:
                     "adminDeleteStaff",
+
 
                 admin_id:
                     adminId
@@ -3267,14 +4083,19 @@ async function deleteStaff(
 
 
         showMessage(
+
             error.message ||
+
             "ลบ Staff ไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
@@ -3282,7 +4103,7 @@ async function deleteStaff(
 
 
 /* ============================================================
- * PASSWORD RESET REQUESTS
+ * PASSWORD RESET
  * ============================================================ */
 
 async function loadResetRequests(
@@ -3338,7 +4159,9 @@ async function loadResetRequests(
             Array.isArray(
                 result.requests
             )
+
                 ? result.requests
+
                 : [];
 
 
@@ -3372,10 +4195,6 @@ async function loadResetRequests(
 
 }
 
-
-/* ============================================================
- * RENDER RESET REQUESTS
- * ============================================================ */
 
 function renderResetRequests() {
 
@@ -3434,9 +4253,9 @@ function renderResetRequests() {
                     .toLowerCase();
 
 
-                    return text.indexOf(
+                    return text.includes(
                         search
-                    ) >= 0;
+                    );
 
                 }
             );
@@ -3493,6 +4312,7 @@ function renderResetRequests() {
 
         updateResetBadge();
 
+
         return;
 
     }
@@ -3510,10 +4330,6 @@ function renderResetRequests() {
 
 }
 
-
-/* ============================================================
- * RESET REQUEST ROW
- * ============================================================ */
 
 function createResetRequestRow(
     request
@@ -3546,7 +4362,8 @@ function createResetRequestRow(
 
 
     if (
-        upperStatus === "PENDING"
+        upperStatus ===
+        "PENDING"
     ) {
 
         actionHtml = `
@@ -3563,7 +4380,8 @@ function createResetRequestRow(
         `;
 
     } else if (
-        upperStatus === "APPROVED"
+        upperStatus ===
+        "APPROVED"
     ) {
 
         actionHtml = `
@@ -3690,10 +4508,6 @@ function createResetRequestRow(
 }
 
 
-/* ============================================================
- * RESET REQUEST MODAL
- * ============================================================ */
-
 function openResetRequestModal(
     request
 ) {
@@ -3729,75 +4543,51 @@ function openResetRequestModal(
         details.innerHTML = `
 
             <div class="reset-detail-row">
-
-                <strong>
-                    Request ID
-                </strong>
-
+                <strong>Request ID</strong>
                 <span>
                     ${escapeHtml(
                         request.request_id ||
                         "-"
                     )}
                 </span>
-
             </div>
 
 
             <div class="reset-detail-row">
-
-                <strong>
-                    รหัสนักศึกษา
-                </strong>
-
+                <strong>รหัสนักศึกษา</strong>
                 <span>
                     ${escapeHtml(
                         request.student_id ||
                         "-"
                     )}
                 </span>
-
             </div>
 
 
             <div class="reset-detail-row">
-
-                <strong>
-                    เหตุผล
-                </strong>
-
+                <strong>เหตุผล</strong>
                 <span>
                     ${escapeHtml(
                         request.reason ||
                         "-"
                     )}
                 </span>
-
             </div>
 
 
             <div class="reset-detail-row">
-
-                <strong>
-                    สถานะ
-                </strong>
-
+                <strong>สถานะ</strong>
                 <span>
                     ${escapeHtml(
                         request.status ||
                         "-"
                     )}
                 </span>
-
             </div>
 
 
             <div class="reset-detail-row">
-
-                <strong>
-                    วันที่ร้องขอ
-                </strong>
-
+                <strong>วันที่ร้องขอ</strong>
                 <span>
                     ${escapeHtml(
                         formatDisplayDateTime(
@@ -3805,16 +4595,11 @@ function openResetRequestModal(
                         )
                     )}
                 </span>
-
             </div>
 
 
             <div class="reset-detail-row">
-
-                <strong>
-                    วันที่ดำเนินการ
-                </strong>
-
+                <strong>วันที่ดำเนินการ</strong>
                 <span>
                     ${escapeHtml(
                         formatDisplayDateTime(
@@ -3822,39 +4607,28 @@ function openResetRequestModal(
                         )
                     )}
                 </span>
-
             </div>
 
 
             <div class="reset-detail-row">
-
-                <strong>
-                    ผู้ดำเนินการ
-                </strong>
-
+                <strong>ผู้ดำเนินการ</strong>
                 <span>
                     ${escapeHtml(
                         request.processed_by ||
                         "-"
                     )}
                 </span>
-
             </div>
 
 
             <div class="reset-detail-row">
-
-                <strong>
-                    หมายเหตุ
-                </strong>
-
+                <strong>หมายเหตุ</strong>
                 <span>
                     ${escapeHtml(
                         request.note ||
                         "-"
                     )}
                 </span>
-
             </div>
 
         `;
@@ -3871,7 +4645,8 @@ function openResetRequestModal(
     const status =
         safeString(
             request.status
-        ).toUpperCase();
+        )
+        .toUpperCase();
 
 
     const processButton =
@@ -3891,7 +4666,8 @@ function openResetRequestModal(
     ) {
 
         if (
-            status === "PENDING"
+            status ===
+            "PENDING"
         ) {
 
             processButton.textContent =
@@ -3901,7 +4677,8 @@ function openResetRequestModal(
                 false;
 
         } else if (
-            status === "APPROVED"
+            status ===
+            "APPROVED"
         ) {
 
             processButton.textContent =
@@ -3928,14 +4705,12 @@ function openResetRequestModal(
     ) {
 
         rejectButton.style.display =
-            status === "PENDING"
+            status ===
+            "PENDING"
 
                 ? "inline-flex"
 
                 : "none";
-
-        rejectButton.disabled =
-            false;
 
     }
 
@@ -3946,10 +4721,6 @@ function openResetRequestModal(
 
 }
 
-
-/* ============================================================
- * PROCESS RESET
- * ============================================================ */
 
 async function handleProcessResetRequest() {
 
@@ -3979,7 +4750,8 @@ async function handleProcessResetRequest() {
     const status =
         safeString(
             currentResetRequest.status
-        ).toUpperCase();
+        )
+        .toUpperCase();
 
 
     const requestId =
@@ -3993,7 +4765,8 @@ async function handleProcessResetRequest() {
 
 
     if (
-        status === "PENDING"
+        status ===
+        "PENDING"
     ) {
 
         await approveResetRequest(
@@ -4007,7 +4780,8 @@ async function handleProcessResetRequest() {
 
 
     if (
-        status === "APPROVED"
+        status ===
+        "APPROVED"
     ) {
 
         await resetApprovedRequest(
@@ -4028,10 +4802,6 @@ async function handleProcessResetRequest() {
 }
 
 
-/* ============================================================
- * APPROVE RESET
- * ============================================================ */
-
 async function approveResetRequest(
     requestId,
     note
@@ -4046,7 +4816,8 @@ async function approveResetRequest(
         );
 
 
-    isBusy = true;
+    isBusy =
+        true;
 
 
     setButtonLoading(
@@ -4068,7 +4839,8 @@ async function approveResetRequest(
                     requestId,
 
                 note:
-                    note || ""
+                    note ||
+                    ""
 
             });
 
@@ -4109,9 +4881,6 @@ async function approveResetRequest(
         );
 
 
-        updateDashboardStats();
-
-
     } catch (error) {
 
         console.error(
@@ -4121,9 +4890,13 @@ async function approveResetRequest(
 
 
         showMessage(
+
             error.message ||
+
             "อนุมัติคำร้องไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
@@ -4135,16 +4908,13 @@ async function approveResetRequest(
         );
 
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
 }
 
-
-/* ============================================================
- * REJECT RESET
- * ============================================================ */
 
 async function rejectCurrentReset() {
 
@@ -4165,11 +4935,13 @@ async function rejectCurrentReset() {
     const status =
         safeString(
             currentResetRequest.status
-        ).toUpperCase();
+        )
+        .toUpperCase();
 
 
     if (
-        status !== "PENDING"
+        status !==
+        "PENDING"
     ) {
 
         showMessage(
@@ -4209,7 +4981,8 @@ async function rejectCurrentReset() {
         );
 
 
-    isBusy = true;
+    isBusy =
+        true;
 
 
     setButtonLoading(
@@ -4231,7 +5004,8 @@ async function rejectCurrentReset() {
                     currentResetRequest.request_id,
 
                 note:
-                    note || ""
+                    note ||
+                    ""
 
             });
 
@@ -4272,9 +5046,6 @@ async function rejectCurrentReset() {
         );
 
 
-        updateDashboardStats();
-
-
     } catch (error) {
 
         console.error(
@@ -4284,9 +5055,13 @@ async function rejectCurrentReset() {
 
 
         showMessage(
+
             error.message ||
+
             "ปฏิเสธคำร้องไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
@@ -4298,16 +5073,13 @@ async function rejectCurrentReset() {
         );
 
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
 }
 
-
-/* ============================================================
- * RESET APPROVED REQUEST
- * ============================================================ */
 
 async function resetApprovedRequest(
     requestId,
@@ -4328,7 +5100,8 @@ async function resetApprovedRequest(
 
 
     if (
-        passwordInput === null
+        passwordInput ===
+        null
     ) {
 
         return;
@@ -4381,7 +5154,8 @@ async function resetApprovedRequest(
         );
 
 
-    isBusy = true;
+    isBusy =
+        true;
 
 
     setButtonLoading(
@@ -4399,14 +5173,18 @@ async function resetApprovedRequest(
                 action:
                     "adminResetPassword",
 
+
                 request_id:
                     requestId,
+
 
                 newPassword:
                     newPassword,
 
+
                 note:
-                    note || ""
+                    note ||
+                    ""
 
             });
 
@@ -4435,19 +5213,28 @@ async function resetApprovedRequest(
             "รีเซ็ตรหัสผ่านสำเร็จ\n\n" +
 
             "รหัสนักศึกษา: " +
+
             (
+
                 result.student_id ||
+
                 (
                     currentResetRequest &&
                     currentResetRequest.student_id
                 ) ||
+
                 "-"
+
             ) +
 
             "\nรหัสผ่านใหม่: " +
+
             (
+
                 result.password ||
+
                 newPassword
+
             )
 
         );
@@ -4469,9 +5256,6 @@ async function resetApprovedRequest(
         );
 
 
-        updateDashboardStats();
-
-
     } catch (error) {
 
         console.error(
@@ -4481,9 +5265,13 @@ async function resetApprovedRequest(
 
 
         showMessage(
+
             error.message ||
+
             "รีเซ็ตรหัสผ่านไม่สำเร็จ",
+
             "error"
+
         );
 
     } finally {
@@ -4495,7 +5283,8 @@ async function resetApprovedRequest(
         );
 
 
-        isBusy = false;
+        isBusy =
+            false;
 
     }
 
@@ -4555,7 +5344,8 @@ function switchSection(
         "undefined"
     ) {
 
-        loadData = true;
+        loadData =
+            true;
 
     }
 
@@ -4586,9 +5376,9 @@ function switchSection(
             ".admin-section"
         )
         .forEach(
-            function (sectionElement) {
+            function (item) {
 
-                sectionElement.classList.remove(
+                item.classList.remove(
                     "active"
                 );
 
@@ -4606,13 +5396,13 @@ function switchSection(
             ".nav-item"
         )
         .forEach(
-            function (navItem) {
+            function (item) {
 
-                navItem.classList.toggle(
+                item.classList.toggle(
 
                     "active",
 
-                    navItem.dataset.section ===
+                    item.dataset.section ===
                     section
 
                 );
@@ -4631,7 +5421,8 @@ function switchSection(
     ) {
 
         if (
-            section === "students"
+            section ===
+            "students"
         ) {
 
             loadStudents(
@@ -4645,7 +5436,8 @@ function switchSection(
 
 
         if (
-            section === "staff"
+            section ===
+            "staff"
         ) {
 
             loadStaff(
@@ -4659,7 +5451,8 @@ function switchSection(
 
 
         if (
-            section === "reset-requests"
+            section ===
+            "reset-requests"
         ) {
 
             loadResetRequests(
@@ -4673,7 +5466,8 @@ function switchSection(
 
 
         if (
-            section === "dashboard"
+            section ===
+            "dashboard"
         ) {
 
             updateDashboardStats();
@@ -4684,7 +5478,8 @@ function switchSection(
 
 
     if (
-        window.innerWidth <= 900
+        window.innerWidth <=
+        900
     ) {
 
         const sidebar =
@@ -4715,7 +5510,8 @@ function updatePageTitle(
     const info =
         SECTION_INFO[
             section
-        ] ||
+        ]
+        ||
         SECTION_INFO.dashboard;
 
 
@@ -4779,9 +5575,13 @@ function bindButtons() {
                 function (error) {
 
                     showMessage(
+
                         error.message ||
+
                         "รีเฟรชข้อมูลไม่สำเร็จ",
+
                         "error"
+
                     );
 
                 }
@@ -4812,9 +5612,13 @@ function bindButtons() {
                 function (error) {
 
                     showMessage(
+
                         error.message ||
+
                         "รีเฟรช Staff ไม่สำเร็จ",
+
                         "error"
+
                     );
 
                 }
@@ -4835,9 +5639,13 @@ function bindButtons() {
                 function (error) {
 
                     showMessage(
+
                         error.message ||
+
                         "รีเฟรช Password Reset ไม่สำเร็จ",
+
                         "error"
+
                     );
 
                 }
@@ -5064,7 +5872,6 @@ function bindTableActions() {
                 action
             ) {
 
-
                 case "edit-student":
 
                     openStudentModal(
@@ -5181,16 +5988,18 @@ function bindSearch() {
 
 
 /* ============================================================
- * MODAL BACKDROP
+ * MODALS
  * ============================================================ */
 
 function bindModalBackdrops() {
 
     [
+
         "studentModal",
         "staffModal",
         "resetRequestModal",
         "confirmModal"
+
     ]
     .forEach(
         function (id) {
@@ -5233,10 +6042,6 @@ function bindModalBackdrops() {
 
 }
 
-
-/* ============================================================
- * MODAL HELPERS
- * ============================================================ */
 
 function showModal(
     id
@@ -5329,6 +6134,8 @@ function closeModal(
         currentStudent =
             null;
 
+        resetEditStudentPhoto();
+
     }
 
 
@@ -5357,7 +6164,7 @@ function closeModal(
 
 
 /* ============================================================
- * STUDENT FORM RESET
+ * FORM RESET
  * ============================================================ */
 
 function resetStudentAddForm() {
@@ -5388,12 +6195,11 @@ function resetStudentAddForm() {
         "นักศึกษาปกติ"
     );
 
+
+    resetAddStudentPhoto();
+
 }
 
-
-/* ============================================================
- * STUDENT MODAL CLEAR
- * ============================================================ */
 
 function clearStudentModal() {
 
@@ -5402,72 +6208,60 @@ function clearStudentModal() {
         ""
     );
 
-
     setValue(
         "modalStudentPassword",
         ""
     );
-
 
     setValue(
         "modalStudentPrefix",
         ""
     );
 
-
     setValue(
         "modalStudentFirstnameTh",
         ""
     );
-
 
     setValue(
         "modalStudentLastnameTh",
         ""
     );
 
-
     setValue(
         "modalStudentFirstnameEn",
         ""
     );
-
 
     setValue(
         "modalStudentLastnameEn",
         ""
     );
 
-
     setValue(
         "modalStudentDepartment",
         ""
     );
-
 
     setValue(
         "modalStudentPhone",
         ""
     );
 
-
     setValue(
         "modalStudentStatus",
         "นักศึกษาปกติ"
     );
-
 
     setValue(
         "modalStudentIssueDate",
         ""
     );
 
-
     setValue(
         "modalStudentExpireDate",
         ""
     );
-
 
     setValue(
         "modalStudentPhoto",
@@ -5478,86 +6272,7 @@ function clearStudentModal() {
 
 
 /* ============================================================
- * STAFF MODAL CLEAR
- * ============================================================ */
-
-function clearStaffModal() {
-
-    setValue(
-        "staffAdminId",
-        ""
-    );
-
-
-    setValue(
-        "staffUsername",
-        ""
-    );
-
-
-    setValue(
-        "staffPassword",
-        ""
-    );
-
-
-    setValue(
-        "staffName",
-        ""
-    );
-
-
-    setValue(
-        "staffRole",
-        "STAFF"
-    );
-
-
-    setValue(
-        "staffStatus",
-        "Active"
-    );
-
-
-    const usernameInput =
-        getElement(
-            "staffUsername"
-        );
-
-
-    if (
-        usernameInput
-    ) {
-
-        usernameInput.readOnly =
-            false;
-
-    }
-
-
-    const passwordInput =
-        getElement(
-            "staffPassword"
-        );
-
-
-    if (
-        passwordInput
-    ) {
-
-        passwordInput.required =
-            true;
-
-        passwordInput.placeholder =
-            "รหัสผ่าน";
-
-    }
-
-}
-
-
-/* ============================================================
- * FIND DATA
+ * FIND
  * ============================================================ */
 
 function findStudent(
@@ -5571,6 +6286,7 @@ function findStudent(
 
 
     return (
+
         studentsCache.find(
             function (student) {
 
@@ -5584,7 +6300,11 @@ function findStudent(
                 );
 
             }
-        ) || null
+        )
+        ||
+
+        null
+
     );
 
 }
@@ -5601,6 +6321,7 @@ function findStaff(
 
 
     return (
+
         staffCache.find(
             function (staff) {
 
@@ -5614,7 +6335,11 @@ function findStaff(
                 );
 
             }
-        ) || null
+        )
+        ||
+
+        null
+
     );
 
 }
@@ -5631,6 +6356,7 @@ function findResetRequest(
 
 
     return (
+
         resetRequestsCache.find(
             function (request) {
 
@@ -5644,7 +6370,11 @@ function findResetRequest(
                 );
 
             }
-        ) || null
+        )
+        ||
+
+        null
+
     );
 
 }
@@ -5758,10 +6488,6 @@ function updateDashboardStats() {
 }
 
 
-/* ============================================================
- * RESET BADGE
- * ============================================================ */
-
 function updateResetBadge() {
 
     const badge =
@@ -5808,7 +6534,8 @@ function updateResetBadge() {
 
     badge.classList.toggle(
         "hidden",
-        pending === 0
+        pending ===
+        0
     );
 
 }
@@ -5827,7 +6554,9 @@ function getStoredAdmin() {
     try {
 
         if (
-            typeof CONFIG !== "undefined" &&
+            typeof CONFIG !==
+            "undefined" &&
+
             CONFIG.ADMIN_KEY
         ) {
 
@@ -5888,11 +6617,6 @@ function getStoredAdmin() {
 
     } catch (error) {
 
-        console.warn(
-            "ADMIN JSON ERROR",
-            error
-        );
-
         return null;
 
     }
@@ -5945,7 +6669,8 @@ function getCurrentAdminRole() {
             ? admin.role
             : ""
 
-    ).toUpperCase();
+    )
+    .toUpperCase();
 
 }
 
@@ -5953,9 +6678,10 @@ function getCurrentAdminRole() {
 function isAdminRole() {
 
     return (
-        getCurrentAdminRole()
-        ===
+
+        getCurrentAdminRole() ===
         "ADMIN"
+
     );
 
 }
@@ -5972,9 +6698,11 @@ function isCurrentAdmin(
     return (
 
         admin &&
+
         safeString(
             admin.admin_id
         ) ===
+
         safeString(
             adminId
         )
@@ -6038,6 +6766,7 @@ async function handleLogout() {
 
         clearAdminSession();
 
+
         window.location.replace(
             "admin-login.html"
         );
@@ -6079,63 +6808,6 @@ function toggleSidebar() {
  * HELPERS
  * ============================================================ */
 
-function ensureSession() {
-
-    const token =
-        getAdminToken();
-
-
-    if (
-        !token
-    ) {
-
-        const error =
-            new Error(
-                "ADMIN_SESSION_EXPIRED"
-            );
-
-
-        error.code =
-            "ADMIN_SESSION_EXPIRED";
-
-
-        handleSessionExpired();
-
-
-        throw error;
-
-    }
-
-
-    return token;
-
-}
-
-
-function safeString(
-    value
-) {
-
-    return String(
-        value == null
-            ? ""
-            : value
-    ).trim();
-
-}
-
-
-function getElement(
-    id
-) {
-
-    return document.getElementById(
-        id
-    );
-
-}
-
-
 function bindClick(
     id,
     handler
@@ -6150,11 +6822,6 @@ function bindClick(
     if (
         !element
     ) {
-
-        console.warn(
-            "ELEMENT NOT FOUND:",
-            id
-        );
 
         return;
 
@@ -6219,6 +6886,33 @@ function bindChange(
 }
 
 
+function getElement(
+    id
+) {
+
+    return document.getElementById(
+        id
+    );
+
+}
+
+
+function safeString(
+    value
+) {
+
+    return String(
+
+        value == null
+            ? ""
+            : value
+
+    )
+    .trim();
+
+}
+
+
 function getValue(
     id
 ) {
@@ -6265,9 +6959,11 @@ function getRawValue(
 
 
     return String(
+
         element.value == null
             ? ""
             : element.value
+
     );
 
 }
@@ -6350,10 +7046,6 @@ function focusElement(
 }
 
 
-/* ============================================================
- * BUTTON LOADING
- * ============================================================ */
-
 function setButtonLoading(
     button,
     loading,
@@ -6407,10 +7099,6 @@ function setButtonLoading(
 }
 
 
-/* ============================================================
- * CONNECTION
- * ============================================================ */
-
 function setConnection(
     text,
     good
@@ -6421,7 +7109,8 @@ function setConnection(
         "undefined"
     ) {
 
-        good = true;
+        good =
+            true;
 
     }
 
@@ -6453,10 +7142,6 @@ function setConnection(
 }
 
 
-/* ============================================================
- * MESSAGE
- * ============================================================ */
-
 function showMessage(
     message,
     type
@@ -6466,7 +7151,8 @@ function showMessage(
         !type
     ) {
 
-        type = "info";
+        type =
+            "info";
 
     }
 
@@ -6482,6 +7168,7 @@ function showMessage(
     ) {
 
         console.log(
+            type.toUpperCase(),
             message
         );
 
@@ -6539,7 +7226,8 @@ function normalizeAdminStatus(
     const status =
         safeString(
             value
-        ).toUpperCase();
+        )
+        .toUpperCase();
 
 
     if (
@@ -6585,28 +7273,20 @@ function getStatusClass(
     const value =
         safeString(
             status
-        ).toUpperCase();
+        )
+        .toUpperCase();
 
 
     if (
 
-        value ===
-        "ACTIVE"
-
-        ||
+        value === "ACTIVE" ||
 
         value ===
-        "นักศึกษาปกติ".toUpperCase()
+        "นักศึกษาปกติ".toUpperCase() ||
 
-        ||
+        value === "APPROVED" ||
 
-        value ===
-        "APPROVED"
-
-        ||
-
-        value ===
-        "RESET"
+        value === "RESET"
 
     ) {
 
@@ -6617,13 +7297,9 @@ function getStatusClass(
 
     if (
 
-        value ===
-        "PENDING"
+        value === "PENDING" ||
 
-        ||
-
-        value ===
-        "PROCESSING"
+        value === "PROCESSING"
 
     ) {
 
@@ -6634,25 +7310,15 @@ function getStatusClass(
 
     if (
 
-        value ===
-        "INACTIVE"
+        value === "INACTIVE" ||
 
-        ||
-
-        value ===
-        "REJECTED"
-
-        ||
+        value === "REJECTED" ||
 
         value ===
-        "พักการศึกษา".toUpperCase()
-
-        ||
+        "พักการศึกษา".toUpperCase() ||
 
         value ===
-        "พ้นสภาพ".toUpperCase()
-
-        ||
+        "พ้นสภาพ".toUpperCase() ||
 
         value ===
         "สำเร็จการศึกษา".toUpperCase()
@@ -6678,9 +7344,14 @@ function formatDisplayDate(
 ) {
 
     if (
-        value === null ||
-        value === undefined ||
-        value === ""
+        value ===
+        null ||
+
+        value ===
+        undefined ||
+
+        value ===
+        ""
     ) {
 
         return "-";
@@ -6695,7 +7366,8 @@ function formatDisplayDate(
 
 
     if (
-        /^\d{1,2}\/\d{1,2}\/\d{4}/.test(
+        /^\d{1,2}\/\d{1,2}\/\d{4}/
+        .test(
             text
         )
     ) {
@@ -6708,18 +7380,21 @@ function formatDisplayDate(
 
 
     if (
-        /^\d{4}-\d{2}-\d{2}/.test(
+        /^\d{4}-\d{2}-\d{2}/
+        .test(
             text
         )
     ) {
 
         const parts =
-            text.substring(
-                0,
-                10
-            ).split(
-                "-"
-            );
+            text
+                .substring(
+                    0,
+                    10
+                )
+                .split(
+                    "-"
+                );
 
 
         return (
@@ -6745,9 +7420,14 @@ function formatDisplayDateTime(
 ) {
 
     if (
-        value === null ||
-        value === undefined ||
-        value === ""
+        value ===
+        null ||
+
+        value ===
+        undefined ||
+
+        value ===
+        ""
     ) {
 
         return "-";
@@ -6777,7 +7457,8 @@ function formatDisplayDateTime(
 
             String(
                 match[1]
-            ).padStart(
+            )
+            .padStart(
                 2,
                 "0"
             ) +
@@ -6786,7 +7467,8 @@ function formatDisplayDateTime(
 
             String(
                 match[2]
-            ).padStart(
+            )
+            .padStart(
                 2,
                 "0"
             ) +
@@ -6799,7 +7481,8 @@ function formatDisplayDateTime(
 
             String(
                 match[4]
-            ).padStart(
+            )
+            .padStart(
                 2,
                 "0"
             ) +
@@ -6838,7 +7521,8 @@ function normalizeDateForInput(
 
 
     if (
-        /^\d{4}-\d{2}-\d{2}$/.test(
+        /^\d{4}-\d{2}-\d{2}$/
+        .test(
             text
         )
     ) {
@@ -6850,7 +7534,9 @@ function normalizeDateForInput(
 
     const match =
         text.match(
+
             /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+
         );
 
 
@@ -6865,23 +7551,28 @@ function normalizeDateForInput(
 
 
         if (
-            year > 2400
+            year >
+            2400
         ) {
 
-            year -= 543;
+            year -=
+                543;
 
         }
 
 
         return (
 
-            year +
+            String(
+                year
+            ) +
 
             "-" +
 
             String(
                 match[2]
-            ).padStart(
+            )
+            .padStart(
                 2,
                 "0"
             ) +
@@ -6890,7 +7581,8 @@ function normalizeDateForInput(
 
             String(
                 match[1]
-            ).padStart(
+            )
+            .padStart(
                 2,
                 "0"
             )
@@ -6906,7 +7598,7 @@ function normalizeDateForInput(
 
 
 /* ============================================================
- * TABLE HELPERS
+ * TABLE
  * ============================================================ */
 
 function renderLoading(
@@ -6990,710 +7682,7 @@ function renderError(
 
 
 /* ============================================================
- * HTML SECURITY
- * ============================================================ */
-
-function escapeHtml(
-    value
-) {
-
-    return safeString(
-        value
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
-}
-
-
-function escapeAttribute(
-    value
-) {
-
-    return escapeHtml(
-        value
-    );
-
-}
-
-
-/* ============================================================
- * END
- * ============================================================ */
-
-console.log(
-    "ADMIN DASHBOARD JS CLEAN REBUILD LOADED"
-);
-/* ============================================================
- * STUDENT PHOTO UPLOAD
- *
- * Google Drive Upload
- * ============================================================ */
-
-let selectedAddStudentPhoto = null;
-let selectedEditStudentPhoto = null;
-
-
-/* ============================================================
- * PHOTO UPLOAD INITIALIZE
- * ============================================================ */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        initializeStudentPhotoUpload();
-
-    }
-);
-
-
-/* ============================================================
- * CREATE UPLOAD UI
- * ============================================================ */
-
-function initializeStudentPhotoUpload() {
-
-    createAddStudentPhotoUpload();
-
-    createEditStudentPhotoUpload();
-
-}
-
-
-/* ============================================================
- * ADD STUDENT PHOTO UI
- * ============================================================ */
-
-function createAddStudentPhotoUpload() {
-
-    const urlInput =
-        getElement(
-            "studentPhoto"
-        );
-
-
-    if (
-        !urlInput
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        getElement(
-            "studentPhotoUploadBox"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    const container =
-        document.createElement(
-            "div"
-        );
-
-
-    container.id =
-        "studentPhotoUploadBox";
-
-
-    container.className =
-        "photo-upload-box";
-
-
-    container.innerHTML = `
-
-        <div class="photo-upload-title">
-            รูปนักศึกษา
-        </div>
-
-        <div class="photo-preview-wrapper">
-
-            <img
-                id="studentPhotoPreview"
-                class="photo-preview"
-                src=""
-                alt="ตัวอย่างรูปนักศึกษา"
-            >
-
-            <div
-                id="studentPhotoPreviewEmpty"
-                class="photo-preview-empty"
-            >
-                ยังไม่มีรูป
-            </div>
-
-        </div>
-
-        <div class="photo-upload-actions">
-
-            <label
-                for="studentPhotoFile"
-                class="secondary-btn photo-file-btn"
-            >
-                📷 เลือกรูป
-            </label>
-
-            <input
-                type="file"
-                id="studentPhotoFile"
-                accept="image/jpeg,image/png,image/webp"
-                hidden
-            >
-
-        </div>
-
-        <div
-            id="studentPhotoUploadStatus"
-            class="photo-upload-status"
-        >
-            รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB
-        </div>
-
-    `;
-
-
-    urlInput
-        .parentElement
-        .appendChild(
-            container
-        );
-
-
-    urlInput.style.display =
-        "none";
-
-
-    const fileInput =
-        getElement(
-            "studentPhotoFile"
-        );
-
-
-    fileInput.addEventListener(
-        "change",
-        function () {
-
-            handleStudentPhotoSelected(
-                fileInput,
-                "add"
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
- * EDIT STUDENT PHOTO UI
- * ============================================================ */
-
-function createEditStudentPhotoUpload() {
-
-    const urlInput =
-        getElement(
-            "modalStudentPhoto"
-        );
-
-
-    if (
-        !urlInput
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        getElement(
-            "modalStudentPhotoUploadBox"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    const container =
-        document.createElement(
-            "div"
-        );
-
-
-    container.id =
-        "modalStudentPhotoUploadBox";
-
-
-    container.className =
-        "photo-upload-box";
-
-
-    container.innerHTML = `
-
-        <div class="photo-upload-title">
-            รูปนักศึกษา
-        </div>
-
-        <div class="photo-preview-wrapper">
-
-            <img
-                id="modalStudentPhotoPreview"
-                class="photo-preview"
-                src=""
-                alt="ตัวอย่างรูปนักศึกษา"
-            >
-
-            <div
-                id="modalStudentPhotoPreviewEmpty"
-                class="photo-preview-empty"
-            >
-                ยังไม่มีรูป
-            </div>
-
-        </div>
-
-        <div class="photo-upload-actions">
-
-            <label
-                for="modalStudentPhotoFile"
-                class="secondary-btn photo-file-btn"
-            >
-                📷 เลือกรูปใหม่
-            </label>
-
-            <input
-                type="file"
-                id="modalStudentPhotoFile"
-                accept="image/jpeg,image/png,image/webp"
-                hidden
-            >
-
-        </div>
-
-        <div
-            id="modalStudentPhotoUploadStatus"
-            class="photo-upload-status"
-        >
-            รองรับ JPG, PNG, WEBP ขนาดไม่เกิน 4 MB
-        </div>
-
-    `;
-
-
-    urlInput
-        .parentElement
-        .appendChild(
-            container
-        );
-
-
-    urlInput.style.display =
-        "none";
-
-
-    const fileInput =
-        getElement(
-            "modalStudentPhotoFile"
-        );
-
-
-    fileInput.addEventListener(
-        "change",
-        function () {
-
-            handleStudentPhotoSelected(
-                fileInput,
-                "edit"
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
- * FILE SELECT
- * ============================================================ */
-
-function handleStudentPhotoSelected(
-    input,
-    mode
-) {
-
-    const file =
-        input.files &&
-        input.files[0];
-
-
-    if (
-        !file
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-     * ตรวจชนิดไฟล์
-     */
-    const allowed =
-        [
-
-            "image/jpeg",
-            "image/png",
-            "image/webp"
-
-        ];
-
-
-    if (
-        allowed.indexOf(
-            file.type
-        ) === -1
-    ) {
-
-        showPhotoUploadStatus(
-            mode,
-            "รองรับเฉพาะ JPG, PNG และ WEBP",
-            "error"
-        );
-
-
-        input.value =
-            "";
-
-
-        return;
-
-    }
-
-
-    /*
-     * จำกัด 4 MB
-     */
-    const maxSize =
-        4 *
-        1024 *
-        1024;
-
-
-    if (
-        file.size >
-        maxSize
-    ) {
-
-        showPhotoUploadStatus(
-            mode,
-            "ไฟล์ต้องมีขนาดไม่เกิน 4 MB",
-            "error"
-        );
-
-
-        input.value =
-            "";
-
-
-        return;
-
-    }
-
-
-    /*
-     * เก็บไฟล์ไว้
-     */
-    if (
-        mode === "add"
-    ) {
-
-        selectedAddStudentPhoto =
-            file;
-
-    } else {
-
-        selectedEditStudentPhoto =
-            file;
-
-    }
-
-
-    /*
-     * Preview
-     */
-    const reader =
-        new FileReader();
-
-
-    reader.onload =
-        function (event) {
-
-            const previewId =
-                mode === "add"
-
-                    ? "studentPhotoPreview"
-
-                    : "modalStudentPhotoPreview";
-
-
-            const emptyId =
-                mode === "add"
-
-                    ? "studentPhotoPreviewEmpty"
-
-                    : "modalStudentPhotoPreviewEmpty";
-
-
-            const preview =
-                getElement(
-                    previewId
-                );
-
-
-            const empty =
-                getElement(
-                    emptyId
-                );
-
-
-            if (
-                preview
-            ) {
-
-                preview.src =
-                    event.target.result;
-
-                preview.style.display =
-                    "block";
-
-            }
-
-
-            if (
-                empty
-            ) {
-
-                empty.style.display =
-                    "none";
-
-            }
-
-        };
-
-
-    reader.readAsDataURL(
-        file
-    );
-
-
-    showPhotoUploadStatus(
-        mode,
-        "เลือกไฟล์แล้ว: " +
-        file.name +
-        " — ระบบจะอัปโหลดเมื่อกดบันทึก",
-        "success"
-    );
-
-}
-
-
-/* ============================================================
- * UPLOAD FILE
- * ============================================================ */
-
-async function uploadStudentPhoto(
-    file,
-    studentId
-) {
-
-    if (
-        !file
-    ) {
-
-        return null;
-
-    }
-
-
-    if (
-        !studentId
-    ) {
-
-        throw new Error(
-            "ไม่พบรหัสนักศึกษา"
-        );
-
-    }
-
-
-    showMessage(
-        "กำลังอัปโหลดรูปนักศึกษา...",
-        "info"
-    );
-
-
-    const base64 =
-        await fileToBase64(
-            file
-        );
-
-
-    const result =
-        await apiRequest({
-
-            action:
-                "adminUploadStudentPhoto",
-
-            student_id:
-                studentId,
-
-            file_name:
-                file.name,
-
-            mime_type:
-                file.type,
-
-            base64:
-                base64
-
-        });
-
-
-    if (
-        !result ||
-        !result.success
-    ) {
-
-        throw new Error(
-
-            result &&
-            result.message
-
-                ? result.message
-
-                : "อัปโหลดรูปไม่สำเร็จ"
-
-        );
-
-    }
-
-
-    return result;
-
-}
-
-
-/* ============================================================
- * FILE TO BASE64
- * ============================================================ */
-
-function fileToBase64(
-    file
-) {
-
-    return new Promise(
-        function (
-            resolve,
-            reject
-        ) {
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function () {
-
-                    const result =
-                        String(
-                            reader.result ||
-                            ""
-                        );
-
-
-                    const comma =
-                        result.indexOf(
-                            ","
-                        );
-
-
-                    if (
-                        comma >= 0
-                    ) {
-
-                        resolve(
-                            result.substring(
-                                comma + 1
-                            )
-                        );
-
-                    } else {
-
-                        resolve(
-                            result
-                        );
-
-                    }
-
-                };
-
-
-            reader.onerror =
-                function () {
-
-                    reject(
-                        new Error(
-                            "ไม่สามารถอ่านไฟล์รูปได้"
-                        )
-                    );
-
-                };
-
-
-            reader.readAsDataURL(
-                file
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
- * UPLOAD STATUS
+ * PHOTO HELPERS
  * ============================================================ */
 
 function showPhotoUploadStatus(
@@ -7703,7 +7692,8 @@ function showPhotoUploadStatus(
 ) {
 
     const id =
-        mode === "add"
+        mode ===
+        "add"
 
             ? "studentPhotoUploadStatus"
 
@@ -7726,7 +7716,8 @@ function showPhotoUploadStatus(
 
 
     element.textContent =
-        message || "";
+        message ||
+        "";
 
 
     element.className =
@@ -7734,7 +7725,8 @@ function showPhotoUploadStatus(
 
 
     if (
-        type === "success"
+        type ===
+        "success"
     ) {
 
         element.classList.add(
@@ -7745,7 +7737,8 @@ function showPhotoUploadStatus(
 
 
     if (
-        type === "error"
+        type ===
+        "error"
     ) {
 
         element.classList.add(
@@ -7757,17 +7750,14 @@ function showPhotoUploadStatus(
 }
 
 
-/* ============================================================
- * PREVIEW EXISTING PHOTO
- * ============================================================ */
-
 function showExistingStudentPhoto(
     photoUrl,
     mode
 ) {
 
     const previewId =
-        mode === "edit"
+        mode ===
+        "edit"
 
             ? "modalStudentPhotoPreview"
 
@@ -7775,7 +7765,8 @@ function showExistingStudentPhoto(
 
 
     const emptyId =
-        mode === "edit"
+        mode ===
+        "edit"
 
             ? "modalStudentPhotoPreviewEmpty"
 
@@ -7849,27 +7840,23 @@ function showExistingStudentPhoto(
 }
 
 
-/* ============================================================
- * RESET ADD PHOTO
- * ============================================================ */
-
 function resetAddStudentPhoto() {
 
     selectedAddStudentPhoto =
         null;
 
 
-    const fileInput =
+    const input =
         getElement(
             "studentPhotoFile"
         );
 
 
     if (
-        fileInput
+        input
     ) {
 
-        fileInput.value =
+        input.value =
             "";
 
     }
@@ -7894,27 +7881,23 @@ function resetAddStudentPhoto() {
 }
 
 
-/* ============================================================
- * RESET EDIT PHOTO
- * ============================================================ */
-
 function resetEditStudentPhoto() {
 
     selectedEditStudentPhoto =
         null;
 
 
-    const fileInput =
+    const input =
         getElement(
             "modalStudentPhotoFile"
         );
 
 
     if (
-        fileInput
+        input
     ) {
 
-        fileInput.value =
+        input.value =
             "";
 
     }
@@ -7923,372 +7906,60 @@ function resetEditStudentPhoto() {
 
 
 /* ============================================================
- * PATCH ADD FORM
- *
- * ห่อฟังก์ชันเดิมเพื่ออัปโหลดรูป
- * ก่อนส่ง adminAddStudent
+ * HTML ESCAPE
  * ============================================================ */
 
-const originalHandleAddStudent =
-    handleAddStudent;
+function escapeHtml(
+    value
+) {
+
+    return safeString(
+        value
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
 
 
-handleAddStudent =
-    async function (event) {
+function escapeAttribute(
+    value
+) {
 
-        if (
-            selectedAddStudentPhoto
-        ) {
+    return escapeHtml(
+        value
+    );
 
-            event.preventDefault();
-
-
-            if (
-                isBusy
-            ) {
-
-                return;
-
-            }
-
-
-            ensureSession();
-
-
-            const studentId =
-                getValue(
-                    "studentId"
-                );
-
-
-            if (
-                !studentId
-            ) {
-
-                showMessage(
-                    "กรุณากรอกรหัสนักศึกษา",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            isBusy = true;
-
-
-            const button =
-                getElement(
-                    "saveStudentBtn"
-                );
-
-
-            setButtonLoading(
-                button,
-                true,
-                "กำลังอัปโหลดรูป..."
-            );
-
-
-            try {
-
-                const result =
-                    await uploadStudentPhoto(
-
-                        selectedAddStudentPhoto,
-
-                        studentId
-
-                    );
-
-
-                /*
-                 * ใส่ URL ลงช่องเดิม
-                 */
-                setValue(
-
-                    "studentPhoto",
-
-                    result.photo_url
-
-                );
-
-
-                /*
-                 * เก็บ URL ไว้
-                 * แล้วเรียกฟังก์ชันเดิม
-                 */
-                selectedAddStudentPhoto =
-                    null;
-
-
-                setButtonLoading(
-                    button,
-                    false,
-                    "💾 บันทึกนักศึกษา"
-                );
-
-
-                isBusy = false;
-
-
-                /*
-                 * เรียก logic เดิม
-                 */
-                await originalHandleAddStudent(
-                    event
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "ADD PHOTO ERROR",
-                    error
-                );
-
-
-                showMessage(
-
-                    error.message ||
-                    "อัปโหลดรูปไม่สำเร็จ",
-
-                    "error"
-
-                );
-
-
-                setButtonLoading(
-                    button,
-                    false,
-                    "💾 บันทึกนักศึกษา"
-                );
-
-
-                isBusy = false;
-
-            }
-
-
-            return;
-
-        }
-
-
-        /*
-         * ไม่มีรูปใหม่
-         * ใช้ logic เดิม
-         */
-        await originalHandleAddStudent(
-            event
-        );
-
-    };
+}
 
 
 /* ============================================================
- * PATCH EDIT FORM
+ * END
  * ============================================================ */
-
-const originalHandleStudentModalSubmit =
-    handleStudentModalSubmit;
-
-
-handleStudentModalSubmit =
-    async function (event) {
-
-        if (
-            selectedEditStudentPhoto
-        ) {
-
-            event.preventDefault();
-
-
-            if (
-                isBusy
-            ) {
-
-                return;
-
-            }
-
-
-            ensureSession();
-
-
-            const studentId =
-                getValue(
-                    "modalStudentId"
-                );
-
-
-            if (
-                !studentId
-            ) {
-
-                showMessage(
-                    "ไม่พบรหัสนักศึกษา",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            isBusy = true;
-
-
-            const button =
-                getElement(
-                    "saveStudentModalBtn"
-                );
-
-
-            setButtonLoading(
-                button,
-                true,
-                "กำลังอัปโหลดรูป..."
-            );
-
-
-            try {
-
-                const result =
-                    await uploadStudentPhoto(
-
-                        selectedEditStudentPhoto,
-
-                        studentId
-
-                    );
-
-
-                setValue(
-
-                    "modalStudentPhoto",
-
-                    result.photo_url
-
-                );
-
-
-                selectedEditStudentPhoto =
-                    null;
-
-
-                setButtonLoading(
-                    button,
-                    false,
-                    "💾 บันทึก"
-                );
-
-
-                isBusy = false;
-
-
-                await originalHandleStudentModalSubmit(
-                    event
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "EDIT PHOTO ERROR",
-                    error
-                );
-
-
-                showMessage(
-
-                    error.message ||
-                    "อัปโหลดรูปไม่สำเร็จ",
-
-                    "error"
-
-                );
-
-
-                setButtonLoading(
-                    button,
-                    false,
-                    "💾 บันทึก"
-                );
-
-
-                isBusy = false;
-
-            }
-
-
-            return;
-
-        }
-
-
-        await originalHandleStudentModalSubmit(
-            event
-        );
-
-    };
-
-
-/* ============================================================
- * PATCH STUDENT FORM RESET
- * ============================================================ */
-
-const originalResetStudentAddForm =
-    resetStudentAddForm;
-
-
-resetStudentAddForm =
-    function () {
-
-        originalResetStudentAddForm();
-
-        resetAddStudentPhoto();
-
-    };
-
-
-/* ============================================================
- * PATCH STUDENT MODAL
- * ============================================================ */
-
-const originalOpenStudentModal =
-    openStudentModal;
-
-
-openStudentModal =
-    function (student) {
-
-        resetEditStudentPhoto();
-
-
-        originalOpenStudentModal(
-            student
-        );
-
-
-        if (
-            student
-        ) {
-
-            showExistingStudentPhoto(
-
-                student.photo_url,
-
-                "edit"
-
-            );
-
-        }
-
-    };
-
 
 console.log(
-    "STUDENT PHOTO UPLOAD MODULE READY"
+    "ADMIN DASHBOARD JS + GOOGLE DRIVE PHOTO READY"
 );
