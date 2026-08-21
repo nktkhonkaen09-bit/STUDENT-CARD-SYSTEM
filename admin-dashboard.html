@@ -19,10 +19,1220 @@
     Admin Dashboard | Student Card System
   </title>
 
+
   <link
     rel="stylesheet"
     href="Css/admin-dashboard.css"
   >
+
+
+  <style>
+
+    /* ==================================================
+       RESET
+    ================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+
+    body {
+
+      font-family:
+        Arial,
+        "Noto Sans Thai",
+        Tahoma,
+        sans-serif;
+
+      background:
+        #f4f6fb;
+
+      color:
+        #1f2937;
+
+    }
+
+
+    /* ==================================================
+       HEADER
+    ================================================== */
+
+    .admin-header {
+
+      width: 100%;
+
+      min-height: 76px;
+
+      padding:
+        14px 24px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      background:
+        #0a1383;
+
+      color:
+        #ffffff;
+
+      box-shadow:
+        0 3px 12px
+        rgba(0,0,0,.12);
+
+    }
+
+
+    .admin-title {
+
+      font-size: 22px;
+
+      font-weight: 700;
+
+      line-height: 1.3;
+
+    }
+
+
+    .admin-header > div:first-child > div:last-child {
+
+      margin-top: 3px;
+
+      font-size: 13px;
+
+      opacity: .85;
+
+    }
+
+
+    .admin-user {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      text-align: right;
+
+    }
+
+
+    #adminName {
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+    }
+
+
+    .admin-role {
+
+      margin-top: 3px;
+
+      font-size: 11px;
+
+      opacity: .8;
+
+    }
+
+
+    .logout-btn {
+
+      border: 1px solid
+        rgba(255,255,255,.35);
+
+      border-radius: 8px;
+
+      padding:
+        9px 14px;
+
+      background:
+        rgba(255,255,255,.12);
+
+      color:
+        #ffffff;
+
+      cursor: pointer;
+
+      font-weight: 600;
+
+    }
+
+
+    .logout-btn:hover {
+
+      background:
+        rgba(255,255,255,.22);
+
+    }
+
+
+    /* ==================================================
+       MAIN
+    ================================================== */
+
+    .admin-container {
+
+      width: 100%;
+
+      max-width: 1500px;
+
+      margin:
+        0 auto;
+
+      padding:
+        24px;
+
+    }
+
+
+    /* ==================================================
+       MESSAGE
+    ================================================== */
+
+    .message-box {
+
+      display: none;
+
+      width: 100%;
+
+      margin-bottom: 18px;
+
+      padding:
+        12px 15px;
+
+      border-radius: 8px;
+
+      font-size: 14px;
+
+    }
+
+
+    .message-box.show {
+      display: block;
+    }
+
+
+    .message-box.success {
+
+      background:
+        #ecfdf5;
+
+      color:
+        #166534;
+
+      border:
+        1px solid #bbf7d0;
+
+    }
+
+
+    .message-box.error {
+
+      background:
+        #fef2f2;
+
+      color:
+        #991b1b;
+
+      border:
+        1px solid #fecaca;
+
+    }
+
+
+    .message-box.info {
+
+      background:
+        #eff6ff;
+
+      color:
+        #1d4ed8;
+
+      border:
+        1px solid #bfdbfe;
+
+    }
+
+
+    /* ==================================================
+       CARD
+    ================================================== */
+
+    .admin-card {
+
+      width: 100%;
+
+      margin-bottom: 24px;
+
+      background:
+        #ffffff;
+
+      border:
+        1px solid #e5e7eb;
+
+      border-radius:
+        12px;
+
+      box-shadow:
+        0 4px 16px
+        rgba(15,23,42,.06);
+
+      overflow:
+        hidden;
+
+    }
+
+
+    /* ==================================================
+       CARD HEADER
+    ================================================== */
+
+    .card-header {
+
+      width: 100%;
+
+      padding:
+        18px 20px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
+      background:
+        #ffffff;
+
+    }
+
+
+    .card-title {
+
+      margin: 0;
+
+      color:
+        #0a1383;
+
+      font-size: 19px;
+
+      font-weight: 700;
+
+      white-space:
+        nowrap;
+
+    }
+
+
+    .card-header > div {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+    }
+
+
+    /* ==================================================
+       SEARCH
+    ================================================== */
+
+    .search-box {
+
+      width: 280px;
+
+      height: 40px;
+
+      padding:
+        0 12px;
+
+      border:
+        1px solid #d1d5db;
+
+      border-radius:
+        8px;
+
+      outline:
+        none;
+
+      font-size:
+        14px;
+
+    }
+
+
+    .search-box:focus {
+
+      border-color:
+        #0a1383;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(10,19,131,.08);
+
+    }
+
+
+    /* ==================================================
+       BUTTON
+    ================================================== */
+
+    .primary-btn {
+
+      min-height:
+        40px;
+
+      padding:
+        0 15px;
+
+      border:
+        none;
+
+      border-radius:
+        8px;
+
+      background:
+        #0a1383;
+
+      color:
+        #ffffff;
+
+      cursor:
+        pointer;
+
+      font-size:
+        14px;
+
+      font-weight:
+        600;
+
+      white-space:
+        nowrap;
+
+    }
+
+
+    .primary-btn:hover {
+
+      background:
+        #080f6d;
+
+    }
+
+
+    .secondary-btn {
+
+      min-height:
+        40px;
+
+      padding:
+        0 15px;
+
+      border:
+        1px solid #d1d5db;
+
+      border-radius:
+        8px;
+
+      background:
+        #ffffff;
+
+      color:
+        #374151;
+
+      cursor:
+        pointer;
+
+      font-size:
+        14px;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .secondary-btn:hover {
+
+      background:
+        #f9fafb;
+
+    }
+
+
+    /* ==================================================
+       TABLE WRAPPER
+    ================================================== */
+
+    .table-wrapper {
+
+      width: 100%;
+
+      overflow-x:
+        auto;
+
+      overflow-y:
+        hidden;
+
+    }
+
+
+    /* ==================================================
+       TABLE
+    ================================================== */
+
+    .data-table {
+
+      width: 100%;
+
+      min-width:
+        1050px;
+
+      border-collapse:
+        collapse;
+
+      border-spacing:
+        0;
+
+      table-layout:
+        fixed;
+
+    }
+
+
+    /* ==================================================
+       TABLE HEADER
+    ================================================== */
+
+    .data-table thead th {
+
+      height:
+        52px;
+
+      padding:
+        10px 12px;
+
+      background:
+        #f8fafc;
+
+      color:
+        #374151;
+
+      border-bottom:
+        2px solid #dbe1ea;
+
+      font-size:
+        13px;
+
+      font-weight:
+        700;
+
+      text-align:
+        center;
+
+      vertical-align:
+        middle;
+
+      white-space:
+        nowrap;
+
+    }
+
+
+    /* ==================================================
+       STUDENT COLUMN WIDTH
+    ================================================== */
+
+    .student-table th:nth-child(1),
+    .student-table td:nth-child(1) {
+      width: 120px;
+    }
+
+
+    .student-table th:nth-child(2),
+    .student-table td:nth-child(2) {
+      width: 190px;
+    }
+
+
+    .student-table th:nth-child(3),
+    .student-table td:nth-child(3) {
+      width: 190px;
+    }
+
+
+    .student-table th:nth-child(4),
+    .student-table td:nth-child(4) {
+      width: 150px;
+    }
+
+
+    .student-table th:nth-child(5),
+    .student-table td:nth-child(5) {
+      width: 130px;
+    }
+
+
+    .student-table th:nth-child(6),
+    .student-table td:nth-child(6) {
+      width: 130px;
+    }
+
+
+    .student-table th:nth-child(7),
+    .student-table td:nth-child(7) {
+      width: 125px;
+    }
+
+
+    .student-table th:nth-child(8),
+    .student-table td:nth-child(8) {
+      width: 125px;
+    }
+
+
+    /* ==================================================
+       STAFF COLUMN WIDTH
+    ================================================== */
+
+    .staff-table {
+
+      min-width:
+        750px;
+
+    }
+
+
+    .staff-table th:nth-child(1),
+    .staff-table td:nth-child(1) {
+      width: 140px;
+    }
+
+
+    .staff-table th:nth-child(2),
+    .staff-table td:nth-child(2) {
+      width: 180px;
+    }
+
+
+    .staff-table th:nth-child(3),
+    .staff-table td:nth-child(3) {
+      width: 190px;
+    }
+
+
+    .staff-table th:nth-child(4),
+    .staff-table td:nth-child(4) {
+      width: 120px;
+    }
+
+
+    .staff-table th:nth-child(5),
+    .staff-table td:nth-child(5) {
+      width: 120px;
+    }
+
+
+    /* ==================================================
+       TABLE BODY
+    ================================================== */
+
+    .data-table tbody td {
+
+      height:
+        52px;
+
+      padding:
+        9px 12px;
+
+      border-bottom:
+        1px solid #edf0f4;
+
+      font-size:
+        13px;
+
+      color:
+        #374151;
+
+      text-align:
+        center;
+
+      vertical-align:
+        middle;
+
+      white-space:
+        nowrap;
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+
+    }
+
+
+    .data-table tbody tr:hover {
+
+      background:
+        #f8faff;
+
+    }
+
+
+    /* ชื่อภาษาไทย / อังกฤษ ให้อ่านง่าย */
+
+    .data-table tbody td.name-cell {
+
+      text-align:
+        left;
+
+    }
+
+
+    /* ==================================================
+       EMPTY / LOADING
+    ================================================== */
+
+    .data-table tbody td[colspan] {
+
+      height:
+        100px;
+
+      text-align:
+        center;
+
+      color:
+        #6b7280;
+
+    }
+
+
+    /* ==================================================
+       MODAL
+    ================================================== */
+
+    .modal {
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      z-index:
+        9999;
+
+      display:
+        none;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      padding:
+        20px;
+
+      background:
+        rgba(15,23,42,.55);
+
+    }
+
+
+    .modal.show {
+
+      display:
+        flex;
+
+    }
+
+
+    .modal-content {
+
+      width:
+        100%;
+
+      max-width:
+        850px;
+
+      max-height:
+        92vh;
+
+      overflow-y:
+        auto;
+
+      background:
+        #ffffff;
+
+      border-radius:
+        14px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.2);
+
+    }
+
+
+    .modal-header {
+
+      position:
+        sticky;
+
+      top:
+        0;
+
+      z-index:
+        2;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      padding:
+        16px 20px;
+
+      background:
+        #ffffff;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
+    }
+
+
+    .modal-header h2 {
+
+      margin:
+        0;
+
+      color:
+        #0a1383;
+
+      font-size:
+        19px;
+
+    }
+
+
+    .close-btn {
+
+      width:
+        36px;
+
+      height:
+        36px;
+
+      border:
+        none;
+
+      border-radius:
+        50%;
+
+      background:
+        #f3f4f6;
+
+      color:
+        #374151;
+
+      font-size:
+        24px;
+
+      line-height:
+        1;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    .close-btn:hover {
+
+      background:
+        #e5e7eb;
+
+    }
+
+
+    /* ==================================================
+       FORM
+    ================================================== */
+
+    #studentForm,
+    #staffForm {
+
+      padding:
+        20px;
+
+    }
+
+
+    .form-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap:
+        16px;
+
+    }
+
+
+    .form-group {
+
+      min-width:
+        0;
+
+    }
+
+
+    .form-group.full {
+
+      grid-column:
+        1 / -1;
+
+    }
+
+
+    .form-group label {
+
+      display:
+        block;
+
+      margin-bottom:
+        6px;
+
+      color:
+        #374151;
+
+      font-size:
+        13px;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .form-group input,
+    .form-group select {
+
+      width:
+        100%;
+
+      height:
+        42px;
+
+      padding:
+        0 11px;
+
+      border:
+        1px solid #d1d5db;
+
+      border-radius:
+        7px;
+
+      outline:
+        none;
+
+      background:
+        #ffffff;
+
+      color:
+        #111827;
+
+      font-size:
+        14px;
+
+    }
+
+
+    .form-group input:focus,
+    .form-group select:focus {
+
+      border-color:
+        #0a1383;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(10,19,131,.08);
+
+    }
+
+
+    .form-actions {
+
+      display:
+        flex;
+
+      justify-content:
+        flex-end;
+
+      gap:
+        10px;
+
+      margin-top:
+        22px;
+
+      padding-top:
+        16px;
+
+      border-top:
+        1px solid #e5e7eb;
+
+    }
+
+
+    /* ==================================================
+       STATUS
+    ================================================== */
+
+    .status-badge {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      min-width:
+        90px;
+
+      padding:
+        5px 9px;
+
+      border-radius:
+        999px;
+
+      font-size:
+        11px;
+
+      font-weight:
+        700;
+
+    }
+
+
+    .status-active {
+
+      background:
+        #dcfce7;
+
+      color:
+        #166534;
+
+    }
+
+
+    .status-inactive {
+
+      background:
+        #fee2e2;
+
+      color:
+        #991b1b;
+
+    }
+
+
+    .status-pending {
+
+      background:
+        #fef3c7;
+
+      color:
+        #92400e;
+
+    }
+
+
+    /* ==================================================
+       RESPONSIVE
+    ================================================== */
+
+    @media (max-width: 900px) {
+
+      .admin-header {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+
+      }
+
+
+      .admin-user {
+
+        width:
+          100%;
+
+        justify-content:
+          space-between;
+
+        text-align:
+          left;
+
+      }
+
+
+      .card-header {
+
+        align-items:
+          stretch;
+
+        flex-direction:
+          column;
+
+      }
+
+
+      .card-header > div {
+
+        width:
+          100%;
+
+        flex-direction:
+          column;
+
+        align-items:
+          stretch;
+
+      }
+
+
+      .search-box {
+
+        width:
+          100%;
+
+      }
+
+
+      .primary-btn {
+
+        width:
+          100%;
+
+      }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+      .admin-container {
+
+        padding:
+          12px;
+
+      }
+
+
+      .admin-header {
+
+        padding:
+          14px;
+
+      }
+
+
+      .admin-title {
+
+        font-size:
+          19px;
+
+      }
+
+
+      .form-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .form-group.full {
+
+        grid-column:
+          auto;
+
+      }
+
+
+      .form-actions {
+
+        flex-direction:
+          column-reverse;
+
+      }
+
+
+      .form-actions button {
+
+        width:
+          100%;
+
+      }
+
+
+      .modal {
+
+        padding:
+          10px;
+
+      }
+
+
+      .modal-content {
+
+        max-height:
+          96vh;
+
+      }
+
+    }
+
+  </style>
 
 </head>
 
@@ -30,41 +1240,30 @@
 <body>
 
 
-<!-- =====================================================
+<!-- ==================================================
      HEADER
-===================================================== -->
+================================================== -->
 
 <header class="admin-header">
 
-  <div class="header-left">
+  <div>
 
-    <div class="header-icon">
-      🛡️
+    <div class="admin-title">
+      Admin Dashboard
     </div>
 
     <div>
-
-      <h1>
-        Admin Dashboard
-      </h1>
-
-      <p>
-        ระบบจัดการ Student Card System
-      </p>
-
+      ระบบจัดการนักศึกษาและ Staff
     </div>
 
   </div>
 
 
-  <div class="header-right">
+  <div class="admin-user">
 
-    <div class="admin-info">
+    <div>
 
-      <div
-        id="adminName"
-        class="admin-name"
-      >
+      <div id="adminName">
         Admin
       </div>
 
@@ -92,16 +1291,14 @@
 
 
 
-<!-- =====================================================
+<!-- ==================================================
      MAIN
-===================================================== -->
+================================================== -->
 
 <main class="admin-container">
 
 
-  <!-- ===================================================
-       MESSAGE
-  ==================================================== -->
+  <!-- MESSAGE -->
 
   <div
     id="messageBox"
@@ -110,106 +1307,29 @@
 
 
 
-  <!-- ===================================================
-       SUMMARY
-  ==================================================== -->
-
-  <section class="summary-grid">
-
-
-    <div class="summary-card">
-
-      <div class="summary-icon blue">
-        🎓
-      </div>
-
-      <div>
-
-        <div class="summary-label">
-          นักศึกษาทั้งหมด
-        </div>
-
-        <div
-          id="studentCount"
-          class="summary-number"
-        >
-          0
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <div class="summary-card">
-
-      <div class="summary-icon green">
-        👨‍💼
-      </div>
-
-      <div>
-
-        <div class="summary-label">
-          Staff / Admin
-        </div>
-
-        <div
-          id="staffCount"
-          class="summary-number"
-        >
-          0
-        </div>
-
-      </div>
-
-    </div>
-
-
-  </section>
-
-
-
-  <!-- ===================================================
-       STUDENT MANAGEMENT
-  ==================================================== -->
+  <!-- ==================================================
+       STUDENTS
+  ================================================== -->
 
   <section class="admin-card">
 
 
     <div class="card-header">
 
+      <h2 class="card-title">
+        จัดการนักศึกษา
+      </h2>
+
 
       <div>
-
-        <h2>
-          จัดการนักศึกษา
-        </h2>
-
-        <p>
-          เพิ่มและตรวจสอบข้อมูลนักศึกษา
-        </p>
-
-      </div>
-
-
-      <div class="card-actions">
 
         <input
           type="search"
           id="studentSearch"
           class="search-box"
           placeholder="ค้นหารหัส ชื่อ แผนก..."
+          autocomplete="off"
         >
-
-
-        <button
-          type="button"
-          id="reloadStudentsBtn"
-          class="secondary-btn"
-        >
-          ↻ รีโหลด
-        </button>
 
 
         <button
@@ -217,7 +1337,7 @@
           id="addStudentBtn"
           class="primary-btn"
         >
-          ＋ เพิ่มนักศึกษา
+          + เพิ่มนักศึกษา
         </button>
 
       </div>
@@ -226,9 +1346,11 @@
 
 
 
-    <div class="table-container">
+    <div class="table-wrapper">
 
-      <table class="data-table">
+      <table
+        class="data-table student-table"
+      >
 
         <thead>
 
@@ -271,15 +1393,14 @@
         </thead>
 
 
-        <tbody id="studentsTableBody">
+        <tbody
+          id="studentsTableBody"
+        >
 
           <tr>
 
-            <td
-              colspan="8"
-              class="loading-cell"
-            >
-              กำลังโหลดข้อมูล...
+            <td colspan="8">
+              กำลังโหลดข้อมูลนักศึกษา...
             </td>
 
           </tr>
@@ -290,49 +1411,45 @@
 
     </div>
 
-
   </section>
 
 
 
-  <!-- ===================================================
-       STAFF MANAGEMENT
-  ==================================================== -->
+  <!-- ==================================================
+       STAFF
+  ================================================== -->
 
   <section class="admin-card">
 
 
     <div class="card-header">
 
+      <h2 class="card-title">
+        จัดการ Staff
+      </h2>
+
 
       <div>
 
-        <h2>
-          จัดการ Staff
-        </h2>
-
-        <p>
-          เพิ่มผู้ดูแลระบบและเจ้าหน้าที่
-        </p>
+        <button
+          type="button"
+          id="addStaffBtn"
+          class="primary-btn"
+        >
+          + เพิ่ม Staff
+        </button>
 
       </div>
-
-
-      <button
-        type="button"
-        id="addStaffBtn"
-        class="primary-btn"
-      >
-        ＋ เพิ่ม Staff
-      </button>
 
     </div>
 
 
 
-    <div class="table-container">
+    <div class="table-wrapper">
 
-      <table class="data-table">
+      <table
+        class="data-table staff-table"
+      >
 
         <thead>
 
@@ -363,15 +1480,14 @@
         </thead>
 
 
-        <tbody id="staffTableBody">
+        <tbody
+          id="staffTableBody"
+        >
 
           <tr>
 
-            <td
-              colspan="5"
-              class="loading-cell"
-            >
-              กำลังโหลดข้อมูล...
+            <td colspan="5">
+              กำลังโหลดข้อมูล Staff...
             </td>
 
           </tr>
@@ -382,7 +1498,6 @@
 
     </div>
 
-
   </section>
 
 
@@ -390,37 +1505,29 @@
 
 
 
-<!-- =====================================================
+<!-- ==================================================
      STUDENT MODAL
-===================================================== -->
+================================================== -->
 
 <div
   id="studentModal"
   class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-content">
 
 
     <div class="modal-header">
 
-      <div>
-
-        <h2>
-          เพิ่มนักศึกษา
-        </h2>
-
-        <p>
-          กรอกข้อมูลนักศึกษาใหม่
-        </p>
-
-      </div>
+      <h2>
+        เพิ่มนักศึกษา
+      </h2>
 
 
       <button
         type="button"
         id="closeStudentModal"
-        class="modal-close"
+        class="close-btn"
       >
         ×
       </button>
@@ -438,16 +1545,17 @@
       <div class="form-grid">
 
 
+        <!-- STUDENT ID -->
+
         <div class="form-group">
 
           <label for="studentId">
-            รหัสนักศึกษา
-            <span>*</span>
+            รหัสนักศึกษา *
           </label>
 
           <input
-            id="studentId"
             type="text"
+            id="studentId"
             required
           >
 
@@ -455,16 +1563,17 @@
 
 
 
+        <!-- PASSWORD -->
+
         <div class="form-group">
 
           <label for="studentPassword">
-            รหัสผ่านเริ่มต้น
-            <span>*</span>
+            รหัสผ่านเริ่มต้น *
           </label>
 
           <input
-            id="studentPassword"
             type="password"
+            id="studentPassword"
             value="123456"
             required
           >
@@ -472,6 +1581,8 @@
         </div>
 
 
+
+        <!-- PREFIX -->
 
         <div class="form-group">
 
@@ -482,7 +1593,7 @@
           <select id="studentPrefix">
 
             <option value="">
-              เลือกคำนำหน้า
+              เลือก
             </option>
 
             <option value="นาย">
@@ -503,39 +1614,43 @@
 
 
 
+        <!-- FIRSTNAME -->
+
         <div class="form-group">
 
           <label for="studentFirstnameTh">
-            ชื่อ
-            <span>*</span>
+            ชื่อ *
           </label>
 
           <input
-            id="studentFirstnameTh"
             type="text"
+            id="studentFirstnameTh"
             required
           >
 
         </div>
 
 
+
+        <!-- LASTNAME -->
 
         <div class="form-group">
 
           <label for="studentLastnameTh">
-            นามสกุล
-            <span>*</span>
+            นามสกุล *
           </label>
 
           <input
-            id="studentLastnameTh"
             type="text"
+            id="studentLastnameTh"
             required
           >
 
         </div>
 
 
+
+        <!-- EN FIRSTNAME -->
 
         <div class="form-group">
 
@@ -544,13 +1659,15 @@
           </label>
 
           <input
-            id="studentFirstnameEn"
             type="text"
+            id="studentFirstnameEn"
           >
 
         </div>
 
 
+
+        <!-- EN LASTNAME -->
 
         <div class="form-group">
 
@@ -559,13 +1676,15 @@
           </label>
 
           <input
-            id="studentLastnameEn"
             type="text"
+            id="studentLastnameEn"
           >
 
         </div>
 
 
+
+        <!-- DEPARTMENT -->
 
         <div class="form-group">
 
@@ -574,13 +1693,15 @@
           </label>
 
           <input
-            id="studentDepartment"
             type="text"
+            id="studentDepartment"
           >
 
         </div>
 
 
+
+        <!-- PHONE -->
 
         <div class="form-group">
 
@@ -589,13 +1710,15 @@
           </label>
 
           <input
-            id="studentPhone"
             type="tel"
+            id="studentPhone"
           >
 
         </div>
 
 
+
+        <!-- STATUS -->
 
         <div class="form-group">
 
@@ -623,6 +1746,8 @@
 
 
 
+        <!-- ISSUE DATE -->
+
         <div class="form-group">
 
           <label for="studentIssueDate">
@@ -630,13 +1755,15 @@
           </label>
 
           <input
-            id="studentIssueDate"
             type="date"
+            id="studentIssueDate"
           >
 
         </div>
 
 
+
+        <!-- EXPIRE DATE -->
 
         <div class="form-group">
 
@@ -645,13 +1772,15 @@
           </label>
 
           <input
-            id="studentExpireDate"
             type="date"
+            id="studentExpireDate"
           >
 
         </div>
 
 
+
+        <!-- PHOTO -->
 
         <div class="form-group full">
 
@@ -660,9 +1789,9 @@
           </label>
 
           <input
-            id="studentPhoto"
             type="text"
-            placeholder="assets/students/TEST001.png"
+            id="studentPhoto"
+            placeholder="เช่น assets/students/TEST001.png"
           >
 
         </div>
@@ -672,12 +1801,12 @@
 
 
 
-      <div class="modal-actions">
+      <div class="form-actions">
 
         <button
           type="button"
-          id="cancelStudentBtn"
           class="secondary-btn"
+          id="closeStudentModal2"
         >
           ยกเลิก
         </button>
@@ -685,8 +1814,8 @@
 
         <button
           type="submit"
-          id="saveStudentBtn"
           class="primary-btn"
+          id="saveStudentBtn"
         >
           บันทึกนักศึกษา
         </button>
@@ -702,37 +1831,29 @@
 
 
 
-<!-- =====================================================
+<!-- ==================================================
      STAFF MODAL
-===================================================== -->
+================================================== -->
 
 <div
   id="staffModal"
   class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-content">
 
 
     <div class="modal-header">
 
-      <div>
-
-        <h2>
-          เพิ่ม Staff
-        </h2>
-
-        <p>
-          เพิ่มเจ้าหน้าที่เข้าสู่ระบบ
-        </p>
-
-      </div>
+      <h2>
+        เพิ่ม Staff
+      </h2>
 
 
       <button
         type="button"
         id="closeStaffModal"
-        class="modal-close"
+        class="close-btn"
       >
         ×
       </button>
@@ -750,56 +1871,61 @@
       <div class="form-grid">
 
 
+        <!-- USERNAME -->
+
         <div class="form-group">
 
           <label for="staffUsername">
-            Username
-            <span>*</span>
+            Username *
           </label>
 
           <input
-            id="staffUsername"
             type="text"
+            id="staffUsername"
             required
           >
 
         </div>
 
 
+
+        <!-- PASSWORD -->
 
         <div class="form-group">
 
           <label for="staffPassword">
-            Password
-            <span>*</span>
+            Password *
           </label>
 
           <input
-            id="staffPassword"
             type="password"
+            id="staffPassword"
             required
           >
 
         </div>
 
 
+
+        <!-- NAME -->
 
         <div class="form-group full">
 
           <label for="staffName">
-            ชื่อ Staff
-            <span>*</span>
+            ชื่อ Staff *
           </label>
 
           <input
-            id="staffName"
             type="text"
+            id="staffName"
             required
           >
 
         </div>
 
 
+
+        <!-- ROLE -->
 
         <div class="form-group">
 
@@ -822,6 +1948,8 @@
         </div>
 
 
+
+        <!-- STATUS -->
 
         <div class="form-group">
 
@@ -848,12 +1976,12 @@
 
 
 
-      <div class="modal-actions">
+      <div class="form-actions">
 
         <button
           type="button"
-          id="cancelStaffBtn"
           class="secondary-btn"
+          id="closeStaffModal2"
         >
           ยกเลิก
         </button>
@@ -861,8 +1989,8 @@
 
         <button
           type="submit"
-          id="saveStaffBtn"
           class="primary-btn"
+          id="saveStaffBtn"
         >
           บันทึก Staff
         </button>
@@ -878,13 +2006,217 @@
 
 
 
-<!-- =====================================================
-     SCRIPT
-===================================================== -->
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
 
 <script src="js/config.js"></script>
 
 <script src="js/admin-dashboard.js"></script>
+
+
+
+<script>
+
+  /*
+   * ==================================================
+   * MODAL FALLBACK CONTROLS
+   *
+   * ส่วนนี้ทำให้ปุ่มปิด Modal ทำงาน
+   * แม้ admin-dashboard.js จะไม่ได้จัดการเอง
+   * ==================================================
+   */
+
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+      /* ================================================
+         STUDENT MODAL
+      ================================================ */
+
+      const studentModal =
+        document.getElementById(
+          "studentModal"
+        );
+
+
+      const closeStudentModal =
+        document.getElementById(
+          "closeStudentModal"
+        );
+
+
+      const closeStudentModal2 =
+        document.getElementById(
+          "closeStudentModal2"
+        );
+
+
+      function hideStudentModal() {
+
+        if (studentModal) {
+
+          studentModal.classList.remove(
+            "show"
+          );
+
+        }
+
+      }
+
+
+      if (closeStudentModal) {
+
+        closeStudentModal.addEventListener(
+          "click",
+          hideStudentModal
+        );
+
+      }
+
+
+      if (closeStudentModal2) {
+
+        closeStudentModal2.addEventListener(
+          "click",
+          hideStudentModal
+        );
+
+      }
+
+
+
+      /* ================================================
+         STAFF MODAL
+      ================================================ */
+
+      const staffModal =
+        document.getElementById(
+          "staffModal"
+        );
+
+
+      const closeStaffModal =
+        document.getElementById(
+          "closeStaffModal"
+        );
+
+
+      const closeStaffModal2 =
+        document.getElementById(
+          "closeStaffModal2"
+        );
+
+
+      function hideStaffModal() {
+
+        if (staffModal) {
+
+          staffModal.classList.remove(
+            "show"
+          );
+
+        }
+
+      }
+
+
+      if (closeStaffModal) {
+
+        closeStaffModal.addEventListener(
+          "click",
+          hideStaffModal
+        );
+
+      }
+
+
+      if (closeStaffModal2) {
+
+        closeStaffModal2.addEventListener(
+          "click",
+          hideStaffModal
+        );
+
+      }
+
+
+
+      /* ================================================
+         CLICK BACKDROP TO CLOSE
+      ================================================ */
+
+      if (studentModal) {
+
+        studentModal.addEventListener(
+          "click",
+          function (event) {
+
+            if (
+              event.target ===
+              studentModal
+            ) {
+
+              hideStudentModal();
+
+            }
+
+          }
+        );
+
+      }
+
+
+      if (staffModal) {
+
+        staffModal.addEventListener(
+          "click",
+          function (event) {
+
+            if (
+              event.target ===
+              staffModal
+            ) {
+
+              hideStaffModal();
+
+            }
+
+          }
+        );
+
+      }
+
+
+
+      /* ================================================
+         ESC TO CLOSE
+      ================================================ */
+
+      document.addEventListener(
+        "keydown",
+        function (event) {
+
+          if (
+            event.key === "Escape"
+          ) {
+
+            hideStudentModal();
+
+            hideStaffModal();
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+</script>
 
 
 </body>
