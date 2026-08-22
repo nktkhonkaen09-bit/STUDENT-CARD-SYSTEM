@@ -1016,3 +1016,110 @@ body {
 ```
 
 }
+
+/* =========================================================
+MOBILE FONT OVERRIDE
+ลดเฉพาะตัวอักษรบนมือถือ
+ไม่เปลี่ยน Layout
+========================================================= */
+
+@media screen and (max-width: 480px) {
+
+```
+.institution-th {
+    font-size: 11px !important;
+    line-height: 1.05 !important;
+}
+
+.institution-en {
+    font-size: 6px !important;
+    letter-spacing: 0.4px !important;
+    line-height: 1.05 !important;
+}
+
+.student-status {
+    font-size: 5px !important;
+}
+
+.detail-label {
+    font-size: 6px !important;
+    line-height: 1 !important;
+}
+
+.detail-value {
+    font-size: 9px !important;
+    line-height: 1.05 !important;
+}
+
+.detail-value.student-number {
+    font-size: 12px !important;
+    line-height: 1 !important;
+    letter-spacing: 0.2px !important;
+}
+
+.detail-value.english-name {
+    font-size: 7px !important;
+    line-height: 1 !important;
+}
+
+.date-label {
+    font-size: 5px !important;
+    line-height: 1 !important;
+}
+
+.date-value {
+    font-size: 7px !important;
+    line-height: 1 !important;
+}
+
+.card-number {
+    font-size: 5px !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1 !important;
+}
+```
+
+}
+
+@media screen and (max-width: 380px) {
+
+```
+.institution-th {
+    font-size: 9px !important;
+}
+
+.institution-en {
+    font-size: 5px !important;
+}
+
+.detail-label {
+    font-size: 5px !important;
+}
+
+.detail-value {
+    font-size: 8px !important;
+}
+
+.detail-value.student-number {
+    font-size: 10px !important;
+}
+
+.detail-value.english-name {
+    font-size: 6px !important;
+}
+
+.date-label {
+    font-size: 4.5px !important;
+}
+
+.date-value {
+    font-size: 6px !important;
+}
+
+.card-number {
+    font-size: 4.5px !important;
+}
+```
+
+}
+
