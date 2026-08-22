@@ -2,8 +2,37 @@
 
 
 /* =========================================================
-   ATTENDANCE API
+   API
 ========================================================= */
+
+
+/*
+ * Student Card API
+ *
+ * ใช้สำหรับ:
+ * - ตรวจ Session
+ * - ดึงข้อมูลนักศึกษาจาก Students
+ */
+
+const STUDENT_CARD_API_URL =
+    (
+        typeof CONFIG !== "undefined" &&
+        CONFIG.API_URL
+    )
+        ? CONFIG.API_URL
+        : "";
+
+
+/*
+ * Attendance API
+ *
+ * ใช้สำหรับ:
+ * - ค้นหารายวิชา
+ * - อ่านผู้สอน
+ * - อ่านห้องเรียน
+ *
+ * ยังไม่ใช้บันทึกลงทะเบียนในขั้นนี้
+ */
 
 const ATTENDANCE_API_URL =
     "https://script.google.com/macros/s/AKfycbyeZp9LubywmnFuv5DEBjjZESAoz-u387cNtNe4DmnyXcRdVZ03zs_1GTri76XwZQQnkQ/exec";
@@ -12,6 +41,8 @@ const ATTENDANCE_API_URL =
 /* =========================================================
    STATE
 ========================================================= */
+
+let currentStudent = null;
 
 let availableCourses = [];
 
@@ -38,20 +69,42 @@ document.addEventListener(
 
 async function initializeRegistration() {
 
-    if (
-        !checkStudentSession()
-    ) {
+    try {
 
-        return;
+        const hasSession =
+            checkStudentSession();
+
+
+        if (!hasSession) {
+
+            return;
+
+        }
+
+
+        await loadStudentProfile();
+
+        await loadAvailableCourses();
+
+        renderSelectedList();
 
     }
 
+    catch (error) {
 
-    loadStudentSummary();
+        console.error(
+            "REGISTRATION INITIALIZE ERROR:",
+            error
+        );
 
-    renderSelectedList();
 
-    await loadAvailableCourses();
+        showMessage(
+            error.message ||
+            "ไม่สามารถเปิดระบบลงทะเบียนได้",
+            "error"
+        );
+
+    }
 
 }
 
@@ -71,7 +124,9 @@ function checkStudentSession() {
     ) {
 
         token =
-            getStudentToken();
+            clean(
+                getStudentToken()
+            );
 
     }
 
@@ -79,9 +134,11 @@ function checkStudentSession() {
     if (!token) {
 
         token =
-            sessionStorage.getItem(
-                "student_session"
-            ) || "";
+            clean(
+                sessionStorage.getItem(
+                    "student_session"
+                )
+            );
 
     }
 
@@ -103,99 +160,337 @@ function checkStudentSession() {
 
 
 /* =========================================================
-   STUDENT SUMMARY
+   GET TOKEN
 ========================================================= */
 
-function loadStudentSummary() {
+function getRegistrationToken() {
 
-    const raw =
-        sessionStorage.getItem(
-            "student_data"
-        );
+    let token = "";
 
 
-    if (!raw) {
+    if (
+        typeof getStudentToken ===
+        "function"
+    ) {
 
-        return;
-
-    }
-
-
-    try {
-
-        const student =
-            JSON.parse(
-                raw
+        token =
+            clean(
+                getStudentToken()
             );
 
+    }
 
-        const fullName =
-            [
 
-                student.prefix_th || "",
+    if (!token) {
 
-                student.firstname_th || "",
-
-                student.lastname_th || ""
-
-            ]
-
-                .filter(
-                    function (value) {
-
-                        return String(
-                            value || ""
-                        ).trim() !== "";
-
-                    }
+        token =
+            clean(
+                sessionStorage.getItem(
+                    "student_session"
                 )
-
-                .join(" ")
-                .trim();
-
-
-        setText(
-            "studentName",
-            fullName || "-"
-        );
-
-
-        setText(
-            "studentId",
-            "รหัส " +
-            (
-                student.student_id ||
-                "-"
-            )
-        );
+            );
 
     }
 
-    catch (error) {
 
-        console.error(
-            "STUDENT DATA ERROR:",
-            error
-        );
-
-    }
+    return token;
 
 }
 
 
 /* =========================================================
-   LOAD COURSES
+   LOAD STUDENT PROFILE
+   อ่านจาก STUDENT-CARD-SYSTEM / Students
+========================================================= */
+
+async function loadStudentProfile() {
+
+    const token =
+        getRegistrationToken();
+
+
+    if (!token) {
+
+        throw new Error(
+            "ไม่พบ Session นักศึกษา"
+        );
+
+    }
+
+
+    if (!STUDENT_CARD_API_URL) {
+
+        throw new Error(
+            "ไม่พบ API_URL ของ Student Card"
+        );
+
+    }
+
+
+    const response =
+        await fetch(
+            STUDENT_CARD_API_URL,
+            {
+
+                method:
+                    "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+
+                },
+
+                body:
+                    JSON.stringify({
+
+                        action:
+                            "getStudentProfile",
+
+                        token:
+                            token
+
+                    }),
+
+                cache:
+                    "no-store"
+
+            }
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Student Card API HTTP " +
+            response.status
+        );
+
+    }
+
+
+    const result =
+        await response.json();
+
+
+    if (
+        result &&
+        (
+            result.code ===
+            "STUDENT_SESSION_EXPIRED"
+
+            ||
+
+            result.code ===
+            "SESSION_EXPIRED"
+        )
+    ) {
+
+        clearSessionAndRedirect();
+
+        throw new Error(
+            "SESSION_EXPIRED"
+        );
+
+    }
+
+
+    if (
+        !result ||
+        !result.success
+    ) {
+
+        throw new Error(
+
+            result &&
+            result.message
+
+                ? result.message
+
+                : "ไม่สามารถโหลดข้อมูลนักศึกษาได้"
+
+        );
+
+    }
+
+
+    currentStudent =
+        result.student ||
+        result.data ||
+        null;
+
+
+    if (!currentStudent) {
+
+        throw new Error(
+            "ไม่พบข้อมูลนักศึกษา"
+        );
+
+    }
+
+
+    renderStudentProfile();
+
+}
+
+
+/* =========================================================
+   RENDER STUDENT PROFILE
+========================================================= */
+
+function renderStudentProfile() {
+
+    const student =
+        currentStudent;
+
+
+    if (!student) {
+
+        return;
+
+    }
+
+
+    const fullName =
+        [
+
+            student.prefix_th || "",
+
+            student.firstname_th || "",
+
+            student.lastname_th || ""
+
+        ]
+
+            .filter(
+                function (value) {
+
+                    return clean(
+                        value
+                    ) !== "";
+
+                }
+            )
+
+            .join(" ")
+
+            .trim();
+
+
+    const fullNameEn =
+        [
+
+            student.firstname_en || "",
+
+            student.lastname_en || ""
+
+        ]
+
+            .filter(
+                function (value) {
+
+                    return clean(
+                        value
+                    ) !== "";
+
+                }
+            )
+
+            .join(" ")
+
+            .trim();
+
+
+    setText(
+        "studentFullName",
+        fullName || "-"
+    );
+
+
+    setText(
+        "studentFullNameEn",
+        fullNameEn || "-"
+    );
+
+
+    setText(
+        "studentId",
+        student.student_id || "-"
+    );
+
+
+    setText(
+        "studentDepartment",
+        student.department || "-"
+    );
+
+
+    setText(
+        "studentStatus",
+        student.status || "-"
+    );
+
+
+    const photo =
+        document.getElementById(
+            "studentPhoto"
+        );
+
+
+    if (!photo) {
+
+        return;
+
+    }
+
+
+    const photoUrl =
+        clean(
+            student.photo_url
+        );
+
+
+    if (!photoUrl) {
+
+        photo.removeAttribute(
+            "src"
+        );
+
+        return;
+
+    }
+
+
+    photo.src =
+        photoUrl;
+
+
+    photo.onerror =
+        function () {
+
+            this.removeAttribute(
+                "src"
+            );
+
+        };
+
+}
+
+
+/* =========================================================
+   LOAD ALL COURSES
 ========================================================= */
 
 async function loadAvailableCourses() {
 
-    const container =
+    const resultsBox =
         document.getElementById(
-            "courseList"
+            "courseSearchResults"
         );
 
 
-    if (!container) {
+    if (!resultsBox) {
 
         return;
 
@@ -204,30 +499,39 @@ async function loadAvailableCourses() {
 
     try {
 
-        const url =
-            ATTENDANCE_API_URL +
-            "?action=getAllRegistrationCourses";
+        resultsBox.innerHTML =
+
+            '<div class="loading">' +
+
+            'กำลังเตรียมข้อมูลรายวิชา...' +
+
+            '</div>';
 
 
         const response =
             await fetch(
-                url,
+
+                ATTENDANCE_API_URL +
+
+                "?action=getAllRegistrationCourses",
+
                 {
+
                     method:
                         "GET",
 
                     cache:
                         "no-store"
+
                 }
+
             );
 
 
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
 
             throw new Error(
-                "HTTP " +
+                "Attendance API HTTP " +
                 response.status
             );
 
@@ -236,12 +540,6 @@ async function loadAvailableCourses() {
 
         const result =
             await response.json();
-
-
-        console.log(
-            "ATTENDANCE REGISTRATION COURSES:",
-            result
-        );
 
 
         if (
@@ -269,8 +567,13 @@ async function loadAvailableCourses() {
             );
 
 
-        renderCourseList();
+        resultsBox.innerHTML =
 
+            '<div class="empty-state">' +
+
+            'พิมพ์รหัสวิชาเพื่อค้นหา' +
+
+            '</div>';
 
     }
 
@@ -282,7 +585,7 @@ async function loadAvailableCourses() {
         );
 
 
-        container.innerHTML =
+        resultsBox.innerHTML =
 
             '<div class="empty-state">' +
 
@@ -393,7 +696,7 @@ function normalizeCourses(
                     }
 
 
-                    const exists =
+                    const duplicate =
                         grouped[code]
                             .options
                             .some(
@@ -416,7 +719,7 @@ function normalizeCourses(
 
 
                     if (
-                        exists
+                        duplicate
                     ) {
 
                         return;
@@ -463,14 +766,137 @@ function normalizeCourses(
 
 
 /* =========================================================
-   RENDER COURSE LIST
+   SEARCH COURSES
 ========================================================= */
 
-function renderCourseList() {
+function searchCourses() {
+
+    const input =
+        document.getElementById(
+            "courseSearchInput"
+        );
+
+
+    const resultsBox =
+        document.getElementById(
+            "courseSearchResults"
+        );
+
+
+    if (
+        !input ||
+        !resultsBox
+    ) {
+
+        return;
+
+    }
+
+
+    const keyword =
+        clean(
+            input.value
+        )
+        .toLowerCase();
+
+
+    hideSearchMessage();
+
+
+    if (!keyword) {
+
+        resultsBox.innerHTML =
+
+            '<div class="empty-state">' +
+
+            'กรุณาพิมพ์รหัสวิชา' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    const results =
+        availableCourses.filter(
+            function (course) {
+
+                return (
+
+                    course.code
+                        .toLowerCase()
+                        .includes(
+                            keyword
+                        )
+
+                );
+
+            }
+        );
+
+
+    if (!results.length) {
+
+        resultsBox.innerHTML =
+
+            '<div class="empty-state">' +
+
+            'ไม่พบรหัสวิชา "' +
+
+            escapeHtml(
+                input.value
+            ) +
+
+            '"' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    renderSearchResults(
+        results
+    );
+
+}
+
+
+/* =========================================================
+   ENTER
+========================================================= */
+
+function handleSearchKeydown(
+    event
+) {
+
+    if (
+        event.key ===
+        "Enter"
+    ) {
+
+        event.preventDefault();
+
+        searchCourses();
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER SEARCH RESULTS
+========================================================= */
+
+function renderSearchResults(
+    courses
+) {
 
     const container =
         document.getElementById(
-            "courseList"
+            "courseSearchResults"
         );
 
 
@@ -481,136 +907,148 @@ function renderCourseList() {
     }
 
 
-    if (
-        !availableCourses.length
-    ) {
-
-        container.innerHTML =
-
-            '<div class="empty-state">' +
-
-            'ยังไม่มีรายวิชาที่เปิดให้ลงทะเบียน' +
-
-            '</div>';
-
-        return;
-
-    }
-
-
     container.innerHTML =
         "";
 
 
-    availableCourses.forEach(
-        function (
-            course,
-            courseIndex
-        ) {
+    courses.forEach(
+        function (course) {
 
-            const selected =
-                findSelectedCourse(
-                    course.code
-                );
-
-
-            const item =
+            const wrapper =
                 document.createElement(
                     "div"
                 );
 
 
-            item.className =
-                "course-item";
+            wrapper.className =
+                "course-result-item";
 
 
             let optionsHtml =
                 "";
 
 
-            course.options.forEach(
-                function (
-                    option,
-                    optionIndex
-                ) {
+            if (
+                !course.options.length
+            ) {
 
-                    const checked =
-                        selected &&
+                optionsHtml =
 
-                        selected.teacherCode ===
-                            option.teacherCode &&
+                    '<div class="empty-state">' +
 
-                        selected.room ===
-                            option.room;
+                    'ไม่พบกลุ่มเรียนของวิชานี้' +
 
+                    '</div>';
 
-                    optionsHtml +=
+            }
 
-                        '<label class="course-option">' +
+            else {
 
-                            '<input ' +
+                optionsHtml =
+                    course.options
+                        .map(
+                            function (
+                                option,
+                                index
+                            ) {
 
-                                'type="radio" ' +
-
-                                'name="course-' +
-                                escapeHtml(
-                                    course.code
-                                ) +
-                                '" ' +
-
-                                'value="' +
-                                optionIndex +
-                                '" ' +
-
-                                (
-                                    checked
-                                        ? "checked"
-                                        : ""
-                                ) +
-
-                                ' onchange="selectCourseOption(' +
-                                    courseIndex +
-                                    ',' +
-                                    optionIndex +
-                                ')"' +
-
-                            '>' +
-
-                            '<span class="option-main">' +
-
-                                '<span class="option-teacher">' +
-
-                                    escapeHtml(
-                                        option.teacherName
-                                    ) +
-
-                                '</span>' +
-
-                                '<span class="option-detail">' +
-
-                                    'รหัสผู้สอน: ' +
-
-                                    escapeHtml(
-                                        option.teacherCode
-                                    ) +
-
-                                    ' • ห้อง: ' +
-
-                                    escapeHtml(
-                                        option.room
-                                    ) +
-
-                                '</span>' +
-
-                            '</span>' +
-
-                        '</label>';
-
-                }
-            );
+                                const selected =
+                                    findSelectedCourse(
+                                        course.code
+                                    );
 
 
-            item.innerHTML =
+                                const checked =
+
+                                    !!(
+                                        selected &&
+
+                                        selected.teacherCode ===
+                                            option.teacherCode &&
+
+                                        selected.room ===
+                                            option.room
+                                    );
+
+
+                                return (
+
+                                    '<label class="course-option">' +
+
+                                        '<input ' +
+
+                                            'type="radio" ' +
+
+                                            'name="course-option-' +
+                                            escapeHtml(
+                                                course.code
+                                            ) +
+                                            '" ' +
+
+                                            'value="' +
+                                            index +
+                                            '" ' +
+
+                                            (
+                                                checked
+                                                    ? "checked"
+                                                    : ""
+                                            ) +
+
+                                            ' onchange="selectCourseOption(\'' +
+
+                                                escapeJavaScript(
+                                                    course.code
+                                                ) +
+
+                                                '\',' +
+
+                                                index +
+
+                                            ')"' +
+
+                                        '>' +
+
+                                        '<span class="option-main">' +
+
+                                            '<span class="option-teacher">' +
+
+                                                escapeHtml(
+                                                    option.teacherName
+                                                ) +
+
+                                            '</span>' +
+
+                                            '<span class="option-detail">' +
+
+                                                'รหัสผู้สอน: ' +
+
+                                                escapeHtml(
+                                                    option.teacherCode
+                                                ) +
+
+                                                ' • ห้อง: ' +
+
+                                                escapeHtml(
+                                                    option.room
+                                                ) +
+
+                                            '</span>' +
+
+                                        '</span>' +
+
+                                    '</label>'
+
+                                );
+
+                            }
+                        )
+                        .join("");
+
+            }
+
+
+            wrapper.innerHTML =
 
                 '<div class="course-code">' +
 
@@ -628,7 +1066,13 @@ function renderCourseList() {
 
                 '</div>' +
 
-                '<div class="course-option-list">' +
+                '<div class="course-option-title">' +
+
+                    'เลือกกลุ่มเรียน' +
+
+                '</div>' +
+
+                '<div class="course-options">' +
 
                     optionsHtml +
 
@@ -636,7 +1080,7 @@ function renderCourseList() {
 
 
             container.appendChild(
-                item
+                wrapper
             );
 
         }
@@ -646,18 +1090,25 @@ function renderCourseList() {
 
 
 /* =========================================================
-   SELECT COURSE OPTION
+   SELECT COURSE
 ========================================================= */
 
 function selectCourseOption(
-    courseIndex,
+    courseCode,
     optionIndex
 ) {
 
     const course =
-        availableCourses[
-            courseIndex
-        ];
+        availableCourses.find(
+            function (item) {
+
+                return (
+                    item.code ===
+                    courseCode
+                );
+
+            }
+        );
 
 
     if (!course) {
@@ -733,9 +1184,9 @@ function selectCourseOption(
     }
 
 
-    renderCourseList();
-
     renderSelectedList();
+
+    searchCourses();
 
 }
 
@@ -749,6 +1200,7 @@ function findSelectedCourse(
 ) {
 
     return (
+
         selectedRegistrations.find(
             function (item) {
 
@@ -758,7 +1210,12 @@ function findSelectedCourse(
                 );
 
             }
-        ) || null
+        )
+
+        ||
+
+        null
+
     );
 
 }
@@ -785,9 +1242,9 @@ function removeSelectedCourse(
         );
 
 
-    renderCourseList();
-
     renderSelectedList();
+
+    searchCourses();
 
 }
 
@@ -935,12 +1392,6 @@ function renderSelectedList() {
 
 function previewRegistration() {
 
-    const box =
-        document.getElementById(
-            "message"
-        );
-
-
     if (
         !selectedRegistrations.length
     ) {
@@ -1009,6 +1460,35 @@ function previewRegistration() {
 
 
 /* =========================================================
+   SEARCH MESSAGE
+========================================================= */
+
+function hideSearchMessage() {
+
+    const box =
+        document.getElementById(
+            "searchMessage"
+        );
+
+
+    if (!box) {
+
+        return;
+
+    }
+
+
+    box.textContent =
+        "";
+
+
+    box.className =
+        "search-message";
+
+}
+
+
+/* =========================================================
    MESSAGE
 ========================================================= */
 
@@ -1064,6 +1544,53 @@ function goBack() {
 
     window.location.href =
         "dashboard.html";
+
+}
+
+
+/* =========================================================
+   SESSION CLEAR
+========================================================= */
+
+function clearSessionAndRedirect() {
+
+    sessionStorage.removeItem(
+        "student_session"
+    );
+
+
+    sessionStorage.removeItem(
+        "student_data"
+    );
+
+
+    if (
+        typeof CONFIG !== "undefined" &&
+        CONFIG.SESSION_KEY
+    ) {
+
+        sessionStorage.removeItem(
+            CONFIG.SESSION_KEY
+        );
+
+    }
+
+
+    if (
+        typeof CONFIG !== "undefined" &&
+        CONFIG.STUDENT_KEY
+    ) {
+
+        sessionStorage.removeItem(
+            CONFIG.STUDENT_KEY
+        );
+
+    }
+
+
+    window.location.replace(
+        "index.html"
+    );
 
 }
 
