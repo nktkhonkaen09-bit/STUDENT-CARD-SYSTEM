@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    STUDENT CARD SYSTEM
    js/student-card.js
@@ -1811,4 +1810,3 @@ function showCardError(
     );
 
 }
-```
