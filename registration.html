@@ -37,14 +37,14 @@
 
     <header class="registration-header">
 
+
         <button
             type="button"
             class="back-button"
             onclick="goBack()"
+            aria-label="กลับ"
         >
-
             ← กลับ
-
         </button>
 
 
@@ -63,6 +63,7 @@
 
         <div class="header-space"></div>
 
+
     </header>
 
 
@@ -74,12 +75,9 @@
     <main class="registration-main">
 
 
-        <!-- =====================================
-             STUDENT SUMMARY
-        ====================================== -->
+        <!-- STUDENT -->
 
         <section class="student-summary">
-
 
             <div class="summary-icon">
                 🎓
@@ -109,9 +107,7 @@
 
 
 
-        <!-- =====================================
-             CURRENT REGISTRATIONS
-        ====================================== -->
+        <!-- COURSE -->
 
         <section class="registration-card">
 
@@ -121,40 +117,7 @@
                 <span class="section-line"></span>
 
                 <span>
-                    วิชาที่ลงทะเบียนแล้ว
-                </span>
-
-            </div>
-
-
-            <div
-                id="myRegistrations"
-                class="my-registrations"
-            >
-
-                <div class="loading">
-                    กำลังโหลดข้อมูล...
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =====================================
-             AVAILABLE COURSES
-        ====================================== -->
-
-        <section class="registration-card">
-
-
-            <div class="section-title">
-
-                <span class="section-line"></span>
-
-                <span>
-                    เลือกรายวิชา
+                    รายวิชาที่เปิดให้ลงทะเบียน
                 </span>
 
             </div>
@@ -171,81 +134,11 @@
 
             </div>
 
-        </section>
-
-
-
-        <!-- =====================================
-             SELECTED
-        ====================================== -->
-
-        <section class="registration-card selected-card">
-
-
-            <div class="section-title">
-
-                <span class="section-line"></span>
-
-                <span>
-                    รายการที่เลือก
-                </span>
-
-            </div>
-
-
-            <div
-                id="selectedList"
-                class="selected-list"
-            >
-
-                <div class="empty-state">
-                    ยังไม่ได้เลือกรายวิชา
-                </div>
-
-            </div>
-
-
-            <div class="selected-footer">
-
-
-                <div>
-
-                    <div class="selected-count-label">
-                        จำนวนวิชา
-                    </div>
-
-                    <div
-                        id="selectedCount"
-                        class="selected-count"
-                    >
-                        0
-                    </div>
-
-                </div>
-
-
-                <button
-                    id="registerButton"
-                    type="button"
-                    class="register-button"
-                    onclick="submitRegistration()"
-                    disabled
-                >
-
-                    ✅ ยืนยันการลงทะเบียน
-
-                </button>
-
-
-            </div>
 
         </section>
 
 
-
-        <!-- =====================================
-             MESSAGE
-        ====================================== -->
+        <!-- MESSAGE -->
 
         <div
             id="message"
@@ -257,9 +150,7 @@
 
 
 
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
+    <!-- FOOTER -->
 
     <footer class="registration-footer">
 
