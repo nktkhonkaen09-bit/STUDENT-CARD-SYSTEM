@@ -272,7 +272,7 @@ async function loadAvailableCourses() {
 
         const url =
             ATTENDANCE_API_URL +
-            "?action=getCourses";
+            "?action=getAllRegistrationCourses";
 
 
         const response =
