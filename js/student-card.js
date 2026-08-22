@@ -1,3 +1,4 @@
+```javascript
 /* =========================================================
    STUDENT CARD SYSTEM
    js/student-card.js
@@ -87,7 +88,6 @@ async function initializeStudentCard() {
                 }
 
             }
-
             catch (error) {
 
                 console.warn(
@@ -135,7 +135,8 @@ async function loadStudentFromAPI() {
     /*
      * ใช้ getStudentToken()
      * จาก config.js
-     * ไม่ประกาศซ้ำในไฟล์นี้
+     *
+     * ถ้าไม่พบ ให้ใช้ sessionStorage โดยตรงเป็น fallback
      */
 
     const token =
@@ -215,7 +216,6 @@ async function loadStudentFromAPI() {
         );
 
     }
-
     catch (error) {
 
         console.warn(
@@ -336,8 +336,7 @@ async function studentApiRequest(
 
 
         /*
-         * ถ้า config.js มี SESSION_KEY
-         * ให้ลบด้วย
+         * ลบ session key ของ config.js ด้วย
          */
 
         if (
@@ -1269,6 +1268,10 @@ document.addEventListener(
 
 function goBack() {
 
+    /*
+     * ใช้ history ถ้ามี
+     */
+
     if (
         window.history.length >
         1
@@ -1281,8 +1284,13 @@ function goBack() {
     }
 
 
+    /*
+     * ถ้าไม่มี history
+     * กลับ Dashboard
+     */
+
     window.location.replace(
-        "index.html"
+        "dashboard.html"
     );
 
 }
@@ -1290,7 +1298,8 @@ function goBack() {
 
 /* =========================================================
    DOWNLOAD STUDENT CARD
-   ใช้รูปจาก Google Drive ผ่าน Backend
+   รูปนักศึกษา + พื้นหลังบัตร
+   จะถูกแปลงเป็น Data URL ก่อนสร้าง PNG
 ========================================================= */
 
 async function downloadCard() {
@@ -1350,7 +1359,7 @@ async function downloadCard() {
 
 
     /*
-     * เก็บ src เดิม
+     * เก็บค่าเดิม
      */
 
     const originalPhotoSrc =
@@ -1361,18 +1370,24 @@ async function downloadCard() {
             : null;
 
 
+    const originalBackground =
+        card.style.backgroundImage;
+
+
     let photoChanged =
+        false;
+
+
+    let backgroundChanged =
         false;
 
 
     try {
 
-        /*
-         * =========================================
-         * STEP 1
-         * ขอรูปจาก Backend
-         * =========================================
-         */
+        /* =================================================
+           STEP 1
+           ขอรูปนักศึกษาจาก Backend
+        ================================================= */
 
         if (photo) {
 
@@ -1453,24 +1468,81 @@ async function downloadCard() {
         }
 
 
-        /*
-         * =========================================
-         * STEP 2
-         * รอรูป
-         * =========================================
-         */
+        /* =================================================
+           STEP 2
+           แปลงพื้นหลังบัตรเป็น Data URL
+        ================================================= */
+
+        try {
+
+            const backgroundUrl =
+
+                "https://raw.githubusercontent.com/" +
+
+                "nktkhonkaen09-bit/" +
+
+                "STUDENT-CARD-SYSTEM/" +
+
+                "main/assets/students/STD-BG.png";
+
+
+            const backgroundDataUrl =
+
+                await fetchImageAsDataUrl(
+                    backgroundUrl
+                );
+
+
+            if (
+                backgroundDataUrl
+            ) {
+
+                card.style.backgroundImage =
+
+                    "url('" +
+                    backgroundDataUrl +
+                    "')";
+
+
+                backgroundChanged =
+                    true;
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.warn(
+                "BACKGROUND BASE64 ERROR:",
+                error
+            );
+
+        }
+
+
+        /* =================================================
+           STEP 3
+           รอรูปทั้งหมด
+        ================================================= */
 
         await waitForImages(
             card
         );
 
 
-        /*
-         * =========================================
-         * STEP 3
-         * สร้าง Canvas
-         * =========================================
-         */
+        /* =================================================
+           STEP 4
+           รอให้ Browser ทำ DOM update
+        ================================================= */
+
+        await nextFrame();
+
+
+        /* =================================================
+           STEP 5
+           สร้าง Canvas
+        ================================================= */
 
         const canvas =
             await html2canvas(
@@ -1502,12 +1574,10 @@ async function downloadCard() {
             );
 
 
-        /*
-         * =========================================
-         * STEP 4
-         * ดาวน์โหลด
-         * =========================================
-         */
+        /* =================================================
+           STEP 6
+           ดาวน์โหลด PNG
+        ================================================= */
 
         const link =
             document.createElement(
@@ -1546,7 +1616,6 @@ async function downloadCard() {
 
         link.remove();
 
-
     }
 
     catch (error) {
@@ -1565,9 +1634,9 @@ async function downloadCard() {
 
     finally {
 
-        /*
-         * คืนรูปเดิม
-         */
+        /* =================================================
+           คืนรูปนักศึกษาเดิม
+        ================================================= */
 
         if (
             photo &&
@@ -1593,7 +1662,115 @@ async function downloadCard() {
 
         }
 
+
+        /* =================================================
+           คืนพื้นหลังเดิม
+        ================================================= */
+
+        if (
+            backgroundChanged
+        ) {
+
+            card.style.backgroundImage =
+                originalBackground;
+
+        }
+
     }
+
+}
+
+
+/* =========================================================
+   FETCH IMAGE AS DATA URL
+   ใช้กับพื้นหลังบัตรจาก GitHub
+========================================================= */
+
+async function fetchImageAsDataUrl(
+    url
+) {
+
+    const response =
+        await fetch(
+
+            url,
+
+            {
+
+                mode:
+                    "cors",
+
+                cache:
+                    "no-store"
+
+            }
+
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+
+            "ไม่สามารถโหลดรูปได้ HTTP " +
+            response.status
+
+        );
+
+    }
+
+
+    const blob =
+        await response.blob();
+
+
+    return blobToDataUrl(
+        blob
+    );
+
+}
+
+
+/* =========================================================
+   BLOB TO DATA URL
+========================================================= */
+
+function blobToDataUrl(
+    blob
+) {
+
+    return new Promise(
+
+        function (
+            resolve,
+            reject
+        ) {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function () {
+
+                    resolve(
+                        reader.result
+                    );
+
+                };
+
+
+            reader.onerror =
+                reject;
+
+
+            reader.readAsDataURL(
+                blob
+            );
+
+        }
+
+    );
 
 }
 
@@ -1726,6 +1903,37 @@ function waitForImages(
 
 
 /* =========================================================
+   NEXT FRAME
+   ช่วยให้ Browser วาด Data URL
+   ก่อนส่งเข้า html2canvas
+========================================================= */
+
+function nextFrame() {
+
+    return new Promise(
+
+        function (resolve) {
+
+            requestAnimationFrame(
+
+                function () {
+
+                    requestAnimationFrame(
+                        resolve
+                    );
+
+                }
+
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
    SET TEXT
 ========================================================= */
 
@@ -1810,3 +2018,4 @@ function showCardError(
     );
 
 }
+```
