@@ -246,7 +246,7 @@ async function loadStudentProfile() {
                     JSON.stringify({
 
                         action:
-                            "getStudentProfile",
+                            "getProfile",
 
                         token:
                             token
