@@ -25,6 +25,310 @@
         href="css/profile.css"
     >
 
+
+    <style>
+
+        /* =========================================
+           CHANGE PROFILE PHOTO
+        ========================================= */
+
+        .photo-container {
+            position: relative;
+        }
+
+
+        .photo-edit-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            margin-top: 10px;
+
+            padding: 8px 14px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #101d91,
+                    #1d4ed8
+                );
+
+            color: #ffffff;
+
+            font-family:
+                inherit;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 12px
+                rgba(16, 29, 145, .18);
+
+            transition:
+                transform .15s ease,
+                box-shadow .15s ease,
+                opacity .15s ease;
+
+        }
+
+
+        .photo-edit-button:hover {
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 6px 16px
+                rgba(16, 29, 145, .24);
+
+        }
+
+
+        .photo-edit-button:active {
+
+            transform:
+                scale(.98);
+
+        }
+
+
+        .photo-edit-button:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+        }
+
+
+        .photo-upload-status {
+
+            min-height: 20px;
+
+            margin-top: 6px;
+
+            font-size: 12px;
+
+            line-height: 1.4;
+
+        }
+
+
+        .photo-upload-status.success {
+
+            color: #15803d;
+
+        }
+
+
+        .photo-upload-status.error {
+
+            color: #dc2626;
+
+        }
+
+
+        .photo-upload-status.loading {
+
+            color: #1d4ed8;
+
+        }
+
+
+        .photo-preview-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 99999;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(0, 0, 0, .72);
+
+        }
+
+
+        .photo-preview-overlay.show {
+
+            display: flex;
+
+        }
+
+
+        .photo-preview-box {
+
+            width: min(
+                100%,
+                420px
+            );
+
+            background: #ffffff;
+
+            border-radius: 18px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, .25);
+
+            text-align: center;
+
+        }
+
+
+        .photo-preview-title {
+
+            margin-bottom: 14px;
+
+            color: #101d91;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+        }
+
+
+        #photoPreview {
+
+            display: block;
+
+            width: 190px;
+
+            height: 230px;
+
+            margin:
+                0 auto 16px;
+
+            object-fit: cover;
+
+            border-radius: 12px;
+
+            border:
+                2px solid #dbe2f0;
+
+            background: #f3f4f6;
+
+        }
+
+
+        .photo-preview-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .photo-preview-actions button {
+
+            flex: 1;
+
+            min-height: 44px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+        }
+
+
+        #cancelPhotoUploadBtn {
+
+            background: #eef1f7;
+
+            color: #374151;
+
+        }
+
+
+        #confirmPhotoUploadBtn {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #101d91,
+                    #1d4ed8
+                );
+
+            color: #ffffff;
+
+        }
+
+
+        #confirmPhotoUploadBtn:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .photo-edit-button {
+
+                width: 100%;
+
+                max-width: 190px;
+
+            }
+
+
+            .photo-preview-box {
+
+                padding: 15px;
+
+            }
+
+
+            #photoPreview {
+
+                width: 170px;
+
+                height: 210px;
+
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
@@ -36,7 +340,7 @@
 
     <!-- =========================================
          HEADER
-         ========================================= -->
+    ========================================= -->
 
     <header class="profile-header">
 
@@ -86,14 +390,14 @@
 
     <!-- =========================================
          MAIN
-         ========================================= -->
+    ========================================= -->
 
     <main class="profile-main">
 
 
         <!-- =====================================
              PROFILE TOP
-             ===================================== -->
+        ===================================== -->
 
         <section class="profile-top">
 
@@ -105,6 +409,30 @@
                     src=""
                     alt="รูปนักศึกษา"
                 >
+
+
+                <button
+                    type="button"
+                    id="changePhotoBtn"
+                    class="photo-edit-button"
+                >
+                    📷 เปลี่ยนรูป
+                </button>
+
+
+                <input
+                    type="file"
+                    id="photoFileInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden
+                >
+
+
+                <div
+                    id="photoUploadStatus"
+                    class="photo-upload-status"
+                    aria-live="polite"
+                ></div>
 
             </div>
 
@@ -153,7 +481,7 @@
 
         <!-- =====================================
              INFORMATION
-             ===================================== -->
+        ===================================== -->
 
         <section class="information-card">
 
@@ -169,8 +497,6 @@
             </div>
 
 
-
-            <!-- STUDENT ID -->
 
             <div class="info-row">
 
@@ -189,8 +515,6 @@
 
 
 
-            <!-- THAI NAME -->
-
             <div class="info-row">
 
                 <div class="info-label">
@@ -207,8 +531,6 @@
             </div>
 
 
-
-            <!-- ENGLISH NAME -->
 
             <div class="info-row">
 
@@ -227,8 +549,6 @@
 
 
 
-            <!-- DEPARTMENT -->
-
             <div class="info-row">
 
                 <div class="info-label">
@@ -246,8 +566,6 @@
 
 
 
-            <!-- STATUS -->
-
             <div class="info-row">
 
                 <div class="info-label">
@@ -264,8 +582,6 @@
             </div>
 
 
-
-            <!-- PHONE -->
 
             <div class="info-row">
 
@@ -289,7 +605,7 @@
 
         <!-- =====================================
              CARD INFORMATION
-             ===================================== -->
+        ===================================== -->
 
         <section class="information-card">
 
@@ -305,8 +621,6 @@
             </div>
 
 
-
-            <!-- ISSUE DATE -->
 
             <div class="info-row">
 
@@ -324,8 +638,6 @@
             </div>
 
 
-
-            <!-- EXPIRE DATE -->
 
             <div class="info-row">
 
@@ -349,7 +661,7 @@
 
         <!-- =====================================
              STUDENT CARD BUTTON
-             ===================================== -->
+        ===================================== -->
 
         <button
             class="student-card-button"
@@ -400,7 +712,7 @@
 
     <!-- =========================================
          FOOTER
-         ========================================= -->
+    ========================================= -->
 
     <footer class="profile-footer">
 
@@ -408,6 +720,63 @@
 
     </footer>
 
+
+</div>
+
+
+
+<!-- =========================================
+     PHOTO PREVIEW MODAL
+========================================= -->
+
+<div
+    id="photoPreviewOverlay"
+    class="photo-preview-overlay"
+    aria-hidden="true"
+>
+
+
+    <div
+        class="photo-preview-box"
+    >
+
+        <div class="photo-preview-title">
+
+            ตัวอย่างรูปโปรไฟล์
+
+        </div>
+
+
+        <img
+            id="photoPreview"
+            src=""
+            alt="ตัวอย่างรูปใหม่"
+        >
+
+
+        <div class="photo-preview-actions">
+
+
+            <button
+                type="button"
+                id="cancelPhotoUploadBtn"
+            >
+                ยกเลิก
+            </button>
+
+
+            <button
+                type="button"
+                id="confirmPhotoUploadBtn"
+            >
+                💾 บันทึกรูป
+            </button>
+
+
+        </div>
+
+
+    </div>
 
 </div>
 
