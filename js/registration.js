@@ -33,7 +33,7 @@ const ATTENDANCE_SPREADSHEET_ID =
  */
 
 const ATTENDANCE_API_URL =
-    "";
+    "https://script.google.com/macros/s/AKfycbyeZp9LubywmnFuv5DEBjjZESAoz-u387cNtNe4DmnyXcRdVZ03zs_1GTri76XwZQQnkQ/exec";
 
 
 /* =========================================================
