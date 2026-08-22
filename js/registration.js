@@ -6,10 +6,6 @@
 "use strict";
 
 
-/* =========================================================
-   STATE
-========================================================= */
-
 let availableCourses = [];
 
 let currentRegistrations = [];
@@ -37,33 +33,55 @@ document.addEventListener(
 
 async function initializeRegistration() {
 
-    checkStudentSession();
+    if (!checkStudentSession()) {
+
+        return;
+
+    }
+
 
     loadStudentSummary();
 
-    await Promise.all([
 
-        loadMyRegistrations(),
+    await loadMyRegistrations();
 
-        loadAvailableCourses()
 
-    ]);
+    await loadAvailableCourses();
+
+
+    renderSelectedList();
 
 }
 
 
 /* =========================================================
-   CHECK SESSION
+   SESSION
 ========================================================= */
 
 function checkStudentSession() {
 
-    const token =
-        typeof getStudentToken === "function"
-            ? getStudentToken()
-            : sessionStorage.getItem(
+    let token = "";
+
+
+    if (
+        typeof getStudentToken ===
+        "function"
+    ) {
+
+        token =
+            getStudentToken();
+
+    }
+
+
+    if (!token) {
+
+        token =
+            sessionStorage.getItem(
                 "student_session"
-            );
+            ) || "";
+
+    }
 
 
     if (!token) {
@@ -72,23 +90,26 @@ function checkStudentSession() {
             "index.html"
         );
 
+        return false;
+
     }
+
+
+    return true;
 
 }
 
 
 /* =========================================================
-   LOAD STUDENT SUMMARY
+   STUDENT SUMMARY
 ========================================================= */
 
 function loadStudentSummary() {
 
     const raw =
-        typeof getStudentData === "function"
-            ? getStudentData()
-            : sessionStorage.getItem(
-                "student_data"
-            );
+        sessionStorage.getItem(
+            "student_data"
+        );
 
 
     if (!raw) {
@@ -98,72 +119,63 @@ function loadStudentSummary() {
     }
 
 
-    let student = raw;
+    try {
 
-
-    if (typeof raw === "string") {
-
-        try {
-
-            student =
-                JSON.parse(
-                    raw
-                );
-
-        }
-        catch (error) {
-
-            console.error(
-                "REGISTRATION STUDENT DATA ERROR:",
-                error
+        const student =
+            JSON.parse(
+                raw
             );
 
-            return;
 
-        }
+        const fullName =
+            [
+
+                student.prefix_th || "",
+
+                student.firstname_th || "",
+
+                student.lastname_th || ""
+
+            ]
+
+                .filter(
+                    function (value) {
+
+                        return String(
+                            value || ""
+                        ).trim() !== "";
+
+                    }
+                )
+
+                .join(" ")
+                .trim();
+
+
+        setText(
+            "studentName",
+            fullName || "-"
+        );
+
+
+        setText(
+            "studentId",
+            "รหัส " +
+            (
+                student.student_id ||
+                "-"
+            )
+        );
 
     }
+    catch (error) {
 
+        console.error(
+            "STUDENT DATA ERROR:",
+            error
+        );
 
-    const fullName =
-        [
-
-            student.prefix_th || "",
-
-            student.firstname_th || "",
-
-            student.lastname_th || ""
-
-        ]
-
-            .filter(
-                function (value) {
-
-                    return String(
-                        value || ""
-                    ).trim() !== "";
-
-                }
-            )
-
-            .join(" ")
-            .trim();
-
-
-    setText(
-        "studentName",
-        fullName || "-"
-    );
-
-
-    setText(
-        "studentId",
-        "รหัส " +
-        (
-            student.student_id ||
-            "-"
-        )
-    );
+    }
 
 }
 
@@ -183,18 +195,53 @@ async function registrationApi(
     if (!apiUrl) {
 
         throw new Error(
-            "ไม่พบ API_URL"
+            "ไม่พบ API_URL ใน config.js"
         );
 
     }
 
 
-    const token =
-        typeof getStudentToken === "function"
-            ? getStudentToken()
-            : sessionStorage.getItem(
+    let token = "";
+
+
+    if (
+        typeof getStudentToken ===
+        "function"
+    ) {
+
+        token =
+            getStudentToken();
+
+    }
+
+
+    if (!token) {
+
+        token =
+            sessionStorage.getItem(
                 "student_session"
-            );
+            ) || "";
+
+    }
+
+
+    if (!token) {
+
+        throw new Error(
+            "ไม่พบ Session นักศึกษา"
+        );
+
+    }
+
+
+    const requestBody = {
+
+        ...payload,
+
+        token:
+            token
+
+    };
 
 
     const response =
@@ -213,14 +260,9 @@ async function registrationApi(
                 },
 
                 body:
-                    JSON.stringify({
-
-                        ...payload,
-
-                        token:
-                            token
-
-                    })
+                    JSON.stringify(
+                        requestBody
+                    )
 
             }
         );
@@ -242,29 +284,25 @@ async function registrationApi(
 
     if (
         result &&
-        result.code ===
-        "STUDENT_SESSION_EXPIRED"
+        (
+            result.code ===
+            "STUDENT_SESSION_EXPIRED"
+
+            ||
+
+            result.code ===
+            "SESSION_EXPIRED"
+        )
     ) {
 
-        if (
-            typeof clearStudentSession ===
-            "function"
-        ) {
+        sessionStorage.removeItem(
+            "student_session"
+        );
 
-            clearStudentSession();
 
-        }
-        else {
-
-            sessionStorage.removeItem(
-                "student_session"
-            );
-
-            sessionStorage.removeItem(
-                "student_data"
-            );
-
-        }
+        sessionStorage.removeItem(
+            "student_data"
+        );
 
 
         window.location.replace(
@@ -327,11 +365,14 @@ async function loadAvailableCourses() {
 
 
         availableCourses =
-            result.courses || [];
+            Array.isArray(
+                result.courses
+            )
+                ? result.courses
+                : [];
 
 
         renderCourseList();
-
 
     }
     catch (error) {
@@ -348,7 +389,10 @@ async function loadAvailableCourses() {
 
                 '<div class="empty-state">' +
 
-                'ไม่สามารถโหลดรายวิชาได้' +
+                escapeHtml(
+                    error.message ||
+                    "ไม่สามารถโหลดรายวิชาได้"
+                ) +
 
                 '</div>';
 
@@ -360,7 +404,7 @@ async function loadAvailableCourses() {
 
 
 /* =========================================================
-   LOAD CURRENT REGISTRATIONS
+   LOAD MY REGISTRATIONS
 ========================================================= */
 
 async function loadMyRegistrations() {
@@ -402,17 +446,20 @@ async function loadMyRegistrations() {
 
 
         currentRegistrations =
-            result.registrations || [];
+            Array.isArray(
+                result.registrations
+            )
+                ? result.registrations
+                : [];
 
 
         renderMyRegistrations();
-
 
     }
     catch (error) {
 
         console.error(
-            "LOAD MY REGISTRATIONS ERROR:",
+            "LOAD REGISTRATIONS ERROR:",
             error
         );
 
@@ -423,7 +470,10 @@ async function loadMyRegistrations() {
 
                 '<div class="empty-state">' +
 
-                'ยังไม่มีรายการลงทะเบียน' +
+                escapeHtml(
+                    error.message ||
+                    "ยังไม่มีรายการลงทะเบียน"
+                ) +
 
                 '</div>';
 
@@ -435,7 +485,7 @@ async function loadMyRegistrations() {
 
 
 /* =========================================================
-   RENDER AVAILABLE COURSES
+   GROUP / RENDER COURSES
 ========================================================= */
 
 function renderCourseList() {
@@ -472,20 +522,9 @@ function renderCourseList() {
 
 
     availableCourses.forEach(
+        function (course, courseIndex) {
 
-        function (course, index) {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "course-item";
-
-
-            const alreadyRegistered =
+            const registered =
                 isCourseRegistered(
                     course.code
                 );
@@ -497,173 +536,201 @@ function renderCourseList() {
                 );
 
 
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "course-item";
+
+
             let optionsHtml =
                 "";
 
 
-            (course.options || [])
-                .forEach(
+            if (
+                !registered
+            ) {
 
+                const options =
+                    Array.isArray(
+                        course.options
+                    )
+                        ? course.options
+                        : [];
+
+
+                options.forEach(
                     function (
                         option,
                         optionIndex
                     ) {
 
-                        const checked =
-                            selected &&
-                            selected.teacherCode ===
-                                option.teacherCode &&
-                            selected.room ===
-                                option.room;
+                        const isChecked =
+                            !!(
+                                selected &&
+
+                                selected.teacherCode ===
+                                    option.teacherCode &&
+
+                                selected.room ===
+                                    option.room
+                            );
 
 
                         optionsHtml +=
 
                             '<label class="course-option">' +
 
-                                '<input ' +
+                            '<input ' +
 
-                                    'type="radio" ' +
+                            'type="radio" ' +
 
-                                    'name="course-' +
-                                    escapeHtml(
-                                        course.code
-                                    ) +
-                                    '" ' +
+                            'name="course-' +
+                            escapeHtml(
+                                course.code
+                            ) +
+                            '" ' +
 
-                                    'value="' +
-                                    optionIndex +
-                                    '" ' +
+                            'value="' +
+                            optionIndex +
+                            '" ' +
 
-                                    (
-                                        checked
-                                            ? 'checked'
-                                            : ''
-                                    ) +
+                            (
+                                isChecked
+                                    ? 'checked'
+                                    : ''
+                            ) +
 
-                                    (
-                                        alreadyRegistered
-                                            ? 'disabled'
-                                            : ''
-                                    ) +
+                            ' onchange="selectCourseOption(' +
+                            courseIndex +
+                            ',' +
+                            optionIndex +
+                            ')"' +
 
-                                    ' onchange="selectCourseOption(' +
-                                        index +
-                                        ',' +
-                                        optionIndex +
-                                    ')">' +
+                            '>' +
 
-                                '<span class="option-main">' +
+                            '<span class="option-main">' +
 
-                                    '<span class="option-teacher">' +
-                                        escapeHtml(
-                                            option.teacherName ||
-                                            option.teacherCode ||
-                                            "-"
-                                        ) +
-                                    '</span>' +
+                            '<span class="option-teacher">' +
 
-                                    '<span class="option-detail">' +
+                            escapeHtml(
+                                option.teacherName ||
+                                option.teacherCode ||
+                                "-"
+                            ) +
 
-                                        'รหัสผู้สอน: ' +
-                                        escapeHtml(
-                                            option.teacherCode ||
-                                            "-"
-                                        ) +
+                            '</span>' +
 
-                                        ' • ห้อง: ' +
-                                        escapeHtml(
-                                            option.room ||
-                                            "-"
-                                        ) +
+                            '<span class="option-detail">' +
 
-                                    '</span>' +
+                            'รหัสผู้สอน: ' +
 
-                                '</span>' +
+                            escapeHtml(
+                                option.teacherCode ||
+                                "-"
+                            ) +
+
+                            ' • ห้อง: ' +
+
+                            escapeHtml(
+                                option.room ||
+                                "-"
+                            ) +
+
+                            '</span>' +
+
+                            '</span>' +
 
                             '</label>';
 
                     }
-
                 );
 
+            }
 
-            item.innerHTML =
+
+            wrapper.innerHTML =
 
                 '<div class="course-header">' +
 
-                    '<input ' +
+                '<input ' +
 
-                        'type="checkbox" ' +
+                'type="checkbox" ' +
 
-                        'class="course-check" ' +
+                'class="course-check" ' +
 
-                        'id="course-' +
-                        index +
-                        '" ' +
+                'id="course-' +
+                courseIndex +
+                '" ' +
 
-                        (
-                            selected ||
-                            alreadyRegistered
-                                ? 'checked'
-                                : ''
-                        ) +
+                (
+                    selected ||
+                    registered
+                        ? 'checked'
+                        : ''
+                ) +
 
-                        (
-                            alreadyRegistered
-                                ? 'disabled'
-                                : ''
-                        ) +
+                (
+                    registered
+                        ? 'disabled'
+                        : ''
+                ) +
 
-                        ' onchange="toggleCourse(' +
-                            index +
-                        ')">' +
+                ' onchange="toggleCourse(' +
+                courseIndex +
+                ')"' +
 
-                    '<div>' +
+                '>' +
 
-                        '<div class="course-code">' +
-                            escapeHtml(
-                                course.code
-                            ) +
-                        '</div>' +
+                '<div>' +
 
-                        '<div class="course-name">' +
-                            escapeHtml(
-                                course.name
-                            ) +
-                        '</div>' +
+                '<div class="course-code">' +
 
-                    '</div>' +
+                escapeHtml(
+                    course.code
+                ) +
+
+                '</div>' +
+
+                '<div class="course-name">' +
+
+                escapeHtml(
+                    course.name
+                ) +
+
+                '</div>' +
+
+                '</div>' +
 
                 '</div>' +
 
                 '<div class="course-options">' +
 
-                    (
-                        alreadyRegistered
+                (
+                    registered
 
-                            ? (
+                        ? (
 
-                                '<div class="empty-state">' +
+                            '<div class="empty-state">' +
+                            'ลงทะเบียนวิชานี้แล้ว' +
+                            '</div>'
 
-                                'ลงทะเบียนวิชานี้แล้ว' +
+                        )
 
-                                '</div>'
-
-                            )
-
-                            : optionsHtml
-                    ) +
+                        : optionsHtml
+                ) +
 
                 '</div>';
 
 
             container.appendChild(
-                item
+                wrapper
             );
 
         }
-
     );
 
 }
@@ -715,24 +782,30 @@ function toggleCourse(
 
     else {
 
-        /*
-         * ยังไม่ลงทะเบียนจริง
-         * จะเลือกได้เมื่อเลือกอาจารย์/ห้อง
-         */
-
-        const firstOption =
-            (course.options || [])[0];
-
-
-        if (firstOption) {
-
-            addOrUpdateSelected(
-
-                course,
-
-                firstOption
-
+        const selected =
+            findSelectedRegistration(
+                course.code
             );
+
+
+        if (!selected) {
+
+            const firstOption =
+                Array.isArray(
+                    course.options
+                )
+                    ? course.options[0]
+                    : null;
+
+
+            if (firstOption) {
+
+                addOrUpdateSelected(
+                    course,
+                    firstOption
+                );
+
+            }
 
         }
 
@@ -768,8 +841,16 @@ function selectCourseOption(
     }
 
 
+    const options =
+        Array.isArray(
+            course.options
+        )
+            ? course.options
+            : [];
+
+
     const option =
-        (course.options || [])[
+        options[
             optionIndex
         ];
 
@@ -779,6 +860,12 @@ function selectCourseOption(
         return;
 
     }
+
+
+    addOrUpdateSelected(
+        course,
+        option
+    );
 
 
     const checkbox =
@@ -796,15 +883,6 @@ function selectCourseOption(
     }
 
 
-    addOrUpdateSelected(
-
-        course,
-
-        option
-
-    );
-
-
     renderSelectedList();
 
 }
@@ -819,22 +897,7 @@ function addOrUpdateSelected(
     option
 ) {
 
-    const existingIndex =
-        selectedRegistrations.findIndex(
-
-            function (item) {
-
-                return (
-                    item.courseCode ===
-                    course.code
-                );
-
-            }
-
-        );
-
-
-    const value = {
+    const newValue = {
 
         courseCode:
             course.code,
@@ -854,20 +917,29 @@ function addOrUpdateSelected(
     };
 
 
-    if (
-        existingIndex >= 0
-    ) {
+    const index =
+        selectedRegistrations.findIndex(
+            function (item) {
 
-        selectedRegistrations[
-            existingIndex
-        ] =
-            value;
+                return (
+                    item.courseCode ===
+                    course.code
+                );
+
+            }
+        );
+
+
+    if (index >= 0) {
+
+        selectedRegistrations[index] =
+            newValue;
 
     }
     else {
 
         selectedRegistrations.push(
-            value
+            newValue
         );
 
     }
@@ -885,7 +957,6 @@ function findSelectedRegistration(
 
     return (
         selectedRegistrations.find(
-
             function (item) {
 
                 return (
@@ -894,7 +965,6 @@ function findSelectedRegistration(
                 );
 
             }
-
         ) || null
     );
 
@@ -911,7 +981,6 @@ function removeSelectedCourse(
 
     selectedRegistrations =
         selectedRegistrations.filter(
-
             function (item) {
 
                 return (
@@ -920,7 +989,6 @@ function removeSelectedCourse(
                 );
 
             }
-
         );
 
 }
@@ -935,28 +1003,28 @@ function isCourseRegistered(
 ) {
 
     return currentRegistrations.some(
-
         function (item) {
 
             return (
+
                 item.courseCode ===
                 courseCode &&
+
                 String(
-                    item.status ||
-                    ""
+                    item.status || ""
                 ).trim() ===
                 "เรียน"
+
             );
 
         }
-
     );
 
 }
 
 
 /* =========================================================
-   RENDER MY REGISTRATIONS
+   RENDER CURRENT REGISTRATIONS
 ========================================================= */
 
 function renderMyRegistrations() {
@@ -980,7 +1048,7 @@ function renderMyRegistrations() {
 
             '<div class="empty-state">' +
 
-            'ยังไม่มีรายวิชาที่ลงทะเบียน' +
+            'ยังไม่มีวิชาที่ลงทะเบียน' +
 
             '</div>';
 
@@ -993,7 +1061,6 @@ function renderMyRegistrations() {
 
 
     currentRegistrations.forEach(
-
         function (item) {
 
             const div =
@@ -1010,40 +1077,43 @@ function renderMyRegistrations() {
 
                 '<div class="current-registration-code">' +
 
-                    escapeHtml(
-                        item.courseCode ||
-                        "-"
-                    ) +
+                escapeHtml(
+                    item.courseCode ||
+                    "-"
+                ) +
 
-                    ' • ' +
+                ' • ' +
 
-                    escapeHtml(
-                        item.courseName ||
-                        ""
-                    ) +
+                escapeHtml(
+                    item.courseName ||
+                    ""
+                ) +
 
                 '</div>' +
 
                 '<div class="current-registration-detail">' +
 
-                    'อาจารย์: ' +
-                    escapeHtml(
-                        item.teacherName ||
-                        item.teacherCode ||
-                        "-"
-                    ) +
+                'อาจารย์: ' +
 
-                    ' • ห้อง: ' +
-                    escapeHtml(
-                        item.room ||
-                        "-"
-                    ) +
+                escapeHtml(
+                    item.teacherName ||
+                    item.teacherCode ||
+                    "-"
+                ) +
 
-                    ' • สถานะ: ' +
-                    escapeHtml(
-                        item.status ||
-                        "-"
-                    ) +
+                ' • ห้อง: ' +
+
+                escapeHtml(
+                    item.room ||
+                    "-"
+                ) +
+
+                ' • สถานะ: ' +
+
+                escapeHtml(
+                    item.status ||
+                    "-"
+                ) +
 
                 '</div>';
 
@@ -1053,7 +1123,6 @@ function renderMyRegistrations() {
             );
 
         }
-
     );
 
 }
@@ -1101,14 +1170,12 @@ function renderSelectedList() {
             '</div>';
 
     }
-
     else {
 
         container.innerHTML = "";
 
 
         selectedRegistrations.forEach(
-
             function (item) {
 
                 const div =
@@ -1125,58 +1192,58 @@ function renderSelectedList() {
 
                     '<div class="selected-info">' +
 
-                        '<div class="selected-course">' +
+                    '<div class="selected-course">' +
 
-                            escapeHtml(
-                                item.courseCode
-                            ) +
+                    escapeHtml(
+                        item.courseCode
+                    ) +
 
-                            ' • ' +
+                    ' • ' +
 
-                            escapeHtml(
-                                item.courseName
-                            ) +
+                    escapeHtml(
+                        item.courseName
+                    ) +
 
-                        '</div>' +
+                    '</div>' +
 
-                        '<div class="selected-detail">' +
+                    '<div class="selected-detail">' +
 
-                            'อาจารย์: ' +
+                    'อาจารย์: ' +
 
-                            escapeHtml(
-                                item.teacherName ||
-                                item.teacherCode ||
-                                "-"
-                            ) +
+                    escapeHtml(
+                        item.teacherName ||
+                        item.teacherCode ||
+                        "-"
+                    ) +
 
-                            ' • ห้อง: ' +
+                    ' • ห้อง: ' +
 
-                            escapeHtml(
-                                item.room ||
-                                "-"
-                            ) +
+                    escapeHtml(
+                        item.room ||
+                        "-"
+                    ) +
 
-                        '</div>' +
+                    '</div>' +
 
                     '</div>' +
 
                     '<button ' +
 
-                        'type="button" ' +
+                    'type="button" ' +
 
-                        'class="remove-selected" ' +
+                    'class="remove-selected" ' +
 
-                        'onclick="removeSelectedAndRefresh(\'' +
+                    'onclick="removeSelectedAndRefresh(&quot;' +
 
-                            escapeAttribute(
-                                item.courseCode
-                            ) +
+                    escapeHtml(
+                        item.courseCode
+                    ) +
 
-                        '\')" ' +
+                    '&quot;)"' +
 
                     '>' +
 
-                        '×' +
+                    '×' +
 
                     '</button>';
 
@@ -1186,7 +1253,6 @@ function renderSelectedList() {
                 );
 
             }
-
         );
 
     }
@@ -1205,7 +1271,8 @@ function renderSelectedList() {
     if (button) {
 
         button.disabled =
-            selectedRegistrations.length === 0;
+            selectedRegistrations.length ===
+            0;
 
     }
 
@@ -1250,6 +1317,12 @@ async function submitRegistration() {
         document.getElementById(
             "registerButton"
         );
+
+
+    const originalText =
+        button
+            ? button.textContent
+            : "";
 
 
     if (button) {
@@ -1299,13 +1372,6 @@ async function submitRegistration() {
         }
 
 
-        showMessage(
-            result.message ||
-            "ลงทะเบียนเรียนสำเร็จ",
-            "success"
-        );
-
-
         selectedRegistrations =
             [];
 
@@ -1316,6 +1382,12 @@ async function submitRegistration() {
 
         renderSelectedList();
 
+
+        showMessage(
+            result.message ||
+            "ลงทะเบียนเรียนสำเร็จ",
+            "success"
+        );
 
     }
     catch (error) {
@@ -1333,16 +1405,17 @@ async function submitRegistration() {
         );
 
     }
-
     finally {
 
         if (button) {
 
             button.textContent =
+                originalText ||
                 "✅ ยืนยันการลงทะเบียน";
 
             button.disabled =
-                selectedRegistrations.length === 0;
+                selectedRegistrations.length ===
+                0;
 
         }
 
@@ -1436,7 +1509,7 @@ function goBack() {
 
 
 /* =========================================================
-   TEXT HELPERS
+   HELPERS
 ========================================================= */
 
 function setText(
@@ -1467,10 +1540,6 @@ function setText(
 
 }
 
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
 
 function escapeHtml(
     value
@@ -1506,32 +1575,7 @@ function escapeHtml(
 
 
 /* =========================================================
-   ESCAPE ATTRIBUTE
-========================================================= */
-
-function escapeAttribute(
-    value
-) {
-
-    return String(
-        value == null
-            ? ""
-            : value
-    )
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-    .replace(
-        /'/g,
-        "\\'"
-    );
-
-}
-
-
-/* =========================================================
-   INITIAL RENDER
+   INITIAL
 ========================================================= */
 
 renderSelectedList();
