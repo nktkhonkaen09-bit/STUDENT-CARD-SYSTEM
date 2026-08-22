@@ -27,7 +27,6 @@
 
 <body>
 
-
 <div class="registration-page">
 
 
@@ -36,7 +35,6 @@
     ========================================== -->
 
     <header class="registration-header">
-
 
         <button
             type="button"
@@ -62,7 +60,6 @@
 
 
         <div class="header-space"></div>
-
 
     </header>
 
@@ -107,7 +104,7 @@
 
 
 
-        <!-- COURSE -->
+        <!-- AVAILABLE COURSES -->
 
         <section class="registration-card">
 
@@ -117,8 +114,16 @@
                 <span class="section-line"></span>
 
                 <span>
-                    รายวิชาที่เปิดให้ลงทะเบียน
+                    เลือกรายวิชา
                 </span>
+
+            </div>
+
+
+            <div class="section-help">
+
+                เลือกได้หลายวิชา
+                และแต่ละวิชาเลือกกลุ่มเรียนได้ 1 กลุ่ม
 
             </div>
 
@@ -136,6 +141,70 @@
 
 
         </section>
+
+
+
+        <!-- SELECTED -->
+
+        <section class="registration-card">
+
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    รายการที่เลือก
+                </span>
+
+            </div>
+
+
+            <div
+                id="selectedList"
+                class="selected-list"
+            >
+
+                <div class="empty-state">
+                    ยังไม่ได้เลือกรายวิชา
+                </div>
+
+            </div>
+
+
+            <div class="selected-footer">
+
+
+                <div class="selected-count-box">
+
+                    <span>
+                        จำนวนวิชาที่เลือก
+                    </span>
+
+                    <strong
+                        id="selectedCount"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <!-- ยังไม่บันทึกจริงในขั้นนี้ -->
+
+                <button
+                    type="button"
+                    class="preview-button"
+                    onclick="previewRegistration()"
+                >
+                    ตรวจสอบรายการ
+                </button>
+
+
+            </div>
+
+        </section>
+
 
 
         <!-- MESSAGE -->
