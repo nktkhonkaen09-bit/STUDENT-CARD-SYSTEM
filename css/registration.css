@@ -1,35 +1,48 @@
 :root {
 
-    --primary: #0a1383;
-    --primary-dark: #070d62;
+    --primary:
+        #0a1383;
 
-    --white: #ffffff;
+    --primary-dark:
+        #070d62;
 
-    --text: #111827;
-    --gray: #6b7280;
+    --text:
+        #111827;
 
-    --border: #e4e7f0;
+    --gray:
+        #6b7280;
 
-    --success: #15803d;
-    --danger: #dc2626;
+    --border:
+        #e4e7f0;
 
-    --bg: #f5f7fc;
+    --background:
+        #f5f7fc;
+
+    --white:
+        #ffffff;
 
 }
 
 
 * {
-    box-sizing: border-box;
+
+    box-sizing:
+        border-box;
+
 }
 
 
 html,
 body {
 
-    margin: 0;
-    padding: 0;
+    margin:
+        0;
 
-    min-height: 100%;
+    padding:
+        0;
+
+    min-height:
+        100%;
 
 }
 
@@ -42,10 +55,11 @@ body {
         Tahoma,
         sans-serif;
 
-    color: var(--text);
+    color:
+        var(--text);
 
     background:
-        var(--bg);
+        var(--background);
 
 }
 
@@ -56,7 +70,8 @@ body {
 
 .registration-page {
 
-    min-height: 100vh;
+    min-height:
+        100vh;
 
 }
 
@@ -67,36 +82,41 @@ body {
 
 .registration-header {
 
-    min-height: 76px;
+    min-height:
+        74px;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
-        120px 1fr 120px;
+        90px 1fr 90px;
 
-    align-items: center;
+    align-items:
+        center;
 
     padding:
-        10px 22px;
+        8px 16px;
 
     background:
-        #ffffff;
+        var(--white);
 
     border-bottom:
         4px solid var(--primary);
 
     box-shadow:
         0 3px 15px
-        rgba(10, 19, 131, .08);
+        rgba(10,19,131,.08);
 
 }
 
 
 .back-button {
 
-    width: fit-content;
+    width:
+        fit-content;
 
-    border: none;
+    border:
+        none;
 
     background:
         transparent;
@@ -153,7 +173,7 @@ body {
         9px;
 
     letter-spacing:
-        1.2px;
+        1.1px;
 
 }
 
@@ -182,7 +202,7 @@ body {
         0 auto;
 
     padding:
-        22px 16px 35px;
+        20px 16px 35px;
 
 }
 
@@ -209,18 +229,17 @@ body {
         16px;
 
     background:
-        #ffffff;
+        var(--white);
 
     border:
-        1px solid
-        var(--border);
+        1px solid var(--border);
 
     border-radius:
         14px;
 
     box-shadow:
         0 5px 18px
-        rgba(10, 19, 131, .05);
+        rgba(10,19,131,.05);
 
 }
 
@@ -295,21 +314,20 @@ body {
         18px;
 
     padding:
-        20px;
+        18px;
 
     background:
-        #ffffff;
+        var(--white);
 
     border:
-        1px solid
-        var(--border);
+        1px solid var(--border);
 
     border-radius:
         15px;
 
     box-shadow:
         0 5px 18px
-        rgba(10, 19, 131, .05);
+        rgba(10,19,131,.05);
 
 }
 
@@ -330,7 +348,7 @@ body {
         9px;
 
     margin-bottom:
-        14px;
+        16px;
 
     color:
         var(--primary);
@@ -397,43 +415,6 @@ body {
 }
 
 
-.course-header {
-
-    display:
-        flex;
-
-    align-items:
-        flex-start;
-
-    gap:
-        10px;
-
-}
-
-
-.course-check {
-
-    width:
-        20px;
-
-    height:
-        20px;
-
-    margin-top:
-        4px;
-
-    flex-shrink:
-        0;
-
-    accent-color:
-        var(--primary);
-
-    cursor:
-        pointer;
-
-}
-
-
 .course-code {
 
     color:
@@ -451,7 +432,7 @@ body {
 .course-name {
 
     margin-top:
-        3px;
+        4px;
 
     color:
         var(--text);
@@ -460,18 +441,15 @@ body {
         14px;
 
     font-weight:
-        600;
+        700;
 
 }
 
 
-.course-options {
+.course-option-list {
 
     margin-top:
         12px;
-
-    padding-left:
-        30px;
 
     display:
         flex;
@@ -487,21 +465,12 @@ body {
 
 .course-option {
 
-    display:
-        flex;
-
-    align-items:
-        flex-start;
-
-    gap:
-        8px;
-
     padding:
-        10px;
+        10px 12px;
 
     border:
         1px solid
-        #e5e7ef;
+        #e3e6ee;
 
     border-radius:
         9px;
@@ -509,41 +478,13 @@ body {
     background:
         #ffffff;
 
-    cursor:
-        pointer;
-
-}
-
-
-.course-option input {
-
-    margin-top:
-        3px;
-
-    accent-color:
-        var(--primary);
-
-}
-
-
-.option-main {
-
-    min-width:
-        0;
-
-    flex:
-        1;
-
 }
 
 
 .option-teacher {
 
-    display:
-        block;
-
     color:
-        var(--text);
+        #1f2937;
 
     font-size:
         13px;
@@ -556,9 +497,6 @@ body {
 
 .option-detail {
 
-    display:
-        block;
-
     margin-top:
         3px;
 
@@ -572,294 +510,23 @@ body {
 
 
 /* =========================================
-   SELECTED LIST
+   STATUS
 ========================================= */
 
-.selected-list {
+.loading,
+.empty-state {
 
-    display:
-        flex;
+    padding:
+        22px 10px;
 
-    flex-direction:
-        column;
-
-    gap:
-        8px;
-
-}
-
-
-.selected-item {
-
-    display:
-        flex;
-
-    align-items:
+    text-align:
         center;
 
-    justify-content:
-        space-between;
-
-    gap:
-        10px;
-
-    padding:
-        10px 12px;
-
-    border:
-        1px solid
-        #e4e6ef;
-
-    border-radius:
-        10px;
-
-    background:
-        #fafbff;
-
-}
-
-
-.selected-info {
-
-    min-width:
-        0;
-
-}
-
-
-.selected-course {
-
-    color:
-        var(--primary);
-
-    font-size:
-        13px;
-
-    font-weight:
-        800;
-
-}
-
-
-.selected-detail {
-
-    margin-top:
-        3px;
-
     color:
         var(--gray);
 
     font-size:
-        11px;
-
-}
-
-
-.remove-selected {
-
-    width:
-        30px;
-
-    height:
-        30px;
-
-    flex-shrink:
-        0;
-
-    border:
-        none;
-
-    border-radius:
-        50%;
-
-    background:
-        #fee2e2;
-
-    color:
-        #b91c1c;
-
-    font-size:
-        18px;
-
-    cursor:
-        pointer;
-
-}
-
-
-/* =========================================
-   CURRENT REGISTRATION
-========================================= */
-
-.my-registrations {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        8px;
-
-}
-
-
-.current-registration {
-
-    padding:
-        11px 12px;
-
-    border:
-        1px solid
-        #cdebd8;
-
-    border-radius:
-        10px;
-
-    background:
-        #eefaf2;
-
-}
-
-
-.current-registration-code {
-
-    color:
-        #166534;
-
-    font-size:
-        13px;
-
-    font-weight:
-        800;
-
-}
-
-
-.current-registration-detail {
-
-    margin-top:
-        3px;
-
-    color:
-        #4b5563;
-
-    font-size:
-        11px;
-
-}
-
-
-/* =========================================
-   SELECTED FOOTER
-========================================= */
-
-.selected-footer {
-
-    margin-top:
-        16px;
-
-    padding-top:
-        15px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    gap:
-        15px;
-
-    border-top:
-        1px solid
-        #edf0f5;
-
-}
-
-
-.selected-count-label {
-
-    color:
-        var(--gray);
-
-    font-size:
-        11px;
-
-}
-
-
-.selected-count {
-
-    margin-top:
-        2px;
-
-    color:
-        var(--primary);
-
-    font-size:
-        24px;
-
-    font-weight:
-        800;
-
-}
-
-
-.register-button {
-
-    min-height:
-        46px;
-
-    padding:
-        10px 18px;
-
-    border:
-        none;
-
-    border-radius:
-        10px;
-
-    background:
-        var(--primary);
-
-    color:
-        #ffffff;
-
-    font-family:
-        inherit;
-
-    font-size:
-        13px;
-
-    font-weight:
-        800;
-
-    cursor:
-        pointer;
-
-}
-
-
-.register-button:hover {
-
-    background:
-        var(--primary-dark);
-
-}
-
-
-.register-button:disabled {
-
-    opacity:
-        .45;
-
-    cursor:
-        not-allowed;
+        12px;
 
 }
 
@@ -873,11 +540,11 @@ body {
     display:
         none;
 
-    margin-bottom:
-        18px;
-
     padding:
         12px 14px;
+
+    margin-bottom:
+        18px;
 
     border-radius:
         10px;
@@ -899,21 +566,6 @@ body {
 }
 
 
-.message.success {
-
-    color:
-        #166534;
-
-    background:
-        #dcfce7;
-
-    border:
-        1px solid
-        #bbf7d0;
-
-}
-
-
 .message.error {
 
     color:
@@ -925,24 +577,6 @@ body {
     border:
         1px solid
         #fecaca;
-
-}
-
-
-.loading,
-.empty-state {
-
-    padding:
-        20px;
-
-    text-align:
-        center;
-
-    color:
-        var(--gray);
-
-    font-size:
-        12px;
 
 }
 
@@ -977,10 +611,10 @@ body {
     .registration-header {
 
         min-height:
-            68px;
+            66px;
 
         grid-template-columns:
-            70px 1fr 70px;
+            65px 1fr 65px;
 
         padding:
             8px 10px;
@@ -1015,7 +649,7 @@ body {
     .registration-main {
 
         padding:
-            15px 10px 25px;
+            14px 10px 25px;
 
     }
 
@@ -1023,10 +657,7 @@ body {
     .registration-card {
 
         padding:
-            15px;
-
-        border-radius:
-            13px;
+            14px;
 
     }
 
@@ -1035,41 +666,6 @@ body {
 
         font-size:
             16px;
-
-    }
-
-
-    .course-item {
-
-        padding:
-            12px;
-
-    }
-
-
-    .course-options {
-
-        padding-left:
-            28px;
-
-    }
-
-
-    .selected-footer {
-
-        align-items:
-            stretch;
-
-        flex-direction:
-            column;
-
-    }
-
-
-    .register-button {
-
-        width:
-            100%;
 
     }
 
