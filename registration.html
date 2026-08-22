@@ -27,6 +27,7 @@
 
 <body>
 
+
 <div class="registration-page">
 
 
@@ -42,7 +43,9 @@
             onclick="goBack()"
             aria-label="กลับ"
         >
+
             ← กลับ
+
         </button>
 
 
@@ -67,44 +70,118 @@
 
     <!-- =========================================
          MAIN
-    ========================================== -->
+    ========================================= -->
 
     <main class="registration-main">
 
 
-        <!-- STUDENT -->
+        <!-- =====================================
+             STUDENT INFORMATION
+        ====================================== -->
 
-        <section class="student-summary">
+        <section class="registration-card student-card">
 
-            <div class="summary-icon">
-                🎓
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    ข้อมูลนักศึกษา
+                </span>
+
             </div>
 
 
-            <div>
+            <div class="student-profile">
 
-                <div
-                    id="studentName"
-                    class="summary-name"
-                >
-                    -
+
+                <div class="student-photo-wrap">
+
+                    <img
+                        id="studentPhoto"
+                        src=""
+                        alt="รูปนักศึกษา"
+                    >
+
                 </div>
 
 
-                <div
-                    id="studentId"
-                    class="summary-id"
-                >
-                    รหัส -
+                <div class="student-profile-info">
+
+
+                    <div
+                        id="studentFullName"
+                        class="student-full-name"
+                    >
+                        -
+                    </div>
+
+
+                    <div
+                        id="studentFullNameEn"
+                        class="student-full-name-en"
+                    >
+                        -
+                    </div>
+
+
+                    <div class="student-detail-grid">
+
+
+                        <div class="student-detail-item">
+
+                            <span class="student-detail-label">
+                                รหัสนักศึกษา
+                            </span>
+
+                            <strong id="studentId">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="student-detail-item">
+
+                            <span class="student-detail-label">
+                                สาขาวิชา
+                            </span>
+
+                            <strong id="studentDepartment">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="student-detail-item">
+
+                            <span class="student-detail-label">
+                                สถานะ
+                            </span>
+
+                            <strong id="studentStatus">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
                 </div>
 
             </div>
+
 
         </section>
 
 
 
-        <!-- AVAILABLE COURSES -->
+        <!-- =====================================
+             COURSE SEARCH
+        ====================================== -->
 
         <section class="registration-card">
 
@@ -114,27 +191,61 @@
                 <span class="section-line"></span>
 
                 <span>
-                    เลือกรายวิชา
+                    ค้นหารายวิชา
                 </span>
 
             </div>
 
 
-            <div class="section-help">
+            <div class="search-help">
 
-                เลือกได้หลายวิชา
-                และแต่ละวิชาเลือกกลุ่มเรียนได้ 1 กลุ่ม
+                พิมพ์รหัสวิชา เช่น
+                <strong>21910-1001</strong>
+                แล้วกดค้นหา
+
+            </div>
+
+
+            <div class="course-search-box">
+
+
+                <input
+                    id="courseSearchInput"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    placeholder="กรอกรหัสวิชา"
+                    aria-label="รหัสวิชา"
+                    onkeydown="handleSearchKeydown(event)"
+                >
+
+
+                <button
+                    id="courseSearchButton"
+                    type="button"
+                    onclick="searchCourses()"
+                >
+
+                    🔍 ค้นหา
+
+                </button>
 
             </div>
 
 
             <div
-                id="courseList"
-                class="course-list"
+                id="searchMessage"
+                class="search-message"
+            ></div>
+
+
+            <div
+                id="courseSearchResults"
+                class="course-search-results"
             >
 
-                <div class="loading">
-                    กำลังโหลดรายวิชา...
+                <div class="empty-state">
+                    พิมพ์รหัสวิชาเพื่อค้นหารายวิชา
                 </div>
 
             </div>
@@ -144,7 +255,9 @@
 
 
 
-        <!-- SELECTED -->
+        <!-- =====================================
+             SELECTED COURSES
+        ====================================== -->
 
         <section class="registration-card">
 
@@ -178,36 +291,39 @@
                 <div class="selected-count-box">
 
                     <span>
-                        จำนวนวิชาที่เลือก
+                        จำนวนวิชา
                     </span>
 
-                    <strong
-                        id="selectedCount"
-                    >
+
+                    <strong id="selectedCount">
                         0
                     </strong>
 
                 </div>
 
 
-                <!-- ยังไม่บันทึกจริงในขั้นนี้ -->
-
                 <button
+                    id="previewButton"
                     type="button"
                     class="preview-button"
                     onclick="previewRegistration()"
                 >
+
                     ตรวจสอบรายการ
+
                 </button>
 
 
             </div>
 
+
         </section>
 
 
 
-        <!-- MESSAGE -->
+        <!-- =====================================
+             MESSAGE
+        ====================================== -->
 
         <div
             id="message"
@@ -219,7 +335,9 @@
 
 
 
-    <!-- FOOTER -->
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
 
     <footer class="registration-footer">
 
