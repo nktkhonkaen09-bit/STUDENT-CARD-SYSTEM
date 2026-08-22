@@ -2,35 +2,8 @@
 
 
 /* =========================================================
-   CONFIG
+   ATTENDANCE API
 ========================================================= */
-
-
-/*
- * Google Sheet ของ Attendance
- *
- * ใช้เป็นฐานข้อมูล:
- *
- * ผู้สอน
- * รายวิชา
- * นักเรียน
- * ลงทะเบียน
- * เช็คชื่อ
- */
-
-const ATTENDANCE_SPREADSHEET_ID =
-    "1chT5T41RORP1768uDRBlrT8Axt7Z-TmzHVUtiZhmyGk";
-
-
-/*
- * สำคัญ:
- *
- * ใส่ Web App URL ของ attendance-scanner ตรงนี้
- *
- * ตัวอย่าง:
- *
- * https://script.google.com/macros/s/XXXXXXXX/exec
- */
 
 const ATTENDANCE_API_URL =
     "https://script.google.com/macros/s/AKfycbyeZp9LubywmnFuv5DEBjjZESAoz-u387cNtNe4DmnyXcRdVZ03zs_1GTri76XwZQQnkQ/exec";
@@ -41,6 +14,8 @@ const ATTENDANCE_API_URL =
 ========================================================= */
 
 let availableCourses = [];
+
+let selectedRegistrations = [];
 
 
 /* =========================================================
@@ -74,6 +49,7 @@ async function initializeRegistration() {
 
     loadStudentSummary();
 
+    renderSelectedList();
 
     await loadAvailableCourses();
 
@@ -89,11 +65,6 @@ function checkStudentSession() {
     let token = "";
 
 
-    /*
-     * ใช้ getStudentToken()
-     * ของระบบเดิม ถ้ามี
-     */
-
     if (
         typeof getStudentToken ===
         "function"
@@ -104,10 +75,6 @@ function checkStudentSession() {
 
     }
 
-
-    /*
-     * fallback
-     */
 
     if (!token) {
 
@@ -195,13 +162,11 @@ function loadStudentSummary() {
 
         setText(
             "studentId",
-
             "รหัส " +
             (
                 student.student_id ||
                 "-"
             )
-
         );
 
     }
@@ -209,7 +174,7 @@ function loadStudentSummary() {
     catch (error) {
 
         console.error(
-            "REGISTRATION STUDENT ERROR:",
+            "STUDENT DATA ERROR:",
             error
         );
 
@@ -237,38 +202,7 @@ async function loadAvailableCourses() {
     }
 
 
-    /*
-     * ถ้ายังไม่ได้ใส่ Web App URL
-     */
-
-    if (
-        !ATTENDANCE_API_URL
-    ) {
-
-        container.innerHTML =
-
-            '<div class="empty-state">' +
-
-            'ยังไม่ได้ตั้งค่า Web App URL ของระบบ Attendance' +
-
-            '<br><br>' +
-
-            'กรุณาใส่ ATTENDANCE_API_URL ใน registration.js' +
-
-            '</div>';
-
-        return;
-
-    }
-
-
     try {
-
-        /*
-         * เรียก getCourses
-         *
-         * ระบบ Attendance เดิมมี action นี้อยู่แล้ว
-         */
 
         const url =
             ATTENDANCE_API_URL +
@@ -277,7 +211,14 @@ async function loadAvailableCourses() {
 
         const response =
             await fetch(
-                url
+                url,
+                {
+                    method:
+                        "GET",
+
+                    cache:
+                        "no-store"
+                }
             );
 
 
@@ -298,7 +239,7 @@ async function loadAvailableCourses() {
 
 
         console.log(
-            "ATTENDANCE COURSES:",
+            "ATTENDANCE REGISTRATION COURSES:",
             result
         );
 
@@ -322,29 +263,13 @@ async function loadAvailableCourses() {
         }
 
 
-        /*
-         * ระบบ Attendance V1.5.2
-         * ส่ง courses เป็น:
-         *
-         * [
-         *   {
-         *     code,
-         *     name,
-         *     room
-         *   }
-         * ]
-         *
-         * แต่ถ้าวิชาเดียวมีหลายอาจารย์/ห้อง
-         * เราจะรวมข้อมูลให้เป็นกลุ่ม
-         */
-
         availableCourses =
             normalizeCourses(
                 result.courses || []
             );
 
 
-        renderCourses();
+        renderCourseList();
 
 
     }
@@ -352,7 +277,7 @@ async function loadAvailableCourses() {
     catch (error) {
 
         console.error(
-            "LOAD ATTENDANCE COURSES ERROR:",
+            "LOAD COURSES ERROR:",
             error
         );
 
@@ -399,12 +324,6 @@ function normalizeCourses(
                 );
 
 
-            const room =
-                clean(
-                    course.room
-                );
-
-
             if (
                 !code ||
                 !name
@@ -435,33 +354,94 @@ function normalizeCourses(
             }
 
 
-            const exists =
-                grouped[code]
-                    .options
-                    .some(
-                        function (option) {
+            const options =
+                Array.isArray(
+                    course.options
+                )
+                    ? course.options
+                    : [];
 
-                            return (
-                                option.room ===
-                                room
+
+            options.forEach(
+                function (option) {
+
+                    const teacherCode =
+                        clean(
+                            option.teacherCode
+                        );
+
+
+                    const teacherName =
+                        clean(
+                            option.teacherName
+                        );
+
+
+                    const room =
+                        clean(
+                            option.room
+                        );
+
+
+                    if (
+                        !teacherCode ||
+                        !room
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const exists =
+                        grouped[code]
+                            .options
+                            .some(
+                                function (item) {
+
+                                    return (
+
+                                        item.teacherCode ===
+                                        teacherCode
+
+                                        &&
+
+                                        item.room ===
+                                        room
+
+                                    );
+
+                                }
                             );
 
-                        }
-                    );
+
+                    if (
+                        exists
+                    ) {
+
+                        return;
+
+                    }
 
 
-            if (!exists) {
+                    grouped[code]
+                        .options
+                        .push({
 
-                grouped[code]
-                    .options
-                    .push({
+                            teacherCode:
+                                teacherCode,
 
-                        room:
-                            room
+                            teacherName:
+                                teacherName ||
+                                teacherCode,
 
-                    });
+                            room:
+                                room
 
-            }
+                        });
+
+                }
+            );
 
         }
     );
@@ -483,10 +463,10 @@ function normalizeCourses(
 
 
 /* =========================================================
-   RENDER
+   RENDER COURSE LIST
 ========================================================= */
 
-function renderCourses() {
+function renderCourseList() {
 
     const container =
         document.getElementById(
@@ -509,7 +489,7 @@ function renderCourses() {
 
             '<div class="empty-state">' +
 
-            'ยังไม่มีรายวิชา' +
+            'ยังไม่มีรายวิชาที่เปิดให้ลงทะเบียน' +
 
             '</div>';
 
@@ -518,11 +498,21 @@ function renderCourses() {
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     availableCourses.forEach(
-        function (course) {
+        function (
+            course,
+            courseIndex
+        ) {
+
+            const selected =
+                findSelectedCourse(
+                    course.code
+                );
+
 
             const item =
                 document.createElement(
@@ -539,28 +529,82 @@ function renderCourses() {
 
 
             course.options.forEach(
-                function (option) {
+                function (
+                    option,
+                    optionIndex
+                ) {
+
+                    const checked =
+                        selected &&
+
+                        selected.teacherCode ===
+                            option.teacherCode &&
+
+                        selected.room ===
+                            option.room;
+
 
                     optionsHtml +=
 
-                        '<div class="course-option">' +
+                        '<label class="course-option">' +
 
-                            '<div class="option-teacher">' +
-                                'ห้องเรียน: ' +
-                                escapeHtml(
-                                    option.room ||
-                                    "-"
-                                ) +
-                            '</div>' +
+                            '<input ' +
 
-                            '<div class="option-detail">' +
-                                'รหัสวิชา: ' +
+                                'type="radio" ' +
+
+                                'name="course-' +
                                 escapeHtml(
                                     course.code
                                 ) +
-                            '</div>' +
+                                '" ' +
 
-                        '</div>';
+                                'value="' +
+                                optionIndex +
+                                '" ' +
+
+                                (
+                                    checked
+                                        ? "checked"
+                                        : ""
+                                ) +
+
+                                ' onchange="selectCourseOption(' +
+                                    courseIndex +
+                                    ',' +
+                                    optionIndex +
+                                ')"' +
+
+                            '>' +
+
+                            '<span class="option-main">' +
+
+                                '<span class="option-teacher">' +
+
+                                    escapeHtml(
+                                        option.teacherName
+                                    ) +
+
+                                '</span>' +
+
+                                '<span class="option-detail">' +
+
+                                    'รหัสผู้สอน: ' +
+
+                                    escapeHtml(
+                                        option.teacherCode
+                                    ) +
+
+                                    ' • ห้อง: ' +
+
+                                    escapeHtml(
+                                        option.room
+                                    ) +
+
+                                '</span>' +
+
+                            '</span>' +
+
+                        '</label>';
 
                 }
             );
@@ -602,6 +646,417 @@ function renderCourses() {
 
 
 /* =========================================================
+   SELECT COURSE OPTION
+========================================================= */
+
+function selectCourseOption(
+    courseIndex,
+    optionIndex
+) {
+
+    const course =
+        availableCourses[
+            courseIndex
+        ];
+
+
+    if (!course) {
+
+        return;
+
+    }
+
+
+    const option =
+        course.options[
+            optionIndex
+        ];
+
+
+    if (!option) {
+
+        return;
+
+    }
+
+
+    const selected = {
+
+        courseCode:
+            course.code,
+
+        courseName:
+            course.name,
+
+        teacherCode:
+            option.teacherCode,
+
+        teacherName:
+            option.teacherName,
+
+        room:
+            option.room
+
+    };
+
+
+    const existingIndex =
+        selectedRegistrations.findIndex(
+            function (item) {
+
+                return (
+                    item.courseCode ===
+                    course.code
+                );
+
+            }
+        );
+
+
+    if (
+        existingIndex >= 0
+    ) {
+
+        selectedRegistrations[
+            existingIndex
+        ] =
+            selected;
+
+    }
+
+    else {
+
+        selectedRegistrations.push(
+            selected
+        );
+
+    }
+
+
+    renderCourseList();
+
+    renderSelectedList();
+
+}
+
+
+/* =========================================================
+   FIND SELECTED
+========================================================= */
+
+function findSelectedCourse(
+    courseCode
+) {
+
+    return (
+        selectedRegistrations.find(
+            function (item) {
+
+                return (
+                    item.courseCode ===
+                    courseCode
+                );
+
+            }
+        ) || null
+    );
+
+}
+
+
+/* =========================================================
+   REMOVE SELECTED
+========================================================= */
+
+function removeSelectedCourse(
+    courseCode
+) {
+
+    selectedRegistrations =
+        selectedRegistrations.filter(
+            function (item) {
+
+                return (
+                    item.courseCode !==
+                    courseCode
+                );
+
+            }
+        );
+
+
+    renderCourseList();
+
+    renderSelectedList();
+
+}
+
+
+/* =========================================================
+   RENDER SELECTED
+========================================================= */
+
+function renderSelectedList() {
+
+    const container =
+        document.getElementById(
+            "selectedList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "selectedCount"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    if (
+        !selectedRegistrations.length
+    ) {
+
+        container.innerHTML =
+
+            '<div class="empty-state">' +
+
+            'ยังไม่ได้เลือกรายวิชา' +
+
+            '</div>';
+
+    }
+
+    else {
+
+        container.innerHTML =
+            "";
+
+
+        selectedRegistrations.forEach(
+            function (item) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "selected-item";
+
+
+                div.innerHTML =
+
+                    '<div class="selected-info">' +
+
+                        '<div class="selected-course">' +
+
+                            escapeHtml(
+                                item.courseCode
+                            ) +
+
+                            ' • ' +
+
+                            escapeHtml(
+                                item.courseName
+                            ) +
+
+                        '</div>' +
+
+                        '<div class="selected-detail">' +
+
+                            'อาจารย์: ' +
+
+                            escapeHtml(
+                                item.teacherName
+                            ) +
+
+                            ' • ห้อง: ' +
+
+                            escapeHtml(
+                                item.room
+                            ) +
+
+                        '</div>' +
+
+                    '</div>' +
+
+                    '<button ' +
+
+                        'type="button" ' +
+
+                        'class="remove-selected" ' +
+
+                        'onclick="removeSelectedCourse(\'' +
+
+                            escapeJavaScript(
+                                item.courseCode
+                            ) +
+
+                        '\')" ' +
+
+                    '>' +
+
+                        '×' +
+
+                    '</button>';
+
+
+                container.appendChild(
+                    div
+                );
+
+            }
+        );
+
+    }
+
+
+    if (count) {
+
+        count.textContent =
+            String(
+                selectedRegistrations.length
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+function previewRegistration() {
+
+    const box =
+        document.getElementById(
+            "message"
+        );
+
+
+    if (
+        !selectedRegistrations.length
+    ) {
+
+        showMessage(
+            "กรุณาเลือกรายวิชาอย่างน้อย 1 วิชา",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const lines = [
+
+        "รายการลงทะเบียนที่เลือก:",
+
+        ""
+
+    ];
+
+
+    selectedRegistrations.forEach(
+        function (item, index) {
+
+            lines.push(
+
+                (
+                    index + 1
+                ) +
+
+                ". " +
+
+                item.courseCode +
+
+                " - " +
+
+                item.courseName
+
+            );
+
+
+            lines.push(
+
+                "   " +
+
+                item.teacherName +
+
+                " | ห้อง " +
+
+                item.room
+
+            );
+
+        }
+    );
+
+
+    showMessage(
+        lines.join("\n"),
+        "success"
+    );
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(
+    message,
+    type
+) {
+
+    const box =
+        document.getElementById(
+            "message"
+        );
+
+
+    if (!box) {
+
+        return;
+
+    }
+
+
+    box.textContent =
+        message;
+
+
+    box.className =
+        "message show " +
+        (
+            type === "success"
+                ? "success"
+                : "error"
+        );
+
+
+    window.scrollTo({
+
+        top:
+            0,
+
+        behavior:
+            "smooth"
+
+    });
+
+}
+
+
+/* =========================================================
    BACK
 ========================================================= */
 
@@ -614,7 +1069,7 @@ function goBack() {
 
 
 /* =========================================================
-   CLEAN
+   HELPERS
 ========================================================= */
 
 function clean(
@@ -629,10 +1084,6 @@ function clean(
 
 }
 
-
-/* =========================================================
-   SET TEXT
-========================================================= */
 
 function setText(
     id,
@@ -653,17 +1104,18 @@ function setText(
 
 
     element.textContent =
+
         value == null ||
         value === ""
+
             ? "-"
-            : String(value);
+
+            : String(
+                value
+            );
 
 }
 
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
 
 function escapeHtml(
     value
@@ -674,25 +1126,53 @@ function escapeHtml(
             ? ""
             : value
     )
-    .replace(
-        /&/g,
-        "&amp;"
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function escapeJavaScript(
+    value
+) {
+
+    return String(
+        value == null
+            ? ""
+            : value
     )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+
+        .replace(
+            /'/g,
+            "\\'"
+        );
 
 }
