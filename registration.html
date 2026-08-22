@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0a1383"
+    >
+
+    <title>
+        ลงทะเบียนเรียน
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/registration.css"
+    >
+
+</head>
+
+<body>
+
+<div class="registration-page">
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="registration-header">
+
+        <button
+            type="button"
+            class="back-button"
+            onclick="goBack()"
+        >
+
+            ← กลับ
+
+        </button>
+
+
+        <div class="header-title">
+
+            <div class="header-title-main">
+                ลงทะเบียนเรียน
+            </div>
+
+            <div class="header-title-sub">
+                COURSE REGISTRATION
+            </div>
+
+        </div>
+
+
+        <div class="header-space"></div>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="registration-main">
+
+
+        <!-- =====================================
+             INFO
+        ====================================== -->
+
+        <section class="student-summary">
+
+            <div class="summary-icon">
+                🎓
+            </div>
+
+            <div>
+
+                <div
+                    id="studentName"
+                    class="summary-name"
+                >
+                    -
+                </div>
+
+                <div
+                    id="studentId"
+                    class="summary-id"
+                >
+                    รหัส -
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             CURRENT REGISTRATIONS
+        ====================================== -->
+
+        <section class="registration-card">
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    วิชาที่ลงทะเบียนแล้ว
+                </span>
+
+            </div>
+
+
+            <div
+                id="myRegistrations"
+                class="my-registrations"
+            >
+
+                <div class="loading">
+                    กำลังโหลดข้อมูล...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             AVAILABLE COURSES
+        ====================================== -->
+
+        <section class="registration-card">
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    เลือกรายวิชาที่ต้องการลงทะเบียน
+                </span>
+
+            </div>
+
+
+            <div
+                id="courseList"
+                class="course-list"
+            >
+
+                <div class="loading">
+                    กำลังโหลดรายวิชา...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SELECTED SUMMARY
+        ====================================== -->
+
+        <section class="registration-card selected-card">
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    รายการที่เลือก
+                </span>
+
+            </div>
+
+
+            <div
+                id="selectedList"
+                class="selected-list"
+            >
+
+                <div class="empty-state">
+                    ยังไม่ได้เลือกรายวิชา
+                </div>
+
+            </div>
+
+
+            <div class="selected-footer">
+
+                <div>
+
+                    <div class="selected-count-label">
+                        จำนวนวิชา
+                    </div>
+
+                    <div
+                        id="selectedCount"
+                        class="selected-count"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="registerButton"
+                    type="button"
+                    class="register-button"
+                    onclick="submitRegistration()"
+                    disabled
+                >
+
+                    ✅ ยืนยันการลงทะเบียน
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             MESSAGE
+        ====================================== -->
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="registration-footer">
+
+        Student Card System
+
+    </footer>
+
+</div>
+
+
+<script src="js/config.js"></script>
+
+<script src="js/registration.js"></script>
+
+</body>
+
+</html>
