@@ -1,0 +1,1170 @@
+:root {
+
+    --primary: #0a1383;
+    --primary-dark: #070d62;
+
+    --text: #111827;
+    --gray: #6b7280;
+    --light-gray: #9ca3af;
+
+    --border: #e4e7f0;
+
+    --background: #f5f7fc;
+
+    --white: #ffffff;
+
+    --success: #15803d;
+    --success-bg: #ecfdf3;
+    --success-border: #bbf7d0;
+
+    --danger: #dc2626;
+    --danger-bg: #fef2f2;
+    --danger-border: #fecaca;
+
+}
+
+
+* {
+
+    box-sizing:
+        border-box;
+
+}
+
+
+html,
+body {
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    min-height:
+        100%;
+
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        "Noto Sans Thai",
+        Tahoma,
+        sans-serif;
+
+    color:
+        var(--text);
+
+    background:
+        var(--background);
+
+}
+
+
+.attendance-report-page {
+
+    min-height:
+        100vh;
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.report-header {
+
+    min-height:
+        74px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        90px 1fr 90px;
+
+    align-items:
+        center;
+
+    padding:
+        8px 16px;
+
+    background:
+        var(--white);
+
+    border-bottom:
+        4px solid var(--primary);
+
+    box-shadow:
+        0 3px 15px
+        rgba(10,19,131,.08);
+
+}
+
+
+.back-button {
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    color:
+        var(--primary);
+
+    font-family:
+        inherit;
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+}
+
+
+.report-header-title {
+
+    text-align:
+        center;
+
+}
+
+
+.report-title-main {
+
+    color:
+        var(--primary);
+
+    font-size:
+        20px;
+
+    font-weight:
+        800;
+
+}
+
+
+.report-title-sub {
+
+    margin-top:
+        2px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        9px;
+
+    letter-spacing:
+        1.1px;
+
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+.report-main {
+
+    width:
+        100%;
+
+    max-width:
+        1000px;
+
+    margin:
+        0 auto;
+
+    padding:
+        20px 16px 35px;
+
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.report-card {
+
+    margin-bottom:
+        18px;
+
+    padding:
+        20px;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        16px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(10,19,131,.05);
+
+}
+
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.section-title {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    margin-bottom:
+        15px;
+
+    color:
+        var(--primary);
+
+    font-size:
+        16px;
+
+    font-weight:
+        800;
+
+}
+
+
+.section-line {
+
+    width:
+        5px;
+
+    height:
+        23px;
+
+    border-radius:
+        5px;
+
+    background:
+        var(--primary);
+
+}
+
+
+/* =========================================
+   STUDENT
+========================================= */
+
+.student-report-profile {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        18px;
+
+}
+
+
+.student-report-photo {
+
+    width:
+        88px;
+
+    height:
+        108px;
+
+    flex-shrink:
+        0;
+
+    overflow:
+        hidden;
+
+    border:
+        2px solid
+        rgba(10,19,131,.15);
+
+    border-radius:
+        12px;
+
+    background:
+        #f1f3f8;
+
+}
+
+
+.student-report-photo img {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+}
+
+
+.student-report-info {
+
+    flex:
+        1;
+
+    min-width:
+        0;
+
+}
+
+
+.student-report-name {
+
+    color:
+        var(--primary);
+
+    font-size:
+        20px;
+
+    font-weight:
+        800;
+
+}
+
+
+.student-report-name-en {
+
+    margin-top:
+        3px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        11px;
+
+}
+
+
+.student-report-details {
+
+    margin-top:
+        12px;
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        25px;
+
+}
+
+
+.student-report-details div {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        2px;
+
+}
+
+
+.student-report-details span {
+
+    color:
+        var(--light-gray);
+
+    font-size:
+        10px;
+
+}
+
+
+.student-report-details strong {
+
+    color:
+        var(--text);
+
+    font-size:
+        13px;
+
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.report-summary-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        12px;
+
+    margin-bottom:
+        18px;
+
+}
+
+
+.summary-box {
+
+    padding:
+        17px;
+
+    border:
+        1px solid #e3e7ef;
+
+    border-radius:
+        14px;
+
+    background:
+        var(--white);
+
+    box-shadow:
+        0 4px 12px
+        rgba(15,23,42,.04);
+
+}
+
+
+.summary-box span {
+
+    display:
+        block;
+
+    color:
+        var(--gray);
+
+    font-size:
+        11px;
+
+}
+
+
+.summary-box strong {
+
+    display:
+        block;
+
+    margin-top:
+        6px;
+
+    color:
+        var(--primary);
+
+    font-size:
+        28px;
+
+}
+
+
+.summary-pass {
+
+    border-color:
+        var(--success-border);
+
+    background:
+        var(--success-bg);
+
+}
+
+
+.summary-pass strong {
+
+    color:
+        var(--success);
+
+}
+
+
+.summary-fail {
+
+    border-color:
+        var(--danger-border);
+
+    background:
+        var(--danger-bg);
+
+}
+
+
+.summary-fail strong {
+
+    color:
+        var(--danger);
+
+}
+
+
+/* =========================================
+   RULE
+========================================= */
+
+.exam-rule {
+
+    display:
+        flex;
+
+    gap:
+        12px;
+
+    align-items:
+        flex-start;
+
+    margin-bottom:
+        18px;
+
+    padding:
+        14px 16px;
+
+    border:
+        1px solid #cfd7ff;
+
+    border-radius:
+        13px;
+
+    background:
+        #f4f6ff;
+
+}
+
+
+.exam-rule-icon {
+
+    font-size:
+        20px;
+
+    line-height:
+        1;
+
+}
+
+
+.exam-rule strong {
+
+    color:
+        var(--primary);
+
+}
+
+
+.exam-rule p {
+
+    margin:
+        4px 0 0;
+
+    color:
+        #374151;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.6;
+
+}
+
+
+/* =========================================
+   COURSE REPORTS
+========================================= */
+
+.course-reports {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        14px;
+
+}
+
+
+.course-report-item {
+
+    padding:
+        16px;
+
+    border:
+        1px solid #e2e6ef;
+
+    border-radius:
+        14px;
+
+    background:
+        #ffffff;
+
+}
+
+
+.course-report-top {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        150px
+        1fr
+        auto;
+
+    gap:
+        14px;
+
+    align-items:
+        start;
+
+}
+
+
+.course-report-code {
+
+    color:
+        var(--primary);
+
+    font-size:
+        13px;
+
+    font-weight:
+        800;
+
+}
+
+
+.course-report-name {
+
+    color:
+        var(--text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.4;
+
+}
+
+
+.course-report-meta {
+
+    margin-top:
+        3px;
+
+    color:
+        var(--gray);
+
+    font-size:
+        11px;
+
+}
+
+
+.course-report-percent {
+
+    min-width:
+        95px;
+
+    text-align:
+        right;
+
+}
+
+
+.course-report-percent strong {
+
+    display:
+        block;
+
+    color:
+        var(--primary);
+
+    font-size:
+        24px;
+
+}
+
+
+.course-report-percent span {
+
+    color:
+        var(--gray);
+
+    font-size:
+        10px;
+
+}
+
+
+/* =========================================
+   PROGRESS
+========================================= */
+
+.progress-track {
+
+    width:
+        100%;
+
+    height:
+        10px;
+
+    margin-top:
+        14px;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        999px;
+
+    background:
+        #e9edf4;
+
+}
+
+
+.progress-bar {
+
+    height:
+        100%;
+
+    border-radius:
+        inherit;
+
+    background:
+        var(--primary);
+
+    transition:
+        width .4s ease;
+
+}
+
+
+.course-report-item.pass
+.progress-bar {
+
+    background:
+        var(--success);
+
+}
+
+
+.course-report-item.fail
+.progress-bar {
+
+    background:
+        var(--danger);
+
+}
+
+
+/* =========================================
+   REPORT BOTTOM
+========================================= */
+
+.course-report-bottom {
+
+    margin-top:
+        12px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        12px;
+
+}
+
+
+.attendance-count {
+
+    color:
+        var(--gray);
+
+    font-size:
+        11px;
+
+}
+
+
+.attendance-count strong {
+
+    color:
+        var(--text);
+
+    font-size:
+        13px;
+
+}
+
+
+.exam-status {
+
+    padding:
+        6px 10px;
+
+    border-radius:
+        999px;
+
+    font-size:
+        11px;
+
+    font-weight:
+        800;
+
+}
+
+
+.exam-status.pass {
+
+    color:
+        var(--success);
+
+    background:
+        var(--success-bg);
+
+    border:
+        1px solid
+        var(--success-border);
+
+}
+
+
+.exam-status.fail {
+
+    color:
+        var(--danger);
+
+    background:
+        var(--danger-bg);
+
+    border:
+        1px solid
+        var(--danger-border);
+
+}
+
+
+/* =========================================
+   DETAILS
+========================================= */
+
+.attendance-dates {
+
+    margin-top:
+        12px;
+
+    padding-top:
+        11px;
+
+    border-top:
+        1px solid #edf0f5;
+
+    color:
+        var(--gray);
+
+    font-size:
+        10px;
+
+    line-height:
+        1.7;
+
+}
+
+
+.attendance-dates strong {
+
+    color:
+        var(--text);
+
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.message {
+
+    display:
+        none;
+
+    margin-bottom:
+        18px;
+
+    padding:
+        12px 14px;
+
+    border-radius:
+        10px;
+
+    white-space:
+        pre-line;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+}
+
+
+.message.show {
+    display:
+        block;
+}
+
+
+.message.error {
+
+    color:
+        #991b1b;
+
+    background:
+        var(--danger-bg);
+
+    border:
+        1px solid
+        var(--danger-border);
+
+}
+
+
+/* =========================================
+   GENERAL
+========================================= */
+
+.loading,
+.empty-state {
+
+    padding:
+        22px 10px;
+
+    text-align:
+        center;
+
+    color:
+        var(--gray);
+
+    font-size:
+        12px;
+
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.report-footer {
+
+    padding:
+        15px 20px 25px;
+
+    text-align:
+        center;
+
+    color:
+        var(--gray);
+
+    font-size:
+        11px;
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .report-header {
+
+        min-height:
+            66px;
+
+        grid-template-columns:
+            65px 1fr 65px;
+
+        padding:
+            8px 10px;
+
+    }
+
+
+    .back-button {
+
+        font-size:
+            12px;
+
+    }
+
+
+    .report-title-main {
+
+        font-size:
+            17px;
+
+    }
+
+
+    .report-title-sub {
+
+        font-size:
+            8px;
+
+    }
+
+
+    .report-main {
+
+        padding:
+            14px 10px 25px;
+
+    }
+
+
+    .report-card {
+
+        padding:
+            14px;
+
+        border-radius:
+            13px;
+
+    }
+
+
+    .student-report-profile {
+
+        align-items:
+            flex-start;
+
+        gap:
+            12px;
+
+    }
+
+
+    .student-report-photo {
+
+        width:
+            76px;
+
+        height:
+            94px;
+
+    }
+
+
+    .student-report-name {
+
+        font-size:
+            16px;
+
+    }
+
+
+    .student-report-details {
+
+        gap:
+            10px 18px;
+
+    }
+
+
+    .report-summary-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .course-report-top {
+
+        grid-template-columns:
+            1fr auto;
+
+    }
+
+
+    .course-report-name {
+
+        grid-column:
+            1 / -1;
+
+        grid-row:
+            2;
+
+    }
+
+
+    .course-report-percent {
+
+        grid-column:
+            2;
+
+        grid-row:
+            1;
+
+    }
+
+
+    .course-report-bottom {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+    }
+
+}
+
