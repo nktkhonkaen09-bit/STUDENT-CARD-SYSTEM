@@ -45,7 +45,10 @@ function checkSession() {
         );
 
 
-    if (!token || !student) {
+    if (
+        !token ||
+        !student
+    ) {
 
         window.location.href =
             "index.html";
@@ -82,7 +85,9 @@ function loadStudent() {
     try {
 
         const student =
-            JSON.parse(raw);
+            JSON.parse(
+                raw
+            );
 
 
         /* รหัสนักศึกษา */
@@ -96,7 +101,8 @@ function loadStudent() {
         if (studentIdElement) {
 
             studentIdElement.textContent =
-                student.student_id || "-";
+                student.student_id ||
+                "-";
 
         }
 
@@ -123,35 +129,20 @@ function loadStudent() {
         if (studentNameElement) {
 
             studentNameElement.textContent =
-                fullName.trim() || "-";
+                fullName.trim() ||
+                "-";
 
         }
 
 
-    } catch (error) {
+    }
 
-/* =========================================
-   เปิดลงทะเบียนเรียน
-   ========================================= */
+    catch (error) {
 
-function openRegistration() {
-
-    window.location.href =
-        "registration.html";
-
-}
-
-
-/* =========================================
-   เปิดรายงานผลการเข้าเรียน
-   ========================================= */
-
-function openAttendanceReport() {
-
-    window.location.href =
-        "attendance-report.html";
-
-}
+        console.error(
+            "LOAD STUDENT ERROR:",
+            error
+        );
 
         // ไม่แสดงข้อความแจ้งเตือนผู้ใช้
         logout();
@@ -181,6 +172,30 @@ function openStudentCard() {
 
     window.location.href =
         "student-card.html";
+
+}
+
+
+/* =========================================
+   เปิดลงทะเบียนเรียน
+   ========================================= */
+
+function openRegistration() {
+
+    window.location.href =
+        "registration.html";
+
+}
+
+
+/* =========================================
+   เปิดรายงานผลการเข้าเรียน
+   ========================================= */
+
+function openAttendanceReport() {
+
+    window.location.href =
+        "attendance-report.html";
 
 }
 
