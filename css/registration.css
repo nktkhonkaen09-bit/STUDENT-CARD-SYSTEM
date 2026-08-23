@@ -1,4 +1,3 @@
-```css
 :root {
 
     --primary: #0a1383;
@@ -41,6 +40,7 @@ body {
 
 
 body {
+
     font-family:
         Arial,
         "Noto Sans Thai",
@@ -48,7 +48,10 @@ body {
         sans-serif;
 
     color: var(--text);
-    background: var(--background);
+
+    background:
+        var(--background);
+
 }
 
 
@@ -85,7 +88,8 @@ body {
 
     box-shadow:
         0 3px 15px
-        rgba(10, 19, 131, .08);
+        rgba(10,19,131,.08);
+
 }
 
 
@@ -106,6 +110,7 @@ body {
     font-weight: 700;
 
     cursor: pointer;
+
 }
 
 
@@ -121,6 +126,7 @@ body {
     font-size: 20px;
 
     font-weight: 800;
+
 }
 
 
@@ -133,6 +139,7 @@ body {
     font-size: 9px;
 
     letter-spacing: 1.1px;
+
 }
 
 
@@ -149,12 +156,13 @@ body {
 
     width: 100%;
 
-    max-width: 900px;
+    max-width: 1100px;
 
     margin: 0 auto;
 
     padding:
-        20px 16px 35px;
+        20px 18px 35px;
+
 }
 
 
@@ -177,7 +185,8 @@ body {
 
     box-shadow:
         0 5px 18px
-        rgba(10, 19, 131, .05);
+        rgba(10,19,131,.05);
+
 }
 
 
@@ -200,6 +209,7 @@ body {
     font-size: 16px;
 
     font-weight: 800;
+
 }
 
 
@@ -212,6 +222,7 @@ body {
     border-radius: 5px;
 
     background: var(--primary);
+
 }
 
 
@@ -226,6 +237,7 @@ body {
     align-items: center;
 
     gap: 18px;
+
 }
 
 
@@ -247,11 +259,12 @@ body {
 
     border:
         2px solid
-        rgba(10, 19, 131, .15);
+        rgba(10,19,131,.15);
 
     border-radius: 12px;
 
     background: #f1f3f8;
+
 }
 
 
@@ -262,6 +275,7 @@ body {
     height: 100%;
 
     object-fit: cover;
+
 }
 
 
@@ -270,16 +284,19 @@ body {
     flex: 1;
 
     min-width: 0;
+
 }
 
 
 .student-full-name {
 
-    color: var(--primary);
+    color:
+        var(--primary);
 
     font-size: 20px;
 
     font-weight: 800;
+
 }
 
 
@@ -290,6 +307,7 @@ body {
     color: var(--gray);
 
     font-size: 11px;
+
 }
 
 
@@ -303,6 +321,7 @@ body {
         repeat(3, 1fr);
 
     gap: 10px;
+
 }
 
 
@@ -318,6 +337,7 @@ body {
     color: var(--light-gray);
 
     font-size: 10px;
+
 }
 
 
@@ -334,6 +354,7 @@ body {
     line-height: 1.35;
 
     word-break: break-word;
+
 }
 
 
@@ -348,6 +369,7 @@ body {
     color: var(--gray);
 
     font-size: 12px;
+
 }
 
 
@@ -361,6 +383,7 @@ body {
     display: flex;
 
     gap: 8px;
+
 }
 
 
@@ -388,6 +411,7 @@ body {
     font-family: inherit;
 
     font-size: 14px;
+
 }
 
 
@@ -398,7 +422,8 @@ body {
 
     box-shadow:
         0 0 0 3px
-        rgba(10, 19, 131, .08);
+        rgba(10,19,131,.08);
+
 }
 
 
@@ -423,6 +448,7 @@ body {
     font-weight: 800;
 
     cursor: pointer;
+
 }
 
 
@@ -442,6 +468,7 @@ body {
     font-size: 12px;
 
     font-weight: 700;
+
 }
 
 
@@ -451,259 +478,242 @@ body {
 
 
 /* =========================================
-   SEARCH RESULTS
-   2 COLUMNS
+   COURSE TABLE
 ========================================= */
 
 .course-search-results {
 
     margin-top: 16px;
 
-    display: grid;
+    width: 100%;
 
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 14px;
-}
-
-
-/* =========================================
-   COURSE RESULT CARD
-========================================= */
-
-.course-result-item {
-
-    position: relative;
-
-    padding: 15px;
+    overflow-x: auto;
 
     border:
-        1px solid #e1e5ef;
+        1px solid #dfe4ee;
 
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #fbfcff 100%
-        );
-
-    box-shadow:
-        0 3px 10px
-        rgba(15, 23, 42, .04);
-
-    transition:
-        transform .15s ease,
-        box-shadow .15s ease,
-        border-color .15s ease;
-}
-
-
-.course-result-item:hover {
-
-    transform:
-        translateY(-2px);
-
-    border-color:
-        rgba(10, 19, 131, .22);
-
-    box-shadow:
-        0 7px 20px
-        rgba(10, 19, 131, .08);
-}
-
-
-/* =========================================
-   COURSE HEADER
-========================================= */
-
-.course-code {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    padding:
-        5px 9px;
-
-    border-radius: 7px;
-
-    background:
-        #eef0ff;
-
-    color:
-        var(--primary);
-
-    font-size: 13px;
-
-    font-weight: 800;
-}
-
-
-.course-name {
-
-    margin-top: 8px;
-
-    color: var(--text);
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-    line-height: 1.45;
-}
-
-
-/* =========================================
-   OPTION TITLE
-========================================= */
-
-.course-option-title {
-
-    margin-top: 14px;
-
-    padding-top: 11px;
-
-    border-top:
-        1px solid #edf0f5;
-
-    color: var(--gray);
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: .2px;
-}
-
-
-/* =========================================
-   COURSE OPTIONS
-========================================= */
-
-.course-options {
-
-    margin-top: 8px;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap: 7px;
-}
-
-
-/* =========================================
-   OPTION
-========================================= */
-
-.course-option {
-
-    display:
-        flex;
-
-    align-items:
-        flex-start;
-
-    gap: 9px;
-
-    padding:
-        10px;
-
-    border:
-        1px solid #e3e7ef;
-
-    border-radius:
-        10px;
+    border-radius: 12px;
 
     background:
         #ffffff;
 
-    cursor:
-        pointer;
-
-    transition:
-        background .15s ease,
-        border-color .15s ease;
 }
 
 
-.course-option:hover {
+/* =========================================
+   HEADER ROW
+========================================= */
 
-    border-color:
-        rgba(10, 19, 131, .28);
+.course-table-header {
+
+    min-width: 760px;
+
+    display: grid;
+
+    grid-template-columns:
+        90px
+        150px
+        minmax(260px, 1fr)
+        150px
+        140px;
+
+    align-items: center;
 
     background:
-        #f8f9ff;
-}
+        #eef0ff;
 
+    border-bottom:
+        1px solid #dfe4ee;
 
-/* =========================================
-   RADIO
-========================================= */
-
-.course-option input {
-
-    width: 17px;
-
-    height: 17px;
-
-    margin:
-        2px 0 0;
-
-    flex-shrink: 0;
-
-    accent-color:
+    color:
         var(--primary);
-}
-
-
-/* =========================================
-   OPTION TEXT
-========================================= */
-
-.option-main {
-
-    min-width: 0;
-
-    flex: 1;
-}
-
-
-.option-teacher {
-
-    display: block;
-
-    color: var(--text);
 
     font-size: 12px;
 
     font-weight: 800;
 
-    line-height: 1.4;
 }
 
 
-.option-detail {
+.course-table-header > div {
 
-    display: block;
+    padding:
+        12px 10px;
 
-    margin-top: 3px;
-
-    color: var(--gray);
-
-    font-size: 10px;
-
-    line-height: 1.4;
 }
 
 
 /* =========================================
-   SELECTED LIST
+   COURSE ROW
+========================================= */
+
+.course-result-item {
+
+    min-width: 760px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        90px
+        150px
+        minmax(260px, 1fr)
+        150px
+        140px;
+
+    align-items: center;
+
+    border-bottom:
+        1px solid #edf0f5;
+
+    background:
+        #ffffff;
+
+    transition:
+        background .15s ease;
+
+}
+
+
+.course-result-item:last-child {
+    border-bottom: none;
+}
+
+
+.course-result-item:hover {
+
+    background:
+        #fafbff;
+
+}
+
+
+/* =========================================
+   CELL
+========================================= */
+
+.course-cell {
+
+    min-width: 0;
+
+    padding:
+        12px 10px;
+
+    color:
+        var(--text);
+
+    font-size: 12px;
+
+    line-height: 1.45;
+
+    word-break:
+        break-word;
+
+}
+
+
+.course-cell.code {
+
+    color:
+        var(--primary);
+
+    font-weight:
+        800;
+
+}
+
+
+.course-cell.course-name {
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+}
+
+
+.course-cell.teacher {
+
+    font-weight:
+        600;
+
+}
+
+
+.course-cell.room {
+
+    color:
+        #374151;
+
+    font-weight:
+        600;
+
+}
+
+
+/* =========================================
+   SELECT CELL
+========================================= */
+
+.course-cell.select {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+}
+
+
+.course-select-radio {
+
+    width:
+        19px;
+
+    height:
+        19px;
+
+    accent-color:
+        var(--primary);
+
+    cursor:
+        pointer;
+
+}
+
+
+/* =========================================
+   MULTIPLE OPTIONS
+========================================= */
+
+.course-result-options {
+
+    grid-column:
+        1 / -1;
+
+    display:
+        none;
+
+}
+
+
+/*
+ * ตัวแถวด้านบนยังแสดง course หลัก
+ * ส่วน radio จริงจะอยู่ใน select cell
+ */
+
+
+/* =========================================
+   SELECTED
 ========================================= */
 
 .selected-list {
@@ -714,22 +724,25 @@ body {
     flex-direction:
         column;
 
-    gap: 8px;
+    gap:
+        8px;
+
 }
 
 
 .selected-item {
 
     display:
-        flex;
+        grid;
+
+    grid-template-columns:
+        1fr auto;
 
     align-items:
         center;
 
-    justify-content:
-        space-between;
-
-    gap: 12px;
+    gap:
+        12px;
 
     padding:
         12px;
@@ -742,11 +755,11 @@ body {
 
     background:
         #fafbff;
+
 }
 
 
 .selected-info {
-
     min-width: 0;
 }
 
@@ -756,38 +769,51 @@ body {
     color:
         var(--primary);
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    line-height: 1.4;
+    line-height:
+        1.4;
+
 }
 
 
 .selected-detail {
 
-    margin-top: 3px;
+    margin-top:
+        3px;
 
     color:
         var(--gray);
 
-    font-size: 11px;
+    font-size:
+        11px;
 
-    line-height: 1.4;
+    line-height:
+        1.4;
+
 }
 
 
 .remove-selected {
 
-    width: 32px;
+    width:
+        32px;
 
-    height: 32px;
+    height:
+        32px;
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
-    border: none;
+    border:
+        none;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     background:
         var(--danger-bg);
@@ -795,9 +821,12 @@ body {
     color:
         #b91c1c;
 
-    font-size: 18px;
+    font-size:
+        18px;
 
-    cursor: pointer;
+    cursor:
+        pointer;
+
 }
 
 
@@ -827,6 +856,7 @@ body {
 
     gap:
         15px;
+
 }
 
 
@@ -846,6 +876,7 @@ body {
 
     font-size:
         11px;
+
 }
 
 
@@ -856,6 +887,7 @@ body {
 
     font-size:
         24px;
+
 }
 
 
@@ -890,6 +922,7 @@ body {
 
     cursor:
         pointer;
+
 }
 
 
@@ -925,6 +958,7 @@ body {
 
     font-weight:
         700;
+
 }
 
 
@@ -944,6 +978,7 @@ body {
 
     border:
         1px solid #bbf7d0;
+
 }
 
 
@@ -957,6 +992,7 @@ body {
 
     border:
         1px solid #fecaca;
+
 }
 
 
@@ -978,6 +1014,7 @@ body {
 
     font-size:
         12px;
+
 }
 
 
@@ -998,28 +1035,25 @@ body {
 
     font-size:
         11px;
+
 }
 
 
 /* =========================================
-   TABLET
+   MOBILE / TABLET
 ========================================= */
 
-@media (max-width: 760px) {
+@media (max-width: 800px) {
 
     .course-search-results {
 
-        grid-template-columns:
-            1fr;
+        overflow-x:
+            auto;
 
     }
 
 }
 
-
-/* =========================================
-   MOBILE
-========================================= */
 
 @media (max-width: 600px) {
 
@@ -1038,8 +1072,10 @@ body {
 
 
     .back-button {
+
         font-size:
             12px;
+
     }
 
 
@@ -1154,22 +1190,6 @@ body {
     }
 
 
-    .course-result-item {
-
-        padding:
-            13px;
-
-    }
-
-
-    .course-name {
-
-        font-size:
-            14px;
-
-    }
-
-
     .selected-footer {
 
         align-items:
@@ -1189,4 +1209,3 @@ body {
     }
 
 }
-```
