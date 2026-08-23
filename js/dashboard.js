@@ -130,6 +130,29 @@ function loadStudent() {
 
     } catch (error) {
 
+/* =========================================
+   เปิดลงทะเบียนเรียน
+   ========================================= */
+
+function openRegistration() {
+
+    window.location.href =
+        "registration.html";
+
+}
+
+
+/* =========================================
+   เปิดรายงานผลการเข้าเรียน
+   ========================================= */
+
+function openAttendanceReport() {
+
+    window.location.href =
+        "attendance-report.html";
+
+}
+
         // ไม่แสดงข้อความแจ้งเตือนผู้ใช้
         logout();
 
