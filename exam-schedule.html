@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0a1383"
+    >
+
+    <title>ตารางสอบ</title>
+
+    <link
+        rel="stylesheet"
+        href="css/exam-schedule.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="exam-page">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="exam-header">
+
+        <button
+            type="button"
+            class="back-button"
+            onclick="goBack()"
+        >
+            ← กลับ
+        </button>
+
+
+        <div class="exam-header-title">
+
+            <div class="exam-title-main">
+                ตารางสอบ
+            </div>
+
+            <div class="exam-title-sub">
+                EXAM SCHEDULE
+            </div>
+
+        </div>
+
+
+        <div></div>
+
+    </header>
+
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="exam-main">
+
+
+        <!-- =====================================
+             STUDENT
+        ====================================== -->
+
+        <section class="exam-card student-exam-card">
+
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    ข้อมูลนักศึกษา
+                </span>
+
+            </div>
+
+
+            <div class="student-exam-profile">
+
+
+                <div class="student-exam-photo">
+
+                    <img
+                        id="studentPhoto"
+                        src=""
+                        alt="รูปนักศึกษา"
+                    >
+
+                </div>
+
+
+                <div class="student-exam-info">
+
+                    <div
+                        id="studentFullName"
+                        class="student-exam-name"
+                    >
+                        -
+                    </div>
+
+
+                    <div
+                        id="studentFullNameEn"
+                        class="student-exam-name-en"
+                    >
+                        -
+                    </div>
+
+
+                    <div class="student-exam-details">
+
+                        <div>
+
+                            <span>
+                                รหัสนักศึกษา
+                            </span>
+
+                            <strong id="studentId">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                สาขาวิชา
+                            </span>
+
+                            <strong id="studentDepartment">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             EXAM SUMMARY
+        ====================================== -->
+
+        <section class="exam-summary">
+
+
+            <div class="exam-summary-box">
+
+                <span>
+                    สอบทั้งหมด
+                </span>
+
+                <strong id="examCount">
+                    0
+                </strong>
+
+                <small>
+                    วิชา
+                </small>
+
+            </div>
+
+
+            <div class="exam-summary-box next-exam-box">
+
+                <span>
+                    สอบครั้งถัดไป
+                </span>
+
+                <strong id="nextExamDate">
+                    -
+                </strong>
+
+                <small id="nextExamTime">
+                    -
+                </small>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             EXAM TERM
+        ====================================== -->
+
+        <section class="exam-term">
+
+            <div>
+
+                <span>
+                    ภาคเรียน
+                </span>
+
+                <strong id="examSemester">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    ปีการศึกษา
+                </span>
+
+                <strong id="examAcademicYear">
+                    -
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             NEXT EXAM HIGHLIGHT
+        ====================================== -->
+
+        <section
+            id="nextExamCard"
+            class="next-exam-card"
+        >
+
+            <div class="next-exam-label">
+                📅 สอบครั้งถัดไป
+            </div>
+
+
+            <div
+                id="nextExamName"
+                class="next-exam-name"
+            >
+                -
+            </div>
+
+
+            <div
+                id="nextExamDetail"
+                class="next-exam-detail"
+            >
+                -
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             EXAM LIST
+        ====================================== -->
+
+        <section class="exam-card">
+
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    ตารางสอบรายวิชา
+                </span>
+
+            </div>
+
+
+            <div
+                id="examList"
+                class="exam-list"
+            >
+
+                <div class="loading">
+                    กำลังโหลดตารางสอบ...
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             MESSAGE
+        ====================================== -->
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="exam-footer">
+
+        Student Card System
+
+    </footer>
+
+
+</div>
+
+
+<script src="js/config.js"></script>
+
+<script src="js/exam-schedule.js"></script>
+
+
+</body>
+
+</html>
