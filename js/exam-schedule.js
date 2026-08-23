@@ -108,32 +108,6 @@ function getStudentToken() {
     let token = "";
 
 
-    if (
-        typeof getStudentToken ===
-        "function"
-    ) {
-
-        try {
-
-            token =
-                clean(
-                    getStudentToken()
-                );
-
-        }
-
-        catch (error) {
-
-            console.warn(
-                "GET STUDENT TOKEN WARNING:",
-                error
-            );
-
-        }
-
-    }
-
-
     if (!token) {
 
         token =
@@ -606,13 +580,19 @@ function renderNextExam(
 
         setText(
             "nextExamDetail",
-            ""
+            "-"
         );
 
 
         return;
 
     }
+
+
+    const countdown =
+        getExamCountdown(
+            exam.examDate
+        );
 
 
     setText(
@@ -646,10 +626,8 @@ function renderNextExam(
         "nextExamName",
 
         (
-
             exam.courseCode ||
             ""
-
         )
 
         +
@@ -659,7 +637,6 @@ function renderNextExam(
         +
 
         (
-
             exam.courseName ||
             "-"
         )
@@ -705,6 +682,12 @@ function renderNextExam(
             exam.examRoom ||
             "-"
         )
+
+        +
+
+        "  •  " +
+
+        countdown.label
 
     );
 
@@ -753,6 +736,12 @@ function renderExamList(
 
     exams.forEach(
         function (exam) {
+
+            const countdown =
+                getExamCountdown(
+                    exam.examDate
+                );
+
 
             const item =
                 document.createElement(
@@ -864,6 +853,14 @@ function renderExamList(
 
                     '</div>' +
 
+                    '<div class="exam-countdown">' +
+
+                        escapeHtml(
+                            countdown.label
+                        ) +
+
+                    '</div>' +
+
                 '</div>';
 
 
@@ -873,6 +870,210 @@ function renderExamList(
 
         }
     );
+
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+function getExamCountdown(
+    dateText
+) {
+
+    const examDate =
+        parseThaiExamDate(
+            dateText
+        );
+
+
+    if (!examDate) {
+
+        return {
+
+            status:
+                "unknown",
+
+            label:
+                ""
+
+        };
+
+    }
+
+
+    const today =
+        new Date();
+
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    examDate.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    const diff =
+        examDate.getTime() -
+        today.getTime();
+
+
+    const oneDay =
+        24 *
+        60 *
+        60 *
+        1000;
+
+
+    const days =
+        Math.round(
+            diff /
+            oneDay
+        );
+
+
+    if (days < 0) {
+
+        return {
+
+            status:
+                "past",
+
+            label:
+                "สอบเสร็จแล้ว"
+
+        };
+
+    }
+
+
+    if (days === 0) {
+
+        return {
+
+            status:
+                "today",
+
+            label:
+                "สอบวันนี้"
+
+        };
+
+    }
+
+
+    if (days === 1) {
+
+        return {
+
+            status:
+                "tomorrow",
+
+            label:
+                "สอบพรุ่งนี้"
+
+        };
+
+    }
+
+
+    return {
+
+        status:
+            "upcoming",
+
+        label:
+            "เหลือ " +
+            days +
+            " วัน"
+
+    };
+
+}
+
+
+/* =========================================================
+   PARSE THAI DATE
+========================================================= */
+
+function parseThaiExamDate(
+    value
+) {
+
+    const text =
+        clean(value);
+
+
+    const match =
+        text.match(
+            /^(\d{1,2})\/(\d{1,2})\/(\d{4})/
+        );
+
+
+    if (!match) {
+
+        return null;
+
+    }
+
+
+    let year =
+        Number(
+            match[3]
+        );
+
+
+    if (
+        year > 2400
+    ) {
+
+        year -= 543;
+
+    }
+
+
+    const month =
+        Number(
+            match[2]
+        ) - 1;
+
+
+    const day =
+        Number(
+            match[1]
+        );
+
+
+    const result =
+        new Date(
+            year,
+            month,
+            day
+        );
+
+
+    if (
+        isNaN(
+            result.getTime()
+        )
+    ) {
+
+        return null;
+
+    }
+
+
+    return result;
 
 }
 
