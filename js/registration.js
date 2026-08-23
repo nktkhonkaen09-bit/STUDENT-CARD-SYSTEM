@@ -12,7 +12,7 @@
  * ใช้สำหรับ:
  * - ตรวจ Session
  * - ดึงข้อมูลนักศึกษาจาก Students
- * - บันทึกลงทะเบียนผ่าน Student Card Code.gs
+ * - บันทึกการลงทะเบียน
  */
 
 const STUDENT_CARD_API_URL =
@@ -31,8 +31,6 @@ const STUDENT_CARD_API_URL =
  * - โหลดรายวิชา
  * - อาจารย์
  * - ห้องเรียน
- *
- * ยังไม่ใช้บันทึกตรงจาก Browser
  */
 
 const ATTENDANCE_API_URL =
@@ -181,11 +179,10 @@ function getRegistrationToken() {
     }
 
 
-    /*
-     * รองรับระบบเดิมของ Student Card
-     */
-
-    if (!token && typeof CONFIG !== "undefined") {
+    if (
+        !token &&
+        typeof CONFIG !== "undefined"
+    ) {
 
         if (
             CONFIG.SESSION_KEY
@@ -210,7 +207,6 @@ function getRegistrationToken() {
 
 /* =========================================================
    LOAD STUDENT PROFILE
-   อ่านจาก STUDENT-CARD-SYSTEM / Students
 ========================================================= */
 
 async function loadStudentProfile() {
@@ -891,6 +887,8 @@ function handleSearchKeydown(
 
 /* =========================================================
    RENDER SEARCH RESULTS
+   ตาราง:
+   เลือก | รหัสวิชา | รายวิชา | รหัสผู้สอน | ห้อง
 ========================================================= */
 
 function renderSearchResults(
@@ -914,174 +912,250 @@ function renderSearchResults(
         "";
 
 
+    /*
+     * Header
+     */
+
+    const header =
+        document.createElement(
+            "div"
+        );
+
+
+    header.className =
+        "course-table-header";
+
+
+    header.innerHTML =
+
+        '<div>' +
+            'เลือก' +
+        '</div>' +
+
+        '<div>' +
+            'รหัสวิชา' +
+        '</div>' +
+
+        '<div>' +
+            'รายวิชา' +
+        '</div>' +
+
+        '<div>' +
+            'รหัสผู้สอน' +
+        '</div>' +
+
+        '<div>' +
+            'ห้อง' +
+        '</div>';
+
+
+    container.appendChild(
+        header
+    );
+
+
+    /*
+     * Row ของแต่ละกลุ่มเรียน
+     */
+
     courses.forEach(
         function (course) {
 
-            const wrapper =
-                document.createElement(
-                    "div"
+            const selected =
+                findSelectedCourse(
+                    course.code
                 );
-
-
-            wrapper.className =
-                "course-result-item";
-
-
-            let optionsHtml =
-                "";
 
 
             if (
                 !course.options.length
             ) {
 
-                optionsHtml =
+                const row =
+                    document.createElement(
+                        "div"
+                    );
 
-                    '<div class="empty-state">' +
-                    'ไม่พบกลุ่มเรียนของวิชานี้' +
+
+                row.className =
+                    "course-result-item";
+
+
+                row.innerHTML =
+
+                    '<div class="course-cell select">' +
+                        '-' +
+                    '</div>' +
+
+                    '<div class="course-cell code">' +
+                        escapeHtml(
+                            course.code
+                        ) +
+                    '</div>' +
+
+                    '<div class="course-cell course-name">' +
+                        escapeHtml(
+                            course.name
+                        ) +
+                    '</div>' +
+
+                    '<div class="course-cell teacher">' +
+                        '-' +
+                    '</div>' +
+
+                    '<div class="course-cell room">' +
+                        '-' +
                     '</div>';
+
+
+                container.appendChild(
+                    row
+                );
+
+
+                return;
 
             }
 
-            else {
 
-                optionsHtml =
-                    course.options
-                        .map(
-                            function (
-                                option,
-                                index
-                            ) {
+            course.options.forEach(
+                function (
+                    option,
+                    optionIndex
+                ) {
 
-                                const selected =
-                                    findSelectedCourse(
-                                        course.code
-                                    );
+                    const checked =
 
+                        !!(
+                            selected &&
 
-                                const checked =
+                            selected.teacherCode ===
+                                option.teacherCode &&
 
-                                    !!(
-                                        selected &&
-
-                                        selected.teacherCode ===
-                                            option.teacherCode &&
-
-                                        selected.room ===
-                                            option.room
-                                    );
+                            selected.room ===
+                                option.room
+                        );
 
 
-                                return (
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
 
-                                    '<label class="course-option">' +
 
-                                        '<input ' +
+                    row.className =
+                        "course-result-item";
 
-                                            'type="radio" ' +
 
-                                            'name="course-option-' +
-                                            escapeHtml(
-                                                course.code
-                                            ) +
-                                            '" ' +
+                    row.innerHTML =
 
-                                            'value="' +
-                                            index +
-                                            '" ' +
+                        '<div class="course-cell select">' +
 
-                                            (
-                                                checked
-                                                    ? "checked"
-                                                    : ""
-                                            ) +
+                            '<input ' +
 
-                                            ' onchange="selectCourseOption(\'' +
+                                'type="radio" ' +
 
-                                                escapeJavaScript(
-                                                    course.code
-                                                ) +
+                                'class="course-select-radio" ' +
 
-                                                '\',' +
+                                'name="course-option-' +
 
-                                                index +
+                                escapeHtml(
+                                    course.code
+                                ) +
 
-                                            ')"' +
+                                '" ' +
 
-                                        '>' +
+                                'value="' +
 
-                                        '<span class="option-main">' +
+                                optionIndex +
 
-                                            '<span class="option-teacher">' +
+                                '" ' +
 
-                                                escapeHtml(
-                                                    option.teacherName
-                                                ) +
+                                (
+                                    checked
+                                        ? 'checked'
+                                        : ''
+                                ) +
 
-                                            '</span>' +
+                                'aria-label="เลือก ' +
 
-                                            '<span class="option-detail">' +
+                                escapeHtml(
+                                    course.code
+                                ) +
 
-                                                'รหัสผู้สอน: ' +
+                                ' กลุ่ม ' +
 
-                                                escapeHtml(
-                                                    option.teacherCode
-                                                ) +
+                                escapeHtml(
+                                    option.room
+                                ) +
 
-                                                ' • ห้อง: ' +
+                                '" ' +
 
-                                                escapeHtml(
-                                                    option.room
-                                                ) +
+                            '>' +
 
-                                            '</span>' +
+                        '</div>' +
 
-                                        '</span>' +
+                        '<div class="course-cell code">' +
 
-                                    '</label>'
+                            escapeHtml(
+                                course.code
+                            ) +
 
+                        '</div>' +
+
+                        '<div class="course-cell course-name">' +
+
+                            escapeHtml(
+                                course.name
+                            ) +
+
+                        '</div>' +
+
+                        '<div class="course-cell teacher">' +
+
+                            escapeHtml(
+                                option.teacherCode
+                            ) +
+
+                        '</div>' +
+
+                        '<div class="course-cell room">' +
+
+                            escapeHtml(
+                                option.room
+                            ) +
+
+                        '</div>';
+
+
+                    const radio =
+                        row.querySelector(
+                            ".course-select-radio"
+                        );
+
+
+                    if (radio) {
+
+                        radio.addEventListener(
+                            "change",
+                            function () {
+
+                                selectCourseOption(
+                                    course.code,
+                                    optionIndex
                                 );
 
                             }
-                        )
-                        .join("");
+                        );
 
-            }
-
-
-            wrapper.innerHTML =
-
-                '<div class="course-code">' +
-
-                    escapeHtml(
-                        course.code
-                    ) +
-
-                '</div>' +
-
-                '<div class="course-name">' +
-
-                    escapeHtml(
-                        course.name
-                    ) +
-
-                '</div>' +
-
-                '<div class="course-option-title">' +
-
-                    'เลือกกลุ่มเรียน' +
-
-                '</div>' +
-
-                '<div class="course-options">' +
-
-                    optionsHtml +
-
-                '</div>';
+                    }
 
 
-            container.appendChild(
-                wrapper
+                    container.appendChild(
+                        row
+                    );
+
+                }
             );
 
         }
@@ -1186,6 +1260,12 @@ function selectCourseOption(
 
 
     renderSelectedList();
+
+
+    /*
+     * แสดงผลค้นหาเดิมอีกครั้ง
+     * เพื่อให้ radio อยู่ในสถานะถูกต้อง
+     */
 
     searchCourses();
 
@@ -1326,7 +1406,13 @@ function renderSelectedList() {
 
                         '<div class="selected-detail">' +
 
-                            'อาจารย์: ' +
+                            'รหัสผู้สอน: ' +
+
+                            escapeHtml(
+                                item.teacherCode
+                            ) +
+
+                            ' • อาจารย์: ' +
 
                             escapeHtml(
                                 item.teacherName
@@ -1439,12 +1525,14 @@ function buildConfirmationText() {
 
         "",
 
-        "นักศึกษา: " +
+        "รหัสนักศึกษา: " +
 
             (
                 currentStudent &&
                 currentStudent.student_id
+
                     ? currentStudent.student_id
+
                     : "-"
             ),
 
@@ -1485,6 +1573,10 @@ function buildConfirmationText() {
                 "   " +
 
                 item.teacherName +
+
+                " | " +
+
+                item.teacherCode +
 
                 " | ห้อง " +
 
@@ -1652,7 +1744,6 @@ async function submitRegistration() {
 
                             registrations:
                                 selectedRegistrations.map(
-
                                     function (item) {
 
                                         return {
@@ -1669,7 +1760,6 @@ async function submitRegistration() {
                                         };
 
                                     }
-
                                 )
 
                         }),
@@ -1753,10 +1843,6 @@ async function submitRegistration() {
 
         );
 
-
-        /*
-         * ล้างผลการค้นหา
-         */
 
         const input =
             document.getElementById(
@@ -2008,9 +2094,7 @@ function setText(
 
             ? "-"
 
-            : String(
-                value
-            );
+            : String(value);
 
 }
 
