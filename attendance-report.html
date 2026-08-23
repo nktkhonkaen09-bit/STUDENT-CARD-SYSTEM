@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0a1383"
+    >
+
+    <title>รายงานผลการเข้าเรียน</title>
+
+    <link
+        rel="stylesheet"
+        href="css/attendance-report.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="attendance-report-page">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="report-header">
+
+        <button
+            type="button"
+            class="back-button"
+            onclick="goBack()"
+        >
+            ← กลับ
+        </button>
+
+
+        <div class="report-header-title">
+
+            <div class="report-title-main">
+                รายงานผลการเข้าเรียน
+            </div>
+
+            <div class="report-title-sub">
+                ATTENDANCE REPORT
+            </div>
+
+        </div>
+
+
+        <div></div>
+
+    </header>
+
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="report-main">
+
+
+        <!-- =====================================
+             STUDENT
+        ====================================== -->
+
+        <section class="report-card student-report-card">
+
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    ข้อมูลนักศึกษา
+                </span>
+
+            </div>
+
+
+            <div class="student-report-profile">
+
+
+                <div class="student-report-photo">
+
+                    <img
+                        id="studentPhoto"
+                        src=""
+                        alt="รูปนักศึกษา"
+                    >
+
+                </div>
+
+
+                <div class="student-report-info">
+
+
+                    <div
+                        id="studentFullName"
+                        class="student-report-name"
+                    >
+                        -
+                    </div>
+
+
+                    <div
+                        id="studentFullNameEn"
+                        class="student-report-name-en"
+                    >
+                        -
+                    </div>
+
+
+                    <div class="student-report-details">
+
+
+                        <div>
+
+                            <span>
+                                รหัสนักศึกษา
+                            </span>
+
+                            <strong id="studentId">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                สาขาวิชา
+                            </span>
+
+                            <strong id="studentDepartment">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             SUMMARY
+        ====================================== -->
+
+        <section class="report-summary-grid">
+
+
+            <div class="summary-box">
+
+                <span>
+                    วิชาที่ลงทะเบียน
+                </span>
+
+                <strong id="totalCourses">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box summary-pass">
+
+                <span>
+                    มีสิทธิ์เข้าสอบ
+                </span>
+
+                <strong id="eligibleCourses">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box summary-fail">
+
+                <span>
+                    ไม่มีสิทธิ์เข้าสอบ
+                </span>
+
+                <strong id="notEligibleCourses">
+                    0
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             RULE
+        ====================================== -->
+
+        <section class="exam-rule">
+
+            <div class="exam-rule-icon">
+                ℹ️
+            </div>
+
+
+            <div>
+
+                <strong>
+                    เกณฑ์การเข้าสอบ
+                </strong>
+
+                <p>
+                    นักศึกษาต้องมีเวลาเรียนอย่างน้อย
+                    <strong>80%</strong>
+                    ของเวลาเรียนทั้งหมด
+                    หรืออย่างน้อย
+                    <strong>15 จาก 18 ครั้ง</strong>
+                    จึงจะมีสิทธิ์เข้าสอบ
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             COURSE REPORT
+        ====================================== -->
+
+        <section class="report-card">
+
+
+            <div class="section-title">
+
+                <span class="section-line"></span>
+
+                <span>
+                    ผลการเข้าเรียนรายวิชา
+                </span>
+
+            </div>
+
+
+            <div
+                id="courseReports"
+                class="course-reports"
+            >
+
+                <div class="loading">
+                    กำลังโหลดข้อมูล...
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             MESSAGE
+        ====================================== -->
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="report-footer">
+
+        Student Card System
+
+    </footer>
+
+
+</div>
+
+
+<script src="js/config.js"></script>
+
+<script src="js/attendance-report.js"></script>
+
+
+</body>
+
+</html>
+
