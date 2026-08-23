@@ -5,16 +5,6 @@
    API
 ========================================================= */
 
-
-/*
- * Student Card API
- *
- * ใช้สำหรับ:
- * - ตรวจ Session
- * - ดึงข้อมูลนักศึกษาจาก Students
- * - บันทึกการลงทะเบียน
- */
-
 const STUDENT_CARD_API_URL =
     (
         typeof CONFIG !== "undefined" &&
@@ -23,15 +13,6 @@ const STUDENT_CARD_API_URL =
         ? CONFIG.API_URL
         : "";
 
-
-/*
- * Attendance API
- *
- * ใช้สำหรับ:
- * - โหลดรายวิชา
- * - อาจารย์
- * - ห้องเรียน
- */
 
 const ATTENDANCE_API_URL =
     "https://script.google.com/macros/s/AKfycbyeZp9LubywmnFuv5DEBjjZESAoz-u387cNtNe4DmnyXcRdVZ03zs_1GTri76XwZQQnkQ/exec";
@@ -46,6 +27,8 @@ let currentStudent = null;
 let availableCourses = [];
 
 let selectedRegistrations = [];
+
+let registeredCourses = [];
 
 
 /* =========================================================
@@ -80,6 +63,8 @@ async function initializeRegistration() {
 
 
         await loadStudentProfile();
+
+        await loadRegisteredCourses();
 
         await loadAvailableCourses();
 
@@ -132,10 +117,6 @@ function checkStudentSession() {
 }
 
 
-/* =========================================================
-   GET TOKEN
-========================================================= */
-
 function getRegistrationToken() {
 
     let token = "";
@@ -181,21 +162,16 @@ function getRegistrationToken() {
 
     if (
         !token &&
-        typeof CONFIG !== "undefined"
+        typeof CONFIG !== "undefined" &&
+        CONFIG.SESSION_KEY
     ) {
 
-        if (
-            CONFIG.SESSION_KEY
-        ) {
-
-            token =
-                clean(
-                    sessionStorage.getItem(
-                        CONFIG.SESSION_KEY
-                    )
-                );
-
-        }
+        token =
+            clean(
+                sessionStorage.getItem(
+                    CONFIG.SESSION_KEY
+                )
+            );
 
     }
 
@@ -238,8 +214,7 @@ async function loadStudentProfile() {
             STUDENT_CARD_API_URL,
             {
 
-                method:
-                    "POST",
+                method: "POST",
 
                 headers: {
 
@@ -480,6 +455,268 @@ function renderStudentProfile() {
             );
 
         };
+
+}
+
+
+/* =========================================================
+   LOAD REGISTERED COURSES
+   Student Card API -> Session -> Attendance Spreadsheet
+========================================================= */
+
+async function loadRegisteredCourses() {
+
+    const container =
+        document.getElementById(
+            "registeredCourses"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    try {
+
+        container.innerHTML =
+            '<div class="loading">' +
+            'กำลังโหลดวิชาที่ลงทะเบียนแล้ว...' +
+            '</div>';
+
+
+        const token =
+            getRegistrationToken();
+
+
+        const response =
+            await fetch(
+                STUDENT_CARD_API_URL,
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            action:
+                                "getMyRegistrations",
+
+                            token:
+                                token
+
+                        }),
+
+                    cache:
+                        "no-store"
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Student Card API HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            result &&
+            (
+                result.code ===
+                "STUDENT_SESSION_EXPIRED"
+
+                ||
+
+                result.code ===
+                "SESSION_EXPIRED"
+            )
+        ) {
+
+            clearSessionAndRedirect();
+
+            throw new Error(
+                "SESSION_EXPIRED"
+            );
+
+        }
+
+
+        if (
+            !result ||
+            !result.success
+        ) {
+
+            throw new Error(
+
+                result &&
+                result.message
+
+                    ? result.message
+
+                    : "ไม่สามารถโหลดรายการลงทะเบียนได้"
+
+            );
+
+        }
+
+
+        registeredCourses =
+            Array.isArray(
+                result.registrations
+            )
+                ? result.registrations
+                : [];
+
+
+        renderRegisteredCourses();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOAD REGISTERED COURSES ERROR:",
+            error
+        );
+
+
+        container.innerHTML =
+
+            '<div class="empty-state">' +
+
+            escapeHtml(
+                error.message ||
+                "ไม่สามารถโหลดวิชาที่ลงทะเบียนได้"
+            ) +
+
+            '</div>';
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER REGISTERED COURSES
+========================================================= */
+
+function renderRegisteredCourses() {
+
+    const container =
+        document.getElementById(
+            "registeredCourses"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    if (
+        !registeredCourses.length
+    ) {
+
+        container.innerHTML =
+
+            '<div class="empty-state">' +
+            'ยังไม่มีวิชาที่ลงทะเบียน' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    registeredCourses.forEach(
+        function (item) {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "registered-course-item";
+
+
+            row.innerHTML =
+
+                '<div class="registered-course-code">' +
+
+                    escapeHtml(
+                        item.courseCode || "-"
+                    ) +
+
+                '</div>' +
+
+                '<div class="registered-course-name">' +
+
+                    escapeHtml(
+                        item.courseName || "-"
+                    ) +
+
+                '</div>' +
+
+                '<div class="registered-course-teacher">' +
+
+                    escapeHtml(
+                        item.teacherName ||
+                        item.teacherCode ||
+                        "-"
+                    ) +
+
+                '</div>' +
+
+                '<div class="registered-course-room">' +
+
+                    escapeHtml(
+                        item.room || "-"
+                    ) +
+
+                '</div>' +
+
+                '<div class="registered-course-status">' +
+
+                    escapeHtml(
+                        item.status || "เรียน"
+                    ) +
+
+                '</div>';
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
 
 }
 
@@ -886,9 +1123,36 @@ function handleSearchKeydown(
 
 
 /* =========================================================
+   IS ALREADY REGISTERED
+========================================================= */
+
+function isCourseAlreadyRegistered(
+    courseCode
+) {
+
+    return registeredCourses.some(
+        function (item) {
+
+            return (
+
+                clean(
+                    item.courseCode
+                )
+                ===
+                clean(
+                    courseCode
+                )
+
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
    RENDER SEARCH RESULTS
-   ตาราง:
-   เลือก | รหัสวิชา | รายวิชา | รหัสผู้สอน | ห้อง
 ========================================================= */
 
 function renderSearchResults(
@@ -912,10 +1176,6 @@ function renderSearchResults(
         "";
 
 
-    /*
-     * Header
-     */
-
     const header =
         document.createElement(
             "div"
@@ -928,25 +1188,15 @@ function renderSearchResults(
 
     header.innerHTML =
 
-        '<div>' +
-            'เลือก' +
-        '</div>' +
+        '<div>เลือก</div>' +
 
-        '<div>' +
-            'รหัสวิชา' +
-        '</div>' +
+        '<div>รหัสวิชา</div>' +
 
-        '<div>' +
-            'รายวิชา' +
-        '</div>' +
+        '<div>รายวิชา</div>' +
 
-        '<div>' +
-            'รหัสผู้สอน' +
-        '</div>' +
+        '<div>รหัสผู้สอน</div>' +
 
-        '<div>' +
-            'ห้อง' +
-        '</div>';
+        '<div>ห้อง</div>';
 
 
     container.appendChild(
@@ -954,68 +1204,13 @@ function renderSearchResults(
     );
 
 
-    /*
-     * Row ของแต่ละกลุ่มเรียน
-     */
-
     courses.forEach(
         function (course) {
 
-            const selected =
-                findSelectedCourse(
+            const alreadyRegistered =
+                isCourseAlreadyRegistered(
                     course.code
                 );
-
-
-            if (
-                !course.options.length
-            ) {
-
-                const row =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                row.className =
-                    "course-result-item";
-
-
-                row.innerHTML =
-
-                    '<div class="course-cell select">' +
-                        '-' +
-                    '</div>' +
-
-                    '<div class="course-cell code">' +
-                        escapeHtml(
-                            course.code
-                        ) +
-                    '</div>' +
-
-                    '<div class="course-cell course-name">' +
-                        escapeHtml(
-                            course.name
-                        ) +
-                    '</div>' +
-
-                    '<div class="course-cell teacher">' +
-                        '-' +
-                    '</div>' +
-
-                    '<div class="course-cell room">' +
-                        '-' +
-                    '</div>';
-
-
-                container.appendChild(
-                    row
-                );
-
-
-                return;
-
-            }
 
 
             course.options.forEach(
@@ -1023,6 +1218,12 @@ function renderSearchResults(
                     option,
                     optionIndex
                 ) {
+
+                    const selected =
+                        findSelectedCourse(
+                            course.code
+                        );
+
 
                     const checked =
 
@@ -1066,27 +1267,25 @@ function renderSearchResults(
                                 '" ' +
 
                                 'value="' +
-
                                 optionIndex +
-
                                 '" ' +
 
                                 (
                                     checked
-                                        ? 'checked'
-                                        : ''
+                                        ? "checked"
+                                        : ""
                                 ) +
 
-                                'aria-label="เลือก ' +
+                                (
+                                    alreadyRegistered
+                                        ? "disabled"
+                                        : ""
+                                ) +
+
+                                ' aria-label="เลือก ' +
 
                                 escapeHtml(
                                     course.code
-                                ) +
-
-                                ' กลุ่ม ' +
-
-                                escapeHtml(
-                                    option.room
                                 ) +
 
                                 '" ' +
@@ -1128,13 +1327,29 @@ function renderSearchResults(
                         '</div>';
 
 
+                    if (
+                        alreadyRegistered
+                    ) {
+
+                        row.title =
+                            "ลงทะเบียนวิชานี้แล้ว";
+
+                        row.style.opacity =
+                            "0.55";
+
+                    }
+
+
                     const radio =
                         row.querySelector(
                             ".course-select-radio"
                         );
 
 
-                    if (radio) {
+                    if (
+                        radio &&
+                        !alreadyRegistered
+                    ) {
 
                         radio.addEventListener(
                             "change",
@@ -1161,6 +1376,39 @@ function renderSearchResults(
         }
     );
 
+
+    if (
+        courses.some(
+            function (course) {
+
+                return isCourseAlreadyRegistered(
+                    course.code
+                );
+
+            }
+        )
+    ) {
+
+        const note =
+            document.createElement(
+                "div"
+            );
+
+
+        note.className =
+            "registered-note";
+
+
+        note.textContent =
+            "วิชาที่จางลง คือวิชาที่คุณลงทะเบียนไว้แล้ว";
+
+
+        container.appendChild(
+            note
+        );
+
+    }
+
 }
 
 
@@ -1172,6 +1420,24 @@ function selectCourseOption(
     courseCode,
     optionIndex
 ) {
+
+    if (
+        isCourseAlreadyRegistered(
+            courseCode
+        )
+    ) {
+
+        showMessage(
+            "คุณลงทะเบียนวิชา " +
+            courseCode +
+            " แล้ว",
+            "error"
+        );
+
+        return;
+
+    }
+
 
     const course =
         availableCourses.find(
@@ -1260,12 +1526,6 @@ function selectCourseOption(
 
 
     renderSelectedList();
-
-
-    /*
-     * แสดงผลค้นหาเดิมอีกครั้ง
-     * เพื่อให้ radio อยู่ในสถานะถูกต้อง
-     */
 
     searchCourses();
 
@@ -1472,7 +1732,7 @@ function renderSelectedList() {
 
 
 /* =========================================================
-   CONFIRM REGISTRATION
+   CONFIRM
 ========================================================= */
 
 async function previewRegistration() {
@@ -1603,7 +1863,7 @@ function buildConfirmationText() {
 
 
 /* =========================================================
-   GET STUDENT NAME
+   STUDENT NAME
 ========================================================= */
 
 function getStudentDisplayName() {
@@ -1651,7 +1911,7 @@ function getStudentDisplayName() {
 
 
 /* =========================================================
-   SUBMIT REGISTRATION
+   SUBMIT
 ========================================================= */
 
 async function submitRegistration() {
@@ -1688,12 +1948,6 @@ async function submitRegistration() {
     }
 
 
-    showMessage(
-        "กำลังบันทึกการลงทะเบียน...",
-        "success"
-    );
-
-
     try {
 
         const token =
@@ -1704,15 +1958,6 @@ async function submitRegistration() {
 
             throw new Error(
                 "Session นักศึกษาหมดอายุ"
-            );
-
-        }
-
-
-        if (!STUDENT_CARD_API_URL) {
-
-            throw new Error(
-                "ไม่พบ API_URL ของ Student Card"
             );
 
         }
@@ -1771,16 +2016,6 @@ async function submitRegistration() {
             );
 
 
-        if (!response.ok) {
-
-            throw new Error(
-                "Student Card API HTTP " +
-                response.status
-            );
-
-        }
-
-
         const result =
             await response.json();
 
@@ -1800,9 +2035,7 @@ async function submitRegistration() {
 
             clearSessionAndRedirect();
 
-            throw new Error(
-                "SESSION_EXPIRED"
-            );
+            return;
 
         }
 
@@ -1830,13 +2063,15 @@ async function submitRegistration() {
             [];
 
 
+        await loadRegisteredCourses();
+
+
         renderSelectedList();
 
 
         showMessage(
 
             result.message ||
-
             "ลงทะเบียนเรียนสำเร็จ",
 
             "success"
@@ -1869,9 +2104,7 @@ async function submitRegistration() {
             resultsBox.innerHTML =
 
                 '<div class="empty-state">' +
-
                 'ลงทะเบียนเรียบร้อยแล้ว' +
-
                 '</div>';
 
         }
@@ -1889,7 +2122,6 @@ async function submitRegistration() {
         showMessage(
 
             error.message ||
-
             "ไม่สามารถบันทึกการลงทะเบียนได้",
 
             "error"
@@ -2006,7 +2238,7 @@ function goBack() {
 
 
 /* =========================================================
-   CLEAR SESSION
+   SESSION CLEAR
 ========================================================= */
 
 function clearSessionAndRedirect() {
@@ -2094,7 +2326,9 @@ function setText(
 
             ? "-"
 
-            : String(value);
+            : String(
+                value
+            );
 
 }
 
@@ -2159,9 +2393,5 @@ function escapeJavaScript(
 
 }
 
-
-/* =========================================================
-   INITIAL RENDER
-========================================================= */
 
 renderSelectedList();
