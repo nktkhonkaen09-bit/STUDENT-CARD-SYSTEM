@@ -7963,3 +7963,786 @@ function escapeAttribute(
 console.log(
     "ADMIN DASHBOARD JS + GOOGLE DRIVE PHOTO READY"
 );
+/* ============================================================
+ * STUDENT QR PDF V2
+ * SAFE ADD-ON
+ * ไม่ยุ่งกับ QR PDF โค้ดเดิม
+ * ============================================================ */
+
+async function downloadAllStudentQrPdfV2() {
+
+    try {
+
+        const button =
+            document.getElementById(
+                "downloadAllStudentQrPdfBtnV2"
+            );
+
+
+        /* ---------------------------------------------
+           ตรวจข้อมูลนักศึกษา
+        --------------------------------------------- */
+
+        if (
+            !Array.isArray(
+                studentsCache
+            )
+            ||
+            studentsCache.length === 0
+        ) {
+
+            showMessage(
+                "ยังไม่มีข้อมูลนักศึกษา กรุณารอให้ข้อมูลโหลดเสร็จก่อน",
+                "warning"
+            );
+
+            return;
+
+        }
+
+
+        /* ---------------------------------------------
+           ตรวจ QR Library
+        --------------------------------------------- */
+
+        if (
+            typeof QRCode ===
+            "undefined"
+        ) {
+
+            throw new Error(
+                "ไม่พบ QRCode Library"
+            );
+
+        }
+
+
+        if (
+            !QRCode.toCanvas
+        ) {
+
+            throw new Error(
+                "QRCode Library ไม่รองรับ toCanvas"
+            );
+
+        }
+
+
+        /* ---------------------------------------------
+           ตรวจ jsPDF
+        --------------------------------------------- */
+
+        if (
+            typeof window.jspdf ===
+            "undefined"
+        ) {
+
+            throw new Error(
+                "ไม่พบ jsPDF Library"
+            );
+
+        }
+
+
+        if (
+            !window.jspdf.jsPDF
+        ) {
+
+            throw new Error(
+                "ไม่พบ jsPDF"
+            );
+
+        }
+
+
+        /* ---------------------------------------------
+           BUTTON
+        --------------------------------------------- */
+
+        if (
+            button
+        ) {
+
+            button.disabled =
+                true;
+
+            button.dataset.oldText =
+                button.textContent;
+
+            button.textContent =
+                "⏳ กำลังสร้าง PDF...";
+
+        }
+
+
+        /* ---------------------------------------------
+           SORT
+        --------------------------------------------- */
+
+        const students =
+            studentsCache
+
+                .filter(
+                    function (student) {
+
+                        return (
+                            student &&
+                            String(
+                                student.student_id ||
+                                ""
+                            ).trim()
+                        );
+
+                    }
+                )
+
+                .slice()
+
+                .sort(
+                    function (a, b) {
+
+                        return String(
+                            a.student_id ||
+                            ""
+                        )
+                        .localeCompare(
+                            String(
+                                b.student_id ||
+                                ""
+                            ),
+                            undefined,
+                            {
+                                numeric: true
+                            }
+                        );
+
+                    }
+                );
+
+
+        if (
+            students.length === 0
+        ) {
+
+            throw new Error(
+                "ไม่พบข้อมูลรหัสนักศึกษา"
+            );
+
+        }
+
+
+        /* ---------------------------------------------
+           CREATE PDF
+        --------------------------------------------- */
+
+        const {
+            jsPDF
+        } =
+            window.jspdf;
+
+
+        const pdf =
+            new jsPDF({
+
+                orientation:
+                    "portrait",
+
+                unit:
+                    "mm",
+
+                format:
+                    "a4",
+
+                compress:
+                    true
+
+            });
+
+
+        /* ---------------------------------------------
+           A4
+           4 x 3 = 12 คน / หน้า
+        --------------------------------------------- */
+
+        const pageWidth =
+            210;
+
+
+        const pageHeight =
+            297;
+
+
+        const margin =
+            8;
+
+
+        const columns =
+            4;
+
+
+        const rows =
+            3;
+
+
+        const gap =
+            3;
+
+
+        const cardWidth =
+            (
+                pageWidth -
+                margin * 2 -
+                gap *
+                (
+                    columns - 1
+                )
+            )
+            /
+            columns;
+
+
+        const cardHeight =
+            (
+                pageHeight -
+                margin * 2 -
+                gap *
+                (
+                    rows - 1
+                )
+            )
+            /
+            rows;
+
+
+        /* ---------------------------------------------
+           DRAW STUDENTS
+        --------------------------------------------- */
+
+        for (
+            let i = 0;
+            i < students.length;
+            i++
+        ) {
+
+            if (
+                i > 0 &&
+                i % (
+                    columns *
+                    rows
+                ) === 0
+            ) {
+
+                pdf.addPage();
+
+            }
+
+
+            const position =
+                i %
+                (
+                    columns *
+                    rows
+                );
+
+
+            const column =
+                position %
+                columns;
+
+
+            const row =
+                Math.floor(
+                    position /
+                    columns
+                );
+
+
+            const x =
+                margin +
+                column *
+                (
+                    cardWidth +
+                    gap
+                );
+
+
+            const y =
+                margin +
+                row *
+                (
+                    cardHeight +
+                    gap
+                );
+
+
+            await drawStudentQrPdfCardV2(
+
+                pdf,
+
+                students[i],
+
+                x,
+
+                y,
+
+                cardWidth,
+
+                cardHeight
+
+            );
+
+
+            if (
+                i % 5 === 0
+            ) {
+
+                await waitStudentQrPdfV2(
+                    5
+                );
+
+            }
+
+        }
+
+
+        /* ---------------------------------------------
+           FILE NAME
+        --------------------------------------------- */
+
+        const now =
+            new Date();
+
+
+        const yyyy =
+            now.getFullYear();
+
+
+        const mm =
+            String(
+                now.getMonth() + 1
+            )
+            .padStart(
+                2,
+                "0"
+            );
+
+
+        const dd =
+            String(
+                now.getDate()
+            )
+            .padStart(
+                2,
+                "0"
+            );
+
+
+        const fileName =
+            "student-qr-" +
+            yyyy +
+            mm +
+            dd +
+            ".pdf";
+
+
+        /* ---------------------------------------------
+           DOWNLOAD
+        --------------------------------------------- */
+
+        pdf.save(
+            fileName
+        );
+
+
+        showMessage(
+            "สร้าง PDF QR นักศึกษา " +
+            students.length +
+            " คนเรียบร้อยแล้ว",
+            "success"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "STUDENT QR PDF V2 ERROR:",
+            error
+        );
+
+
+        showMessage(
+            "สร้าง PDF ไม่สำเร็จ: " +
+            (
+                error.message ||
+                error
+            ),
+            "error"
+        );
+
+
+    } finally {
+
+        const button =
+            document.getElementById(
+                "downloadAllStudentQrPdfBtnV2"
+            );
+
+
+        if (
+            button
+        ) {
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                button.dataset.oldText ||
+                "📄 ดาวน์โหลด QR นักศึกษาทั้งหมด";
+
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+ * DRAW ONE QR CARD
+ * ============================================================ */
+
+async function drawStudentQrPdfCardV2(
+
+    pdf,
+    student,
+    x,
+    y,
+    width,
+    height
+
+) {
+
+    const studentId =
+        String(
+            student.student_id ||
+            ""
+        )
+        .trim();
+
+
+    const studentName =
+        [
+
+            student.prefix_th || "",
+
+            student.firstname_th || "",
+
+            student.lastname_th || ""
+
+        ]
+
+        .map(
+            function (value) {
+
+                return String(
+                    value || ""
+                ).trim();
+
+            }
+        )
+
+        .filter(
+            function (value) {
+
+                return !!value;
+
+            }
+        )
+
+        .join(" ");
+
+
+    /* ---------------------------------------------
+       CARD BORDER
+    --------------------------------------------- */
+
+    pdf.setDrawColor(
+        215,
+        220,
+        232
+    );
+
+
+    pdf.setLineWidth(
+        0.4
+    );
+
+
+    pdf.roundedRect(
+
+        x,
+        y,
+
+        width,
+        height,
+
+        2,
+        2,
+
+        "S"
+
+    );
+
+
+    /* ---------------------------------------------
+       TITLE
+    --------------------------------------------- */
+
+    pdf.setTextColor(
+        10,
+        19,
+        131
+    );
+
+
+    pdf.setFont(
+        "helvetica",
+        "bold"
+    );
+
+
+    pdf.setFontSize(
+        8
+    );
+
+
+    pdf.text(
+
+        "STUDENT QR",
+
+        x +
+        width / 2,
+
+        y + 7,
+
+        {
+            align:
+                "center"
+        }
+
+    );
+
+
+    /* ---------------------------------------------
+       QR CANVAS
+    --------------------------------------------- */
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    await QRCode.toCanvas(
+
+        canvas,
+
+        studentId,
+
+        {
+
+            errorCorrectionLevel:
+                "M",
+
+            margin:
+                1,
+
+            width:
+                500,
+
+            color: {
+
+                dark:
+                    "#000000",
+
+                light:
+                    "#ffffff"
+
+            }
+
+        }
+
+    );
+
+
+    const qrImage =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+
+    const qrSize =
+        Math.min(
+
+            width * 0.70,
+
+            height * 0.55
+
+        );
+
+
+    const qrX =
+        x +
+        (
+            width -
+            qrSize
+        )
+        /
+        2;
+
+
+    const qrY =
+        y + 11;
+
+
+    pdf.addImage(
+
+        qrImage,
+
+        "PNG",
+
+        qrX,
+
+        qrY,
+
+        qrSize,
+
+        qrSize,
+
+        undefined,
+
+        "FAST"
+
+    );
+
+
+    /* ---------------------------------------------
+       STUDENT ID
+    --------------------------------------------- */
+
+    pdf.setTextColor(
+        10,
+        19,
+        131
+    );
+
+
+    pdf.setFont(
+        "helvetica",
+        "bold"
+    );
+
+
+    pdf.setFontSize(
+        8
+    );
+
+
+    pdf.text(
+
+        studentId,
+
+        x +
+        width / 2,
+
+        y +
+        height -
+        12,
+
+        {
+            align:
+                "center"
+        }
+
+    );
+
+
+    /* ---------------------------------------------
+       NAME
+    --------------------------------------------- */
+
+    pdf.setTextColor(
+        17,
+        24,
+        39
+    );
+
+
+    pdf.setFont(
+        "helvetica",
+        "normal"
+    );
+
+
+    pdf.setFontSize(
+        6.5
+    );
+
+
+    const nameLines =
+        pdf.splitTextToSize(
+
+            studentName ||
+            "-",
+
+            width -
+            8
+
+        );
+
+
+    pdf.text(
+
+        nameLines.slice(
+            0,
+            2
+        ),
+
+        x +
+        width / 2,
+
+        y +
+        height -
+        6,
+
+        {
+
+            align:
+                "center"
+
+        }
+
+    );
+
+}
+
+
+/* ============================================================
+ * WAIT
+ * ============================================================ */
+
+function waitStudentQrPdfV2(
+    milliseconds
+) {
+
+    return new Promise(
+        function (resolve) {
+
+            setTimeout(
+                resolve,
+                milliseconds
+            );
+
+        }
+    );
+
+}
