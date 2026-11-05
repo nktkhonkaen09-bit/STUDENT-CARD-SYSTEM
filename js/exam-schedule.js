@@ -453,7 +453,7 @@ async function loadExamSchedule() {
                             token,
 
                         semester:
-                            "1",
+                            "2",
 
                         academic_year:
                             "2569"
